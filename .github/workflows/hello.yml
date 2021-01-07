@@ -7,7 +7,7 @@ name: Hello Action!
 
 on:
   schedule:
-  - cron: "5,10,15,20,25,30,35,40,45,50,55 * * * *"
+  - cron: "10,30,50 * * * *"
   workflow_dispatch:
 
 defaults:
