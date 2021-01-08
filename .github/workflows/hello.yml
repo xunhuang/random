@@ -29,5 +29,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      #  setup node dependencies
+      - run: npm ci
       - run: echo "Hello Github job!"
+      - run: node fetch_bloomberg.js 
         # - run: cd website; git config --global user.email "xhuang@gmail.com"; git config --global user.name "Xun Wilson Huang (from GitHub Action )"; cd ..
