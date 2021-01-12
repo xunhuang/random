@@ -14,7 +14,7 @@ async function saveHtmlInBloombergDB(html5) {
   }
   console.log(obj);
   await docRef.set(obj).then((doc) => {
-    console.log(`done adding new state ${obj}`);
+    // console.log(`done adding new state ${obj}`);
   }).catch(err => {
     console.log(err);
     return null;
@@ -22,20 +22,7 @@ async function saveHtmlInBloombergDB(html5) {
   return obj;
 }
 
-
-async function dumpBloomberInDb() {
-  var exist = await db.collection("Bloomberg")
-    .get().then((querySnapshot) => {
-      venues = snapshotToArray(querySnapshot);
-      console.log(venues);
-      return;
-    });
-}
-
-
-
 const moment = require("moment");
-
 const superagent = require('superagent');
 const fs = require('fs');
 const cheerio = require('cheerio');
@@ -69,11 +56,11 @@ async function superAgentFetchSource(url) {
 };
 
 async function doit() {
-  //let datastr = await superAgentFetchSource("https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/");
-  //data = JSON.parse(datastr);
-  //console.log(JSON.stringify(data, null, 2));
-  // await dumpBloomberInDb();
-  await saveHtmlInBloombergDB("hello!");
+  let datastr = await superAgentFetchSource("https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/");
+  data = JSON.parse(datastr);
+  await saveHtmlInBloombergDB(JSON.stringify(data, null, 2));
 }
 
-doit();
+doit().then(() => {
+  console.log("done");
+});
