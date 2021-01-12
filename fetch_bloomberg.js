@@ -1,8 +1,40 @@
-//const firebase = require("firebase");
+const firebase = require("firebase");
+require("firebase/firestore");
+const firebaseConfig = require('./.firebaseConfig.json');
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+async function saveHtmlInBloombergDB(html5) {
+  let docRef = db.collection("Bloomberg").doc();
+  let obj = {
+    key: docRef.id,
+    timestamp: moment().unix(),
+    data: html5,
+  }
+  console.log(obj);
+  await docRef.set(obj).then((doc) => {
+    console.log(`done adding new state ${obj}`);
+  }).catch(err => {
+    console.log(err);
+    return null;
+  });
+  return obj;
+}
+
+
+async function dumpBloomberInDb() {
+  var exist = await db.collection("Bloomberg")
+    .get().then((querySnapshot) => {
+      venues = snapshotToArray(querySnapshot);
+      console.log(venues);
+      return;
+    });
+}
+
+
+
 const moment = require("moment");
-//require("firebase/firestore");
-//const firebaseConfig = require('./src/firebaseConfig.json');
-//firebase.initializeApp(firebaseConfig);
 
 const superagent = require('superagent');
 const fs = require('fs');
@@ -37,25 +69,11 @@ async function superAgentFetchSource(url) {
 };
 
 async function doit() {
-  let datastr = await superAgentFetchSource("https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/");
-  data = JSON.parse(datastr);
-    /*
-  for (entry of data.vaccination.usa) {
-    const key = `${entry.fips}/${entry.code}/${entry.parentFips}/${entry.dateUpdated}`;
-    vaccine[key] = entry;
-    console.log(entry);
-
-  }
-
-  const contentPretty = JSON.stringify(vaccine, null, 2);
-  fs.writeFileSync("./vaccine-bloomberg.json", contentPretty);
-
-  let today = moment().format("MM-DD-YYYY");
-  fs.writeFileSync(`./src/data/bloomberg-${today}.json`,
-    JSON.stringify(data, null, 2));
-
-  */ 
-  console.log(JSON.stringify(data, null, 2));
+  //let datastr = await superAgentFetchSource("https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/");
+  //data = JSON.parse(datastr);
+  //console.log(JSON.stringify(data, null, 2));
+  // await dumpBloomberInDb();
+  await saveHtmlInBloombergDB("hello!");
 }
 
 doit();

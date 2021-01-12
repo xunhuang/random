@@ -5,5 +5,6 @@ const fbcli = require('firebase-tools');
 const fs = require('fs');
 
 fbcli.apps.sdkconfig().then(config => {
-  console.log(config.sdkConfig);
+  const contentPretty = JSON.stringify(config.sdkConfig, null, 2);
+  console.log(contentPretty);
 });
