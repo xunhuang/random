@@ -1,4 +1,4 @@
 
 npm install
 
-firebase apps:sdkconfig > .firebaseConfig.json
+node setupFirebaseConfig.js > .firebaseConfig.json

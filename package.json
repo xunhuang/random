@@ -2,19 +2,27 @@
   "name": "venuecalendar",
   "version": "1.0.0",
   "description": "",
-  "main": "tock.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "functions": {
+    "predeploy": "npm --prefix functions run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xunhuang/venueCalendar.git"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "firebase deploy --only functions",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "npm install",
+      "rebase": "npm install"
+    }
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/xunhuang/venueCalendar/issues"
-  },
   "homepage": "https://github.com/xunhuang/venueCalendar#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
