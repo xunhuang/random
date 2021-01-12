@@ -1,7 +1,4 @@
 
-How to run
-----------
-
 npm install
 
-node tock.js
+firebase apps:sdkconfig > ./firebaseConfig.json

@@ -4,15 +4,6 @@
 const fbcli = require('firebase-tools');
 const fs = require('fs');
 
-/*
-fbcli.setup.web().then(config => {
-  fs.writeFileSync(
-    'src/firebaseConfig.json',
-    JSON.stringify(config, 2, 2),
-  );
-});
-*/
-
-fbcli.apps.sdkconfig().then(config=> {
-    console.log(config);
+fbcli.apps.sdkconfig().then(config => {
+  console.log(config.sdkConfig);
 });
