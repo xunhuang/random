@@ -32,4 +32,5 @@ jobs:
       run: echo "Hello ${{ github.event.inputs.name }}"
     - name: Examining payload
       run: echo "Hello ${{ github.event.client_payload.example_key }}"
+    - name: Examining event type
       run: echo "Hello ${{ github.event.event_type }}"
