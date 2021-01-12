@@ -36,7 +36,7 @@ jobs:
       - name: firebaseConfig
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-        run: echo "${FIREBASE_CONFIG}" > ./firebaseConfig.json
+        run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
       - run: echo "Hello Github job!"
      
       - run: node fetch_bloomberg.js 
