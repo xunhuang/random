@@ -30,3 +30,6 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting
       run: echo "Hello ${{ github.event.inputs.name }}"
+    - name: Examining payload
+      run: echo "Hello ${{ github.event.client_payload.example_key }}"
+      run: echo "Hello ${{ github.event.event_type }}"

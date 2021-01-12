@@ -12,7 +12,12 @@ async function trigger_github() {
         .set('Authorization', `Bearer ${token}`)
         .set('Accept', "application/vnd.github.v3+json")
         .send(
-            { "event_type": "opened" }
+            {
+                "event_type": "my_event_type",
+                "client_payload": {
+                    "example_key": "blah,blah"
+                }
+            }
         )
         .then((res) => {
             return
