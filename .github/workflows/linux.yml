@@ -1,0 +1,17 @@
+name: linux
+on: 
+  workflow_dispatch:
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: cd website; npm ci ; cd ..
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@master
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
