@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Covid NYS Monitor
+
+on:
+  schedule:
+  - cron: "*/20 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+
+defaults:
+    run:
+       shell: bash
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: macos-latest
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      #  setup node dependencies
+      - run: npm ci
+      - name: firebaseConfig
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      - run: echo "Hello Github job!"
+      - run: node fetch_nys_covid.js
