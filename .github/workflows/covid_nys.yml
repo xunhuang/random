@@ -32,7 +32,5 @@ jobs:
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
-      - run: echo "Hello Github job!"
      
       - run: node fetch_nys_covid.js
-        # - run: cd website; git config --global user.email "xhuang@gmail.com"; git config --global user.name "Xun Wilson Huang (from GitHub Action )"; cd ..

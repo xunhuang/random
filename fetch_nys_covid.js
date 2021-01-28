@@ -94,9 +94,11 @@ async function doit() {
             console.log(goodlist);
             sendEmail("xhuang@gmail.com", "NY covid status", JSON.stringify(goodlist));
         } else {
+            console.log(json);
         console.log("Site updated but no appropriate site. Last updated: " + json.lastUpdated);
         }
     } else {
+            console.log(json);
         console.log("No update from site. Last updated: " + last.lastUpdated);
     }
 };
