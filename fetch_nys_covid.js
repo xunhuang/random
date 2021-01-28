@@ -54,7 +54,7 @@ const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: 'yumyumlifemailer@gmail.com',
-        pass: 'myyumyum'
+        pass: process.env.MAILER_PASSWORD
     }
 });
 
@@ -111,10 +111,9 @@ async function doit() {
     } else {
             console.log(json);
         console.log("No update from site. Last updated: " + last.lastUpdated);
-            // sendEmail("xhuang@gmail.com", "nothing new", JSON.stringify(json));
+            sendEmail("xhuang@gmail.com", "nothing new", JSON.stringify(json));
     }
 };
 
 // doit().then(()=> process.exit());
 doit();
-
