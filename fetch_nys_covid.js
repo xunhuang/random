@@ -65,7 +65,9 @@ const sendEmail = (email, subject, html) => {
         html: html
     };
 
-    return transporter.sendMail(mailOptions, (erro, info) => {
+    console.log("email attempted");
+
+    transporter.sendMail(mailOptions, (erro, info) => {
         if (erro) {
             console.log("Mail Error" + erro.toString());
             return
@@ -101,8 +103,10 @@ async function doit() {
     } else {
             console.log(json);
         console.log("No update from site. Last updated: " + last.lastUpdated);
+            // sendEmail("xhuang@gmail.com", "nothing new", JSON.stringify(json));
     }
 };
 
-doit().then(()=> process.exit());
+// doit().then(()=> process.exit());
+doit();
 
