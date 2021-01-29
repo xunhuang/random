@@ -77,6 +77,11 @@ const sendEmail = (email, subject, html) => {
     });
 };
 
+function pretty(jsonobj) {
+    return JSON.stringify(jsonobj, null, 2)
+}
+
+
 async function doit() {
      // src url ("https://am-i-eligible.covid19vaccine.health.ny.gov/");
      let txt  = await scrape("https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers");
@@ -94,24 +99,24 @@ async function doit() {
                 || site.address == "White Plains, NY")
         );  
         if ( goodlist.length > 0 ) {
-            console.log(goodlist);
-            sendEmail("xhuang@gmail.com", "NY covid status", JSON.stringify(goodlist));
+            console.log(pretty(goodlist));
+            sendEmail("xhuang@gmail.com", "NY covid status", pretty(goodlist));
         } else {
-            console.log(json);
+            console.log(pretty(json));
             if (equal(json.providerList, last.providerList)) {
                 console.log("Site updated but data update. Last updated: " + json.lastUpdated);
-                sendEmail("xhuang@gmail.com", "NY covid status - updated but no thing new", JSON.stringify(json));
+                sendEmail("xhuang@gmail.com", "NY covid status - updated but no thing new", pretty(json));
             } else {
 
                 console.log("Site updated. Data update but not your site. Last updated: " + json.lastUpdated);
-                sendEmail("xhuang@gmail.com", "NY covid status - updated but no new site closed to you", JSON.stringify(json));
+                sendEmail("xhuang@gmail.com", "NY covid status - updated but no new site closed to you", pretty(json));
             }
 
         }
     } else {
             console.log(json);
         console.log("No update from site. Last updated: " + last.lastUpdated);
-            sendEmail("xhuang@gmail.com", "nothing new", JSON.stringify(json));
+            sendEmail("xhuang@gmail.com", "nothing new", pretty(json));
     }
 };
 
