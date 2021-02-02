@@ -63,6 +63,9 @@ const Subscriptions = [
     {
         name: "Alameda County Vaccine Hospital",
         watchURL: "https://covid-19.acgov.org/vaccines",
+        customHeaders: {
+            'user-agent': 'curl/7.64.1',
+        },
         contentType: "text",
         storageTableName: "Alameda-Vaccine", // default should be the URL
         emails: ["xhuang@gmail.com"],
@@ -106,9 +109,15 @@ async function getLastRecord(tablename) {
     return last;
 }
 
-async function scrape(url) {
-    let body = await superagent.get(url)
+async function scrape(url, customHeaders) {
+    let request = superagent.get(url)
         .set('user-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
+        ;
+    if (customHeaders) {
+        for (key in customHeaders)
+            request.set(key, customHeaders[key]);
+    }
+    let body = await request
         .then(res => {
             return res.text;
         });
@@ -146,7 +155,7 @@ function pretty(jsonobj) {
 }
 
 async function processSubscription(sub) {
-    let content = await scrape(sub.watchURL);
+    let content = await scrape(sub.watchURL, sub.customHeaders);
     if (sub.contentType == "json") {
         content = JSON.parse(content);
     }
