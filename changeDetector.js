@@ -157,6 +157,8 @@ async function processSubscription(sub) {
         return "Watch URL: " + sub.watchURL + "\n" + input;
     }
 
+    console.log(content);
+
     if (sub.changeDetected(content, last)) {
         await saveInfoAtSystem(tablename, content);
         if (sub.interestDetector(content, last)) {
