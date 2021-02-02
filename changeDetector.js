@@ -15,14 +15,14 @@ const db = firebase.firestore();
 // 
 // descriptors for subscriptions
 // 
+// future attributes
+// data retention
+// pull  frequency
+// differening -
+// save the "last" item's id for comparison
+
 const Subscriptions = [
     {
-        // future attributes
-        // data retention
-        // pull  frequency
-        // differening -
-        // save the "last" item's id for comparison
-
         name: "NYS Covid Watcher",
         watchURL: "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
         contentType: "json",
@@ -32,7 +32,12 @@ const Subscriptions = [
             return !equal(last, current); // deep object 
         },
         interestDetector: (current, last) => {
-            return true;
+            let goodlist = current.providerList.filter((site) =>
+                (site.address == 'New York, NY'
+                    || site.address == 'Wantagh, NY'
+                    || site.address == "White Plains, NY")
+            );
+            return goodlist.length > 0;
         },
         notificationContent: (current, last) => {
             let goodlist = current.providerList.filter((site) =>
@@ -40,7 +45,6 @@ const Subscriptions = [
                     || site.address == 'Wantagh, NY'
                     || site.address == "White Plains, NY")
             );
-
             return pretty(goodlist);
         }
     },
@@ -69,6 +73,7 @@ const Subscriptions = [
         contentType: "text",
         storageTableName: "Alameda-Vaccine", // default should be the URL
         emails: ["xhuang@gmail.com"],
+        notifyEvenNothingNew: true,
         changeDetected: (current, last) => {
             return !equal(last, current); // deep object 
         },
@@ -181,6 +186,11 @@ async function processSubscription(sub) {
         }
     } else {
         console.log("change not detected - no action");
+        if (sub.notifyEvenNothingNew) {
+            sendEmail(sub.emails, sub.name + ": nothing new (but you asked me to send this)",
+                headers(sub.notificationContent(content, last))
+            );
+        }
     }
 }
 
