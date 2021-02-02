@@ -17,6 +17,12 @@ const db = firebase.firestore();
 // 
 const Subscriptions = [
     {
+        // future attributes
+        // data retention
+        // pull  frequency
+        // differening -
+        // save the "last" item's id for comparison
+
         name: "NYS Covid Watcher",
         watchURL: "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
         contentType: "json",
@@ -29,7 +35,6 @@ const Subscriptions = [
             return true;
         },
         notificationContent: (current, last) => {
-            // ufei bias list
             let goodlist = current.providerList.filter((site) =>
                 (site.address == 'New York, NY'
                     || site.address == 'Wantagh, NY'
@@ -37,6 +42,28 @@ const Subscriptions = [
             );
 
             return pretty(goodlist);
+        }
+    },
+    {
+        // future attributes
+        // data retention
+        // pull  frequency
+        // differening -
+        // save the "last" item's id for comparison
+
+        name: "Stanford Hospital",
+        watchURL: "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
+        contentType: "text",
+        storageTableName: "Stanford-Vaccine", // default should be the URL
+        emails: ["xhuang@gmail.com"],
+        changeDetected: (current, last) => {
+            return !equal(last, current); // deep object 
+        },
+        interestDetector: (current, last) => {
+            return true;
+        },
+        notificationContent: (current, last) => {
+            return current;
         }
     }
 ];
@@ -115,12 +142,21 @@ async function processSubscription(sub) {
     }
     let tablename = sub.storageTableName;
     let last = await getLastRecord(tablename);
+
+    function headers(input) {
+        return "Watch URL: " + sub.watchURL + "\n" + input;
+    }
+
     if (sub.changeDetected(content, last)) {
         await saveInfoAtSystem(tablename, content);
         if (sub.interestDetector(content, last)) {
-            sendEmail(sub.emails, sub.name + ": interesting change detected", sub.notificationContent(content, last));
+            sendEmail(sub.emails, sub.name + ": interesting change detected",
+                headers(sub.notificationContent(content, last))
+            );
         } else {
-            sendEmail(sub.emails, sub.name + ": change detected but not interesting", sub.notificationContent(content, last));
+            sendEmail(sub.emails, sub.name + ": change detected but not interesting",
+                headers(sub.notificationContent(content, last))
+            );
         }
     } else {
         console.log("change not detected - no action");
