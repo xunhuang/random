@@ -79,7 +79,7 @@ const sendEmail = (email, subject, html) => {
 
 function pretty(jsonobj) {
     let str = JSON.stringify(jsonobj, null, 2);
-    return "<pre>" + $str "</pre>";
+    return "<pre>" + str + "</pre>";
 }
 
 
