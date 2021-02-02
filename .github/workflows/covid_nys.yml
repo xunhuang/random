@@ -33,7 +33,6 @@ jobs:
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
-     
-       - run: node fetch_nys_covid.js
+      - run: node fetch_nys_covid.js
         env:
         MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}
