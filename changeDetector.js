@@ -71,6 +71,7 @@ async function getLastRecord(tablename) {
 
 async function scrape(url) {
     let body = await superagent.get(url)
+        .set('user-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
         .then(res => {
             return res.text;
         });
