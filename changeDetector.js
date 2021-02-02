@@ -128,9 +128,14 @@ async function processSubscription(sub) {
 
 async function doit() {
     for (let i = 0; i < Subscriptions.length; i++) {
-        let sub = Subscriptions[i];
-        console.log(sub);
-        await processSubscription(sub);
+        try {
+            let sub = Subscriptions[i];
+            console.log(sub);
+            await processSubscription(sub);
+        } catch (err) {
+            console.log(err);
+            console.log("Error but soldier on....");
+        }
     }
 }
 
