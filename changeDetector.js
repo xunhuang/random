@@ -45,16 +45,26 @@ const Subscriptions = [
         }
     },
     {
-        // future attributes
-        // data retention
-        // pull  frequency
-        // differening -
-        // save the "last" item's id for comparison
-
         name: "Stanford Hospital",
         watchURL: "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
         contentType: "text",
         storageTableName: "Stanford-Vaccine", // default should be the URL
+        emails: ["xhuang@gmail.com"],
+        changeDetected: (current, last) => {
+            return !equal(last, current); // deep object 
+        },
+        interestDetector: (current, last) => {
+            return true;
+        },
+        notificationContent: (current, last) => {
+            return current;
+        }
+    },
+    {
+        name: "Alameda County Vaccine Hospital",
+        watchURL: "https://covid-19.acgov.org/vaccines",
+        contentType: "text",
+        storageTableName: "Alameda-Vaccine", // default should be the URL
         emails: ["xhuang@gmail.com"],
         changeDetected: (current, last) => {
             return !equal(last, current); // deep object 
