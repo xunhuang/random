@@ -234,8 +234,8 @@ async function processSubscription(sub) {
         content = JSON.parse(content);
     }
     let tablename = sub.storageTableName;
-    // let last = await getLastRecord(tablename);
-    let last = await getFirstRecord(tablename);
+    let last = await getLastRecord(tablename);
+    // let last = await getFirstRecord(tablename);
 
     function headers(input, content, last): string {
         var delta: string | undefined;
