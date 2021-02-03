@@ -1,14 +1,10 @@
-const urlparse = require('url');
 const superagent = require('superagent');
-const cheerio = require('cheerio');
 const nodemailer = require('nodemailer');
-const equal = require('deep-equal');
-var HtmlDiffer = require('html-differ').HtmlDiffer;
-var HtmlDiffLogger = require('html-differ/lib/logger');
 
-var jsonDiff = require('json-diff')
+//const ContentDiffer = require('./ContentDiffer');
 
 
+import * as ContentDiffer from './ContentDiffer';
 import * as moment from 'moment';
 
 const firebase = require("firebase");
@@ -18,65 +14,12 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-
-/**
- * Returns readable diff text
- * @param {Diff[]} diff
- * @param {Object} [options]
- * @param {Number} [options.charsAroundDiff=40]
- * @returns {String}
- */
-function getDiffText(diff, options) {
-    function inverseGreen(text) { return `<b>${text}</b>` }
-    function inverseRed(text) { return `<s>${text}</s>` }
-    function grey(text) { return `<i>${text}</i>` }
-    options = options || {
-        charsAroundDiff: 40
-    };
-
-    var charsAroundDiff = options.charsAroundDiff,
-        output = '';
-
-    if (charsAroundDiff < 0) {
-        charsAroundDiff = 40;
-    }
-
-    if (diff.length === 1 && !diff[0].added && !diff[0].removed) return output;
-
-    diff.forEach(function (part) {
-        var index = diff.indexOf(part),
-            partValue = part.value,
-            diffColor;
-
-        if (part.added) diffColor = inverseGreen;
-        if (part.removed) diffColor = inverseRed;
-
-        if (diffColor) {
-            output += (index === 0 ? '\n' : '') + diffColor(partValue);
-            return;
-        }
-
-        if (partValue.length < charsAroundDiff * 2) {
-            output += (index !== 0 ? '' : '\n') + grey(partValue);
-        } else {
-            index !== 0 && (output += grey(partValue.substr(0, charsAroundDiff)));
-
-            if (index < diff.length - 1) {
-                output += '\n...\n' + grey(partValue.substr(partValue.length - charsAroundDiff));
-            }
-        }
-    });
-
-    return output;
-}
-
-
 // 
 // descriptors for subscriptions
 // 
 // future attributes
 // data retention
-// pull  frequency
+// pull frequency
 // differening -
 // save the "last" item's id for comparison
 
@@ -235,66 +178,6 @@ function pretty(jsonobj: object) {
 }
 
 
-function html2text(html) {
-    const stripped = cheerio.load(html).text()
-        // .replace(/[ \t]+/g, ' ') // remove white spaces only, not line breaks
-        // .replace(/(^[ \t]*\n)/gm, "") // remove empty lines
-        .replace(/\s+/g, ' ') // remove white spaces and line breaks
-        ;
-    return stripped;
-}
-
-/* return null if two html pages are equal */
-/* otherwise return a string that highlights the difference  */
-function diffhtml(html1, html2) {
-    var options = {
-        ignoreAttributes: [],
-        compareAttributesAsJSON: [],
-        ignoreWhitespaces: true,
-        ignoreComments: true,
-        ignoreEndTags: false,
-        ignoreDuplicateAttributes: false
-    };
-    var htmlDiffer = new HtmlDiffer(options);
-    var t1 = html2text(html1);
-    var t2 = html2text(html2);
-    // var t1 = html1;
-    // var t2 = html2;
-    if (htmlDiffer.isEqual(t1, t2)) {
-        return null;
-    }
-    var diff = htmlDiffer.diffHtml(t1, t2);
-    // var text = HtmlDiffLogger.getDiffText(diff, { charsAroundDiff: 40 });
-    var text = getDiffText(diff, { charsAroundDiff: 20 });
-    return text;
-}
-
-function isContentTheSame(c1, c2) {
-    if (typeof c1 === "string" && typeof c2 === "string") {
-        if (c1 === c2) {
-            return true;
-        }
-        var options = {
-            ignoreAttributes: [],
-            compareAttributesAsJSON: [],
-            ignoreWhitespaces: true,
-            ignoreComments: true,
-            ignoreEndTags: false,
-            ignoreDuplicateAttributes: false
-        };
-        var htmlDiffer = new HtmlDiffer(options);
-        if (htmlDiffer.isEqual(c1, c2)) {
-            return true;
-        }
-        var t1 = html2text(c1);
-        var t2 = html2text(c2);
-        return htmlDiffer.isEqual(t1, t2);
-    }
-
-    // objects
-    return equal(c1, c2);
-}
-
 async function processSubscription(sub) {
     let content = await scrape(sub.watchURL, sub.customHeaders);
     if (sub.contentType == "json") {
@@ -305,22 +188,13 @@ async function processSubscription(sub) {
     // let last = await getFirstRecord(tablename);
 
     function headers(input, content, last): string {
-        var delta: string | undefined;
+        var diff: string | undefined;
         if (content && last) {
-            var diff: string | undefined;
             if (typeof content == "string") {
-                diff = diffhtml(last, content);
+                diff = ContentDiffer.diffHtmlPages(last, content);
             }
             if (typeof content == "object") {
-                diff = jsonDiff.diffString(last, content);
-            }
-            if (diff) {
-                console.log(diff);
-                delta = `<h4> Changes:  </h4>
-            <pre>
-            ${diff}
-            </pre>
-            `;
+                diff = ContentDiffer.diffJsonObjects(last, content);
             }
         }
 
@@ -328,17 +202,19 @@ async function processSubscription(sub) {
         <html>
            <body>
               <h4> Watch URL: ${ sub.watchURL}</h4>
-              ${delta ? delta : ""}
-              <h4> Original Content</h4>
-              ${input}
-           </body>
-        </html>
-        `;
+              ${diff && `<h4> Changes:  </h4>
+                       <pre> ${diff} </pre> `
+            }
+            <h4>Website Current Content < /h4>
+            ${input}
+            </body>
+        < /html>
+            `;
 
         return html;
     }
 
-    if (!isContentTheSame(content, last)) {
+    if (!ContentDiffer.isContentTheSame(content, last)) {
         await saveInfoAtSystem(tablename, content);
         if (sub.interestDetector(content, last)) {
             sendEmail(sub.emails, sub.name + ": interesting change detected",
