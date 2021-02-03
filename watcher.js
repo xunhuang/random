@@ -50,6 +50,48 @@ require("firebase/firestore");
 var firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
+/**
+ * Returns readable diff text
+ * @param {Diff[]} diff
+ * @param {Object} [options]
+ * @param {Number} [options.charsAroundDiff=40]
+ * @returns {String}
+ */
+function getDiffText(diff, options) {
+    function inverseGreen(text) { return "<b>" + text + "</b>"; }
+    function inverseRed(text) { return "<s>" + text + "</s>"; }
+    function grey(text) { return "<i>" + text + "</i>"; }
+    options = options || {
+        charsAroundDiff: 40
+    };
+    var charsAroundDiff = options.charsAroundDiff, output = '';
+    if (charsAroundDiff < 0) {
+        charsAroundDiff = 40;
+    }
+    if (diff.length === 1 && !diff[0].added && !diff[0].removed)
+        return output;
+    diff.forEach(function (part) {
+        var index = diff.indexOf(part), partValue = part.value, diffColor;
+        if (part.added)
+            diffColor = inverseGreen;
+        if (part.removed)
+            diffColor = inverseRed;
+        if (diffColor) {
+            output += (index === 0 ? '\n' : '') + diffColor(partValue);
+            return;
+        }
+        if (partValue.length < charsAroundDiff * 2) {
+            output += (index !== 0 ? '' : '\n') + grey(partValue);
+        }
+        else {
+            index !== 0 && (output += grey(partValue.substr(0, charsAroundDiff)));
+            if (index < diff.length - 1) {
+                output += '\n...\n' + grey(partValue.substr(partValue.length - charsAroundDiff));
+            }
+        }
+    });
+    return output;
+}
 // 
 // descriptors for subscriptions
 // 
@@ -268,7 +310,8 @@ function diffhtml(html1, html2) {
         return null;
     }
     var diff = htmlDiffer.diffHtml(t1, t2);
-    var text = HtmlDiffLogger.getDiffText(diff, { charsAroundDiff: 40 });
+    // var text = HtmlDiffLogger.getDiffText(diff, { charsAroundDiff: 40 });
+    var text = getDiffText(diff, { charsAroundDiff: 20 });
     return text;
 }
 function isContentTheSame(c1, c2) {
