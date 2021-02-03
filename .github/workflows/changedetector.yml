@@ -33,6 +33,9 @@ jobs:
      
       - run: curl https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers
 
-      - run: node changeDetector.js
+      - run: npx tsc wather.ts
+
+      # - run: node changeDetector.js
+      - run: node watcher.js
         env:
           MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}
