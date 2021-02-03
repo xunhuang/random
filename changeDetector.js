@@ -222,7 +222,7 @@ async function processSubscription(sub) {
     let last = await getLastRecord(tablename);
 
     function headers(input, content, last) {
-        var delta = undef;
+        var delta;
         if (content && last && typeof content == "string") {
             var diff = diffhtml(content, last);
             console.log(diff);
