@@ -203,10 +203,10 @@ function diffhtml(html1, html2) {
         ignoreDuplicateAttributes: false
     };
     var htmlDiffer = new HtmlDiffer(options);
-    // var t1 = html2text(html1);
-    // var t2 = html2text(html2);
-    var t1 = html1;
-    var t2 = html2;
+    var t1 = html2text(html1);
+    var t2 = html2text(html2);
+    // var t1 = html1;
+    // var t2 = html2;
     if (htmlDiffer.isEqual(t1, t2)) {
         return null;
     }
