@@ -299,7 +299,7 @@ function processSubscription(sub) {
                     delta = "<h4> Changes:  </h4>\n            <pre>\n            " + diff + "\n            </pre>\n            ";
                 }
             }
-            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (delta ? delta : "") + "\n              <h4> Original Content</h4>\n           </body>\n        </html>\n        ";
+            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (delta ? delta : "") + "\n              <h4> Original Content</h4>\n              " + input + "\n           </body>\n        </html>\n        ";
             return html;
         }
         var content, tablename, last;

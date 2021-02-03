@@ -35,7 +35,6 @@ jobs:
 
       - run: npx tsc watcher.ts
 
-      # - run: node changeDetector.js
       - run: node watcher.js
         env:
           MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}

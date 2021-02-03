@@ -263,6 +263,7 @@ async function processSubscription(sub) {
               <h4> Watch URL: ${ sub.watchURL}</h4>
               ${delta ? delta : ""}
               <h4> Original Content</h4>
+              ${input}
            </body>
         </html>
         `;
