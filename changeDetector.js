@@ -4,6 +4,8 @@ const cheerio = require('cheerio');
 const moment = require('moment');
 const nodemailer = require('nodemailer');
 const equal = require('deep-equal');
+var HtmlDiffer = require('html-differ').HtmlDiffer;
+var HtmlDiffLogger = require('html-differ/lib/logger');
 
 const firebase = require("firebase");
 require("firebase/firestore");
@@ -159,6 +161,39 @@ function pretty(jsonobj) {
     return "<pre>" + str + "</pre>";
 }
 
+
+function html2text(html) {
+    $ = cheerio.load(html);
+    const stripped = $.text()
+        // .replace(/[ \t]+/g, ' ') // remove white spaces only, not line breaks
+        // .replace(/(^[ \t]*\n)/gm, "") // remove empty lines
+        .replace(/\s+/g, ' ') // remove white spaces and line breaks
+        ;
+    return stripped;
+}
+
+/* return null if two html pages are equal */
+/* otherwise return a string that highlights the difference  */
+function diffhtml(html1, html2) {
+    var options = {
+        ignoreAttributes: [],
+        compareAttributesAsJSON: [],
+        ignoreWhitespaces: true,
+        ignoreComments: true,
+        ignoreEndTags: false,
+        ignoreDuplicateAttributes: false
+    };
+    var htmlDiffer = new HtmlDiffer(options);
+    var t1 = html2text(html1);
+    var t2 = html2text(html2);
+    if (htmlDiffer.isEqual(t1, t2)) {
+        return null;
+    }
+    var diff = htmlDiffer.diffHtml(t1, t2);
+    var text = HtmlDiffLogger.getDiffText(diff, { charsAroundDiff: 40 });
+    return text;
+}
+
 async function processSubscription(sub) {
     let content = await scrape(sub.watchURL, sub.customHeaders);
     if (sub.contentType == "json") {
@@ -167,8 +202,13 @@ async function processSubscription(sub) {
     let tablename = sub.storageTableName;
     let last = await getLastRecord(tablename);
 
-    function headers(input) {
-        return "Watch URL: " + sub.watchURL + "\n" + input;
+    function headers(input, content, last) {
+        var str = "Watch URL: " + sub.watchURL + "\n";
+        if (content && last && typeof content == "string") {
+            var diff = diffhtml(content, last) || "";
+            str += "Changes: " + diff + "\n";
+        }
+        return str += input;
     }
 
     console.log(content);
@@ -177,11 +217,11 @@ async function processSubscription(sub) {
         await saveInfoAtSystem(tablename, content);
         if (sub.interestDetector(content, last)) {
             sendEmail(sub.emails, sub.name + ": interesting change detected",
-                headers(sub.notificationContent(content, last))
+                headers(sub.notificationContent(content, last), content, last)
             );
         } else {
             sendEmail(sub.emails, sub.name + ": change detected but not interesting",
-                headers(sub.notificationContent(content, last))
+                headers(sub.notificationContent(content, last), content, last)
             );
         }
     } else {
