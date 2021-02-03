@@ -33,7 +33,7 @@ jobs:
      
       - run: curl https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers
 
-      - run: npx tsc wather.ts
+      - run: npx tsc watcher.ts
 
       # - run: node changeDetector.js
       - run: node watcher.js

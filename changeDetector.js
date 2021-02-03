@@ -61,7 +61,7 @@ const Subscriptions = [
         }
     },
     {
-        name: "Alameda County Vaccine Hospital",
+        name: "Alameda County Vaccine",
         watchURL: "https://covid-19.acgov.org/vaccines",
         customHeaders: {
             'user-agent': 'curl/7.64.1',
