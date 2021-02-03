@@ -203,12 +203,14 @@ async function processSubscription(sub) {
     let last = await getLastRecord(tablename);
 
     function headers(input, content, last) {
-        var str = "Watch URL: " + sub.watchURL + "\n";
+        var str = "<p> Watch URL: " + sub.watchURL + "</p>\n";
         if (content && last && typeof content == "string") {
-            var diff = diffhtml(content, last) || "";
-            str += "Changes: " + diff + "\n";
+            var diff = diffhtml(content, last);
+            console.log(diff);
+            str += "<p> Changes: " + diff + "</p>\n";
+            str += "Original Content: ";
         }
-        return str += input;
+        return str += "<pre>" + input + "</pre>";
     }
 
     console.log(content);
