@@ -30,9 +30,6 @@ const Subscriptions = [
         contentType: "json",
         storageTableName: "NYS-COVID-2", // default should be the URL
         emails: ["xhuang@gmail.com"],
-        changeDetected: (current, last) => {
-            return !equal(last, current); // deep object 
-        },
         interestDetector: (current, last) => {
             let goodlist = current.providerList.filter((site) =>
                 (site.address == 'New York, NY'
@@ -56,9 +53,6 @@ const Subscriptions = [
         contentType: "text",
         storageTableName: "Stanford-Vaccine", // default should be the URL
         emails: ["xhuang@gmail.com"],
-        changeDetected: (current, last) => {
-            return !equal(last, current); // deep object 
-        },
         interestDetector: (current, last) => {
             return true;
         },
@@ -76,9 +70,6 @@ const Subscriptions = [
         storageTableName: "Alameda-Vaccine", // default should be the URL
         emails: ["xhuang@gmail.com"],
         notifyEvenNothingNew: true,
-        changeDetected: (current, last) => {
-            return !equal(last, current); // deep object 
-        },
         interestDetector: (current, last) => {
             return true;
         },
@@ -196,6 +187,32 @@ function diffhtml(html1, html2) {
     return text;
 }
 
+function isContentTheSame(c1, c2) {
+    if (typeof c1 === "string" && typeof c2 === "string") {
+        if (c1 === c2) {
+            return true;
+        }
+        var options = {
+            ignoreAttributes: [],
+            compareAttributesAsJSON: [],
+            ignoreWhitespaces: true,
+            ignoreComments: true,
+            ignoreEndTags: false,
+            ignoreDuplicateAttributes: false
+        };
+        var htmlDiffer = new HtmlDiffer(options);
+        if (htmlDiffer.isEqual(c1, c2)) {
+            return true;
+        }
+        var t1 = html2text(c1);
+        var t2 = html2text(c2);
+        return htmlDiffer.isEqual(t1, t2);
+    }
+
+    // objects
+    return equal(c1, c2);
+}
+
 async function processSubscription(sub) {
     let content = await scrape(sub.watchURL, sub.customHeaders);
     if (sub.contentType == "json") {
@@ -205,7 +222,7 @@ async function processSubscription(sub) {
     let last = await getLastRecord(tablename);
 
     function headers(input, content, last) {
-        var delta = null;
+        var delta = undef;
         if (content && last && typeof content == "string") {
             var diff = diffhtml(content, last);
             console.log(diff);
@@ -232,7 +249,7 @@ async function processSubscription(sub) {
 
     console.log(content);
 
-    if (sub.changeDetected(content, last)) {
+    if (!isContentTheSame(content, last)) {
         await saveInfoAtSystem(tablename, content);
         if (sub.interestDetector(content, last)) {
             sendEmail(sub.emails, sub.name + ": interesting change detected",
