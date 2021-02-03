@@ -65,6 +65,19 @@ const Subscriptions = [
         }
     },
     {
+        name: "Hacker News",
+        watchURL: "https://news.ycombinator.com",
+        contentType: "text",
+        storageTableName: "HackerNews",
+        emails: ["xhuang@gmail.com"],
+        interestDetector: (current, last) => {
+            return true;
+        },
+        notificationContent: (current, last) => {
+            return current;
+        }
+    },
+    {
         name: "Alameda County Vaccine Hospital",
         watchURL: "https://covid-19.acgov.org/vaccines",
         customHeaders: {
