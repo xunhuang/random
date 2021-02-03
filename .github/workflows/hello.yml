@@ -6,11 +6,11 @@ name: Hello Action!
 # events but only for the master branch
 
 on:
-  schedule:
-  - cron: "*/20 * * * *"
+  # schedule:
+  # - cron: "*/20 * * * *"
   workflow_dispatch:
-  push:
-    branches: [ master ]
+  # push:
+    # branches: [ master ]
 
 defaults:
     run:
