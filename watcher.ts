@@ -1,7 +1,7 @@
 const superagent = require('superagent');
-const nodemailer = require('nodemailer');
 
 import * as ContentDiffer from './ContentDiffer';
+import * as Email from './Email';
 import * as moment from 'moment';
 
 const firebase = require("firebase");
@@ -148,38 +148,6 @@ async function scrape(url, customHeaders) {
     return body;
 }
 
-async function sendEmail(emails: string[], subject: string, html: string) {
-    return new Promise((resolve, reject) => {
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: 'yumyumlifemailer@gmail.com',
-                pass: process.env.MAILER_PASSWORD
-            }
-        });
-
-        const mailOptions = {
-            from: 'Yum Yum <yumyumlifemailer@gmail.com>',
-            to: emails.join(","),
-            subject: subject,
-            html: html
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("error is " + error);
-                resolve(false); // or use rejcet(false) but then you will have to handle errors
-            }
-            else {
-                console.log('Email sent: ' + info.response);
-                resolve(true);
-            }
-        });
-    });
-}
-
-
-
 
 async function processSubscription(sub) {
     let content = await scrape(sub.watchURL, sub.customHeaders);
@@ -220,18 +188,18 @@ async function processSubscription(sub) {
     if (!ContentDiffer.isContentTheSame(content, last)) {
         await saveInfoAtSystem(tablename, content);
         if (sub.interestDetector(content, last)) {
-            await sendEmail(sub.emails, sub.name + ": interesting change detected",
+            await Email.send(sub.emails, sub.name + ": interesting change detected",
                 headers(sub.notificationContent(content, last), content, last)
             );
         } else {
-            await sendEmail(sub.emails, sub.name + ": change detected but not interesting",
+            await Email.send(sub.emails, sub.name + ": change detected but not interesting",
                 headers(sub.notificationContent(content, last), content, last)
             );
         }
     } else {
         console.log("change not detected - no action");
         if (sub.notifyEvenNothingNew) {
-            await sendEmail(sub.emails, sub.name + ": nothing new (but you asked me to send this)",
+            await Email.send(sub.emails, sub.name + ": nothing new (but you asked me to send this)",
                 headers(sub.notificationContent(content, last), content, last)
             );
         }

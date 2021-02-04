@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var superagent = require('superagent');
-var nodemailer = require('nodemailer');
 var ContentDiffer = require("./ContentDiffer");
+var Email = require("./Email");
 var moment = require("moment");
 var firebase = require("firebase");
 require("firebase/firestore");
@@ -212,37 +212,6 @@ function scrape(url, customHeaders) {
         });
     });
 }
-function sendEmail(emails, subject, html) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var transporter = nodemailer.createTransport({
-                        service: 'Gmail',
-                        auth: {
-                            user: 'yumyumlifemailer@gmail.com',
-                            pass: process.env.MAILER_PASSWORD
-                        }
-                    });
-                    var mailOptions = {
-                        from: 'Yum Yum <yumyumlifemailer@gmail.com>',
-                        to: emails.join(","),
-                        subject: subject,
-                        html: html
-                    };
-                    transporter.sendMail(mailOptions, function (error, info) {
-                        if (error) {
-                            console.log("error is " + error);
-                            resolve(false); // or use rejcet(false) but then you will have to handle errors
-                        }
-                        else {
-                            console.log('Email sent: ' + info.response);
-                            resolve(true);
-                        }
-                    });
-                })];
-        });
-    });
-}
 function processSubscription(sub) {
     return __awaiter(this, void 0, void 0, function () {
         // let last = await getFirstRecord(tablename);
@@ -277,11 +246,11 @@ function processSubscription(sub) {
                 case 3:
                     _a.sent();
                     if (!sub.interestDetector(content, last)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, sendEmail(sub.emails, sub.name + ": interesting change detected", headers(sub.notificationContent(content, last), content, last))];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": interesting change detected", headers(sub.notificationContent(content, last), content, last))];
                 case 4:
                     _a.sent();
                     return [3 /*break*/, 7];
-                case 5: return [4 /*yield*/, sendEmail(sub.emails, sub.name + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last))];
+                case 5: return [4 /*yield*/, Email.send(sub.emails, sub.name + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last))];
                 case 6:
                     _a.sent();
                     _a.label = 7;
@@ -289,7 +258,7 @@ function processSubscription(sub) {
                 case 8:
                     console.log("change not detected - no action");
                     if (!sub.notifyEvenNothingNew) return [3 /*break*/, 10];
-                    return [4 /*yield*/, sendEmail(sub.emails, sub.name + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last))];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last))];
                 case 9:
                     _a.sent();
                     _a.label = 10;
