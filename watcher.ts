@@ -119,7 +119,13 @@ class Subscription {
     }
 
     interestDetector(current: WebPageContent, last: WebPageContent | null) { return true; }
-    notificationContent(current: WebPageContent, last: WebPageContent | null): string { return current.toString(); }
+    notificationContent(current: WebPageContent, last: WebPageContent | null): string {
+        if (current.contentType === WebPageContentType.JSON) {
+            let c = JSON.stringify(current.contentJsonObject, null, 2);
+            return `<pre>${c}</pre>`;
+        }
+        return current.toString();
+    }
 };
 
 const NewSubscriptions = [
@@ -136,11 +142,11 @@ const NewSubscriptions = [
         "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
         ["xhuang@gmail.com"],
     ),
-    new Subscription(
-        "Hacker News",
-        "https://news.ycombinator.com",
-        ["xhuang@gmail.com"],
-    ),
+    // new Subscription(
+    //     "Hacker News",
+    //     "https://news.ycombinator.com",
+    //     ["xhuang@gmail.com"],
+    // ),
     new Subscription(
         "LA Times Vaccine Info",
         "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
@@ -222,7 +228,7 @@ async function processSubscription(sub: Subscription) {
             <h4>Website Current Content </h4>
             ${input}
             </body>
-        < /html>
+        </html>
             `;
 
         console.log(html);

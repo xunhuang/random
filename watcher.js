@@ -173,7 +173,13 @@ var Subscription = /** @class */ (function () {
         });
     };
     Subscription.prototype.interestDetector = function (current, last) { return true; };
-    Subscription.prototype.notificationContent = function (current, last) { return current.toString(); };
+    Subscription.prototype.notificationContent = function (current, last) {
+        if (current.contentType === WebPageContentType.JSON) {
+            var c = JSON.stringify(current.contentJsonObject, null, 2);
+            return "<pre>" + c + "</pre>";
+        }
+        return current.toString();
+    };
     return Subscription;
 }());
 ;
@@ -182,7 +188,11 @@ var NewSubscriptions = [
         contentType: "json",
     }),
     new Subscription("Stanford Hospital", "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html", ["xhuang@gmail.com"]),
-    new Subscription("Hacker News", "https://news.ycombinator.com", ["xhuang@gmail.com"]),
+    // new Subscription(
+    //     "Hacker News",
+    //     "https://news.ycombinator.com",
+    //     ["xhuang@gmail.com"],
+    // ),
     new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
         storageTableName: "California-Vaccine"
     }),
@@ -244,7 +254,7 @@ function processSubscription(sub) {
             if (content && last) {
                 diff = last.diffContent(content);
             }
-            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff ? "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> " : "") + "\n            <h4>Website Current Content </h4>\n            " + input + "\n            </body>\n        < /html>\n            ";
+            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff ? "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> " : "") + "\n            <h4>Website Current Content </h4>\n            " + input + "\n            </body>\n        </html>\n            ";
             console.log(html);
             return html;
         }
