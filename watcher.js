@@ -45,6 +45,71 @@ require("firebase/firestore");
 var firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
+var WebPageContent = /** @class */ (function () {
+    function WebPageContent(content) {
+        this.content = content;
+    }
+    WebPageContent.prototype.contentType = function () { return typeof this.content; };
+    ;
+    WebPageContent.prototype.toString = function () {
+        if (typeof this.content === "object") {
+            return JSON.stringify(this.content, null, 2);
+        }
+        return this.content;
+    };
+    return WebPageContent;
+}());
+var Subscription = /** @class */ (function () {
+    function Subscription(name, watchURL, emails, options) {
+        if (options === void 0) { options = null; }
+        this.contentType = "text";
+        this.customHeaders = null;
+        this.name = name;
+        this.watchURL = watchURL;
+        this.storageTableName = watchURL;
+        this.emails = emails;
+        if (options) {
+            if (options.contentType)
+                this.contentType = options.contentType;
+            if (options.customHeaders)
+                this.customHeaders = options.customHeaders;
+        }
+    }
+    Subscription.prototype.setStoragePrefix = function (prefix) { this.storageTableName = prefix; };
+    Subscription.prototype.setCustomHeader = function (headers) { this.customHeaders = headers; };
+    Subscription.prototype.fetchContent = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var content;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, scrape(this.watchURL, this.customHeaders)];
+                    case 1:
+                        content = _a.sent();
+                        if (this.contentType == "json") {
+                            content = JSON.parse(content);
+                        }
+                        return [2 /*return*/, new WebPageContent(content)];
+                }
+            });
+        });
+    };
+    Subscription.prototype.interestDetector = function (current, last) { return true; };
+    Subscription.prototype.notificationContent = function (current, last) { return current; };
+    return Subscription;
+}());
+;
+var NewSubscriptions = [
+    new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["xhuang@gmail.com"], {
+        contentType: "json",
+    }),
+    new Subscription("Stanford Hospital", "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html", ["xhuang@gmail.com"]),
+    new Subscription("Hacker News", "https://news.ycombinator.com", ["xhuang@gmail.com"]),
+    new Subscription("Alameda County Vaccine Hospital", "https://covid-19.acgov.org/vaccines", ["xhuang@gmail.com"], {
+        customHeaders: {
+            'user-agent': 'curl/7.64.1',
+        },
+    })
+];
 // 
 // descriptors for subscriptions
 // 
@@ -117,6 +182,22 @@ var Subscriptions = [
         storageTableName: "Alameda-Vaccine",
         emails: ["xhuang@gmail.com"],
         // notifyEvenNothingNew: true,
+        interestDetector: function (current, last) {
+            return true;
+        },
+        notificationContent: function (current, last) {
+            return current;
+        }
+    },
+    {
+        name: "LA Times Vaccine Info",
+        watchURL: "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
+        customHeaders: {
+            'user-agent': 'curl/7.64.1',
+        },
+        contentType: "text",
+        storageTableName: "California-Vaccine",
+        emails: ["xhuang@gmail.com"],
         interestDetector: function (current, last) {
             return true;
         },

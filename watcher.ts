@@ -11,6 +11,96 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+class WebPageContent {
+    content: string | object;
+    constructor(content: string | object) {
+        this.content = content;
+    }
+    contentType(): string { return typeof this.content };
+    toString() {
+        if (typeof this.content === "object") {
+            return JSON.stringify(this.content, null, 2);
+        }
+        return this.content;
+    }
+}
+
+type SubscriptionOptions = {
+    contentType?: string,
+    customHeaders?: object,
+}
+
+class Subscription {
+    name: string;
+    watchURL: string;
+    contentType: string = "text";
+    storageTableName: string;
+    emails: string[];
+    customHeaders: object | null = null;
+
+    constructor(
+        name: string,
+        watchURL: string,
+        emails: string[],
+        options: SubscriptionOptions | null = null
+    ) {
+        this.name = name;
+        this.watchURL = watchURL;
+        this.storageTableName = watchURL;
+        this.emails = emails;
+        if (options) {
+            if (options.contentType) this.contentType = options.contentType;
+            if (options.customHeaders) this.customHeaders = options.customHeaders;
+        }
+    }
+
+    setStoragePrefix(prefix: string) { this.storageTableName = prefix; }
+    setCustomHeader(headers: object) { this.customHeaders = headers; }
+
+    async fetchContent(): Promise<WebPageContent> {
+        let content = await scrape(this.watchURL, this.customHeaders);
+        if (this.contentType == "json") {
+            content = JSON.parse(content);
+        }
+        return new WebPageContent(content);
+    }
+
+    interestDetector(current: WebPageContent, last: WebPageContent | null) { return true; }
+    notificationContent(current: WebPageContent, last: WebPageContent | null) { return current; }
+};
+
+const NewSubscriptions = [
+    new Subscription(
+        "NYS Covid Watcher",
+        "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
+        ["xhuang@gmail.com"],
+        {
+            contentType: "json",
+        }
+    ),
+    new Subscription(
+        "Stanford Hospital",
+        "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
+        ["xhuang@gmail.com"],
+    ),
+    new Subscription(
+        "Hacker News",
+        "https://news.ycombinator.com",
+        ["xhuang@gmail.com"],
+    ),
+    new Subscription(
+        "Alameda County Vaccine Hospital",
+        "https://covid-19.acgov.org/vaccines",
+        ["xhuang@gmail.com"],
+        {
+            customHeaders: {
+                'user-agent': 'curl/7.64.1',
+            },
+        }
+    )
+];
+
+
 // 
 // descriptors for subscriptions
 // 
@@ -84,6 +174,22 @@ const Subscriptions = [
         storageTableName: "Alameda-Vaccine", // default should be the URL
         emails: ["xhuang@gmail.com"],
         // notifyEvenNothingNew: true,
+        interestDetector: (current, last) => {
+            return true;
+        },
+        notificationContent: (current, last) => {
+            return current;
+        }
+    },
+    {
+        name: "LA Times Vaccine Info",
+        watchURL: "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
+        customHeaders: {
+            'user-agent': 'curl/7.64.1',
+        },
+        contentType: "text",
+        storageTableName: "California-Vaccine", // default should be the URL
+        emails: ["xhuang@gmail.com"],
         interestDetector: (current, last) => {
             return true;
         },
