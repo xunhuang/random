@@ -51,6 +51,18 @@ var WebPageContent = /** @class */ (function () {
     }
     WebPageContent.prototype.contentType = function () { return typeof this.content; };
     ;
+    WebPageContent.prototype.equal = function (other) {
+        return ContentDiffer.isContentTheSame(this.content, other.content);
+    };
+    WebPageContent.prototype.diffContent = function (other) {
+        if (typeof this.content == "string") {
+            return ContentDiffer.diffHtmlPages(this.content, other.content);
+        }
+        if (typeof this.content == "object") {
+            return ContentDiffer.diffJsonObjects(this.content, other.content);
+        }
+        throw ("unknown content type");
+    };
     WebPageContent.prototype.toString = function () {
         if (typeof this.content === "object") {
             return JSON.stringify(this.content, null, 2);
@@ -64,15 +76,20 @@ var Subscription = /** @class */ (function () {
         if (options === void 0) { options = null; }
         this.contentType = "text";
         this.customHeaders = null;
+        this.notifyEvenNothingNew = false;
         this.name = name;
         this.watchURL = watchURL;
-        this.storageTableName = watchURL;
+        this.storageTableName = watchURL.replace(/\//g, "_");
         this.emails = emails;
         if (options) {
             if (options.contentType)
                 this.contentType = options.contentType;
             if (options.customHeaders)
                 this.customHeaders = options.customHeaders;
+            if (options.notifyEvenNothingNew)
+                this.notifyEvenNothingNew = options.notifyEvenNothingNew;
+            if (options.storageTableName)
+                this.storageTableName = options.storageTableName;
         }
     }
     Subscription.prototype.setStoragePrefix = function (prefix) { this.storageTableName = prefix; };
@@ -93,8 +110,33 @@ var Subscription = /** @class */ (function () {
             });
         });
     };
+    Subscription.prototype.getLastRecord = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var last;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, getLastRecord(this.storageTableName)];
+                    case 1:
+                        last = _a.sent();
+                        return [2 /*return*/, new WebPageContent(last)];
+                }
+            });
+        });
+    };
+    Subscription.prototype.saveRecord = function (content) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, saveInfoAtSystem(this.storageTableName, content.toString())];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     Subscription.prototype.interestDetector = function (current, last) { return true; };
-    Subscription.prototype.notificationContent = function (current, last) { return current; };
+    Subscription.prototype.notificationContent = function (current, last) { return current.content.toString(); };
     return Subscription;
 }());
 ;
@@ -104,109 +146,37 @@ var NewSubscriptions = [
     }),
     new Subscription("Stanford Hospital", "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html", ["xhuang@gmail.com"]),
     new Subscription("Hacker News", "https://news.ycombinator.com", ["xhuang@gmail.com"]),
+    new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
+        storageTableName: "California-Vaccine"
+    }),
     new Subscription("Alameda County Vaccine Hospital", "https://covid-19.acgov.org/vaccines", ["xhuang@gmail.com"], {
         customHeaders: {
             'user-agent': 'curl/7.64.1',
         },
     })
 ];
-// 
-// descriptors for subscriptions
-// 
-// future attributes
-// data retention
-// pull frequency
-// differening -
-// save the "last" item's id for comparison
-var Subscriptions = [
-    {
-        name: "NYS Covid Watcher",
-        watchURL: "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
-        contentType: "json",
-        storageTableName: "NYS-COVID-2",
-        emails: ["xhuang@gmail.com"],
-        interestDetector: function (current, last) {
-            var goodlist = current.providerList.filter(function (site) {
-                return (site.address == 'New York, NY'
+/*
+        interestDetector: (current, last) => {
+            let goodlist = current.providerList.filter((site) =>
+                (site.address == 'New York, NY'
                     || site.address == 'Wantagh, NY'
-                    || site.address == "White Plains, NY");
-            });
+                    || site.address == "White Plains, NY")
+            );
             return goodlist.length > 0;
         },
-        notificationContent: function (current, last) {
-            function pretty(jsonobj) {
-                var str = JSON.stringify(jsonobj, null, 2);
+        notificationContent: (current, last) => {
+            function pretty(jsonobj: object) {
+                let str = JSON.stringify(jsonobj, null, 2);
                 return "<pre>" + str + "</pre>";
             }
-            var goodlist = current.providerList.filter(function (site) {
-                return (site.address == 'New York, NY'
+            let goodlist = current.providerList.filter((site) =>
+                (site.address == 'New York, NY'
                     || site.address == 'Wantagh, NY'
-                    || site.address == "White Plains, NY");
-            });
+                    || site.address == "White Plains, NY")
+            );
             return pretty(goodlist);
         }
-    },
-    {
-        name: "Stanford Hospital",
-        watchURL: "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
-        contentType: "text",
-        storageTableName: "Stanford-Vaccine",
-        emails: ["xhuang@gmail.com"],
-        interestDetector: function (current, last) {
-            return true;
-        },
-        notificationContent: function (current, last) {
-            return current;
-        }
-    },
-    {
-        name: "Hacker News",
-        watchURL: "https://news.ycombinator.com",
-        contentType: "text",
-        storageTableName: "HackerNews",
-        emails: ["xhuang@gmail.com"],
-        interestDetector: function (current, last) {
-            return true;
-        },
-        notificationContent: function (current, last) {
-            return current;
-        }
-    },
-    {
-        name: "Alameda County Vaccine Hospital",
-        watchURL: "https://covid-19.acgov.org/vaccines",
-        customHeaders: {
-            'user-agent': 'curl/7.64.1',
-        },
-        contentType: "text",
-        storageTableName: "Alameda-Vaccine",
-        emails: ["xhuang@gmail.com"],
-        // notifyEvenNothingNew: true,
-        interestDetector: function (current, last) {
-            return true;
-        },
-        notificationContent: function (current, last) {
-            return current;
-        }
-    },
-    {
-        name: "LA Times Vaccine Info",
-        watchURL: "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
-        customHeaders: {
-            'user-agent': 'curl/7.64.1',
-        },
-        contentType: "text",
-        storageTableName: "California-Vaccine",
-        emails: ["xhuang@gmail.com"],
-        interestDetector: function (current, last) {
-            return true;
-        },
-        notificationContent: function (current, last) {
-            return current;
-        }
-    }
-];
-// system function 
+        */
 function saveInfoAtSystem(tablename, content) {
     return __awaiter(this, void 0, void 0, function () {
         var docRef, obj;
@@ -295,35 +265,25 @@ function scrape(url, customHeaders) {
 }
 function processSubscription(sub) {
     return __awaiter(this, void 0, void 0, function () {
-        // let last = await getFirstRecord(tablename);
         function headers(input, content, last) {
             var diff;
             if (content && last) {
-                if (typeof content == "string") {
-                    diff = ContentDiffer.diffHtmlPages(last, content);
-                }
-                if (typeof content == "object") {
-                    diff = ContentDiffer.diffJsonObjects(last, content);
-                }
+                diff = last.diffContent(content);
             }
             var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff && "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> ") + "\n            <h4>Website Current Content </h4>\n            " + input + "\n            </body>\n        < /html>\n            ";
             return html;
         }
-        var content, tablename, last;
+        var content, last;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, scrape(sub.watchURL, sub.customHeaders)];
+                case 0: return [4 /*yield*/, sub.fetchContent()];
                 case 1:
                     content = _a.sent();
-                    if (sub.contentType == "json") {
-                        content = JSON.parse(content);
-                    }
-                    tablename = sub.storageTableName;
-                    return [4 /*yield*/, getLastRecord(tablename)];
+                    return [4 /*yield*/, sub.getLastRecord()];
                 case 2:
                     last = _a.sent();
-                    if (!!ContentDiffer.isContentTheSame(content, last)) return [3 /*break*/, 8];
-                    return [4 /*yield*/, saveInfoAtSystem(tablename, content)];
+                    if (!!content.equal(last)) return [3 /*break*/, 8];
+                    return [4 /*yield*/, sub.saveRecord(content)];
                 case 3:
                     _a.sent();
                     if (!sub.interestDetector(content, last)) return [3 /*break*/, 5];
@@ -357,11 +317,11 @@ function doit() {
                     i = 0;
                     _a.label = 1;
                 case 1:
-                    if (!(i < Subscriptions.length)) return [3 /*break*/, 6];
+                    if (!(i < NewSubscriptions.length)) return [3 /*break*/, 6];
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    sub = Subscriptions[i];
+                    sub = NewSubscriptions[i];
                     console.log(sub);
                     return [4 /*yield*/, processSubscription(sub)];
                 case 3:

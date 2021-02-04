@@ -17,6 +17,20 @@ class WebPageContent {
         this.content = content;
     }
     contentType(): string { return typeof this.content };
+
+    equal(other: WebPageContent): boolean {
+        return ContentDiffer.isContentTheSame(this.content, other.content);
+    }
+
+    diffContent(other: WebPageContent): string {
+        if (typeof this.content == "string") {
+            return ContentDiffer.diffHtmlPages(this.content, other.content as string);
+        }
+        if (typeof this.content == "object") {
+            return ContentDiffer.diffJsonObjects(this.content, other.content as object);
+        }
+        throw ("unknown content type");
+    }
     toString() {
         if (typeof this.content === "object") {
             return JSON.stringify(this.content, null, 2);
@@ -28,6 +42,8 @@ class WebPageContent {
 type SubscriptionOptions = {
     contentType?: string,
     customHeaders?: object,
+    notifyEvenNothingNew?: boolean,
+    storageTableName?: string,
 }
 
 class Subscription {
@@ -37,6 +53,7 @@ class Subscription {
     storageTableName: string;
     emails: string[];
     customHeaders: object | null = null;
+    notifyEvenNothingNew: boolean = false;
 
     constructor(
         name: string,
@@ -46,11 +63,13 @@ class Subscription {
     ) {
         this.name = name;
         this.watchURL = watchURL;
-        this.storageTableName = watchURL;
+        this.storageTableName = watchURL.replace(/\//g, "_");
         this.emails = emails;
         if (options) {
             if (options.contentType) this.contentType = options.contentType;
             if (options.customHeaders) this.customHeaders = options.customHeaders;
+            if (options.notifyEvenNothingNew) this.notifyEvenNothingNew = options.notifyEvenNothingNew;
+            if (options.storageTableName) this.storageTableName = options.storageTableName;
         }
     }
 
@@ -65,8 +84,16 @@ class Subscription {
         return new WebPageContent(content);
     }
 
+    async getLastRecord(): Promise<WebPageContent> {
+        let last = await getLastRecord(this.storageTableName);
+        return new WebPageContent(last);
+    }
+    async saveRecord(content: WebPageContent) {
+        await saveInfoAtSystem(this.storageTableName, content.toString());
+    }
+
     interestDetector(current: WebPageContent, last: WebPageContent | null) { return true; }
-    notificationContent(current: WebPageContent, last: WebPageContent | null) { return current; }
+    notificationContent(current: WebPageContent, last: WebPageContent | null): string { return current.content.toString(); }
 };
 
 const NewSubscriptions = [
@@ -89,6 +116,14 @@ const NewSubscriptions = [
         ["xhuang@gmail.com"],
     ),
     new Subscription(
+        "LA Times Vaccine Info",
+        "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
+        ["xhuang@gmail.com"],
+        {
+            storageTableName: "California-Vaccine"
+        }
+    ),
+    new Subscription(
         "Alameda County Vaccine Hospital",
         "https://covid-19.acgov.org/vaccines",
         ["xhuang@gmail.com"],
@@ -101,22 +136,7 @@ const NewSubscriptions = [
 ];
 
 
-// 
-// descriptors for subscriptions
-// 
-// future attributes
-// data retention
-// pull frequency
-// differening -
-// save the "last" item's id for comparison
-
-const Subscriptions = [
-    {
-        name: "NYS Covid Watcher",
-        watchURL: "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
-        contentType: "json",
-        storageTableName: "NYS-COVID-2", // default should be the URL
-        emails: ["xhuang@gmail.com"],
+/*
         interestDetector: (current, last) => {
             let goodlist = current.providerList.filter((site) =>
                 (site.address == 'New York, NY'
@@ -137,69 +157,7 @@ const Subscriptions = [
             );
             return pretty(goodlist);
         }
-    },
-    {
-        name: "Stanford Hospital",
-        watchURL: "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
-        contentType: "text",
-        storageTableName: "Stanford-Vaccine", // default should be the URL
-        emails: ["xhuang@gmail.com"],
-        interestDetector: (current, last) => {
-            return true;
-        },
-        notificationContent: (current, last) => {
-            return current;
-        }
-    },
-    {
-        name: "Hacker News",
-        watchURL: "https://news.ycombinator.com",
-        contentType: "text",
-        storageTableName: "HackerNews",
-        emails: ["xhuang@gmail.com"],
-        interestDetector: (current, last) => {
-            return true;
-        },
-        notificationContent: (current, last) => {
-            return current;
-        }
-    },
-    {
-        name: "Alameda County Vaccine Hospital",
-        watchURL: "https://covid-19.acgov.org/vaccines",
-        customHeaders: {
-            'user-agent': 'curl/7.64.1',
-        },
-        contentType: "text",
-        storageTableName: "Alameda-Vaccine", // default should be the URL
-        emails: ["xhuang@gmail.com"],
-        // notifyEvenNothingNew: true,
-        interestDetector: (current, last) => {
-            return true;
-        },
-        notificationContent: (current, last) => {
-            return current;
-        }
-    },
-    {
-        name: "LA Times Vaccine Info",
-        watchURL: "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
-        customHeaders: {
-            'user-agent': 'curl/7.64.1',
-        },
-        contentType: "text",
-        storageTableName: "California-Vaccine", // default should be the URL
-        emails: ["xhuang@gmail.com"],
-        interestDetector: (current, last) => {
-            return true;
-        },
-        notificationContent: (current, last) => {
-            return current;
-        }
-    }
-];
-
-// system function 
+        */
 
 async function saveInfoAtSystem(tablename: string, content) {
     let docRef = db.collection(tablename).doc();
@@ -255,24 +213,15 @@ async function scrape(url, customHeaders) {
 }
 
 
-async function processSubscription(sub) {
-    let content = await scrape(sub.watchURL, sub.customHeaders);
-    if (sub.contentType == "json") {
-        content = JSON.parse(content);
-    }
-    let tablename = sub.storageTableName;
-    let last = await getLastRecord(tablename);
-    // let last = await getFirstRecord(tablename);
+async function processSubscription(sub: Subscription) {
 
-    function headers(input, content, last): string {
+    let content = await sub.fetchContent();
+    let last = await sub.getLastRecord();
+
+    function headers(input: string, content: WebPageContent, last: WebPageContent): string {
         var diff: string | undefined;
         if (content && last) {
-            if (typeof content == "string") {
-                diff = ContentDiffer.diffHtmlPages(last, content);
-            }
-            if (typeof content == "object") {
-                diff = ContentDiffer.diffJsonObjects(last, content);
-            }
+            diff = last.diffContent(content);
         }
 
         var html = `
@@ -291,8 +240,8 @@ async function processSubscription(sub) {
         return html;
     }
 
-    if (!ContentDiffer.isContentTheSame(content, last)) {
-        await saveInfoAtSystem(tablename, content);
+    if (!content.equal(last)) {
+        await sub.saveRecord(content);
         if (sub.interestDetector(content, last)) {
             await Email.send(sub.emails, sub.name + ": interesting change detected",
                 headers(sub.notificationContent(content, last), content, last)
@@ -313,9 +262,9 @@ async function processSubscription(sub) {
 }
 
 async function doit() {
-    for (let i = 0; i < Subscriptions.length; i++) {
+    for (let i = 0; i < NewSubscriptions.length; i++) {
         try {
-            let sub = Subscriptions[i];
+            let sub = NewSubscriptions[i];
             console.log(sub);
             await processSubscription(sub);
         } catch (err) {
