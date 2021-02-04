@@ -20,14 +20,20 @@ function isJson(str) {
 }
 
 class WebPageContent {
-
     contentRaw: string;
     contentType: WebPageContentType = WebPageContentType.UNKNOWN;
-    constructor(content: string, contentType: WebPageContentType = WebPageContentType.UNKNOWN) {
-        this.contentRaw = content;
-        if (contentType === WebPageContentType.UNKNOWN) {
+    contentJsonObject: object = null;
+
+    constructor(content: string) {
+        if (typeof content === "object") {
+            this.contentType = WebPageContentType.JSON;
+            this.contentRaw = JSON.stringify(content, null, 2);
+            this.contentRaw = content;
+        } else {
+            this.contentRaw = content;
             if (isJson(content)) {
                 this.contentType = WebPageContentType.JSON;
+                this.contentJsonObject = JSON.parse(content);
             } else {
                 this.contentType = WebPageContentType.HTML;
             }
@@ -35,6 +41,9 @@ class WebPageContent {
     }
 
     equal(other: WebPageContent): boolean {
+        if (this.contentType === WebPageContentType.JSON) {
+            return ContentDiffer.isContentTheSame(this.contentJsonObject, other.contentJsonObject);
+        }
         return ContentDiffer.isContentTheSame(this.contentRaw, other.contentRaw);
     }
 
@@ -207,14 +216,16 @@ async function processSubscription(sub: Subscription) {
         <html>
            <body>
               <h4> Watch URL: ${ sub.watchURL}</h4>
-              ${diff && `<h4> Changes:  </h4>
-                       <pre> ${diff} </pre> `
+              ${diff ? `<h4> Changes:  </h4>
+                       <pre> ${diff} </pre> ` : ""
             }
             <h4>Website Current Content </h4>
             ${input}
             </body>
         < /html>
             `;
+
+        console.log(html);
 
         return html;
     }
@@ -241,8 +252,8 @@ async function processSubscription(sub: Subscription) {
 }
 
 async function doit() {
-    let subs = NewSubscriptions;
-    //let subs = NewSubscriptions.slice(0, 1); // one item
+    // let subs = NewSubscriptions;
+    let subs = NewSubscriptions.slice(0, 1); // one item
     for (let i = 0; i < subs.length; i++) {
         try {
             let sub = subs[i];

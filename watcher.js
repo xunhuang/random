@@ -56,13 +56,19 @@ function isJson(str) {
     return true;
 }
 var WebPageContent = /** @class */ (function () {
-    function WebPageContent(content, contentType) {
-        if (contentType === void 0) { contentType = WebPageContentType.UNKNOWN; }
+    function WebPageContent(content) {
         this.contentType = WebPageContentType.UNKNOWN;
-        this.contentRaw = content;
-        if (contentType === WebPageContentType.UNKNOWN) {
+        this.contentJsonObject = null;
+        if (typeof content === "object") {
+            this.contentType = WebPageContentType.JSON;
+            this.contentRaw = JSON.stringify(content, null, 2);
+            this.contentRaw = content;
+        }
+        else {
+            this.contentRaw = content;
             if (isJson(content)) {
                 this.contentType = WebPageContentType.JSON;
+                this.contentJsonObject = JSON.parse(content);
             }
             else {
                 this.contentType = WebPageContentType.HTML;
@@ -70,6 +76,9 @@ var WebPageContent = /** @class */ (function () {
         }
     }
     WebPageContent.prototype.equal = function (other) {
+        if (this.contentType === WebPageContentType.JSON) {
+            return ContentDiffer.isContentTheSame(this.contentJsonObject, other.contentJsonObject);
+        }
         return ContentDiffer.isContentTheSame(this.contentRaw, other.contentRaw);
     };
     WebPageContent.prototype.diffContent = function (other) {
@@ -235,7 +244,8 @@ function processSubscription(sub) {
             if (content && last) {
                 diff = last.diffContent(content);
             }
-            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff && "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> ") + "\n            <h4>Website Current Content </h4>\n            " + input + "\n            </body>\n        < /html>\n            ";
+            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff ? "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> " : "") + "\n            <h4>Website Current Content </h4>\n            " + input + "\n            </body>\n        < /html>\n            ";
+            console.log(html);
             return html;
         }
         var content, last;
@@ -279,7 +289,7 @@ function doit() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    subs = NewSubscriptions;
+                    subs = NewSubscriptions.slice(0, 1);
                     i = 0;
                     _a.label = 1;
                 case 1:
