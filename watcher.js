@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var superagent = require('superagent');
 var nodemailer = require('nodemailer');
-//const ContentDiffer = require('./ContentDiffer');
 var ContentDiffer = require("./ContentDiffer");
 var moment = require("moment");
 var firebase = require("firebase");
@@ -70,6 +69,10 @@ var Subscriptions = [
             return goodlist.length > 0;
         },
         notificationContent: function (current, last) {
+            function pretty(jsonobj) {
+                var str = JSON.stringify(jsonobj, null, 2);
+                return "<pre>" + str + "</pre>";
+            }
             var goodlist = current.providerList.filter(function (site) {
                 return (site.address == 'New York, NY'
                     || site.address == 'Wantagh, NY'
@@ -209,32 +212,36 @@ function scrape(url, customHeaders) {
         });
     });
 }
-var transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: 'yumyumlifemailer@gmail.com',
-        pass: process.env.MAILER_PASSWORD
-    }
-});
-var sendEmail = function (emails, subject, html) {
-    var mailOptions = {
-        from: 'Yum Yum <yumyumlifemailer@gmail.com>',
-        to: emails.join(","),
-        subject: subject,
-        html: html
-    };
-    console.log("Mailng " + emails.join(",") + "with  subject:" + subject);
-    transporter.sendMail(mailOptions, function (erro, info) {
-        if (erro) {
-            console.log("Mail Error" + erro.toString());
-            return;
-        }
-        console.log("Mail sent to " + emails + " subject:" + subject);
+function sendEmail(emails, subject, html) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) {
+                    var transporter = nodemailer.createTransport({
+                        service: 'Gmail',
+                        auth: {
+                            user: 'yumyumlifemailer@gmail.com',
+                            pass: process.env.MAILER_PASSWORD
+                        }
+                    });
+                    var mailOptions = {
+                        from: 'Yum Yum <yumyumlifemailer@gmail.com>',
+                        to: emails.join(","),
+                        subject: subject,
+                        html: html
+                    };
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.log("error is " + error);
+                            resolve(false); // or use rejcet(false) but then you will have to handle errors
+                        }
+                        else {
+                            console.log('Email sent: ' + info.response);
+                            resolve(true);
+                        }
+                    });
+                })];
+        });
     });
-};
-function pretty(jsonobj) {
-    var str = JSON.stringify(jsonobj, null, 2);
-    return "<pre>" + str + "</pre>";
 }
 function processSubscription(sub) {
     return __awaiter(this, void 0, void 0, function () {
@@ -249,7 +256,7 @@ function processSubscription(sub) {
                     diff = ContentDiffer.diffJsonObjects(last, content);
                 }
             }
-            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff && "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> ") + "\n            <h4>Website Current Content < /h4>\n            " + input + "\n            </body>\n        < /html>\n            ";
+            var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff && "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> ") + "\n            <h4>Website Current Content </h4>\n            " + input + "\n            </body>\n        < /html>\n            ";
             return html;
         }
         var content, tablename, last;
@@ -265,24 +272,28 @@ function processSubscription(sub) {
                     return [4 /*yield*/, getLastRecord(tablename)];
                 case 2:
                     last = _a.sent();
-                    if (!!ContentDiffer.isContentTheSame(content, last)) return [3 /*break*/, 4];
+                    if (!!ContentDiffer.isContentTheSame(content, last)) return [3 /*break*/, 8];
                     return [4 /*yield*/, saveInfoAtSystem(tablename, content)];
                 case 3:
                     _a.sent();
-                    if (sub.interestDetector(content, last)) {
-                        sendEmail(sub.emails, sub.name + ": interesting change detected", headers(sub.notificationContent(content, last), content, last));
-                    }
-                    else {
-                        sendEmail(sub.emails, sub.name + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last));
-                    }
-                    return [3 /*break*/, 5];
+                    if (!sub.interestDetector(content, last)) return [3 /*break*/, 5];
+                    return [4 /*yield*/, sendEmail(sub.emails, sub.name + ": interesting change detected", headers(sub.notificationContent(content, last), content, last))];
                 case 4:
+                    _a.sent();
+                    return [3 /*break*/, 7];
+                case 5: return [4 /*yield*/, sendEmail(sub.emails, sub.name + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last))];
+                case 6:
+                    _a.sent();
+                    _a.label = 7;
+                case 7: return [3 /*break*/, 10];
+                case 8:
                     console.log("change not detected - no action");
-                    if (sub.notifyEvenNothingNew) {
-                        sendEmail(sub.emails, sub.name + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last));
-                    }
-                    _a.label = 5;
-                case 5: return [2 /*return*/];
+                    if (!sub.notifyEvenNothingNew) return [3 /*break*/, 10];
+                    return [4 /*yield*/, sendEmail(sub.emails, sub.name + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last))];
+                case 9:
+                    _a.sent();
+                    _a.label = 10;
+                case 10: return [2 /*return*/];
             }
         });
     });
@@ -319,5 +330,5 @@ function doit() {
         });
     });
 }
-doit();
+doit().then(function () { return process.exit(); });
 //# sourceMappingURL=watcher.js.map

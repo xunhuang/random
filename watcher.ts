@@ -1,9 +1,6 @@
 const superagent = require('superagent');
 const nodemailer = require('nodemailer');
 
-//const ContentDiffer = require('./ContentDiffer');
-
-
 import * as ContentDiffer from './ContentDiffer';
 import * as moment from 'moment';
 
@@ -39,6 +36,10 @@ const Subscriptions = [
             return goodlist.length > 0;
         },
         notificationContent: (current, last) => {
+            function pretty(jsonobj: object) {
+                let str = JSON.stringify(jsonobj, null, 2);
+                return "<pre>" + str + "</pre>";
+            }
             let goodlist = current.providerList.filter((site) =>
                 (site.address == 'New York, NY'
                     || site.address == 'Wantagh, NY'
@@ -147,35 +148,37 @@ async function scrape(url, customHeaders) {
     return body;
 }
 
-const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: 'yumyumlifemailer@gmail.com',
-        pass: process.env.MAILER_PASSWORD
-    }
-});
+async function sendEmail(emails: string[], subject: string, html: string) {
+    return new Promise((resolve, reject) => {
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'yumyumlifemailer@gmail.com',
+                pass: process.env.MAILER_PASSWORD
+            }
+        });
 
-const sendEmail = (emails, subject: string, html: string) => {
-    const mailOptions = {
-        from: 'Yum Yum <yumyumlifemailer@gmail.com>',
-        to: emails.join(","),
-        subject: subject,
-        html: html
-    };
-    console.log("Mailng " + emails.join(",") + "with  subject:" + subject);
-    transporter.sendMail(mailOptions, (erro, info) => {
-        if (erro) {
-            console.log("Mail Error" + erro.toString());
-            return;
-        }
-        console.log("Mail sent to " + emails + " subject:" + subject);
+        const mailOptions = {
+            from: 'Yum Yum <yumyumlifemailer@gmail.com>',
+            to: emails.join(","),
+            subject: subject,
+            html: html
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log("error is " + error);
+                resolve(false); // or use rejcet(false) but then you will have to handle errors
+            }
+            else {
+                console.log('Email sent: ' + info.response);
+                resolve(true);
+            }
+        });
     });
-};
-
-function pretty(jsonobj: object) {
-    let str = JSON.stringify(jsonobj, null, 2);
-    return "<pre>" + str + "</pre>";
 }
+
+
 
 
 async function processSubscription(sub) {
@@ -205,7 +208,7 @@ async function processSubscription(sub) {
               ${diff && `<h4> Changes:  </h4>
                        <pre> ${diff} </pre> `
             }
-            <h4>Website Current Content < /h4>
+            <h4>Website Current Content </h4>
             ${input}
             </body>
         < /html>
@@ -217,18 +220,18 @@ async function processSubscription(sub) {
     if (!ContentDiffer.isContentTheSame(content, last)) {
         await saveInfoAtSystem(tablename, content);
         if (sub.interestDetector(content, last)) {
-            sendEmail(sub.emails, sub.name + ": interesting change detected",
+            await sendEmail(sub.emails, sub.name + ": interesting change detected",
                 headers(sub.notificationContent(content, last), content, last)
             );
         } else {
-            sendEmail(sub.emails, sub.name + ": change detected but not interesting",
+            await sendEmail(sub.emails, sub.name + ": change detected but not interesting",
                 headers(sub.notificationContent(content, last), content, last)
             );
         }
     } else {
         console.log("change not detected - no action");
         if (sub.notifyEvenNothingNew) {
-            sendEmail(sub.emails, sub.name + ": nothing new (but you asked me to send this)",
+            await sendEmail(sub.emails, sub.name + ": nothing new (but you asked me to send this)",
                 headers(sub.notificationContent(content, last), content, last)
             );
         }
@@ -248,4 +251,4 @@ async function doit() {
     }
 }
 
-doit();
+doit().then(() => process.exit());
