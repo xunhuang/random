@@ -39,35 +39,53 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var superagent = require('superagent');
 var ContentDiffer = require("./ContentDiffer");
 var Email = require("./Email");
-var moment = require("moment");
-var firebase = require("firebase");
-require("firebase/firestore");
-var firebaseConfig = require('./.firebaseConfig.json');
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
-var WebPageContent = /** @class */ (function () {
-    function WebPageContent(content) {
-        this.content = content;
+var CloudDB = require("./CloudDB");
+var WebPageContentType;
+(function (WebPageContentType) {
+    WebPageContentType[WebPageContentType["UNKNOWN"] = 0] = "UNKNOWN";
+    WebPageContentType[WebPageContentType["HTML"] = 1] = "HTML";
+    WebPageContentType[WebPageContentType["JSON"] = 2] = "JSON";
+})(WebPageContentType || (WebPageContentType = {}));
+function isJson(str) {
+    try {
+        JSON.parse(str);
     }
-    WebPageContent.prototype.contentType = function () { return typeof this.content; };
-    ;
+    catch (e) {
+        return false;
+    }
+    return true;
+}
+var WebPageContent = /** @class */ (function () {
+    function WebPageContent(content, contentType) {
+        if (contentType === void 0) { contentType = WebPageContentType.UNKNOWN; }
+        this.contentType = WebPageContentType.UNKNOWN;
+        this.contentRaw = content;
+        if (contentType === WebPageContentType.UNKNOWN) {
+            if (isJson(content)) {
+                this.contentType = WebPageContentType.JSON;
+            }
+            else {
+                this.contentType = WebPageContentType.HTML;
+            }
+        }
+    }
     WebPageContent.prototype.equal = function (other) {
-        return ContentDiffer.isContentTheSame(this.content, other.content);
+        return ContentDiffer.isContentTheSame(this.contentRaw, other.contentRaw);
     };
     WebPageContent.prototype.diffContent = function (other) {
-        if (typeof this.content == "string") {
-            return ContentDiffer.diffHtmlPages(this.content, other.content);
+        if (this.contentType == WebPageContentType.HTML) {
+            return ContentDiffer.diffHtmlPages(this.contentRaw, other.contentRaw);
         }
-        if (typeof this.content == "object") {
-            return ContentDiffer.diffJsonObjects(this.content, other.content);
+        if (this.contentType == WebPageContentType.JSON) {
+            return ContentDiffer.diffJsonString(this.contentRaw, other.contentRaw);
         }
         throw ("unknown content type");
     };
     WebPageContent.prototype.toString = function () {
-        if (typeof this.content === "object") {
-            return JSON.stringify(this.content, null, 2);
+        if (this.contentType === WebPageContentType.JSON) {
+            return JSON.stringify(JSON.parse(this.contentRaw), null, 2);
         }
-        return this.content;
+        return this.contentRaw;
     };
     return WebPageContent;
 }());
@@ -102,9 +120,6 @@ var Subscription = /** @class */ (function () {
                     case 0: return [4 /*yield*/, scrape(this.watchURL, this.customHeaders)];
                     case 1:
                         content = _a.sent();
-                        if (this.contentType == "json") {
-                            content = JSON.parse(content);
-                        }
                         return [2 /*return*/, new WebPageContent(content)];
                 }
             });
@@ -115,7 +130,20 @@ var Subscription = /** @class */ (function () {
             var last;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, getLastRecord(this.storageTableName)];
+                    case 0: return [4 /*yield*/, CloudDB.getLastRecord(this.storageTableName)];
+                    case 1:
+                        last = _a.sent();
+                        return [2 /*return*/, new WebPageContent(last)];
+                }
+            });
+        });
+    };
+    Subscription.prototype.getFirstRecord = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var last;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, CloudDB.getFirstRecord(this.storageTableName)];
                     case 1:
                         last = _a.sent();
                         return [2 /*return*/, new WebPageContent(last)];
@@ -127,7 +155,7 @@ var Subscription = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, saveInfoAtSystem(this.storageTableName, content.toString())];
+                    case 0: return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.storageTableName, content.toString())];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -136,7 +164,7 @@ var Subscription = /** @class */ (function () {
         });
     };
     Subscription.prototype.interestDetector = function (current, last) { return true; };
-    Subscription.prototype.notificationContent = function (current, last) { return current.content.toString(); };
+    Subscription.prototype.notificationContent = function (current, last) { return current.toString(); };
     return Subscription;
 }());
 ;
@@ -177,69 +205,6 @@ var NewSubscriptions = [
             return pretty(goodlist);
         }
         */
-function saveInfoAtSystem(tablename, content) {
-    return __awaiter(this, void 0, void 0, function () {
-        var docRef, obj;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    docRef = db.collection(tablename).doc();
-                    obj = {
-                        key: docRef.id,
-                        timestamp: moment().unix(),
-                        data: content,
-                    };
-                    return [4 /*yield*/, docRef.set(obj).then(function (doc) {
-                        }).catch(function (err) {
-                            return null;
-                        })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/, obj];
-            }
-        });
-    });
-}
-function getLastRecord(tablename) {
-    return __awaiter(this, void 0, void 0, function () {
-        var docRef, last;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    docRef = db.collection(tablename).orderBy("timestamp", "desc").limit(1);
-                    last = null;
-                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
-                            querySnapshot.forEach(function (doc) {
-                                last = doc.data().data;
-                            });
-                        })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/, last];
-            }
-        });
-    });
-}
-function getFirstRecord(tablename) {
-    return __awaiter(this, void 0, void 0, function () {
-        var docRef, first;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
-                    first = null;
-                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
-                            querySnapshot.forEach(function (doc) {
-                                first = doc.data().data;
-                            });
-                        })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/, first];
-            }
-        });
-    });
-}
 function scrape(url, customHeaders) {
     return __awaiter(this, void 0, void 0, function () {
         var request, key, body;
@@ -310,18 +275,19 @@ function processSubscription(sub) {
 }
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
-        var i, sub, err_1;
+        var subs, i, sub, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    subs = NewSubscriptions;
                     i = 0;
                     _a.label = 1;
                 case 1:
-                    if (!(i < NewSubscriptions.length)) return [3 /*break*/, 6];
+                    if (!(i < subs.length)) return [3 /*break*/, 6];
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    sub = NewSubscriptions[i];
+                    sub = subs[i];
                     console.log(sub);
                     return [4 /*yield*/, processSubscription(sub)];
                 case 3:

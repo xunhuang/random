@@ -2,40 +2,56 @@ const superagent = require('superagent');
 
 import * as ContentDiffer from './ContentDiffer';
 import * as Email from './Email';
-import * as moment from 'moment';
+import * as CloudDB from './CloudDB';
 
-const firebase = require("firebase");
-require("firebase/firestore");
-const firebaseConfig = require('./.firebaseConfig.json');
-firebase.initializeApp(firebaseConfig);
+enum WebPageContentType {
+    UNKNOWN,
+    HTML,
+    JSON
+}
 
-const db = firebase.firestore();
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
 class WebPageContent {
-    content: string | object;
-    constructor(content: string | object) {
-        this.content = content;
+
+    contentRaw: string;
+    contentType: WebPageContentType = WebPageContentType.UNKNOWN;
+    constructor(content: string, contentType: WebPageContentType = WebPageContentType.UNKNOWN) {
+        this.contentRaw = content;
+        if (contentType === WebPageContentType.UNKNOWN) {
+            if (isJson(content)) {
+                this.contentType = WebPageContentType.JSON;
+            } else {
+                this.contentType = WebPageContentType.HTML;
+            }
+        }
     }
-    contentType(): string { return typeof this.content };
 
     equal(other: WebPageContent): boolean {
-        return ContentDiffer.isContentTheSame(this.content, other.content);
+        return ContentDiffer.isContentTheSame(this.contentRaw, other.contentRaw);
     }
 
     diffContent(other: WebPageContent): string {
-        if (typeof this.content == "string") {
-            return ContentDiffer.diffHtmlPages(this.content, other.content as string);
+        if (this.contentType == WebPageContentType.HTML) {
+            return ContentDiffer.diffHtmlPages(this.contentRaw, other.contentRaw);
         }
-        if (typeof this.content == "object") {
-            return ContentDiffer.diffJsonObjects(this.content, other.content as object);
+        if (this.contentType == WebPageContentType.JSON) {
+            return ContentDiffer.diffJsonString(this.contentRaw, other.contentRaw);
         }
         throw ("unknown content type");
     }
     toString() {
-        if (typeof this.content === "object") {
-            return JSON.stringify(this.content, null, 2);
+        if (this.contentType === WebPageContentType.JSON) {
+            return JSON.stringify(JSON.parse(this.contentRaw), null, 2);
         }
-        return this.content;
+        return this.contentRaw;
     }
 }
 
@@ -78,22 +94,23 @@ class Subscription {
 
     async fetchContent(): Promise<WebPageContent> {
         let content = await scrape(this.watchURL, this.customHeaders);
-        if (this.contentType == "json") {
-            content = JSON.parse(content);
-        }
         return new WebPageContent(content);
     }
 
     async getLastRecord(): Promise<WebPageContent> {
-        let last = await getLastRecord(this.storageTableName);
+        let last = await CloudDB.getLastRecord(this.storageTableName);
+        return new WebPageContent(last);
+    }
+    async getFirstRecord(): Promise<WebPageContent> {
+        let last = await CloudDB.getFirstRecord(this.storageTableName);
         return new WebPageContent(last);
     }
     async saveRecord(content: WebPageContent) {
-        await saveInfoAtSystem(this.storageTableName, content.toString());
+        await CloudDB.saveInfoAtSystem(this.storageTableName, content.toString());
     }
 
     interestDetector(current: WebPageContent, last: WebPageContent | null) { return true; }
-    notificationContent(current: WebPageContent, last: WebPageContent | null): string { return current.content.toString(); }
+    notificationContent(current: WebPageContent, last: WebPageContent | null): string { return current.toString(); }
 };
 
 const NewSubscriptions = [
@@ -158,44 +175,6 @@ const NewSubscriptions = [
             return pretty(goodlist);
         }
         */
-
-async function saveInfoAtSystem(tablename: string, content) {
-    let docRef = db.collection(tablename).doc();
-    let obj = {
-        key: docRef.id,
-        timestamp: moment().unix(),
-        data: content,
-    }
-    await docRef.set(obj).then((doc) => {
-    }).catch(err => {
-        return null;
-    });
-    return obj;
-}
-
-async function getLastRecord(tablename: string) {
-    var docRef = db.collection(tablename).orderBy("timestamp", "desc").limit(1);
-    var last = null;
-    await docRef.get().then(
-        function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                last = doc.data().data;
-            });
-        });
-    return last;
-}
-
-async function getFirstRecord(tablename: string) {
-    var docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
-    var first = null;
-    await docRef.get().then(
-        function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                first = doc.data().data;
-            });
-        });
-    return first;
-}
 
 async function scrape(url, customHeaders) {
     let request = superagent.get(url)
@@ -262,9 +241,11 @@ async function processSubscription(sub: Subscription) {
 }
 
 async function doit() {
-    for (let i = 0; i < NewSubscriptions.length; i++) {
+    let subs = NewSubscriptions;
+    //let subs = NewSubscriptions.slice(0, 1); // one item
+    for (let i = 0; i < subs.length; i++) {
         try {
-            let sub = NewSubscriptions[i];
+            let sub = subs[i];
             console.log(sub);
             await processSubscription(sub);
         } catch (err) {

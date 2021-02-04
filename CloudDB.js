@@ -36,26 +36,82 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var cheerio = require('cheerio');
-var CloudDB = require("./CloudDB");
-function doit() {
+exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.getDB = void 0;
+var moment = require("moment");
+var firebase = require("firebase");
+require("firebase/firestore");
+var firebaseConfig = require('./.firebaseConfig.json');
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+function getDB() {
+    return db;
+}
+exports.getDB = getDB;
+// some application semantics 
+function saveInfoAtSystem(tablename, content) {
     return __awaiter(this, void 0, void 0, function () {
-        var record, dom, data;
+        var docRef, obj;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, CloudDB.getLastRecord("California-Vaccine")];
+                case 0:
+                    docRef = db.collection(tablename).doc();
+                    obj = {
+                        key: docRef.id,
+                        timestamp: moment().unix(),
+                        data: content,
+                    };
+                    return [4 /*yield*/, docRef.set(obj).then(function (doc) {
+                        }).catch(function (err) {
+                            return null;
+                        })];
                 case 1:
-                    record = _a.sent();
-                    dom = cheerio.load(record);
-                    data = dom("#counties-vaccination-data").html();
-                    console.log(data);
-                    console.log("hello!");
-                    return [2 /*return*/];
+                    _a.sent();
+                    return [2 /*return*/, obj];
             }
         });
     });
 }
-console.log("hello! 1");
-doit();
-console.log("hello!2 ");
-//# sourceMappingURL=debug.js.map
+exports.saveInfoAtSystem = saveInfoAtSystem;
+function getLastRecord(tablename) {
+    return __awaiter(this, void 0, void 0, function () {
+        var docRef, last;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    docRef = db.collection(tablename).orderBy("timestamp", "desc").limit(1);
+                    last = null;
+                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
+                            querySnapshot.forEach(function (doc) {
+                                last = doc.data().data;
+                            });
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/, last];
+            }
+        });
+    });
+}
+exports.getLastRecord = getLastRecord;
+function getFirstRecord(tablename) {
+    return __awaiter(this, void 0, void 0, function () {
+        var docRef, first;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
+                    first = null;
+                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
+                            querySnapshot.forEach(function (doc) {
+                                first = doc.data().data;
+                            });
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/, first];
+            }
+        });
+    });
+}
+exports.getFirstRecord = getFirstRecord;
+//# sourceMappingURL=CloudDB.js.map

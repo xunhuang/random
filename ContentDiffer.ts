@@ -95,6 +95,16 @@ export function diffJsonObjects(html1: object, html2: object): string | null {
     return jsonDiff.diffString(html1, html2);
 }
 
+
+
+/* return null if two json objects are equal */
+/* otherwise return a string that highlights the difference  */
+export function diffJsonString(json1: string, json2: string): string | null {
+    let obj1 = JSON.parse(json1)
+    let obj2 = JSON.parse(json2)
+    return diffJsonObjects(obj1, obj2);
+}
+
 export function isContentTheSame(c1: string | object, c2: string | object): boolean {
     if (typeof c1 === "string" && typeof c2 === "string") {
         if (c1 === c2) {

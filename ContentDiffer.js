@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isContentTheSame = exports.diffJsonObjects = exports.diffHtmlPages = void 0;
+exports.isContentTheSame = exports.diffJsonString = exports.diffJsonObjects = exports.diffHtmlPages = void 0;
 var cheerio = require('cheerio');
 var equal = require('deep-equal');
 var HtmlDiffer = require('html-differ').HtmlDiffer;
@@ -86,6 +86,14 @@ function diffJsonObjects(html1, html2) {
     return jsonDiff.diffString(html1, html2);
 }
 exports.diffJsonObjects = diffJsonObjects;
+/* return null if two json objects are equal */
+/* otherwise return a string that highlights the difference  */
+function diffJsonString(json1, json2) {
+    var obj1 = JSON.parse(json1);
+    var obj2 = JSON.parse(json2);
+    return diffJsonObjects(obj1, obj2);
+}
+exports.diffJsonString = diffJsonString;
 function isContentTheSame(c1, c2) {
     if (typeof c1 === "string" && typeof c2 === "string") {
         if (c1 === c2) {
