@@ -24,11 +24,11 @@ class WebPageContent {
     contentType: WebPageContentType = WebPageContentType.UNKNOWN;
     contentJsonObject: object = null;
 
-    constructor(content: string) {
+    constructor(content: string | object) {
         if (typeof content === "object") {
             this.contentType = WebPageContentType.JSON;
             this.contentRaw = JSON.stringify(content, null, 2);
-            this.contentRaw = content;
+            this.contentJsonObject = content;
         } else {
             this.contentRaw = content;
             if (isJson(content)) {
@@ -252,8 +252,8 @@ async function processSubscription(sub: Subscription) {
 }
 
 async function doit() {
-    // let subs = NewSubscriptions;
-    let subs = NewSubscriptions.slice(0, 1); // one item
+    let subs = NewSubscriptions;
+    // let subs = NewSubscriptions.slice(0, 1); // one item
     for (let i = 0; i < subs.length; i++) {
         try {
             let sub = subs[i];

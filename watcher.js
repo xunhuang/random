@@ -62,7 +62,7 @@ var WebPageContent = /** @class */ (function () {
         if (typeof content === "object") {
             this.contentType = WebPageContentType.JSON;
             this.contentRaw = JSON.stringify(content, null, 2);
-            this.contentRaw = content;
+            this.contentJsonObject = content;
         }
         else {
             this.contentRaw = content;
@@ -289,7 +289,7 @@ function doit() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    subs = NewSubscriptions.slice(0, 1);
+                    subs = NewSubscriptions;
                     i = 0;
                     _a.label = 1;
                 case 1:

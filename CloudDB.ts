@@ -25,7 +25,7 @@ export async function saveInfoAtSystem(tablename: string, content) {
     return obj;
 }
 
-export async function getLastRecord(tablename: string): Promise<string | null> {
+export async function getLastRecord(tablename: string): Promise<string | object | null> {
     var docRef = db.collection(tablename).orderBy("timestamp", "desc").limit(1);
     var last = null;
     await docRef.get().then(
@@ -37,7 +37,7 @@ export async function getLastRecord(tablename: string): Promise<string | null> {
     return last;
 }
 
-export async function getFirstRecord(tablename: string): Promise<string | null> {
+export async function getFirstRecord(tablename: string): Promise<string | object | null> {
     var docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
     var first = null;
     await docRef.get().then(
