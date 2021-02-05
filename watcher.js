@@ -43,8 +43,9 @@ var CloudDB = require("./CloudDB");
 var WebPageContentType;
 (function (WebPageContentType) {
     WebPageContentType[WebPageContentType["UNKNOWN"] = 0] = "UNKNOWN";
-    WebPageContentType[WebPageContentType["HTML"] = 1] = "HTML";
-    WebPageContentType[WebPageContentType["JSON"] = 2] = "JSON";
+    WebPageContentType[WebPageContentType["NULL"] = 1] = "NULL";
+    WebPageContentType[WebPageContentType["HTML"] = 2] = "HTML";
+    WebPageContentType[WebPageContentType["JSON"] = 3] = "JSON";
 })(WebPageContentType || (WebPageContentType = {}));
 function isJson(str) {
     try {
@@ -57,12 +58,16 @@ function isJson(str) {
 }
 var WebPageContent = /** @class */ (function () {
     function WebPageContent(content) {
+        this.contentRaw = "";
         this.contentType = WebPageContentType.UNKNOWN;
         this.contentJsonObject = null;
         if (typeof content === "object") {
             this.contentType = WebPageContentType.JSON;
             this.contentRaw = JSON.stringify(content, null, 2);
             this.contentJsonObject = content;
+        }
+        else if (content === null) {
+            this.contentType = WebPageContentType.NULL;
         }
         else {
             this.contentRaw = content;
@@ -76,8 +81,14 @@ var WebPageContent = /** @class */ (function () {
         }
     }
     WebPageContent.prototype.equal = function (other) {
+        if (this.contentType != other.contentType) {
+            return false;
+        }
         if (this.contentType === WebPageContentType.JSON) {
             return ContentDiffer.isContentTheSame(this.contentJsonObject, other.contentJsonObject);
+        }
+        else if (this.contentType === WebPageContentType.NULL) {
+            return other.contentType === WebPageContentType.NULL;
         }
         return ContentDiffer.isContentTheSame(this.contentRaw, other.contentRaw);
     };
@@ -88,11 +99,17 @@ var WebPageContent = /** @class */ (function () {
         if (this.contentType == WebPageContentType.JSON) {
             return ContentDiffer.diffJsonString(this.contentRaw, other.contentRaw);
         }
+        if (this.contentType == WebPageContentType.NULL) {
+            return other.contentRaw;
+        }
         throw ("unknown content type");
     };
     WebPageContent.prototype.toString = function () {
         if (this.contentType === WebPageContentType.JSON) {
             return JSON.stringify(JSON.parse(this.contentRaw), null, 2);
+        }
+        if (this.contentType === WebPageContentType.NULL) {
+            return "";
         }
         return this.contentRaw;
     };
@@ -200,7 +217,22 @@ var NewSubscriptions = [
         customHeaders: {
             'user-agent': 'curl/7.64.1',
         },
-    })
+    }),
+    new Subscription("Bloomberg Vaccine Data", "https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/", ["xhuang@gmail.com"], {
+        customHeaders: {
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
+            'authority': 'www.bloomberg.com',
+            'cache-control': 'max-age=0',
+            'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
+            'sec-ch-ua-mobile': '?0',
+            'upgrade-insecure-requests': '1',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'sec-fetch-site': 'none',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-user': '?1',
+            'sec-fetch-dest': 'document'
+        },
+    }),
 ];
 /*
         interestDetector: (current, last) => {
@@ -267,28 +299,34 @@ function processSubscription(sub) {
                     return [4 /*yield*/, sub.getLastRecord()];
                 case 2:
                     last = _a.sent();
-                    if (!!content.equal(last)) return [3 /*break*/, 8];
+                    if (!!content.equal(last)) return [3 /*break*/, 10];
                     return [4 /*yield*/, sub.saveRecord(content)];
                 case 3:
                     _a.sent();
-                    if (!sub.interestDetector(content, last)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": interesting change detected", headers(sub.notificationContent(content, last), content, last))];
+                    if (!(last == null)) return [3 /*break*/, 5];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": First run ", headers(sub.notificationContent(content, last), content, last))];
                 case 4:
                     _a.sent();
-                    return [3 /*break*/, 7];
-                case 5: return [4 /*yield*/, Email.send(sub.emails, sub.name + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last))];
+                    return [3 /*break*/, 9];
+                case 5:
+                    if (!sub.interestDetector(content, last)) return [3 /*break*/, 7];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": interesting change detected", headers(sub.notificationContent(content, last), content, last))];
                 case 6:
                     _a.sent();
-                    _a.label = 7;
-                case 7: return [3 /*break*/, 10];
+                    return [3 /*break*/, 9];
+                case 7: return [4 /*yield*/, Email.send(sub.emails, sub.name + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last))];
                 case 8:
-                    console.log("change not detected - no action");
-                    if (!sub.notifyEvenNothingNew) return [3 /*break*/, 10];
-                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last))];
-                case 9:
                     _a.sent();
-                    _a.label = 10;
-                case 10: return [2 /*return*/];
+                    _a.label = 9;
+                case 9: return [3 /*break*/, 12];
+                case 10:
+                    console.log("change not detected - no action");
+                    if (!sub.notifyEvenNothingNew) return [3 /*break*/, 12];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last))];
+                case 11:
+                    _a.sent();
+                    _a.label = 12;
+                case 12: return [2 /*return*/];
             }
         });
     });
@@ -300,6 +338,8 @@ function doit() {
             switch (_a.label) {
                 case 0:
                     subs = NewSubscriptions;
+                    // let subs = NewSubscriptions.slice(0, 1); // one item
+                    subs = NewSubscriptions.slice(-1); // last item
                     i = 0;
                     _a.label = 1;
                 case 1:

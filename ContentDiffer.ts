@@ -1,4 +1,4 @@
-const cheerio = require('cheerio');
+const cheerio = require('cheerio-select');
 const equal = require('deep-equal');
 const HtmlDiffer = require('html-differ').HtmlDiffer;
 var jsonDiff = require('json-diff')

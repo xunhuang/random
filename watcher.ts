@@ -6,6 +6,7 @@ import * as CloudDB from './CloudDB';
 
 enum WebPageContentType {
     UNKNOWN,
+    NULL,
     HTML,
     JSON
 }
@@ -20,15 +21,17 @@ function isJson(str) {
 }
 
 class WebPageContent {
-    contentRaw: string;
+    contentRaw: string = "";
     contentType: WebPageContentType = WebPageContentType.UNKNOWN;
     contentJsonObject: object = null;
 
-    constructor(content: string | object) {
+    constructor(content: string | object | null) {
         if (typeof content === "object") {
             this.contentType = WebPageContentType.JSON;
             this.contentRaw = JSON.stringify(content, null, 2);
             this.contentJsonObject = content;
+        } else if (content === null) {
+            this.contentType = WebPageContentType.NULL;
         } else {
             this.contentRaw = content;
             if (isJson(content)) {
@@ -41,8 +44,13 @@ class WebPageContent {
     }
 
     equal(other: WebPageContent): boolean {
+        if (this.contentType != other.contentType) {
+            return false;
+        }
         if (this.contentType === WebPageContentType.JSON) {
             return ContentDiffer.isContentTheSame(this.contentJsonObject, other.contentJsonObject);
+        } else if (this.contentType === WebPageContentType.NULL) {
+            return other.contentType === WebPageContentType.NULL;
         }
         return ContentDiffer.isContentTheSame(this.contentRaw, other.contentRaw);
     }
@@ -53,12 +61,17 @@ class WebPageContent {
         }
         if (this.contentType == WebPageContentType.JSON) {
             return ContentDiffer.diffJsonString(this.contentRaw, other.contentRaw);
+        } if (this.contentType == WebPageContentType.NULL) {
+            return other.contentRaw;
         }
         throw ("unknown content type");
     }
     toString() {
         if (this.contentType === WebPageContentType.JSON) {
             return JSON.stringify(JSON.parse(this.contentRaw), null, 2);
+        }
+        if (this.contentType === WebPageContentType.NULL) {
+            return ""
         }
         return this.contentRaw;
     }
@@ -164,9 +177,28 @@ const NewSubscriptions = [
                 'user-agent': 'curl/7.64.1',
             },
         }
-    )
+    ),
+    new Subscription(
+        "Bloomberg Vaccine Data",
+        "https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/",
+        ["xhuang@gmail.com"],
+        {
+            customHeaders: {
+                'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
+                'authority': 'www.bloomberg.com',
+                'cache-control': 'max-age=0',
+                'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
+                'sec-ch-ua-mobile': '?0',
+                'upgrade-insecure-requests': '1',
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                'sec-fetch-site': 'none',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-user': '?1',
+                'sec-fetch-dest': 'document'
+            },
+        }
+    ),
 ];
-
 
 /*
         interestDetector: (current, last) => {
@@ -238,7 +270,11 @@ async function processSubscription(sub: Subscription) {
 
     if (!content.equal(last)) {
         await sub.saveRecord(content);
-        if (sub.interestDetector(content, last)) {
+        if (last == null) {
+            await Email.send(sub.emails, sub.name + ": First run ",
+                headers(sub.notificationContent(content, last), content, last)
+            );
+        } else if (sub.interestDetector(content, last)) {
             await Email.send(sub.emails, sub.name + ": interesting change detected",
                 headers(sub.notificationContent(content, last), content, last)
             );
@@ -260,6 +296,7 @@ async function processSubscription(sub: Subscription) {
 async function doit() {
     let subs = NewSubscriptions;
     // let subs = NewSubscriptions.slice(0, 1); // one item
+    subs = NewSubscriptions.slice(-1); // last item
     for (let i = 0; i < subs.length; i++) {
         try {
             let sub = subs[i];

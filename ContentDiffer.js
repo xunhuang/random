@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isContentTheSame = exports.diffJsonString = exports.diffJsonObjects = exports.diffHtmlPages = void 0;
-var cheerio = require('cheerio');
+var cheerio = require('cheerio-select');
 var equal = require('deep-equal');
 var HtmlDiffer = require('html-differ').HtmlDiffer;
 var jsonDiff = require('json-diff');
