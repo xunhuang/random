@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.getDB = void 0;
+exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.getDB = void 0;
 var moment = require("moment");
 var firebase = require("firebase");
 require("firebase/firestore");
@@ -47,17 +47,27 @@ function getDB() {
     return db;
 }
 exports.getDB = getDB;
+function snapshotToArrayData(snapshot) {
+    var result = [];
+    snapshot.forEach(function (childSnapshot) {
+        result.push(childSnapshot.data());
+    });
+    return result;
+}
 // some application semantics 
-function saveInfoAtSystem(tablename, content) {
+function saveInfoAtSystem(tablename, content, timestamp) {
+    if (timestamp === void 0) { timestamp = 0; }
     return __awaiter(this, void 0, void 0, function () {
         var docRef, obj;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     docRef = db.collection(tablename).doc();
+                    timestamp = timestamp ? timestamp : moment().unix();
                     obj = {
                         key: docRef.id,
-                        timestamp: moment().unix(),
+                        timestamp: timestamp,
+                        timestampReadable: moment.unix(timestamp).toString(),
                         data: content,
                     };
                     return [4 /*yield*/, docRef.set(obj).then(function (doc) {
@@ -114,4 +124,20 @@ function getFirstRecord(tablename) {
     });
 }
 exports.getFirstRecord = getFirstRecord;
+function getFullRecords(tablename) {
+    return __awaiter(this, void 0, void 0, function () {
+        var docRef;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    docRef = db.collection(tablename).orderBy("timestamp", "asc");
+                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
+                            return snapshotToArrayData(querySnapshot);
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.getFullRecords = getFullRecords;
 //# sourceMappingURL=CloudDB.js.map

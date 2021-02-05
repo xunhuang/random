@@ -38,23 +38,121 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio = require('cheerio');
 var CloudDB = require("./CloudDB");
-function doit() {
+function doit2() {
     return __awaiter(this, void 0, void 0, function () {
-        var record, dom, data;
+        var targetTable, record, dom, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, CloudDB.getLastRecord("California-Vaccine")];
+                case 0:
+                    targetTable = "County-Vaccine-Data";
+                    return [4 /*yield*/, CloudDB.getLastRecord("California-Vaccine")];
                 case 1:
                     record = _a.sent();
                     dom = cheerio.load(record);
                     data = dom("#counties-vaccination-data").html();
                     console.log(data);
+                    return [4 /*yield*/, CloudDB.saveInfoAtSystem(targetTable, data)];
+                case 2:
+                    _a.sent();
                     console.log("hello!");
                     return [2 /*return*/];
             }
         });
     });
 }
+var CheerioCommand = /** @class */ (function () {
+    function CheerioCommand(cssSelector) {
+        this.cssSelector = cssSelector;
+    }
+    CheerioCommand.prototype.execute = function (input) {
+        var dom = cheerio.load(input);
+        var data = dom(this.cssSelector).html();
+        return data;
+    };
+    return CheerioCommand;
+}());
+var DataMovingJob = /** @class */ (function () {
+    function DataMovingJob(source, dest, commands) {
+        this.sourceTable = source;
+        this.destTable = dest;
+        this.processing = commands;
+    }
+    DataMovingJob.prototype.execute = function (input) {
+        var start = input;
+        var end = undefined;
+        for (var i = 0; i < this.processing.length; i++) {
+            var cmd = this.processing[i];
+            end = cmd.execute(start);
+            start = end;
+        }
+        return end;
+    };
+    return DataMovingJob;
+}());
+;
+var Jobs = [
+    new DataMovingJob("California-Vaccine", "County-Vaccine-Data", [new CheerioCommand("#counties-vaccination-data")])
+];
+function doit() {
+    return __awaiter(this, void 0, void 0, function () {
+        var job1, targetTable, records, _i, records_1, record, data, dom, processed;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    job1 = Jobs[0];
+                    targetTable = "County-Vaccine-Data";
+                    return [4 /*yield*/, CloudDB.getFullRecords("California-Vaccine")];
+                case 1:
+                    records = _a.sent();
+                    _i = 0, records_1 = records;
+                    _a.label = 2;
+                case 2:
+                    if (!(_i < records_1.length)) return [3 /*break*/, 5];
+                    record = records_1[_i];
+                    console.log(record.timestamp);
+                    data = record.data;
+                    dom = cheerio.load(data);
+                    processed = dom("#counties-vaccination-data").html();
+                    return [4 /*yield*/, CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp)];
+                case 3:
+                    _a.sent();
+                    _a.label = 4;
+                case 4:
+                    _i++;
+                    return [3 /*break*/, 2];
+                case 5: 
+                /*
+                let record = await CloudDB.getLastRecord("California-Vaccine");
+                let dom = cheerio.load(record);
+                let data = dom("#counties-vaccination-data").html();
+                console.log(data);
+            
+                await CloudDB.saveInfoAtSystem(targetTable, data);
+            
+                console.log("hello!");
+                */
+                return [2 /*return*/];
+            }
+        });
+    });
+}
+/*
+* The Job (from table to table)
+*     From Table1 --> process ---> Table 2
+*
+*  1 time processing
+*  recurrent processing
+*  catch up processing (in case of error)
+*
+* table to remember whehther an entry has been successfully executed or not.
+* trigger to process...
+
+* Issues:
+  - need to remember which one has been run
+  - Ordering may matter for the data...
+  - framework should carry the timestamp...
+*
+*/
 console.log("hello! 1");
 doit();
 console.log("hello!2 ");

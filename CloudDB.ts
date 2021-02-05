@@ -10,14 +10,31 @@ export function getDB() {
     return db;
 }
 
+
+export type DataRecord = {
+    key: string,
+    timestamp: number,
+    data: string | object,
+};
+
+function snapshotToArrayData(snapshot) {
+    var result = [];
+    snapshot.forEach(function (childSnapshot) {
+        result.push(childSnapshot.data());
+    });
+    return result;
+}
+
 // some application semantics 
-export async function saveInfoAtSystem(tablename: string, content) {
+export async function saveInfoAtSystem(tablename: string, content: string, timestamp: number = 0) {
     let docRef = db.collection(tablename).doc();
+    timestamp = timestamp ? timestamp : moment().unix();
     let obj = {
         key: docRef.id,
-        timestamp: moment().unix(),
+        timestamp: timestamp,
+        timestampReadable: moment.unix(timestamp).toString(),
         data: content,
-    }
+    } as DataRecord;
     await docRef.set(obj).then((doc) => {
     }).catch(err => {
         return null;
@@ -47,4 +64,12 @@ export async function getFirstRecord(tablename: string): Promise<string | object
             });
         });
     return first;
+}
+
+export async function getFullRecords(tablename: string): Promise<DataRecord[]> {
+    var docRef = db.collection(tablename).orderBy("timestamp", "asc");
+    return await docRef.get().then(
+        function (querySnapshot) {
+            return snapshotToArrayData(querySnapshot);
+        });
 }
