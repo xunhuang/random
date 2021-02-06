@@ -306,7 +306,6 @@ function processSubscription(sub) {
                 diff = last.diffContent(content);
             }
             var html = "\n        <html>\n           <body>\n              <h4> Watch URL: " + sub.watchURL + "</h4>\n              " + (diff ? "<h4> Changes:  </h4>\n                       <pre> " + diff + " </pre> " : "") + "\n            <h4>Website Current Content </h4>\n            " + input + "\n            </body>\n        </html>\n            ";
-            console.log(html);
             return html;
         }
         var content, last;
@@ -318,8 +317,6 @@ function processSubscription(sub) {
                     return [4 /*yield*/, sub.getLastRecord()];
                 case 2:
                     last = _a.sent();
-                    console.log(content);
-                    console.log(last);
                     if (!!content.equal(last)) return [3 /*break*/, 10];
                     return [4 /*yield*/, sub.saveRecord(content)];
                 case 3:
@@ -378,7 +375,7 @@ function doit() {
                     if (!sub.ignoreErrors) {
                         errors.push({
                             name: sub.name,
-                            error: errors
+                            error: err_1.toString(),
                         });
                     }
                     console.log(err_1);

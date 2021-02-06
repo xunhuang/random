@@ -282,12 +282,8 @@ async function processSubscription(sub: Subscription) {
         </html>
             `;
 
-        console.log(html);
-
         return html;
     }
-    console.log(content);
-    console.log(last);
 
     if (!content.equal(last)) {
         await sub.saveRecord(content);
@@ -329,7 +325,7 @@ async function doit() {
             if (!sub.ignoreErrors) {
                 errors.push({
                     name: sub.name,
-                    error: errors
+                    error: err.toString(),
                 })
             }
             console.log(err);
