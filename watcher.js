@@ -363,7 +363,7 @@ function doit() {
                     i = 0;
                     _a.label = 1;
                 case 1:
-                    if (!(i < subs.length)) return [3 /*break*/, 7];
+                    if (!(i < subs.length)) return [3 /*break*/, 6];
                     sub = subs[i];
                     _a.label = 2;
                 case 2:
@@ -385,14 +385,13 @@ function doit() {
                     console.log("Error but soldier on....");
                     return [3 /*break*/, 5];
                 case 5:
+                    i++;
+                    return [3 /*break*/, 1];
+                case 6:
                     if (errors) {
                         Email.send(["xhuang@gmail.coom"], errors.length + " from latest run", JSON.stringify(errors, null, 2));
                     }
-                    _a.label = 6;
-                case 6:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 7: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });

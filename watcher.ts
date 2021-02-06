@@ -336,13 +336,13 @@ async function doit() {
             console.log("Error but soldier on....");
         }
 
-        if (errors) {
-            Email.send(
-                ["xhuang@gmail.coom"],
-                `${errors.length} from latest run`,
-                JSON.stringify(errors, null, 2)
-            );
-        }
+    }
+    if (errors) {
+        Email.send(
+            ["xhuang@gmail.coom"],
+            `${errors.length} from latest run`,
+            JSON.stringify(errors, null, 2)
+        );
     }
 }
 
