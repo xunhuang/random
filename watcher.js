@@ -385,7 +385,7 @@ function doit() {
                     i++;
                     return [3 /*break*/, 1];
                 case 6:
-                    if (!errors) return [3 /*break*/, 8];
+                    if (!(errors.length > 0)) return [3 /*break*/, 8];
                     return [4 /*yield*/, Email.send(["xhuang@gmail.coom"], errors.length + " from latest run", JSON.stringify(errors, null, 2))];
                 case 7:
                     _a.sent();

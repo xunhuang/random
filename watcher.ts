@@ -333,7 +333,7 @@ async function doit() {
         }
 
     }
-    if (errors) {
+    if (errors.length > 0) {
         await Email.send(
             ["xhuang@gmail.coom"],
             `${errors.length} from latest run`,
