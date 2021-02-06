@@ -26,7 +26,6 @@
   "homepage": "https://github.com/xunhuang/venueCalendar#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
-    "cheerio-select": "^1.1.0",
     "deep-equal": "^2.0.5",
     "firebase": "^8.2.6",
     "firebase-tools": "^9.3.0",
