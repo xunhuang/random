@@ -87,6 +87,7 @@ type SubscriptionOptions = {
     notifyEvenNothingNew?: boolean,
     storageTableName?: string,
     cssSelect?: string,
+    ignoreErrors?: false,
 }
 
 class Subscription {
@@ -98,6 +99,7 @@ class Subscription {
     customHeaders: object | null = null;
     notifyEvenNothingNew: boolean = false;
     cssSelect: string | null = null;
+    ignoreErrors: boolean = false;
 
     constructor(
         name: string,
@@ -115,6 +117,7 @@ class Subscription {
             if (options.notifyEvenNothingNew) this.notifyEvenNothingNew = options.notifyEvenNothingNew;
             if (options.storageTableName) this.storageTableName = options.storageTableName;
             if (options.cssSelect) this.cssSelect = options.cssSelect;
+            if (options.ignoreErrors) this.ignoreErrors = options.ignoreErrors;
         }
     }
 
@@ -123,15 +126,12 @@ class Subscription {
 
     async fetchContent(): Promise<WebPageContent> {
         let content = await scrape(this.watchURL, this.customHeaders);
-        console.log(content);
         if (this.cssSelect && typeof content == "string") {
-            console.log("doing css select  ***************");
             let dom = cheerio.load(content as string);
             content = dom(this.cssSelect).html();
-            console.log(content);
         }
         if (content === null) {
-            throw ("Scrape content is null")
+            throw ("Scraped content is null")
         }
         return new WebPageContent(content);
     }
@@ -317,15 +317,31 @@ async function processSubscription(sub: Subscription) {
 async function doit() {
     let subs = NewSubscriptions;
     // let subs = NewSubscriptions.slice(0, 1); // first item
-    subs = NewSubscriptions.slice(-1); // last item
+    // subs = NewSubscriptions.slice(-1); // last item
+
+    let errors = [];
     for (let i = 0; i < subs.length; i++) {
+        let sub = subs[i];
         try {
-            let sub = subs[i];
             console.log(sub);
             await processSubscription(sub);
         } catch (err) {
+            if (!sub.ignoreErrors) {
+                errors.push({
+                    name: sub.name,
+                    error: errors
+                })
+            }
             console.log(err);
             console.log("Error but soldier on....");
+        }
+
+        if (errors) {
+            Email.send(
+                ["xhuang@gmail.coom"],
+                `${errors.length} from latest run`,
+                JSON.stringify(errors, null, 2)
+            );
         }
     }
 }

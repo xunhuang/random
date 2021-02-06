@@ -126,6 +126,7 @@ var Subscription = /** @class */ (function () {
         this.customHeaders = null;
         this.notifyEvenNothingNew = false;
         this.cssSelect = null;
+        this.ignoreErrors = false;
         this.name = name;
         this.watchURL = watchURL;
         this.storageTableName = watchURL.replace(/\//g, "_");
@@ -141,6 +142,8 @@ var Subscription = /** @class */ (function () {
                 this.storageTableName = options.storageTableName;
             if (options.cssSelect)
                 this.cssSelect = options.cssSelect;
+            if (options.ignoreErrors)
+                this.ignoreErrors = options.ignoreErrors;
         }
     }
     Subscription.prototype.setStoragePrefix = function (prefix) { this.storageTableName = prefix; };
@@ -153,15 +156,12 @@ var Subscription = /** @class */ (function () {
                     case 0: return [4 /*yield*/, scrape(this.watchURL, this.customHeaders)];
                     case 1:
                         content = _a.sent();
-                        console.log(content);
                         if (this.cssSelect && typeof content == "string") {
-                            console.log("doing css select  ***************");
                             dom = cheerio.load(content);
                             content = dom(this.cssSelect).html();
-                            console.log(content);
                         }
                         if (content === null) {
-                            throw ("Scrape content is null");
+                            throw ("Scraped content is null");
                         }
                         return [2 /*return*/, new WebPageContent(content)];
                 }
@@ -354,21 +354,20 @@ function processSubscription(sub) {
 }
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
-        var subs, i, sub, err_1;
+        var subs, errors, i, sub, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     subs = NewSubscriptions;
-                    // let subs = NewSubscriptions.slice(0, 1); // first item
-                    subs = NewSubscriptions.slice(-1); // last item
+                    errors = [];
                     i = 0;
                     _a.label = 1;
                 case 1:
-                    if (!(i < subs.length)) return [3 /*break*/, 6];
+                    if (!(i < subs.length)) return [3 /*break*/, 7];
+                    sub = subs[i];
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    sub = subs[i];
                     console.log(sub);
                     return [4 /*yield*/, processSubscription(sub)];
                 case 3:
@@ -376,13 +375,24 @@ function doit() {
                     return [3 /*break*/, 5];
                 case 4:
                     err_1 = _a.sent();
+                    if (!sub.ignoreErrors) {
+                        errors.push({
+                            name: sub.name,
+                            error: errors
+                        });
+                    }
                     console.log(err_1);
                     console.log("Error but soldier on....");
                     return [3 /*break*/, 5];
                 case 5:
+                    if (errors) {
+                        Email.send(["xhuang@gmail.coom"], errors.length + " from latest run", JSON.stringify(errors, null, 2));
+                    }
+                    _a.label = 6;
+                case 6:
                     i++;
                     return [3 /*break*/, 1];
-                case 6: return [2 /*return*/];
+                case 7: return [2 /*return*/];
             }
         });
     });
