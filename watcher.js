@@ -160,6 +160,9 @@ var Subscription = /** @class */ (function () {
                             content = dom(this.cssSelect).html();
                             console.log(content);
                         }
+                        if (content === null) {
+                            throw ("Scrape content is null");
+                        }
                         return [2 /*return*/, new WebPageContent(content)];
                 }
             });

@@ -130,6 +130,9 @@ class Subscription {
             content = dom(this.cssSelect).html();
             console.log(content);
         }
+        if (content === null) {
+            throw ("Scrape content is null")
+        }
         return new WebPageContent(content);
     }
 
