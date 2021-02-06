@@ -123,9 +123,12 @@ class Subscription {
 
     async fetchContent(): Promise<WebPageContent> {
         let content = await scrape(this.watchURL, this.customHeaders);
+        console.log(content);
         if (this.cssSelect && typeof content == "string") {
+            console.log("doing css select  ***************");
             let dom = cheerio.load(content as string);
             content = dom(this.cssSelect).html();
+            console.log(content);
         }
         return new WebPageContent(content);
     }

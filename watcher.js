@@ -153,9 +153,12 @@ var Subscription = /** @class */ (function () {
                     case 0: return [4 /*yield*/, scrape(this.watchURL, this.customHeaders)];
                     case 1:
                         content = _a.sent();
+                        console.log(content);
                         if (this.cssSelect && typeof content == "string") {
+                            console.log("doing css select  ***************");
                             dom = cheerio.load(content);
                             content = dom(this.cssSelect).html();
+                            console.log(content);
                         }
                         return [2 /*return*/, new WebPageContent(content)];
                 }
