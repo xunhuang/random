@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isContentTheSame = exports.diffJsonString = exports.diffJsonObjects = exports.diffHtmlPages = void 0;
-var cheerio = require('cheerio-select');
+var cheerio = require('cheerio');
 var equal = require('deep-equal');
 var HtmlDiffer = require('html-differ').HtmlDiffer;
 var jsonDiff = require('json-diff');
@@ -60,7 +60,7 @@ function html2text(html) {
         // .replace(/[ \t]+/g, ' ') // remove white spaces only, not line breaks
         // .replace(/(^[ \t]*\n)/gm, "") // remove empty lines
         .replace(/\s+/g, ' ') // remove white spaces and line breaks
-    ;
+        ;
     return stripped;
 }
 /* return null if two html pages are equal */

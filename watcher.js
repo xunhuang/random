@@ -40,6 +40,7 @@ var superagent = require('superagent');
 var ContentDiffer = require("./ContentDiffer");
 var Email = require("./Email");
 var CloudDB = require("./CloudDB");
+var cheerio = require("cheerio");
 var WebPageContentType;
 (function (WebPageContentType) {
     WebPageContentType[WebPageContentType["UNKNOWN"] = 0] = "UNKNOWN";
@@ -113,6 +114,9 @@ var WebPageContent = /** @class */ (function () {
         }
         return this.contentRaw;
     };
+    WebPageContent.prototype.isNull = function () {
+        return this.contentType === WebPageContentType.NULL;
+    };
     return WebPageContent;
 }());
 var Subscription = /** @class */ (function () {
@@ -121,6 +125,7 @@ var Subscription = /** @class */ (function () {
         this.contentType = "text";
         this.customHeaders = null;
         this.notifyEvenNothingNew = false;
+        this.cssSelect = null;
         this.name = name;
         this.watchURL = watchURL;
         this.storageTableName = watchURL.replace(/\//g, "_");
@@ -134,18 +139,24 @@ var Subscription = /** @class */ (function () {
                 this.notifyEvenNothingNew = options.notifyEvenNothingNew;
             if (options.storageTableName)
                 this.storageTableName = options.storageTableName;
+            if (options.cssSelect)
+                this.cssSelect = options.cssSelect;
         }
     }
     Subscription.prototype.setStoragePrefix = function (prefix) { this.storageTableName = prefix; };
     Subscription.prototype.setCustomHeader = function (headers) { this.customHeaders = headers; };
     Subscription.prototype.fetchContent = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var content;
+            var content, dom;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, scrape(this.watchURL, this.customHeaders)];
                     case 1:
                         content = _a.sent();
+                        if (this.cssSelect && typeof content == "string") {
+                            dom = cheerio.load(content);
+                            content = dom(this.cssSelect).html();
+                        }
                         return [2 /*return*/, new WebPageContent(content)];
                 }
             });
@@ -232,6 +243,7 @@ var NewSubscriptions = [
             'sec-fetch-user': '?1',
             'sec-fetch-dest': 'document'
         },
+        cssSelect: "#dvz-data-cave",
     }),
 ];
 /*
@@ -303,7 +315,7 @@ function processSubscription(sub) {
                     return [4 /*yield*/, sub.saveRecord(content)];
                 case 3:
                     _a.sent();
-                    if (!(last == null)) return [3 /*break*/, 5];
+                    if (!last.isNull) return [3 /*break*/, 5];
                     return [4 /*yield*/, Email.send(sub.emails, sub.name + ": First run ", headers(sub.notificationContent(content, last), content, last))];
                 case 4:
                     _a.sent();
@@ -338,8 +350,6 @@ function doit() {
             switch (_a.label) {
                 case 0:
                     subs = NewSubscriptions;
-                    // let subs = NewSubscriptions.slice(0, 1); // one item
-                    subs = NewSubscriptions.slice(-1); // last item
                     i = 0;
                     _a.label = 1;
                 case 1:

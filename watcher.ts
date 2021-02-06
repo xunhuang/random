@@ -3,6 +3,7 @@ const superagent = require('superagent');
 import * as ContentDiffer from './ContentDiffer';
 import * as Email from './Email';
 import * as CloudDB from './CloudDB';
+import * as cheerio from "cheerio"
 
 enum WebPageContentType {
     UNKNOWN,
@@ -75,6 +76,9 @@ class WebPageContent {
         }
         return this.contentRaw;
     }
+    isNull() {
+        return this.contentType === WebPageContentType.NULL;
+    }
 }
 
 type SubscriptionOptions = {
@@ -82,6 +86,7 @@ type SubscriptionOptions = {
     customHeaders?: object,
     notifyEvenNothingNew?: boolean,
     storageTableName?: string,
+    cssSelect?: string,
 }
 
 class Subscription {
@@ -92,6 +97,7 @@ class Subscription {
     emails: string[];
     customHeaders: object | null = null;
     notifyEvenNothingNew: boolean = false;
+    cssSelect: string | null = null;
 
     constructor(
         name: string,
@@ -108,6 +114,7 @@ class Subscription {
             if (options.customHeaders) this.customHeaders = options.customHeaders;
             if (options.notifyEvenNothingNew) this.notifyEvenNothingNew = options.notifyEvenNothingNew;
             if (options.storageTableName) this.storageTableName = options.storageTableName;
+            if (options.cssSelect) this.cssSelect = options.cssSelect;
         }
     }
 
@@ -116,6 +123,10 @@ class Subscription {
 
     async fetchContent(): Promise<WebPageContent> {
         let content = await scrape(this.watchURL, this.customHeaders);
+        if (this.cssSelect && typeof content == "string") {
+            let dom = cheerio.load(content as string);
+            content = dom(this.cssSelect).html();
+        }
         return new WebPageContent(content);
     }
 
@@ -196,6 +207,7 @@ const NewSubscriptions = [
                 'sec-fetch-user': '?1',
                 'sec-fetch-dest': 'document'
             },
+            cssSelect: "#dvz-data-cave", // extract data out
         }
     ),
 ];
@@ -270,7 +282,7 @@ async function processSubscription(sub: Subscription) {
 
     if (!content.equal(last)) {
         await sub.saveRecord(content);
-        if (last == null) {
+        if (last.isNull) {
             await Email.send(sub.emails, sub.name + ": First run ",
                 headers(sub.notificationContent(content, last), content, last)
             );
@@ -295,8 +307,8 @@ async function processSubscription(sub: Subscription) {
 
 async function doit() {
     let subs = NewSubscriptions;
-    // let subs = NewSubscriptions.slice(0, 1); // one item
-    subs = NewSubscriptions.slice(-1); // last item
+    // let subs = NewSubscriptions.slice(0, 1); // first item
+    // subs = NewSubscriptions.slice(-1); // last item
     for (let i = 0; i < subs.length; i++) {
         try {
             let sub = subs[i];
