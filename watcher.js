@@ -385,10 +385,12 @@ function doit() {
                     i++;
                     return [3 /*break*/, 1];
                 case 6:
-                    if (errors) {
-                        Email.send(["xhuang@gmail.coom"], errors.length + " from latest run", JSON.stringify(errors, null, 2));
-                    }
-                    return [2 /*return*/];
+                    if (!errors) return [3 /*break*/, 8];
+                    return [4 /*yield*/, Email.send(["xhuang@gmail.coom"], errors.length + " from latest run", JSON.stringify(errors, null, 2))];
+                case 7:
+                    _a.sent();
+                    _a.label = 8;
+                case 8: return [2 /*return*/];
             }
         });
     });
