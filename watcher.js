@@ -244,6 +244,7 @@ var NewSubscriptions = [
             'sec-fetch-dest': 'document'
         },
         cssSelect: "#dvz-data-cave",
+        storageTableName: "Bloomberg 2"
     }),
 ];
 /*

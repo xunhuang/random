@@ -208,6 +208,7 @@ const NewSubscriptions = [
                 'sec-fetch-dest': 'document'
             },
             cssSelect: "#dvz-data-cave", // extract data out
+            storageTableName: "Bloomberg 2"
         }
     ),
 ];
