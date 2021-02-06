@@ -312,6 +312,8 @@ function processSubscription(sub) {
                     return [4 /*yield*/, sub.getLastRecord()];
                 case 2:
                     last = _a.sent();
+                    console.log(content);
+                    console.log(last);
                     if (!!content.equal(last)) return [3 /*break*/, 10];
                     return [4 /*yield*/, sub.saveRecord(content)];
                 case 3:
@@ -351,6 +353,8 @@ function doit() {
             switch (_a.label) {
                 case 0:
                     subs = NewSubscriptions;
+                    // let subs = NewSubscriptions.slice(0, 1); // first item
+                    subs = NewSubscriptions.slice(-1); // last item
                     i = 0;
                     _a.label = 1;
                 case 1:

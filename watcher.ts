@@ -280,6 +280,8 @@ async function processSubscription(sub: Subscription) {
 
         return html;
     }
+    console.log(content);
+    console.log(last);
 
     if (!content.equal(last)) {
         await sub.saveRecord(content);
@@ -309,7 +311,7 @@ async function processSubscription(sub: Subscription) {
 async function doit() {
     let subs = NewSubscriptions;
     // let subs = NewSubscriptions.slice(0, 1); // first item
-    // subs = NewSubscriptions.slice(-1); // last item
+    subs = NewSubscriptions.slice(-1); // last item
     for (let i = 0; i < subs.length; i++) {
         try {
             let sub = subs[i];
