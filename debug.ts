@@ -106,6 +106,23 @@ async function doit() {
 *
 */
 console.log("hello! 1");
-doit();
+// doit();
 
-console.log("hello!2 ");
+const jq = require('node-jq')
+
+async function doit3() {
+    const targetTable = "NYS-Covid";
+    let record = await CloudDB.getLastRecord(targetTable);
+    let data = JSON.stringify(record, null, 2);
+
+    return new Promise((resolve, reject) => {
+        jq.run(
+            '.lastUpdated',
+            // '{ "foo": "bar" }',
+            data,
+            { input: 'string' }
+        ).then((x) => { console.log(x); resolve(true); });
+    });
+}
+
+doit3()

@@ -4,6 +4,8 @@ import * as ContentDiffer from './ContentDiffer';
 import * as Email from './Email';
 import * as CloudDB from './CloudDB';
 import * as cheerio from "cheerio"
+var assert = require('assert');
+const jq = require('node-jq');
 
 enum WebPageContentType {
     UNKNOWN,
@@ -79,6 +81,25 @@ class WebPageContent {
     isNull() {
         return this.contentType === WebPageContentType.NULL;
     }
+    cssSelect(query) {
+        assert(this.contentType === WebPageContentType.HTML);
+        let dom = cheerio.load(this.contentRaw);
+        let content = dom(this.cssSelect).html();
+        return new WebPageContent(content);
+    }
+    async jqQuery(query): Promise<WebPageContent> {
+        assert(this.contentType === WebPageContentType.JSON);
+        console.log(this.contentRaw)
+        console.log(query)
+        // query = ".providerList"
+        return new Promise((resolve, reject) => {
+            jq.run(
+                query,
+                this.contentRaw,
+                { input: 'string' }
+            ).then((x) => { resolve(new WebPageContent(x)); });
+        });
+    }
 }
 
 type SubscriptionOptions = {
@@ -87,6 +108,7 @@ type SubscriptionOptions = {
     notifyEvenNothingNew?: boolean,
     storageTableName?: string,
     cssSelect?: string,
+    jqQuery?: string,
     ignoreErrors?: false,
 }
 
@@ -99,6 +121,7 @@ class Subscription {
     customHeaders: object | null = null;
     notifyEvenNothingNew: boolean = false;
     cssSelect: string | null = null;
+    jqQuery: string | null = null;
     ignoreErrors: boolean = false;
 
     constructor(
@@ -117,6 +140,7 @@ class Subscription {
             if (options.notifyEvenNothingNew) this.notifyEvenNothingNew = options.notifyEvenNothingNew;
             if (options.storageTableName) this.storageTableName = options.storageTableName;
             if (options.cssSelect) this.cssSelect = options.cssSelect;
+            if (options.jqQuery) this.jqQuery = options.jqQuery;
             if (options.ignoreErrors) this.ignoreErrors = options.ignoreErrors;
         }
     }
@@ -126,14 +150,18 @@ class Subscription {
 
     async fetchContent(): Promise<WebPageContent> {
         let content = await scrape(this.watchURL, this.customHeaders);
-        if (this.cssSelect && typeof content == "string") {
-            let dom = cheerio.load(content as string);
-            content = dom(this.cssSelect).html();
-        }
         if (content === null) {
             throw ("Scraped content is null")
         }
-        return new WebPageContent(content);
+        let contentWeb = new WebPageContent(content);
+        if (this.cssSelect) {
+            contentWeb = contentWeb.cssSelect(this.cssSelect)
+        }
+        if (this.jqQuery) {
+            contentWeb = await contentWeb.jqQuery(this.jqQuery)
+        }
+        console.log(contentWeb)
+        return contentWeb;
     }
 
     async getLastRecord(): Promise<WebPageContent> {
@@ -165,6 +193,7 @@ const NewSubscriptions = [
         ["xhuang@gmail.com"],
         {
             contentType: "json",
+            jqQuery: ".lastUpdated"
         }
     ),
     new Subscription(
@@ -287,7 +316,7 @@ async function processSubscription(sub: Subscription) {
 
     if (!content.equal(last)) {
         await sub.saveRecord(content);
-        if (last.isNull) {
+        if (last.isNull()) {
             await Email.send(sub.emails, sub.name + ": First run ",
                 headers(sub.notificationContent(content, last), content, last)
             );
@@ -312,7 +341,7 @@ async function processSubscription(sub: Subscription) {
 
 async function doit() {
     let subs = NewSubscriptions;
-    // let subs = NewSubscriptions.slice(0, 1); // first item
+    // subs = NewSubscriptions.slice(0, 1); // first item
     // subs = NewSubscriptions.slice(-1); // last item
 
     let errors = [];

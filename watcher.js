@@ -41,6 +41,8 @@ var ContentDiffer = require("./ContentDiffer");
 var Email = require("./Email");
 var CloudDB = require("./CloudDB");
 var cheerio = require("cheerio");
+var assert = require('assert');
+var jq = require('node-jq');
 var WebPageContentType;
 (function (WebPageContentType) {
     WebPageContentType[WebPageContentType["UNKNOWN"] = 0] = "UNKNOWN";
@@ -117,6 +119,26 @@ var WebPageContent = /** @class */ (function () {
     WebPageContent.prototype.isNull = function () {
         return this.contentType === WebPageContentType.NULL;
     };
+    WebPageContent.prototype.cssSelect = function (query) {
+        assert(this.contentType === WebPageContentType.HTML);
+        var dom = cheerio.load(this.contentRaw);
+        var content = dom(this.cssSelect).html();
+        return new WebPageContent(content);
+    };
+    WebPageContent.prototype.jqQuery = function (query) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                assert(this.contentType === WebPageContentType.JSON);
+                console.log(this.contentRaw);
+                console.log(query);
+                // query = ".providerList"
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        jq.run(query, _this.contentRaw, { input: 'string' }).then(function (x) { resolve(new WebPageContent(x)); });
+                    })];
+            });
+        });
+    };
     return WebPageContent;
 }());
 var Subscription = /** @class */ (function () {
@@ -126,6 +148,7 @@ var Subscription = /** @class */ (function () {
         this.customHeaders = null;
         this.notifyEvenNothingNew = false;
         this.cssSelect = null;
+        this.jqQuery = null;
         this.ignoreErrors = false;
         this.name = name;
         this.watchURL = watchURL;
@@ -142,6 +165,8 @@ var Subscription = /** @class */ (function () {
                 this.storageTableName = options.storageTableName;
             if (options.cssSelect)
                 this.cssSelect = options.cssSelect;
+            if (options.jqQuery)
+                this.jqQuery = options.jqQuery;
             if (options.ignoreErrors)
                 this.ignoreErrors = options.ignoreErrors;
         }
@@ -150,20 +175,27 @@ var Subscription = /** @class */ (function () {
     Subscription.prototype.setCustomHeader = function (headers) { this.customHeaders = headers; };
     Subscription.prototype.fetchContent = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var content, dom;
+            var content, contentWeb;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, scrape(this.watchURL, this.customHeaders)];
                     case 1:
                         content = _a.sent();
-                        if (this.cssSelect && typeof content == "string") {
-                            dom = cheerio.load(content);
-                            content = dom(this.cssSelect).html();
-                        }
                         if (content === null) {
                             throw ("Scraped content is null");
                         }
-                        return [2 /*return*/, new WebPageContent(content)];
+                        contentWeb = new WebPageContent(content);
+                        if (this.cssSelect) {
+                            contentWeb = contentWeb.cssSelect(this.cssSelect);
+                        }
+                        if (!this.jqQuery) return [3 /*break*/, 3];
+                        return [4 /*yield*/, contentWeb.jqQuery(this.jqQuery)];
+                    case 2:
+                        contentWeb = _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        console.log(contentWeb);
+                        return [2 /*return*/, contentWeb];
                 }
             });
         });
@@ -220,6 +252,7 @@ var Subscription = /** @class */ (function () {
 var NewSubscriptions = [
     new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["xhuang@gmail.com"], {
         contentType: "json",
+        jqQuery: ".lastUpdated"
     }),
     new Subscription("Stanford Hospital", "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html", ["xhuang@gmail.com"]),
     // new Subscription(
@@ -356,6 +389,7 @@ function doit() {
             switch (_a.label) {
                 case 0:
                     subs = NewSubscriptions;
+                    subs = NewSubscriptions.slice(0, 1); // first item
                     errors = [];
                     i = 0;
                     _a.label = 1;

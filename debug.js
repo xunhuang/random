@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.jqexec = void 0;
 var cheerio = require('cheerio');
 var CloudDB = require("./CloudDB");
 function doit2() {
@@ -154,6 +155,59 @@ function doit() {
 *
 */
 console.log("hello! 1");
-doit();
-console.log("hello!2 ");
+// doit();
+var jq = require('node-jq');
+function doit3() {
+    return __awaiter(this, void 0, void 0, function () {
+        var targetTable, record, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    targetTable = "NYS-Covid";
+                    return [4 /*yield*/, CloudDB.getLastRecord(targetTable)];
+                case 1:
+                    record = _a.sent();
+                    data = JSON.stringify(record, null, 2);
+                    return [2 /*return*/, new Promise(function (resolve, reject) {
+                            jq.run('.lastUpdated', 
+                            // '{ "foo": "bar" }',
+                            data, { input: 'string' }).then(function (x) { console.log(x); resolve(true); });
+                        })];
+            }
+        });
+    });
+}
+function jqexec(emails, subject, html) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) {
+                    var transporter = nodemailer.createTransport({
+                        service: 'Gmail',
+                        auth: {
+                            user: 'yumyumlifemailer@gmail.com',
+                            pass: process.env.MAILER_PASSWORD
+                        }
+                    });
+                    var mailOptions = {
+                        from: 'Yum Yum <yumyumlifemailer@gmail.com>',
+                        to: emails.join(","),
+                        subject: subject,
+                        html: html
+                    };
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.log("error is " + error);
+                            resolve(false); // or use rejcet(false) but then you will have to handle errors
+                        }
+                        else {
+                            console.log('Email sent: ' + info.response);
+                            resolve(true);
+                        }
+                    });
+                })];
+        });
+    });
+}
+exports.jqexec = jqexec;
+doit3();
 //# sourceMappingURL=debug.js.map
