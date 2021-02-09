@@ -36,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jqexec = void 0;
 var cheerio = require('cheerio');
 var CloudDB = require("./CloudDB");
 function doit2() {
@@ -94,45 +93,65 @@ var DataMovingJob = /** @class */ (function () {
 var Jobs = [
     new DataMovingJob("California-Vaccine", "County-Vaccine-Data", [new CheerioCommand("#counties-vaccination-data")])
 ];
+var JobExecStatus = {
+    UNKNOWN: "pending",
+    SUCCESS: "success",
+    FAIL: "failed",
+};
+function fetchSuccessfulJobs(tablename) {
+    return __awaiter(this, void 0, void 0, function () {
+        var jobStatusTable, successIds, key;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, CloudDB.getJobStatusTable(tablename)];
+                case 1:
+                    jobStatusTable = _a.sent();
+                    successIds = [];
+                    for (key in jobStatusTable) {
+                        if (jobStatusTable[key] === JobExecStatus.SUCCESS) {
+                            successIds.push(key);
+                        }
+                    }
+                    return [2 /*return*/, successIds];
+            }
+        });
+    });
+}
+function fetchUnfinishedJobs(tablename, njobs) {
+    if (njobs === void 0) { njobs = 3; }
+    return __awaiter(this, void 0, void 0, function () {
+        var successIds;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetchSuccessfulJobs(tablename)];
+                case 1:
+                    successIds = _a.sent();
+                    return [4 /*yield*/, CloudDB.fetchUnfinishedJobs(tablename, successIds, njobs)];
+                case 2: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
-        var job1, targetTable, records, _i, records_1, record, data, dom, processed;
+        var targetTable, records, _i, records_1, record;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    job1 = Jobs[0];
                     targetTable = "County-Vaccine-Data";
-                    return [4 /*yield*/, CloudDB.getFullRecords("California-Vaccine")];
+                    return [4 /*yield*/, fetchUnfinishedJobs("California-Vaccine")];
                 case 1:
                     records = _a.sent();
-                    _i = 0, records_1 = records;
-                    _a.label = 2;
-                case 2:
-                    if (!(_i < records_1.length)) return [3 /*break*/, 5];
-                    record = records_1[_i];
-                    console.log(record.timestamp);
-                    data = record.data;
-                    dom = cheerio.load(data);
-                    processed = dom("#counties-vaccination-data").html();
-                    return [4 /*yield*/, CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp)];
-                case 3:
-                    _a.sent();
-                    _a.label = 4;
-                case 4:
-                    _i++;
-                    return [3 /*break*/, 2];
-                case 5: 
-                /*
-                let record = await CloudDB.getLastRecord("California-Vaccine");
-                let dom = cheerio.load(record);
-                let data = dom("#counties-vaccination-data").html();
-                console.log(data);
-            
-                await CloudDB.saveInfoAtSystem(targetTable, data);
-            
-                console.log("hello!");
-                */
-                return [2 /*return*/];
+                    for (_i = 0, records_1 = records; _i < records_1.length; _i++) {
+                        record = records_1[_i];
+                        console.log("skipping work:", record.key);
+                        // console.log(record.timestamp);
+                        // let data = record.data;
+                        // let dom = cheerio.load(data);
+                        // let processed = dom("#counties-vaccination-data").html();
+                        // await CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp);
+                    }
+                    return [2 /*return*/];
             }
         });
     });
@@ -154,60 +173,5 @@ function doit() {
   - framework should carry the timestamp...
 *
 */
-console.log("hello! 1");
-// doit();
-var jq = require('node-jq');
-function doit3() {
-    return __awaiter(this, void 0, void 0, function () {
-        var targetTable, record, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    targetTable = "NYS-Covid";
-                    return [4 /*yield*/, CloudDB.getLastRecord(targetTable)];
-                case 1:
-                    record = _a.sent();
-                    data = JSON.stringify(record, null, 2);
-                    return [2 /*return*/, new Promise(function (resolve, reject) {
-                            jq.run('.lastUpdated', 
-                            // '{ "foo": "bar" }',
-                            data, { input: 'string' }).then(function (x) { console.log(x); resolve(true); });
-                        })];
-            }
-        });
-    });
-}
-function jqexec(emails, subject, html) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var transporter = nodemailer.createTransport({
-                        service: 'Gmail',
-                        auth: {
-                            user: 'yumyumlifemailer@gmail.com',
-                            pass: process.env.MAILER_PASSWORD
-                        }
-                    });
-                    var mailOptions = {
-                        from: 'Yum Yum <yumyumlifemailer@gmail.com>',
-                        to: emails.join(","),
-                        subject: subject,
-                        html: html
-                    };
-                    transporter.sendMail(mailOptions, function (error, info) {
-                        if (error) {
-                            console.log("error is " + error);
-                            resolve(false); // or use rejcet(false) but then you will have to handle errors
-                        }
-                        else {
-                            console.log('Email sent: ' + info.response);
-                            resolve(true);
-                        }
-                    });
-                })];
-        });
-    });
-}
-exports.jqexec = jqexec;
-doit3();
+doit();
 //# sourceMappingURL=debug.js.map

@@ -252,21 +252,25 @@ var Subscription = /** @class */ (function () {
 var NewSubscriptions = [
     new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["xhuang@gmail.com"], {
         contentType: "json",
-        jqQuery: ".lastUpdated"
+        jqQuery: ".providerList",
+        storageTableName: "NYC-Vaccines",
     }),
-    new Subscription("Stanford Hospital", "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html", ["xhuang@gmail.com"]),
+    new Subscription("Stanford Hospital", "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html", ["xhuang@gmail.com"], {
+        storageTableName: "Stanford-Vaccine",
+    }),
     // new Subscription(
     //     "Hacker News",
     //     "https://news.ycombinator.com",
     //     ["xhuang@gmail.com"],
     // ),
     new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
-        storageTableName: "California-Vaccine"
+        storageTableName: "California-Vaccine 2"
     }),
     new Subscription("Alameda County Vaccine Hospital", "https://covid-19.acgov.org/vaccines", ["xhuang@gmail.com"], {
         customHeaders: {
             'user-agent': 'curl/7.64.1',
         },
+        storageTableName: "Alameda-Vaccine 2"
     }),
     new Subscription("Bloomberg Vaccine Data", "https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/", ["xhuang@gmail.com"], {
         customHeaders: {
@@ -283,7 +287,7 @@ var NewSubscriptions = [
             'sec-fetch-dest': 'document'
         },
         cssSelect: "#dvz-data-cave",
-        storageTableName: "Bloomberg 2"
+        storageTableName: "Bloomberg 3"
     }),
 ];
 /*
@@ -354,7 +358,7 @@ function processSubscription(sub) {
                     return [4 /*yield*/, sub.saveRecord(content)];
                 case 3:
                     _a.sent();
-                    if (!last.isNull) return [3 /*break*/, 5];
+                    if (!last.isNull()) return [3 /*break*/, 5];
                     return [4 /*yield*/, Email.send(sub.emails, sub.name + ": First run ", headers(sub.notificationContent(content, last), content, last))];
                 case 4:
                     _a.sent();
@@ -389,7 +393,6 @@ function doit() {
             switch (_a.label) {
                 case 0:
                     subs = NewSubscriptions;
-                    subs = NewSubscriptions.slice(0, 1); // first item
                     errors = [];
                     i = 0;
                     _a.label = 1;

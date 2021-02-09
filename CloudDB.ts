@@ -1,6 +1,12 @@
 import * as moment from 'moment';
+
+global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
+
 const firebase = require("firebase");
 require("firebase/firestore");
+require("firebase/storage");
+const cryptojs = require("crypto-js");
+
 const firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
 
@@ -10,11 +16,16 @@ export function getDB() {
     return db;
 }
 
+export function getStorageRef(): object {
+    return firebase.storage().ref();
+}
 
 export type DataRecord = {
     key: string,
     timestamp: number,
-    data: string | object,
+    timestampReadable: string,
+    dataUrl: string,
+    dataMd5: string,
 };
 
 function snapshotToArrayData(snapshot) {
@@ -25,20 +36,32 @@ function snapshotToArrayData(snapshot) {
     return result;
 }
 
+
+const StorageRootDirectory = "WatchStorage";
+
+async function storeStringAsBlob(tablename: string, dockey: string, content: string): Promise<string> {
+    var ref = getStorageRef().child(`${StorageRootDirectory}/${tablename}/${dockey}.txt`);
+    // Raw string is the default if no format is provided
+    await ref.putString(content)
+    return await ref.getDownloadURL();
+}
+
 // some application semantics 
 export async function saveInfoAtSystem(tablename: string, content: string, timestamp: number = 0) {
     let docRef = db.collection(tablename).doc();
+
+    let url = await storeStringAsBlob(tablename, docRef.id, content);
+
     timestamp = timestamp ? timestamp : moment().unix();
     let obj = {
         key: docRef.id,
         timestamp: timestamp,
         timestampReadable: moment.unix(timestamp).toString(),
-        data: content,
+        dataUrl: url,
+        dataMd5: cryptojs.MD5("Test").toString(),
     } as DataRecord;
-    await docRef.set(obj).then((doc) => {
-    }).catch(err => {
-        return null;
-    });
+
+    await docRef.set(obj);
     return obj;
 }
 
@@ -68,6 +91,37 @@ export async function getFirstRecord(tablename: string): Promise<string | object
 
 export async function getFullRecords(tablename: string): Promise<DataRecord[]> {
     var docRef = db.collection(tablename).orderBy("timestamp", "asc");
+    return await docRef.get().then(
+        function (querySnapshot) {
+            return snapshotToArrayData(querySnapshot);
+        });
+}
+
+export async function getJobStatusTable(jobDescriptionID: string): Promise<string[]> {
+    var docRef = db.collection("JobStatus").doc(jobDescriptionID);
+    return await docRef.get().then(
+        function (doc) {
+            console.log(doc.data());
+            return doc.data() || {};
+        });
+}
+export async function saveJobStatusTable(tablename: string, jobstatus: object) {
+    let docRef = db.collection("JobStatus").doc(tablename);
+    await docRef.set(jobstatus).then((doc) => {
+
+    }).catch(err => {
+        return null;
+    });
+    return true;
+}
+
+export async function fetchUnfinishedJobs(tablename: string,
+    skips: string[],
+    njobs: number = 3) {
+    var docRef = db.collection(tablename)
+        .orderBy("timestamp", "asc")
+        .where("key", "not-in", skips)
+        .limit(njobs);
     return await docRef.get().then(
         function (querySnapshot) {
             return snapshotToArrayData(querySnapshot);

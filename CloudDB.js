@@ -36,10 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.getDB = void 0;
+exports.fetchUnfinishedJobs = exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.getStorageRef = exports.getDB = void 0;
 var moment = require("moment");
+global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 var firebase = require("firebase");
 require("firebase/firestore");
+require("firebase/storage");
+var cryptojs = require("crypto-js");
 var firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
@@ -47,6 +50,10 @@ function getDB() {
     return db;
 }
 exports.getDB = getDB;
+function getStorageRef() {
+    return firebase.storage().ref();
+}
+exports.getStorageRef = getStorageRef;
 function snapshotToArrayData(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
@@ -54,27 +61,47 @@ function snapshotToArrayData(snapshot) {
     });
     return result;
 }
+var StorageRootDirectory = "WatchStorage";
+function storeStringAsBlob(tablename, dockey, content) {
+    return __awaiter(this, void 0, void 0, function () {
+        var ref;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    ref = getStorageRef().child(StorageRootDirectory + "/" + tablename + "/" + dockey + ".txt");
+                    // Raw string is the default if no format is provided
+                    return [4 /*yield*/, ref.putString(content)];
+                case 1:
+                    // Raw string is the default if no format is provided
+                    _a.sent();
+                    return [4 /*yield*/, ref.getDownloadURL()];
+                case 2: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
 // some application semantics 
 function saveInfoAtSystem(tablename, content, timestamp) {
     if (timestamp === void 0) { timestamp = 0; }
     return __awaiter(this, void 0, void 0, function () {
-        var docRef, obj;
+        var docRef, url, obj;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     docRef = db.collection(tablename).doc();
+                    return [4 /*yield*/, storeStringAsBlob(tablename, docRef.id, content)];
+                case 1:
+                    url = _a.sent();
                     timestamp = timestamp ? timestamp : moment().unix();
                     obj = {
                         key: docRef.id,
                         timestamp: timestamp,
                         timestampReadable: moment.unix(timestamp).toString(),
-                        data: content,
+                        dataUrl: url,
+                        dataMd5: cryptojs.MD5("Test").toString(),
                     };
-                    return [4 /*yield*/, docRef.set(obj).then(function (doc) {
-                        }).catch(function (err) {
-                            return null;
-                        })];
-                case 1:
+                    return [4 /*yield*/, docRef.set(obj)];
+                case 2:
                     _a.sent();
                     return [2 /*return*/, obj];
             }
@@ -140,4 +167,60 @@ function getFullRecords(tablename) {
     });
 }
 exports.getFullRecords = getFullRecords;
+function getJobStatusTable(jobDescriptionID) {
+    return __awaiter(this, void 0, void 0, function () {
+        var docRef;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    docRef = db.collection("JobStatus").doc(jobDescriptionID);
+                    return [4 /*yield*/, docRef.get().then(function (doc) {
+                            console.log(doc.data());
+                            return doc.data() || {};
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.getJobStatusTable = getJobStatusTable;
+function saveJobStatusTable(tablename, jobstatus) {
+    return __awaiter(this, void 0, void 0, function () {
+        var docRef;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    docRef = db.collection("JobStatus").doc(tablename);
+                    return [4 /*yield*/, docRef.set(jobstatus).then(function (doc) {
+                        }).catch(function (err) {
+                            return null;
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/, true];
+            }
+        });
+    });
+}
+exports.saveJobStatusTable = saveJobStatusTable;
+function fetchUnfinishedJobs(tablename, skips, njobs) {
+    if (njobs === void 0) { njobs = 3; }
+    return __awaiter(this, void 0, void 0, function () {
+        var docRef;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    docRef = db.collection(tablename)
+                        .orderBy("timestamp", "asc")
+                        .where("key", "not-in", skips)
+                        .limit(njobs);
+                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
+                            return snapshotToArrayData(querySnapshot);
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.fetchUnfinishedJobs = fetchUnfinishedJobs;
 //# sourceMappingURL=CloudDB.js.map

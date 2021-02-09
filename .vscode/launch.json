@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "t2 run",
+            "program": "${workspaceFolder}/t2.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Run basic tester",
             "program": "${workspaceFolder}/debug.js",
             "request": "launch",

@@ -25,9 +25,12 @@
   "license": "ISC",
   "homepage": "https://github.com/xunhuang/venueCalendar#readme",
   "dependencies": {
+    "@google-cloud/storage": "^5.7.4",
     "cheerio": "^1.0.0-rc.5",
+    "crypto-js": "^4.0.0",
     "deep-equal": "^2.0.5",
     "firebase": "^8.2.6",
+    "firebase-admin": "^9.4.2",
     "firebase-tools": "^9.3.0",
     "gh-pages": "^3.1.0",
     "html-differ": "^1.4.0",
@@ -38,7 +41,8 @@
     "node-jq": "^1.12.0",
     "nodemailer": "^6.4.17",
     "superagent": "^5.3.1",
-    "urlparse": "0.0.1"
+    "urlparse": "0.0.1",
+    "xhr2": "^0.2.0"
   },
   "devDependencies": {
     "typescript": "^4.1.3"

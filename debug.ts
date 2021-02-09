@@ -60,32 +60,42 @@ const Jobs = [
     )
 ]
 
-async function doit() {
-    let job1 = Jobs[0];
+const JobExecStatus = {
+    UNKNOWN: "pending",
+    SUCCESS: "success",
+    FAIL: "failed",
+}
 
+async function fetchSuccessfulJobs(tablename: string): Promise<string[]> {
+    let jobStatusTable = await CloudDB.getJobStatusTable(tablename);
+
+    let successIds = [];
+    for (const key in jobStatusTable) {
+        if (jobStatusTable[key] === JobExecStatus.SUCCESS) {
+            successIds.push(key);
+        }
+    }
+    return successIds;
+}
+
+async function fetchUnfinishedJobs(tablename: string, njobs: number = 3) {
+    let successIds = await fetchSuccessfulJobs(tablename);
+    return await CloudDB.fetchUnfinishedJobs(tablename, successIds, njobs);
+}
+
+async function doit() {
     const targetTable = "County-Vaccine-Data";
-    let records = await CloudDB.getFullRecords("California-Vaccine");
+    let records = await fetchUnfinishedJobs("California-Vaccine");
 
     for (const record of records) {
-        console.log(record.timestamp);
-        let data = record.data;
-        let dom = cheerio.load(data);
-        let processed = dom("#counties-vaccination-data").html();
-
-        await CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp);
+        console.log("skipping work:", record.key);
+        // console.log(record.timestamp);
+        // let data = record.data;
+        // let dom = cheerio.load(data);
+        // let processed = dom("#counties-vaccination-data").html();
+        // await CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp);
     }
-
-    /*
-    let record = await CloudDB.getLastRecord("California-Vaccine");
-    let dom = cheerio.load(record);
-    let data = dom("#counties-vaccination-data").html();
-    console.log(data);
-
-    await CloudDB.saveInfoAtSystem(targetTable, data);
-
-    console.log("hello!");
-    */
-    return;
+    // await CloudDB.saveJobStatusTable("California-Vaccine", jobStatusTable);
 }
 
 /*
@@ -105,24 +115,6 @@ async function doit() {
   - framework should carry the timestamp...
 *
 */
-console.log("hello! 1");
-// doit();
 
-const jq = require('node-jq')
 
-async function doit3() {
-    const targetTable = "NYS-Covid";
-    let record = await CloudDB.getLastRecord(targetTable);
-    let data = JSON.stringify(record, null, 2);
-
-    return new Promise((resolve, reject) => {
-        jq.run(
-            '.lastUpdated',
-            // '{ "foo": "bar" }',
-            data,
-            { input: 'string' }
-        ).then((x) => { console.log(x); resolve(true); });
-    });
-}
-
-doit3()
+doit()

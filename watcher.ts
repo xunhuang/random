@@ -193,13 +193,17 @@ const NewSubscriptions = [
         ["xhuang@gmail.com"],
         {
             contentType: "json",
-            jqQuery: ".lastUpdated"
+            jqQuery: ".providerList",
+            storageTableName: "NYC-Vaccines",
         }
     ),
     new Subscription(
         "Stanford Hospital",
         "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
         ["xhuang@gmail.com"],
+        {
+            storageTableName: "Stanford-Vaccine",
+        }
     ),
     // new Subscription(
     //     "Hacker News",
@@ -211,7 +215,7 @@ const NewSubscriptions = [
         "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
         ["xhuang@gmail.com"],
         {
-            storageTableName: "California-Vaccine"
+            storageTableName: "California-Vaccine 2"
         }
     ),
     new Subscription(
@@ -222,6 +226,7 @@ const NewSubscriptions = [
             customHeaders: {
                 'user-agent': 'curl/7.64.1',
             },
+            storageTableName: "Alameda-Vaccine 2"
         }
     ),
     new Subscription(
@@ -243,7 +248,7 @@ const NewSubscriptions = [
                 'sec-fetch-dest': 'document'
             },
             cssSelect: "#dvz-data-cave", // extract data out
-            storageTableName: "Bloomberg 2"
+            storageTableName: "Bloomberg 3"
         }
     ),
 ];
