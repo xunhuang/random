@@ -206,7 +206,6 @@ function getJobStatusTable(jobDescriptionID) {
                 case 0:
                     docRef = db.collection("JobStatus").doc(jobDescriptionID);
                     return [4 /*yield*/, docRef.get().then(function (doc) {
-                            console.log(doc.data());
                             return doc.data() || {};
                         })];
                 case 1: return [2 /*return*/, _a.sent()];
@@ -222,7 +221,7 @@ function saveJobStatusTable(tablename, jobstatus) {
             switch (_a.label) {
                 case 0:
                     docRef = db.collection("JobStatus").doc(tablename);
-                    return [4 /*yield*/, docRef.set(jobstatus).then(function (doc) {
+                    return [4 /*yield*/, docRef.update(jobstatus).then(function (doc) {
                         }).catch(function (err) {
                             return null;
                         })];

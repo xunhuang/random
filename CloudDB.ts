@@ -112,13 +112,12 @@ export async function getJobStatusTable(jobDescriptionID: string): Promise<strin
     var docRef = db.collection("JobStatus").doc(jobDescriptionID);
     return await docRef.get().then(
         function (doc) {
-            console.log(doc.data());
             return doc.data() || {};
         });
 }
 export async function saveJobStatusTable(tablename: string, jobstatus: object) {
     let docRef = db.collection("JobStatus").doc(tablename);
-    await docRef.set(jobstatus).then((doc) => {
+    await docRef.update(jobstatus).then((doc) => {
 
     }).catch(err => {
         return null;

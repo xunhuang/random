@@ -78,24 +78,43 @@ async function fetchSuccessfulJobs(tablename: string): Promise<string[]> {
     return successIds;
 }
 
-async function fetchUnfinishedJobs(tablename: string, njobs: number = 3) {
+async function fetchUnfinishedJobs(tablename: string, njobs: number = 3): Promise<CloudDB.DataRecord[]> {
     let successIds = await fetchSuccessfulJobs(tablename);
-    return await CloudDB.fetchUnfinishedJobs(tablename, successIds, njobs);
+    let allJobs = await CloudDB.getFullRecords(tablename);
+    var successIdsMap = successIds.reduce(function (map, obj) {
+        map[obj] = true;
+        return map;
+    }, {});
+
+    let unfinished = [];
+    for (const job of allJobs) {
+        if (!successIdsMap[job.key]) {
+            unfinished.push(job);
+        }
+    }
+
+    return unfinished;
 }
 
 async function doit() {
-    const targetTable = "County-Vaccine-Data";
-    let records = await fetchUnfinishedJobs("California-Vaccine");
+    const targetTable = "California-Vaccine 2";
+    let records = await fetchUnfinishedJobs(targetTable);
 
+    let jobStatusTable = {};
     for (const record of records) {
         console.log("skipping work:", record.key);
+        jobStatusTable[record.key] = JobExecStatus.SUCCESS;
         // console.log(record.timestamp);
         // let data = record.data;
         // let dom = cheerio.load(data);
         // let processed = dom("#counties-vaccination-data").html();
         // await CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp);
     }
-    // await CloudDB.saveJobStatusTable("California-Vaccine", jobStatusTable);
+    if (Object.entries(jobStatusTable).length > 0) {
+        await CloudDB.saveJobStatusTable(targetTable, jobStatusTable);
+    } else {
+        console.log("nothing to update");
+    }
 }
 
 /*
