@@ -1,10 +1,10 @@
 import * as moment from 'moment';
+import * as StorageType from "@firebase/storage-types";
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 
 require("@firebase/firestore");
 require("@firebase/storage");
-require("@firebase/storage-types");
 const firebase = require("firebase");
 const cryptojs = require("crypto-js");
 
@@ -17,7 +17,7 @@ export function getDB() {
     return db;
 }
 
-export function getStorageRef() {
+export function getStorageRef(): StorageType.Reference {
     return firebase.storage.ref();
 }
 

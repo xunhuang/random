@@ -41,7 +41,6 @@ var moment = require("moment");
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 require("@firebase/firestore");
 require("@firebase/storage");
-require("@firebase/storage-types");
 var firebase = require("firebase");
 var cryptojs = require("crypto-js");
 var firebaseConfig = require('./.firebaseConfig.json');
