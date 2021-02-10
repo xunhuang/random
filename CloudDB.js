@@ -51,7 +51,7 @@ function getDB() {
 }
 exports.getDB = getDB;
 function getStorageRef() {
-    return firebase.storage.ref();
+    return firebase.storage().ref();
 }
 exports.getStorageRef = getStorageRef;
 function snapshotToArrayData(snapshot) {

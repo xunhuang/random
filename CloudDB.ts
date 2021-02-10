@@ -18,7 +18,7 @@ export function getDB() {
 }
 
 export function getStorageRef(): StorageType.Reference {
-    return firebase.storage.ref();
+    return firebase.storage().ref();
 }
 
 export type DataRecord = {
