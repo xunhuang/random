@@ -2,9 +2,10 @@ import * as moment from 'moment';
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 
+require("@firebase/firestore");
+require("@firebase/storage");
+require("@firebase/storage-types");
 const firebase = require("firebase");
-require("firebase/firestore");
-require("firebase/storage");
 const cryptojs = require("crypto-js");
 
 const firebaseConfig = require('./.firebaseConfig.json');
@@ -16,8 +17,8 @@ export function getDB() {
     return db;
 }
 
-export function getStorageRef(): object {
-    return firebase.storage().ref();
+export function getStorageRef() {
+    return firebase.storage.ref();
 }
 
 export type DataRecord = {

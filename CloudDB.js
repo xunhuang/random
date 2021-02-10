@@ -39,9 +39,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchUnfinishedJobs = exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.getStorageRef = exports.getDB = void 0;
 var moment = require("moment");
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
+require("@firebase/firestore");
+require("@firebase/storage");
+require("@firebase/storage-types");
 var firebase = require("firebase");
-require("firebase/firestore");
-require("firebase/storage");
 var cryptojs = require("crypto-js");
 var firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
@@ -51,7 +52,7 @@ function getDB() {
 }
 exports.getDB = getDB;
 function getStorageRef() {
-    return firebase.storage().ref();
+    return firebase.storage.ref();
 }
 exports.getStorageRef = getStorageRef;
 function snapshotToArrayData(snapshot) {
