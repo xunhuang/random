@@ -114,13 +114,11 @@ function fetch(url) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    console.log(url);
-                    return [4 /*yield*/, superagent.get(url)
-                            .buffer(true) // this is due to google url returns application/oct stream.
-                            .then(function (res) {
-                            return res.body.toString();
-                        })];
+                case 0: return [4 /*yield*/, superagent.get(url)
+                        .buffer(true) // this is due to google url returns application/oct stream.
+                        .then(function (res) {
+                        return res.body.toString();
+                    })];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });
@@ -157,20 +155,28 @@ function getLastRecord(tablename) {
 exports.getLastRecord = getLastRecord;
 function getFirstRecord(tablename) {
     return __awaiter(this, void 0, void 0, function () {
-        var docRef, first;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var docRef, dataUrl, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
-                    first = null;
+                    dataUrl = null;
                     return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
                             querySnapshot.forEach(function (doc) {
-                                first = doc.data().data;
+                                dataUrl = doc.data().dataUrl;
                             });
                         })];
                 case 1:
-                    _a.sent();
-                    return [2 /*return*/, first];
+                    _b.sent();
+                    if (!(dataUrl)) return [3 /*break*/, 3];
+                    return [4 /*yield*/, fetch(dataUrl)];
+                case 2:
+                    _a = _b.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    _a = null;
+                    _b.label = 4;
+                case 4: return [2 /*return*/, _a];
             }
         });
     });

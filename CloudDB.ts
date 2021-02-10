@@ -68,7 +68,6 @@ export async function saveInfoAtSystem(tablename: string, content: string, times
 }
 
 async function fetch(url: string): Promise<string> {
-    console.log(url);
     return await superagent.get(url)
         .buffer(true) // this is due to google url returns application/oct stream.
         .then(res => {
@@ -91,14 +90,14 @@ export async function getLastRecord(tablename: string): Promise<string | object 
 
 export async function getFirstRecord(tablename: string): Promise<string | object | null> {
     var docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
-    var first = null;
+    var dataUrl = null;
     await docRef.get().then(
         function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
-                first = doc.data().data;
+                dataUrl = doc.data().dataUrl;
             });
         });
-    return first;
+    return (dataUrl) ? await fetch(dataUrl) : null;
 }
 
 export async function getFullRecords(tablename: string): Promise<DataRecord[]> {

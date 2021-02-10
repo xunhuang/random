@@ -89,9 +89,6 @@ class WebPageContent {
     }
     async jqQuery(query): Promise<WebPageContent> {
         assert(this.contentType === WebPageContentType.JSON);
-        console.log(this.contentRaw)
-        console.log(query)
-        // query = ".providerList"
         return new Promise((resolve, reject) => {
             jq.run(
                 query,
@@ -160,7 +157,6 @@ class Subscription {
         if (this.jqQuery) {
             contentWeb = await contentWeb.jqQuery(this.jqQuery)
         }
-        console.log(contentWeb)
         return contentWeb;
     }
 
@@ -205,11 +201,6 @@ const NewSubscriptions = [
             storageTableName: "Stanford-Vaccine",
         }
     ),
-    // new Subscription(
-    //     "Hacker News",
-    //     "https://news.ycombinator.com",
-    //     ["xhuang@gmail.com"],
-    // ),
     new Subscription(
         "LA Times Vaccine Info",
         "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
@@ -230,29 +221,30 @@ const NewSubscriptions = [
         }
     ),
     new Subscription(
-        "Bloomberg Vaccine Data",
-        "https://www.bloomberg.com/graphics/covid-vaccine-tracker-global-distribution/",
+        "CDC State Vaccination Data",
+        "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data",
         ["xhuang@gmail.com"],
         {
-            customHeaders: {
-                'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
-                'authority': 'www.bloomberg.com',
-                'cache-control': 'max-age=0',
-                'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
-                'sec-ch-ua-mobile': '?0',
-                'upgrade-insecure-requests': '1',
-                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-                'sec-fetch-site': 'none',
-                'sec-fetch-mode': 'navigate',
-                'sec-fetch-user': '?1',
-                'sec-fetch-dest': 'document'
-            },
-            cssSelect: "#dvz-data-cave", // extract data out
-            storageTableName: "Bloomberg 3"
+            storageTableName: "CDC State Vaccination Data"
+        }
+    ),
+    new Subscription(
+        "CDC National Vaccination Trends",
+        "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data",
+        ["xhuang@gmail.com"],
+        {
+            storageTableName: "CDC National Vaccination Trends"
+        }
+    ),
+    new Subscription(
+        "CDC Vaccination Demographic",
+        "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_demographics_data",
+        ["xhuang@gmail.com"],
+        {
+            storageTableName: "CDC Vaccination Demographic"
         }
     ),
 ];
-
 
 async function scrape(url, customHeaders) {
     let request = superagent.get(url)
