@@ -7,6 +7,7 @@ require("@firebase/firestore");
 require("@firebase/storage");
 const firebase = require("firebase");
 const cryptojs = require("crypto-js");
+const superagent = require('superagent');
 
 const firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
@@ -66,16 +67,26 @@ export async function saveInfoAtSystem(tablename: string, content: string, times
     return obj;
 }
 
+async function fetch(url: string): Promise<string> {
+    console.log(url);
+    return await superagent.get(url)
+        .buffer(true) // this is due to google url returns application/oct stream.
+        .then(res => {
+            return res.body.toString();
+        });
+}
+
 export async function getLastRecord(tablename: string): Promise<string | object | null> {
     var docRef = db.collection(tablename).orderBy("timestamp", "desc").limit(1);
-    var last = null;
+    var dataUrl = null;
     await docRef.get().then(
         function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
-                last = doc.data().data;
+                dataUrl = doc.data().dataUrl;
             });
         });
-    return last;
+
+    return (dataUrl) ? await fetch(dataUrl) : null;
 }
 
 export async function getFirstRecord(tablename: string): Promise<string | object | null> {

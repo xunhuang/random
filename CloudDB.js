@@ -43,6 +43,7 @@ require("@firebase/firestore");
 require("@firebase/storage");
 var firebase = require("firebase");
 var cryptojs = require("crypto-js");
+var superagent = require('superagent');
 var firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
@@ -109,22 +110,46 @@ function saveInfoAtSystem(tablename, content, timestamp) {
     });
 }
 exports.saveInfoAtSystem = saveInfoAtSystem;
-function getLastRecord(tablename) {
+function fetch(url) {
     return __awaiter(this, void 0, void 0, function () {
-        var docRef, last;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    console.log(url);
+                    return [4 /*yield*/, superagent.get(url)
+                            .buffer(true) // this is due to google url returns application/oct stream.
+                            .then(function (res) {
+                            return res.body.toString();
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+function getLastRecord(tablename) {
+    return __awaiter(this, void 0, void 0, function () {
+        var docRef, dataUrl, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
                     docRef = db.collection(tablename).orderBy("timestamp", "desc").limit(1);
-                    last = null;
+                    dataUrl = null;
                     return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
                             querySnapshot.forEach(function (doc) {
-                                last = doc.data().data;
+                                dataUrl = doc.data().dataUrl;
                             });
                         })];
                 case 1:
-                    _a.sent();
-                    return [2 /*return*/, last];
+                    _b.sent();
+                    if (!(dataUrl)) return [3 /*break*/, 3];
+                    return [4 /*yield*/, fetch(dataUrl)];
+                case 2:
+                    _a = _b.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    _a = null;
+                    _b.label = 4;
+                case 4: return [2 /*return*/, _a];
             }
         });
     });

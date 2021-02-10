@@ -290,28 +290,6 @@ var NewSubscriptions = [
         storageTableName: "Bloomberg 3"
     }),
 ];
-/*
-        interestDetector: (current, last) => {
-            let goodlist = current.providerList.filter((site) =>
-                (site.address == 'New York, NY'
-                    || site.address == 'Wantagh, NY'
-                    || site.address == "White Plains, NY")
-            );
-            return goodlist.length > 0;
-        },
-        notificationContent: (current, last) => {
-            function pretty(jsonobj: object) {
-                let str = JSON.stringify(jsonobj, null, 2);
-                return "<pre>" + str + "</pre>";
-            }
-            let goodlist = current.providerList.filter((site) =>
-                (site.address == 'New York, NY'
-                    || site.address == 'Wantagh, NY'
-                    || site.address == "White Plains, NY")
-            );
-            return pretty(goodlist);
-        }
-        */
 function scrape(url, customHeaders) {
     return __awaiter(this, void 0, void 0, function () {
         var request, key, body;

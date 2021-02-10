@@ -253,28 +253,6 @@ const NewSubscriptions = [
     ),
 ];
 
-/*
-        interestDetector: (current, last) => {
-            let goodlist = current.providerList.filter((site) =>
-                (site.address == 'New York, NY'
-                    || site.address == 'Wantagh, NY'
-                    || site.address == "White Plains, NY")
-            );
-            return goodlist.length > 0;
-        },
-        notificationContent: (current, last) => {
-            function pretty(jsonobj: object) {
-                let str = JSON.stringify(jsonobj, null, 2);
-                return "<pre>" + str + "</pre>";
-            }
-            let goodlist = current.providerList.filter((site) =>
-                (site.address == 'New York, NY'
-                    || site.address == 'Wantagh, NY'
-                    || site.address == "White Plains, NY")
-            );
-            return pretty(goodlist);
-        }
-        */
 
 async function scrape(url, customHeaders) {
     let request = superagent.get(url)
@@ -290,7 +268,6 @@ async function scrape(url, customHeaders) {
         });
     return body;
 }
-
 
 async function processSubscription(sub: Subscription) {
 
