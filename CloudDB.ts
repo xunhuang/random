@@ -22,18 +22,52 @@ export function getStorageRef(): StorageType.Reference {
     return firebase.storage().ref();
 }
 
-export type DataRecord = {
-    key: string,
-    timestamp: number,
-    timestampReadable: string,
-    dataUrl: string,
-    dataMd5: string,
+export class DataRecord {
+    key: string;
+    timestamp: number;
+    timestampReadable: string;
+    dataUrl: string;
+    dataMd5: string;
+
+    constructor(key: string, contentMd5: string, unixtimestamp: number, dataurl: string) {
+        this.key = key;
+        this.timestamp = unixtimestamp;
+        this.timestampReadable = moment.unix(this.timestamp).toString();
+        this.dataUrl = dataurl;
+        this.dataMd5 = contentMd5;
+    }
+
+    static factory(obj: any) {
+        return new DataRecord(
+            obj.key,
+            obj.dataMd5,
+            obj.timestamp,
+            obj.dataUrl,
+        )
+    }
+
+    async fetchData(): Promise<string> {
+        return await fetch(this.dataUrl);
+    }
+
+    toSimpleObject() {
+        return Object.assign({}, this);
+    }
+
 };
 
 function snapshotToArrayData(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
         result.push(childSnapshot.data());
+    });
+    return result;
+}
+
+function snapshotToArrayDataRecord(snapshot) {
+    var result = [];
+    snapshot.forEach(function (childSnapshot) {
+        result.push(DataRecord.factory(childSnapshot.data()));
     });
     return result;
 }
@@ -55,15 +89,14 @@ export async function saveInfoAtSystem(tablename: string, content: string, times
     let url = await storeStringAsBlob(tablename, docRef.id, content);
 
     timestamp = timestamp ? timestamp : moment().unix();
-    let obj = {
-        key: docRef.id,
-        timestamp: timestamp,
-        timestampReadable: moment.unix(timestamp).toString(),
-        dataUrl: url,
-        dataMd5: cryptojs.MD5("Test").toString(),
-    } as DataRecord;
+    let obj = new DataRecord(
+        docRef.id,
+        cryptojs.MD5(content).toString(),
+        timestamp,
+        url,
+    );
 
-    await docRef.set(obj);
+    await docRef.set(obj.toSimpleObject());
     return obj;
 }
 
@@ -104,7 +137,7 @@ export async function getFullRecords(tablename: string): Promise<DataRecord[]> {
     var docRef = db.collection(tablename).orderBy("timestamp", "asc");
     return await docRef.get().then(
         function (querySnapshot) {
-            return snapshotToArrayData(querySnapshot);
+            return snapshotToArrayDataRecord(querySnapshot);
         });
 }
 
@@ -127,13 +160,13 @@ export async function saveJobStatusTable(tablename: string, jobstatus: object) {
 
 export async function fetchUnfinishedJobs(tablename: string,
     skips: string[],
-    njobs: number = 3) {
+    njobs: number = 3): Promise<DataRecord[]> {
     var docRef = db.collection(tablename)
         .orderBy("timestamp", "asc")
         .where("key", "not-in", skips)
         .limit(njobs);
     return await docRef.get().then(
         function (querySnapshot) {
-            return snapshotToArrayData(querySnapshot);
+            return snapshotToArrayDataRecord(querySnapshot);
         });
 }

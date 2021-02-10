@@ -98,6 +98,7 @@ async function fetchUnfinishedJobs(tablename: string, njobs: number = 3): Promis
 
 async function doit() {
     const targetTable = "California-Vaccine 2";
+    const outputTable = "testoutput";
     let records = await fetchUnfinishedJobs(targetTable);
 
     let jobStatusTable = {};
@@ -105,13 +106,13 @@ async function doit() {
         console.log("skipping work:", record.key);
         jobStatusTable[record.key] = JobExecStatus.SUCCESS;
         // console.log(record.timestamp);
-        // let data = record.data;
-        // let dom = cheerio.load(data);
-        // let processed = dom("#counties-vaccination-data").html();
-        // await CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp);
+        let data = await record.fetchData();
+        let dom = cheerio.load(data);
+        let processed = dom("#counties-vaccination-data").html();
+        await CloudDB.saveInfoAtSystem(outputTable, processed, record.timestamp);
     }
     if (Object.entries(jobStatusTable).length > 0) {
-        await CloudDB.saveJobStatusTable(targetTable, jobStatusTable);
+        // await CloudDB.saveJobStatusTable(targetTable, jobStatusTable);
     } else {
         console.log("nothing to update");
     }

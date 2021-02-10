@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchUnfinishedJobs = exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.getStorageRef = exports.getDB = void 0;
+exports.fetchUnfinishedJobs = exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = require("moment");
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 require("@firebase/firestore");
@@ -55,10 +55,45 @@ function getStorageRef() {
     return firebase.storage().ref();
 }
 exports.getStorageRef = getStorageRef;
+var DataRecord = /** @class */ (function () {
+    function DataRecord(key, contentMd5, unixtimestamp, dataurl) {
+        this.key = key;
+        this.timestamp = unixtimestamp;
+        this.timestampReadable = moment.unix(this.timestamp).toString();
+        this.dataUrl = dataurl;
+        this.dataMd5 = contentMd5;
+    }
+    DataRecord.factory = function (obj) {
+        return new DataRecord(obj.key, obj.dataMd5, obj.timestamp, obj.dataUrl);
+    };
+    DataRecord.prototype.fetchData = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fetch(this.dataUrl)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    DataRecord.prototype.toSimpleObject = function () {
+        return Object.assign({}, this);
+    };
+    return DataRecord;
+}());
+exports.DataRecord = DataRecord;
+;
 function snapshotToArrayData(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
         result.push(childSnapshot.data());
+    });
+    return result;
+}
+function snapshotToArrayDataRecord(snapshot) {
+    var result = [];
+    snapshot.forEach(function (childSnapshot) {
+        result.push(DataRecord.factory(childSnapshot.data()));
     });
     return result;
 }
@@ -94,14 +129,8 @@ function saveInfoAtSystem(tablename, content, timestamp) {
                 case 1:
                     url = _a.sent();
                     timestamp = timestamp ? timestamp : moment().unix();
-                    obj = {
-                        key: docRef.id,
-                        timestamp: timestamp,
-                        timestampReadable: moment.unix(timestamp).toString(),
-                        dataUrl: url,
-                        dataMd5: cryptojs.MD5("Test").toString(),
-                    };
-                    return [4 /*yield*/, docRef.set(obj)];
+                    obj = new DataRecord(docRef.id, cryptojs.MD5(content).toString(), timestamp, url);
+                    return [4 /*yield*/, docRef.set(obj.toSimpleObject())];
                 case 2:
                     _a.sent();
                     return [2 /*return*/, obj];
@@ -190,7 +219,7 @@ function getFullRecords(tablename) {
                 case 0:
                     docRef = db.collection(tablename).orderBy("timestamp", "asc");
                     return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
-                            return snapshotToArrayData(querySnapshot);
+                            return snapshotToArrayDataRecord(querySnapshot);
                         })];
                 case 1: return [2 /*return*/, _a.sent()];
             }
@@ -245,7 +274,7 @@ function fetchUnfinishedJobs(tablename, skips, njobs) {
                         .where("key", "not-in", skips)
                         .limit(njobs);
                     return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
-                            return snapshotToArrayData(querySnapshot);
+                            return snapshotToArrayDataRecord(querySnapshot);
                         })];
                 case 1: return [2 /*return*/, _a.sent()];
             }

@@ -147,34 +147,43 @@ function fetchUnfinishedJobs(tablename, njobs) {
 }
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
-        var targetTable, records, jobStatusTable, _i, records_1, record;
+        var targetTable, outputTable, records, jobStatusTable, _i, records_1, record, data, dom, processed;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     targetTable = "California-Vaccine 2";
+                    outputTable = "testoutput";
                     return [4 /*yield*/, fetchUnfinishedJobs(targetTable)];
                 case 1:
                     records = _a.sent();
                     jobStatusTable = {};
-                    for (_i = 0, records_1 = records; _i < records_1.length; _i++) {
-                        record = records_1[_i];
-                        console.log("skipping work:", record.key);
-                        jobStatusTable[record.key] = JobExecStatus.SUCCESS;
-                        // console.log(record.timestamp);
-                        // let data = record.data;
-                        // let dom = cheerio.load(data);
-                        // let processed = dom("#counties-vaccination-data").html();
-                        // await CloudDB.saveInfoAtSystem(targetTable, processed, record.timestamp);
-                    }
-                    if (!(Object.entries(jobStatusTable).length > 0)) return [3 /*break*/, 3];
-                    return [4 /*yield*/, CloudDB.saveJobStatusTable(targetTable, jobStatusTable)];
+                    _i = 0, records_1 = records;
+                    _a.label = 2;
                 case 2:
-                    _a.sent();
-                    return [3 /*break*/, 4];
+                    if (!(_i < records_1.length)) return [3 /*break*/, 6];
+                    record = records_1[_i];
+                    console.log("skipping work:", record.key);
+                    jobStatusTable[record.key] = JobExecStatus.SUCCESS;
+                    return [4 /*yield*/, record.fetchData()];
                 case 3:
-                    console.log("nothing to update");
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    data = _a.sent();
+                    dom = cheerio.load(data);
+                    processed = dom("#counties-vaccination-data").html();
+                    return [4 /*yield*/, CloudDB.saveInfoAtSystem(outputTable, processed, record.timestamp)];
+                case 4:
+                    _a.sent();
+                    _a.label = 5;
+                case 5:
+                    _i++;
+                    return [3 /*break*/, 2];
+                case 6:
+                    if (Object.entries(jobStatusTable).length > 0) {
+                        // await CloudDB.saveJobStatusTable(targetTable, jobStatusTable);
+                    }
+                    else {
+                        console.log("nothing to update");
+                    }
+                    return [2 /*return*/];
             }
         });
     });
