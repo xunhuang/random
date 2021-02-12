@@ -39,3 +39,4 @@ jobs:
       - run: node watcher.js
         env:
           MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}
+          MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}

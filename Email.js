@@ -42,26 +42,22 @@ function send(emails, subject, html) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var transporter = nodemailer.createTransport({
-                        service: 'Gmail',
-                        auth: {
-                            user: 'yumyumlifemailer@gmail.com',
-                            pass: process.env.MAILER_PASSWORD
-                        }
-                    });
-                    var mailOptions = {
-                        from: 'Yum Yum <yumyumlifemailer@gmail.com>',
+                    var API_KEY = process.env.MAILGUN_TOKEN;
+                    var DOMAIN = 'yumyum.today';
+                    var mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
+                    var data = {
+                        from: 'YumYum Mailer<mail@yumyum.today>',
                         to: emails.join(","),
                         subject: subject,
-                        html: html
+                        text: html,
                     };
-                    transporter.sendMail(mailOptions, function (error, info) {
+                    mailgun.messages().send(data, function (error, body) {
                         if (error) {
                             console.log("error is " + error);
                             resolve(false); // or use rejcet(false) but then you will have to handle errors
                         }
                         else {
-                            console.log('Email sent: ' + info.response);
+                            console.log('Email sent: ' + body);
                             resolve(true);
                         }
                     });

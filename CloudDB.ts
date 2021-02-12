@@ -83,8 +83,15 @@ async function storeStringAsBlob(tablename: string, dockey: string, content: str
 }
 
 // some application semantics 
-export async function saveInfoAtSystem(tablename: string, content: string, timestamp: number = 0) {
-    let docRef = db.collection(tablename).doc();
+export async function saveInfoAtSystem(
+    tablename: string,
+    content: string,
+    timestamp: number = 0,
+    key: string | null = null
+) {
+    let docRef = (key) ?
+        db.collection(tablename).doc(key) :
+        db.collection(tablename).doc();
 
     let url = await storeStringAsBlob(tablename, docRef.id, content);
 
@@ -150,7 +157,7 @@ export async function getJobStatusTable(jobDescriptionID: string): Promise<strin
 }
 export async function saveJobStatusTable(tablename: string, jobstatus: object) {
     let docRef = db.collection("JobStatus").doc(tablename);
-    await docRef.update(jobstatus).then((doc) => {
+    await docRef.set(jobstatus).then((doc) => {
 
     }).catch(err => {
         return null;
@@ -158,6 +165,7 @@ export async function saveJobStatusTable(tablename: string, jobstatus: object) {
     return true;
 }
 
+/*
 export async function fetchUnfinishedJobs(tablename: string,
     skips: string[],
     njobs: number = 3): Promise<DataRecord[]> {
@@ -170,3 +178,4 @@ export async function fetchUnfinishedJobs(tablename: string,
             return snapshotToArrayDataRecord(querySnapshot);
         });
 }
+*/

@@ -66,21 +66,11 @@ const JobExecStatus = {
     FAIL: "failed",
 }
 
-async function fetchSuccessfulJobs(tablename: string): Promise<string[]> {
-    let jobStatusTable = await CloudDB.getJobStatusTable(tablename);
 
-    let successIds = [];
-    for (const key in jobStatusTable) {
-        if (jobStatusTable[key] === JobExecStatus.SUCCESS) {
-            successIds.push(key);
-        }
-    }
-    return successIds;
-}
-
-async function fetchUnfinishedJobs(tablename: string, njobs: number = 3): Promise<CloudDB.DataRecord[]> {
-    let successIds = await fetchSuccessfulJobs(tablename);
-    let allJobs = await CloudDB.getFullRecords(tablename);
+function computeUnfinishedJobs(
+    allJobs: CloudDB.DataRecord[],
+    successIds: string[],
+): CloudDB.DataRecord[] {
     var successIdsMap = successIds.reduce(function (map, obj) {
         map[obj] = true;
         return map;
@@ -96,45 +86,58 @@ async function fetchUnfinishedJobs(tablename: string, njobs: number = 3): Promis
     return unfinished;
 }
 
-async function doit() {
-    const targetTable = "California-Vaccine 2";
-    const outputTable = "testoutput";
-    let records = await fetchUnfinishedJobs(targetTable);
-
-    let jobStatusTable = {};
-    for (const record of records) {
-        console.log("skipping work:", record.key);
-        jobStatusTable[record.key] = JobExecStatus.SUCCESS;
-        // console.log(record.timestamp);
-        let data = await record.fetchData();
-        let dom = cheerio.load(data);
-        let processed = dom("#counties-vaccination-data").html();
-        await CloudDB.saveInfoAtSystem(outputTable, processed, record.timestamp);
+function getSuccessfulJobs(jobStatusTable: object): string[] {
+    let successIds = [];
+    for (const key in jobStatusTable) {
+        if (jobStatusTable[key] === JobExecStatus.SUCCESS) {
+            successIds.push(key);
+        }
     }
-    if (Object.entries(jobStatusTable).length > 0) {
-        // await CloudDB.saveJobStatusTable(targetTable, jobStatusTable);
+    return successIds;
+}
+
+async function fetchJobsStatus(tablename: string): Promise<string[]> {
+    return await CloudDB.getJobStatusTable(tablename);
+}
+
+async function doit() {
+    const srctablename = "California-Vaccine 2";
+    const jobTableName = "California-Vaccine-2-job";
+    const outputTable = "testoutput";
+
+    let jobStatusTable = await fetchJobsStatus(jobTableName);
+    let successIds = getSuccessfulJobs(jobStatusTable);
+    let allJobs = await CloudDB.getFullRecords(srctablename);
+    let records = computeUnfinishedJobs(allJobs, successIds);
+
+    async function process(input: string, dataRecord: CloudDB.DataRecord): Promise<string | null> {
+        let dom = cheerio.load(input);
+        let processed = dom("#counties-vaccination-data").html();
+        return processed;
+    }
+
+    let dirty = false;
+    for (const record of records) {
+        console.log("working on:", record.key);
+        jobStatusTable[record.key] = JobExecStatus.SUCCESS;
+        let data = await record.fetchData();
+        let output = await process(data, record);
+        if (output) {
+            await CloudDB.saveInfoAtSystem(outputTable,
+                output,
+                record.timestamp,
+                record.key
+            );
+            dirty = true;
+        } else {
+            // what to do if output is empty? marked as errors or what?
+        }
+    }
+    if (dirty) {
+        await CloudDB.saveJobStatusTable(jobTableName, jobStatusTable);
     } else {
         console.log("nothing to update");
     }
 }
-
-/*
-* The Job (from table to table)
-*     From Table1 --> process ---> Table 2
-*
-*  1 time processing
-*  recurrent processing
-*  catch up processing (in case of error)
-*
-* table to remember whehther an entry has been successfully executed or not.
-* trigger to process...
-
-* Issues: 
-  - need to remember which one has been run
-  - Ordering may matter for the data...
-  - framework should carry the timestamp...
-*
-*/
-
 
 doit()

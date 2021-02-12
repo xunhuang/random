@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchUnfinishedJobs = exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
+exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = require("moment");
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 require("@firebase/firestore");
@@ -117,14 +117,17 @@ function storeStringAsBlob(tablename, dockey, content) {
     });
 }
 // some application semantics 
-function saveInfoAtSystem(tablename, content, timestamp) {
+function saveInfoAtSystem(tablename, content, timestamp, key) {
     if (timestamp === void 0) { timestamp = 0; }
+    if (key === void 0) { key = null; }
     return __awaiter(this, void 0, void 0, function () {
         var docRef, url, obj;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    docRef = db.collection(tablename).doc();
+                    docRef = (key) ?
+                        db.collection(tablename).doc(key) :
+                        db.collection(tablename).doc();
                     return [4 /*yield*/, storeStringAsBlob(tablename, docRef.id, content)];
                 case 1:
                     url = _a.sent();
@@ -250,7 +253,7 @@ function saveJobStatusTable(tablename, jobstatus) {
             switch (_a.label) {
                 case 0:
                     docRef = db.collection("JobStatus").doc(tablename);
-                    return [4 /*yield*/, docRef.update(jobstatus).then(function (doc) {
+                    return [4 /*yield*/, docRef.set(jobstatus).then(function (doc) {
                         }).catch(function (err) {
                             return null;
                         })];
@@ -262,24 +265,18 @@ function saveJobStatusTable(tablename, jobstatus) {
     });
 }
 exports.saveJobStatusTable = saveJobStatusTable;
-function fetchUnfinishedJobs(tablename, skips, njobs) {
-    if (njobs === void 0) { njobs = 3; }
-    return __awaiter(this, void 0, void 0, function () {
-        var docRef;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    docRef = db.collection(tablename)
-                        .orderBy("timestamp", "asc")
-                        .where("key", "not-in", skips)
-                        .limit(njobs);
-                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
-                            return snapshotToArrayDataRecord(querySnapshot);
-                        })];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
+/*
+export async function fetchUnfinishedJobs(tablename: string,
+    skips: string[],
+    njobs: number = 3): Promise<DataRecord[]> {
+    var docRef = db.collection(tablename)
+        .orderBy("timestamp", "asc")
+        .where("key", "not-in", skips)
+        .limit(njobs);
+    return await docRef.get().then(
+        function (querySnapshot) {
+            return snapshotToArrayDataRecord(querySnapshot);
         });
-    });
 }
-exports.fetchUnfinishedJobs = fetchUnfinishedJobs;
+*/ 
 //# sourceMappingURL=CloudDB.js.map
