@@ -49,7 +49,7 @@ function send(emails, subject, html) {
                         from: 'YumYum Mailer<mail@yumyum.today>',
                         to: emails.join(","),
                         subject: subject,
-                        text: html,
+                        html: html
                     };
                     mailgun.messages().send(data, function (error, body) {
                         if (error) {

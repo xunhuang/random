@@ -11,8 +11,7 @@ export async function send(emails: string[], subject: string, html: string) {
             from: 'YumYum Mailer<mail@yumyum.today>',
             to: emails.join(","),
             subject: subject,
-            text: html,
-            // html: html
+            html: html
         };
 
         mailgun.messages().send(data, (error, body) => {
