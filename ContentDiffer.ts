@@ -82,7 +82,7 @@ export function diffHtmlPages(html1: string, html2: string): string | null {
         return null;
     }
     var diff = htmlDiffer.diffHtml(t1, t2);
-    var text = getDiffText(diff, { charsAroundDiff: 20 });
+    var text = getDiffText(diff, { charsAroundDiff: 40 });
     return text;
 }
 

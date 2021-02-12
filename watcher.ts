@@ -186,7 +186,7 @@ const NewSubscriptions = [
     new Subscription(
         "NYS Covid Watcher",
         "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
-        ["xhuang@gmail.com"],
+        ["xhuang@gmail.com", "sandy_hou@yahoo.com"],
         {
             contentType: "json",
             jqQuery: ".providerList",
@@ -343,7 +343,7 @@ async function doit() {
             JSON.stringify(errors, null, 2)
         );
     }
-    await Email.send(["xhuang@gmail.com"], "test from github", "what about this?")
+    // await Email.send(["xhuang@gmail.com"], "test from github", "what about this?")
 }
 
 doit().then(() => process.exit());

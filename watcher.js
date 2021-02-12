@@ -245,7 +245,7 @@ var Subscription = /** @class */ (function () {
 }());
 ;
 var NewSubscriptions = [
-    new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["xhuang@gmail.com"], {
+    new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["xhuang@gmail.com", "sandy_hou@yahoo.com"], {
         contentType: "json",
         jqQuery: ".providerList",
         storageTableName: "NYC-Vaccines",
@@ -387,10 +387,7 @@ function doit() {
                 case 7:
                     _a.sent();
                     _a.label = 8;
-                case 8: return [4 /*yield*/, Email.send(["xhuang@gmail.com"], "test from github", "what about this?")];
-                case 9:
-                    _a.sent();
-                    return [2 /*return*/];
+                case 8: return [2 /*return*/];
             }
         });
     });
