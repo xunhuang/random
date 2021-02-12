@@ -387,7 +387,10 @@ function doit() {
                 case 7:
                     _a.sent();
                     _a.label = 8;
-                case 8: return [2 /*return*/];
+                case 8: return [4 /*yield*/, Email.send(["xhuang@gmail.com"], "test from github", "what about this?")];
+                case 9:
+                    _a.sent();
+                    return [2 /*return*/];
             }
         });
     });

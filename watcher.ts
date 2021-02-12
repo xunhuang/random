@@ -343,6 +343,7 @@ async function doit() {
             JSON.stringify(errors, null, 2)
         );
     }
+    await Email.send(["xhuang@gmail.com"], "test from github", "what about this?")
 }
 
 doit().then(() => process.exit());
