@@ -54,6 +54,8 @@ function send(emails, subject, html) {
                     mailgun.messages().send(data, function (error, body) {
                         if (error) {
                             console.log("error is " + error);
+                            console.log(emails);
+                            console.log(emails.join(","));
                             resolve(false); // or use rejcet(false) but then you will have to handle errors
                         }
                         else {

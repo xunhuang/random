@@ -17,6 +17,8 @@ export async function send(emails: string[], subject: string, html: string) {
         mailgun.messages().send(data, (error, body) => {
             if (error) {
                 console.log("error is " + error);
+                console.log(emails);
+                console.log(emails.join(","));
                 resolve(false); // or use rejcet(false) but then you will have to handle errors
             }
             else {
