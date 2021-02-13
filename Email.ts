@@ -1,5 +1,3 @@
-const nodemailer = require('nodemailer');
-
 export async function send(emails: string[], subject: string, html: string) {
     return new Promise((resolve, reject) => {
         var API_KEY = process.env.MAILGUN_TOKEN;
@@ -22,7 +20,7 @@ export async function send(emails: string[], subject: string, html: string) {
                 resolve(false); // or use rejcet(false) but then you will have to handle errors
             }
             else {
-                console.log('Email sent: ' + body);
+                console.log(`Email sent to ${emails.join(",")}`);
                 resolve(true);
             }
         });

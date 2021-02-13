@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.send = void 0;
-var nodemailer = require('nodemailer');
 function send(emails, subject, html) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -59,7 +58,7 @@ function send(emails, subject, html) {
                             resolve(false); // or use rejcet(false) but then you will have to handle errors
                         }
                         else {
-                            console.log('Email sent: ' + body);
+                            console.log("Email sent to " + emails.join(","));
                             resolve(true);
                         }
                     });
