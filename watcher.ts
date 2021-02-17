@@ -338,7 +338,7 @@ async function doit() {
     }
     if (errors.length > 0) {
         await Email.send(
-            ["xhuang@gmail.coom"],
+            ["xhuang@gmail.com"],
             `${errors.length} from latest run`,
             JSON.stringify(errors, null, 2)
         );
