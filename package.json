@@ -30,6 +30,7 @@
     "@google-cloud/storage": "^5.7.4",
     "cheerio": "^1.0.0-rc.5",
     "crypto-js": "^4.0.0",
+    "danfojs-node": "^0.2.2",
     "deep-equal": "^2.0.5",
     "firebase": "^8.2.6",
     "firebase-admin": "^9.4.2",

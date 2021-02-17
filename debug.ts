@@ -100,7 +100,54 @@ async function fetchJobsStatus(tablename: string): Promise<string[]> {
     return await CloudDB.getJobStatusTable(tablename);
 }
 
-async function doit() {
+
+async function reducer(
+    srctablename: string,
+    jobTableName: string,
+    outputTable: string,
+    fun: (content: string | null, preresult: string) => string,
+) {
+    let jobStatusTable = await fetchJobsStatus(jobTableName);
+    let successIds = getSuccessfulJobs(jobStatusTable);
+    let allJobs = await CloudDB.getFullRecords(srctablename);
+    let records = computeUnfinishedJobs(allJobs, successIds);
+
+    var initialresult = await CloudDB.getLastRecord(outputTable) as string;
+    var previousresults = initialresult;
+    var succesfulruns = [];
+    for (const record of records) {
+        console.log("working on:", record.key);
+        try {
+            let data = await record.fetchData();
+            previousresults = await fun(data, previousresults);
+            succesfulruns.push(record.key);
+        } catch (error) {
+            console.log("error on:", record.key);
+            console.log(error);
+        }
+    }
+
+    if (previousresults !== initialresult) {
+        // persist the new results. 
+        await CloudDB.saveInfoAtSystem(outputTable, previousresults);
+    }
+
+    if (succesfulruns.length > 0) {
+        for (const job of succesfulruns) {
+            jobStatusTable[job] = JobExecStatus.SUCCESS;
+        }
+        await CloudDB.saveJobStatusTable(jobTableName, jobStatusTable);
+    }
+    console.log("done with reducer")
+}
+
+function list_deep_dedup(list) {
+    return list.reduce((r, i) =>
+        !r.some(j => !Object.keys(i).some(k => i[k] !== j[k])) ? [...r, i] : r
+        , [])
+}
+
+async function testmapper() {
     const srctablename = "California-Vaccine 2";
     const jobTableName = "California-Vaccine-2-job";
     const outputTable = "testoutput";
@@ -138,6 +185,40 @@ async function doit() {
     } else {
         console.log("nothing to update");
     }
+}
+
+async function testreducer() {
+    const srctablename = "testoutput";
+    const jobTableName = "California-Reducer"; // maybe derive this table?
+    const outputTable = "Calfiornia-Vaccine-finaloutput";
+    await reducer(
+        srctablename, jobTableName, outputTable,
+        (content: string, preresult: string | null): string => {
+            let pre = preresult ?
+                JSON.parse(preresult) : [];
+            let input = JSON.parse(content);
+            for (const entry of input) {
+                pre.push({
+                    fips: entry.fips,
+                    county: entry.county,
+                    date: entry.date,
+                    doses_administered: entry.doses_administered,
+                    population: entry.population,
+                    new_doses_administered: entry.new_doses_administered,
+                    doses_administered_per_100k: entry.doses_administered_per_100k,
+                }
+                )
+            }
+
+            pre = list_deep_dedup(pre);
+            console.log("so far length is :" + pre.length);
+            return JSON.stringify(pre);
+        });
+}
+
+async function doit() {
+    // await testmapper();
+    await testreducer();
 }
 
 doit()

@@ -35,6 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio = require('cheerio');
 var CloudDB = require("./CloudDB");
@@ -131,7 +138,80 @@ function fetchJobsStatus(tablename) {
         });
     });
 }
-function doit() {
+function reducer(srctablename, jobTableName, outputTable, fun) {
+    return __awaiter(this, void 0, void 0, function () {
+        var jobStatusTable, successIds, allJobs, records, initialresult, previousresults, succesfulruns, _i, records_1, record, data, error_1, _a, succesfulruns_1, job;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, fetchJobsStatus(jobTableName)];
+                case 1:
+                    jobStatusTable = _b.sent();
+                    successIds = getSuccessfulJobs(jobStatusTable);
+                    return [4 /*yield*/, CloudDB.getFullRecords(srctablename)];
+                case 2:
+                    allJobs = _b.sent();
+                    records = computeUnfinishedJobs(allJobs, successIds);
+                    return [4 /*yield*/, CloudDB.getLastRecord(outputTable)];
+                case 3:
+                    initialresult = _b.sent();
+                    previousresults = initialresult;
+                    succesfulruns = [];
+                    _i = 0, records_1 = records;
+                    _b.label = 4;
+                case 4:
+                    if (!(_i < records_1.length)) return [3 /*break*/, 10];
+                    record = records_1[_i];
+                    console.log("working on:", record.key);
+                    _b.label = 5;
+                case 5:
+                    _b.trys.push([5, 8, , 9]);
+                    return [4 /*yield*/, record.fetchData()];
+                case 6:
+                    data = _b.sent();
+                    return [4 /*yield*/, fun(data, previousresults)];
+                case 7:
+                    previousresults = _b.sent();
+                    succesfulruns.push(record.key);
+                    return [3 /*break*/, 9];
+                case 8:
+                    error_1 = _b.sent();
+                    console.log("error on:", record.key);
+                    console.log(error_1);
+                    return [3 /*break*/, 9];
+                case 9:
+                    _i++;
+                    return [3 /*break*/, 4];
+                case 10:
+                    if (!(previousresults !== initialresult)) return [3 /*break*/, 12];
+                    // persist the new results. 
+                    return [4 /*yield*/, CloudDB.saveInfoAtSystem(outputTable, previousresults)];
+                case 11:
+                    // persist the new results. 
+                    _b.sent();
+                    _b.label = 12;
+                case 12:
+                    if (!(succesfulruns.length > 0)) return [3 /*break*/, 14];
+                    for (_a = 0, succesfulruns_1 = succesfulruns; _a < succesfulruns_1.length; _a++) {
+                        job = succesfulruns_1[_a];
+                        jobStatusTable[job] = JobExecStatus.SUCCESS;
+                    }
+                    return [4 /*yield*/, CloudDB.saveJobStatusTable(jobTableName, jobStatusTable)];
+                case 13:
+                    _b.sent();
+                    _b.label = 14;
+                case 14:
+                    console.log("done with reducer");
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function list_deep_dedup(list) {
+    return list.reduce(function (r, i) {
+        return !r.some(function (j) { return !Object.keys(i).some(function (k) { return i[k] !== j[k]; }); }) ? __spreadArrays(r, [i]) : r;
+    }, []);
+}
+function testmapper() {
     return __awaiter(this, void 0, void 0, function () {
         function process(input, dataRecord) {
             return __awaiter(this, void 0, void 0, function () {
@@ -143,7 +223,7 @@ function doit() {
                 });
             });
         }
-        var srctablename, jobTableName, outputTable, jobStatusTable, successIds, allJobs, records, dirty, _i, records_1, record, data, output;
+        var srctablename, jobTableName, outputTable, jobStatusTable, successIds, allJobs, records, dirty, _i, records_2, record, data, output;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -159,11 +239,11 @@ function doit() {
                     allJobs = _a.sent();
                     records = computeUnfinishedJobs(allJobs, successIds);
                     dirty = false;
-                    _i = 0, records_1 = records;
+                    _i = 0, records_2 = records;
                     _a.label = 3;
                 case 3:
-                    if (!(_i < records_1.length)) return [3 /*break*/, 8];
-                    record = records_1[_i];
+                    if (!(_i < records_2.length)) return [3 /*break*/, 8];
+                    record = records_2[_i];
                     console.log("working on:", record.key);
                     jobStatusTable[record.key] = JobExecStatus.SUCCESS;
                     return [4 /*yield*/, record.fetchData()];
@@ -191,6 +271,57 @@ function doit() {
                     console.log("nothing to update");
                     _a.label = 11;
                 case 11: return [2 /*return*/];
+            }
+        });
+    });
+}
+function testreducer() {
+    return __awaiter(this, void 0, void 0, function () {
+        var srctablename, jobTableName, outputTable;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    srctablename = "testoutput";
+                    jobTableName = "California-Reducer";
+                    outputTable = "Calfiornia-Vaccine-finaloutput";
+                    return [4 /*yield*/, reducer(srctablename, jobTableName, outputTable, function (content, preresult) {
+                            var pre = preresult ?
+                                JSON.parse(preresult) : [];
+                            var input = JSON.parse(content);
+                            for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
+                                var entry = input_1[_i];
+                                pre.push({
+                                    fips: entry.fips,
+                                    county: entry.county,
+                                    date: entry.date,
+                                    doses_administered: entry.doses_administered,
+                                    population: entry.population,
+                                    new_doses_administered: entry.new_doses_administered,
+                                    doses_administered_per_100k: entry.doses_administered_per_100k,
+                                });
+                            }
+                            pre = list_deep_dedup(pre);
+                            console.log("so far length is :" + pre.length);
+                            return JSON.stringify(pre);
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function doit() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: 
+                // await testmapper();
+                return [4 /*yield*/, testreducer()];
+                case 1:
+                    // await testmapper();
+                    _a.sent();
+                    return [2 /*return*/];
             }
         });
     });
