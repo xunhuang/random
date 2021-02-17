@@ -1,8 +1,9 @@
 const cheerio = require('cheerio');
 import * as Email from './Email';
-
 import * as CloudDB from './CloudDB';
 
+// ----------------------------------------------------------------
+// vvvvvvvv
 const JobExecStatus = {
     UNKNOWN: "pending",
     SUCCESS: "success",
@@ -40,36 +41,31 @@ function getSuccessfulJobs(jobStatusTable: object): string[] {
 async function fetchJobsStatus(tablename: string): Promise<string[]> {
     return await CloudDB.getJobStatusTable(tablename);
 }
+// ^^^^^^^^^^^
+// ----------------------------------------------------------------
 
-
-function list_deep_dedup(list) {
-    return list.reduce((r, i) =>
-        !r.some(j => !Object.keys(i).some(k => i[k] !== j[k])) ? [...r, i] : r
-        , [])
-}
-
-type ReducerOptions = {
+type MapperOptions = {
     verbose?: false,
     jobTableName?: string;
 }
 
-type ReducerFunction = (content: string | null, preresult: string) => string;
+type MapperFunction = (content: string | null, record: CloudDB.DataRecord) => string;
 
-class ReducerJob {
+class MapperJob {
     name: string;
     srctablename: string;
     outputTable: string;
     jobTableName: string | null = null;
-    options: ReducerOptions | null = null;
+    options: MapperOptions | null = null;
     verbose: false;
-    process: ReducerFunction;
+    process: MapperFunction;
 
     constructor(
         name: string,
         srctablename: string,
         outputTable: string,
-        process: ReducerFunction,
-        options: ReducerOptions | null = null
+        process: MapperFunction,
+        options: MapperOptions | null = null
     ) {
         this.name = name;
         this.srctablename = srctablename;
@@ -90,69 +86,32 @@ class ReducerJob {
         let allJobs = await CloudDB.getFullRecords(this.srctablename);
         let records = computeUnfinishedJobs(allJobs, successIds);
 
-        var initialresult = await CloudDB.getLastRecord(this.outputTable) as string;
-        var previousresults = initialresult;
-        var succesfulruns = [];
+        let dirty = false;
         for (const record of records) {
             console.log("working on:", record.key);
-            try {
-                let data = await record.fetchData();
-                previousresults = await this.process(data, previousresults);
-                succesfulruns.push(record.key);
-            } catch (error) {
-                console.log("error on:", record.key);
-                console.log(error);
+            jobStatusTable[record.key] = JobExecStatus.SUCCESS;
+            let data = await record.fetchData();
+            let output = this.process(data, record);
+            if (output) {
+                await CloudDB.saveInfoAtSystem(this.outputTable,
+                    output,
+                    record.timestamp,
+                    record.key
+                );
+                dirty = true;
+            } else {
+                // what to do if output is empty? marked as errors or what?
             }
         }
-
-        if (previousresults !== initialresult) {
-            // persist the new results. 
-            await CloudDB.saveInfoAtSystem(this.outputTable, previousresults);
-        }
-
-        if (succesfulruns.length > 0) {
-            for (const job of succesfulruns) {
-                jobStatusTable[job] = JobExecStatus.SUCCESS;
-            }
+        if (dirty) {
             await CloudDB.saveJobStatusTable(this.jobTableName, jobStatusTable);
+        } else {
+            console.log("nothing to update");
         }
-        console.log("done with reducer")
     }
 }
 
-
-const ReducerJobs = [
-    new ReducerJob(
-        "CA Vaccine Reducer",
-        "testoutput",
-        "Calfiornia-Vaccine-finaloutput",
-        (content: string, preresult: string | null): string => {
-            let result = preresult ?
-                JSON.parse(preresult) : [];
-            let input = JSON.parse(content);
-            for (const entry of input) {
-                result.push({
-                    fips: entry.fips,
-                    county: entry.county,
-                    date: entry.date,
-                    doses_administered: entry.doses_administered,
-                    population: entry.population,
-                    new_doses_administered: entry.new_doses_administered,
-                    doses_administered_per_100k: entry.doses_administered_per_100k,
-                }
-                )
-            }
-            result = list_deep_dedup(result);
-            console.log("so far length is :" + result.length);
-            return JSON.stringify(result);
-        },
-        {
-            jobTableName: "California-Reducer",
-        }
-
-    )];
-
-async function executeReducers(jobs: ReducerJob[]) {
+async function executeMappers(jobs: MapperJob[]) {
     let errors = [];
     for (const job of jobs) {
 
@@ -168,15 +127,29 @@ async function executeReducers(jobs: ReducerJob[]) {
     if (errors.length > 0) {
         await Email.send(
             ["xhuang@gmail.com"],
-            `Reducer Execution: ${errors.length} from latest run`,
+            `Mapper Execution: ${errors.length} from latest run`,
             JSON.stringify(errors, null, 2)
         );
     }
 }
 
+const MapperJobs = [
+    new MapperJob(
+        "CA Vaccine Mapper",
+        "California-Vaccine 2",
+        "testoutput",
+        (input: string, dataRecord: CloudDB.DataRecord) => {
+            let dom = cheerio.load(input);
+            let processed = dom("#counties-vaccination-data").html();
+            return processed;
+        },
+        {
+            jobTableName: "California-Vaccine-2-job",
+        }
+    )];
 async function doit() {
-    await executeReducers(ReducerJobs);
-    // await testreducer();
+    await executeMappers(MapperJobs);
 }
+
 
 doit()
