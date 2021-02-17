@@ -201,17 +201,14 @@ const MapperJobs = [
         }
 
     )];
-async function executeMappers() {
-    let subs = MapperJobs;
-    // subs = NewSubscriptions.slice(0, 1); // first item
-    // subs = NewSubscriptions.slice(-1); // last item
 
+async function executeMappers(jobs: MapperJob[]) {
     let errors = [];
-    for (let i = 0; i < subs.length; i++) {
-        let sub = subs[i];
+    for (const job of jobs) {
+
         try {
-            console.log(sub);
-            await sub.execute();
+            console.log(job);
+            await job.execute();
         } catch (err) {
             console.log(err);
             console.log("Error but soldier on....");
@@ -228,7 +225,7 @@ async function executeMappers() {
 }
 
 async function doit() {
-    await executeMappers();
+    await executeMappers(MapperJobs);
     // await testreducer();
 }
 

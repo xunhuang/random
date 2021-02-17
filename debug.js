@@ -271,24 +271,23 @@ var MapperJobs = [
         jobTableName: "California-Vaccine-2-job",
     })
 ];
-function executeMappers() {
+function executeMappers(jobs) {
     return __awaiter(this, void 0, void 0, function () {
-        var subs, errors, i, sub, err_1;
+        var errors, _i, jobs_1, job, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    subs = MapperJobs;
                     errors = [];
-                    i = 0;
+                    _i = 0, jobs_1 = jobs;
                     _a.label = 1;
                 case 1:
-                    if (!(i < subs.length)) return [3 /*break*/, 6];
-                    sub = subs[i];
+                    if (!(_i < jobs_1.length)) return [3 /*break*/, 6];
+                    job = jobs_1[_i];
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    console.log(sub);
-                    return [4 /*yield*/, sub.execute()];
+                    console.log(job);
+                    return [4 /*yield*/, job.execute()];
                 case 3:
                     _a.sent();
                     return [3 /*break*/, 5];
@@ -298,7 +297,7 @@ function executeMappers() {
                     console.log("Error but soldier on....");
                     return [3 /*break*/, 5];
                 case 5:
-                    i++;
+                    _i++;
                     return [3 /*break*/, 1];
                 case 6:
                     if (!(errors.length > 0)) return [3 /*break*/, 8];
@@ -315,7 +314,7 @@ function doit() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, executeMappers()];
+                case 0: return [4 /*yield*/, executeMappers(MapperJobs)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
