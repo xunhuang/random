@@ -44,62 +44,8 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio = require('cheerio');
+var Email = require("./Email");
 var CloudDB = require("./CloudDB");
-function doit2() {
-    return __awaiter(this, void 0, void 0, function () {
-        var targetTable, record, dom, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    targetTable = "County-Vaccine-Data";
-                    return [4 /*yield*/, CloudDB.getLastRecord("California-Vaccine")];
-                case 1:
-                    record = _a.sent();
-                    dom = cheerio.load(record);
-                    data = dom("#counties-vaccination-data").html();
-                    console.log(data);
-                    return [4 /*yield*/, CloudDB.saveInfoAtSystem(targetTable, data)];
-                case 2:
-                    _a.sent();
-                    console.log("hello!");
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-var CheerioCommand = /** @class */ (function () {
-    function CheerioCommand(cssSelector) {
-        this.cssSelector = cssSelector;
-    }
-    CheerioCommand.prototype.execute = function (input) {
-        var dom = cheerio.load(input);
-        var data = dom(this.cssSelector).html();
-        return data;
-    };
-    return CheerioCommand;
-}());
-var DataMovingJob = /** @class */ (function () {
-    function DataMovingJob(source, dest, commands) {
-        this.sourceTable = source;
-        this.destTable = dest;
-        this.processing = commands;
-    }
-    DataMovingJob.prototype.execute = function (input) {
-        var start = input;
-        var end = undefined;
-        for (var i = 0; i < this.processing.length; i++) {
-            var cmd = this.processing[i];
-            end = cmd.execute(start);
-            start = end;
-        }
-        return end;
-    };
-    return DataMovingJob;
-}());
-;
-var Jobs = [
-    new DataMovingJob("California-Vaccine", "County-Vaccine-Data", [new CheerioCommand("#counties-vaccination-data")])
-];
 var JobExecStatus = {
     UNKNOWN: "pending",
     SUCCESS: "success",
@@ -211,70 +157,6 @@ function list_deep_dedup(list) {
         return !r.some(function (j) { return !Object.keys(i).some(function (k) { return i[k] !== j[k]; }); }) ? __spreadArrays(r, [i]) : r;
     }, []);
 }
-function testmapper() {
-    return __awaiter(this, void 0, void 0, function () {
-        function process(input, dataRecord) {
-            return __awaiter(this, void 0, void 0, function () {
-                var dom, processed;
-                return __generator(this, function (_a) {
-                    dom = cheerio.load(input);
-                    processed = dom("#counties-vaccination-data").html();
-                    return [2 /*return*/, processed];
-                });
-            });
-        }
-        var srctablename, jobTableName, outputTable, jobStatusTable, successIds, allJobs, records, dirty, _i, records_2, record, data, output;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    srctablename = "California-Vaccine 2";
-                    jobTableName = "California-Vaccine-2-job";
-                    outputTable = "testoutput";
-                    return [4 /*yield*/, fetchJobsStatus(jobTableName)];
-                case 1:
-                    jobStatusTable = _a.sent();
-                    successIds = getSuccessfulJobs(jobStatusTable);
-                    return [4 /*yield*/, CloudDB.getFullRecords(srctablename)];
-                case 2:
-                    allJobs = _a.sent();
-                    records = computeUnfinishedJobs(allJobs, successIds);
-                    dirty = false;
-                    _i = 0, records_2 = records;
-                    _a.label = 3;
-                case 3:
-                    if (!(_i < records_2.length)) return [3 /*break*/, 8];
-                    record = records_2[_i];
-                    console.log("working on:", record.key);
-                    jobStatusTable[record.key] = JobExecStatus.SUCCESS;
-                    return [4 /*yield*/, record.fetchData()];
-                case 4:
-                    data = _a.sent();
-                    return [4 /*yield*/, process(data, record)];
-                case 5:
-                    output = _a.sent();
-                    if (!output) return [3 /*break*/, 7];
-                    return [4 /*yield*/, CloudDB.saveInfoAtSystem(outputTable, output, record.timestamp, record.key)];
-                case 6:
-                    _a.sent();
-                    dirty = true;
-                    return [3 /*break*/, 7];
-                case 7:
-                    _i++;
-                    return [3 /*break*/, 3];
-                case 8:
-                    if (!dirty) return [3 /*break*/, 10];
-                    return [4 /*yield*/, CloudDB.saveJobStatusTable(jobTableName, jobStatusTable)];
-                case 9:
-                    _a.sent();
-                    return [3 /*break*/, 11];
-                case 10:
-                    console.log("nothing to update");
-                    _a.label = 11;
-                case 11: return [2 /*return*/];
-            }
-        });
-    });
-}
 function testreducer() {
     return __awaiter(this, void 0, void 0, function () {
         var srctablename, jobTableName, outputTable;
@@ -285,12 +167,12 @@ function testreducer() {
                     jobTableName = "California-Reducer";
                     outputTable = "Calfiornia-Vaccine-finaloutput";
                     return [4 /*yield*/, reducer(srctablename, jobTableName, outputTable, function (content, preresult) {
-                            var pre = preresult ?
+                            var result = preresult ?
                                 JSON.parse(preresult) : [];
                             var input = JSON.parse(content);
                             for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
                                 var entry = input_1[_i];
-                                pre.push({
+                                result.push({
                                     fips: entry.fips,
                                     county: entry.county,
                                     date: entry.date,
@@ -300,9 +182,9 @@ function testreducer() {
                                     doses_administered_per_100k: entry.doses_administered_per_100k,
                                 });
                             }
-                            pre = list_deep_dedup(pre);
-                            console.log("so far length is :" + pre.length);
-                            return JSON.stringify(pre);
+                            result = list_deep_dedup(result);
+                            console.log("so far length is :" + result.length);
+                            return JSON.stringify(result);
                         })];
                 case 1:
                     _a.sent();
@@ -311,15 +193,130 @@ function testreducer() {
         });
     });
 }
+var MapperJob = /** @class */ (function () {
+    function MapperJob(name, srctablename, outputTable, process, options) {
+        if (options === void 0) { options = null; }
+        this.jobTableName = null;
+        this.options = null;
+        this.name = name;
+        this.srctablename = srctablename;
+        this.outputTable = outputTable;
+        this.process = process;
+        if (options) {
+            if (options.verbose)
+                this.verbose = options.verbose;
+            if (options.jobTableName)
+                this.jobTableName = options.jobTableName;
+        }
+        if (!this.jobTableName) {
+            this.jobTableName = this.name + "-" + this.srctablename + "-" + this.outputTable;
+        }
+    }
+    MapperJob.prototype.execute = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var jobStatusTable, successIds, allJobs, records, dirty, _i, records_2, record, data, output;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fetchJobsStatus(this.jobTableName)];
+                    case 1:
+                        jobStatusTable = _a.sent();
+                        successIds = getSuccessfulJobs(jobStatusTable);
+                        return [4 /*yield*/, CloudDB.getFullRecords(this.srctablename)];
+                    case 2:
+                        allJobs = _a.sent();
+                        records = computeUnfinishedJobs(allJobs, successIds);
+                        dirty = false;
+                        _i = 0, records_2 = records;
+                        _a.label = 3;
+                    case 3:
+                        if (!(_i < records_2.length)) return [3 /*break*/, 7];
+                        record = records_2[_i];
+                        console.log("working on:", record.key);
+                        jobStatusTable[record.key] = JobExecStatus.SUCCESS;
+                        return [4 /*yield*/, record.fetchData()];
+                    case 4:
+                        data = _a.sent();
+                        output = this.process(data, record);
+                        if (!output) return [3 /*break*/, 6];
+                        return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.outputTable, output, record.timestamp, record.key)];
+                    case 5:
+                        _a.sent();
+                        dirty = true;
+                        return [3 /*break*/, 6];
+                    case 6:
+                        _i++;
+                        return [3 /*break*/, 3];
+                    case 7:
+                        if (!dirty) return [3 /*break*/, 9];
+                        return [4 /*yield*/, CloudDB.saveJobStatusTable(this.jobTableName, jobStatusTable)];
+                    case 8:
+                        _a.sent();
+                        return [3 /*break*/, 10];
+                    case 9:
+                        console.log("nothing to update");
+                        _a.label = 10;
+                    case 10: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return MapperJob;
+}());
+var MapperJobs = [
+    new MapperJob("CA Vaccine Mapper", "California-Vaccine 2", "testoutput", function (input, dataRecord) {
+        var dom = cheerio.load(input);
+        var processed = dom("#counties-vaccination-data").html();
+        return processed;
+    }, {
+        jobTableName: "California-Vaccine-2-job",
+    })
+];
+function executeMappers() {
+    return __awaiter(this, void 0, void 0, function () {
+        var subs, errors, i, sub, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    subs = MapperJobs;
+                    errors = [];
+                    i = 0;
+                    _a.label = 1;
+                case 1:
+                    if (!(i < subs.length)) return [3 /*break*/, 6];
+                    sub = subs[i];
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 5]);
+                    console.log(sub);
+                    return [4 /*yield*/, sub.execute()];
+                case 3:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 4:
+                    err_1 = _a.sent();
+                    console.log(err_1);
+                    console.log("Error but soldier on....");
+                    return [3 /*break*/, 5];
+                case 5:
+                    i++;
+                    return [3 /*break*/, 1];
+                case 6:
+                    if (!(errors.length > 0)) return [3 /*break*/, 8];
+                    return [4 /*yield*/, Email.send(["xhuang@gmail.com"], "Mapper Execution: " + errors.length + " from latest run", JSON.stringify(errors, null, 2))];
+                case 7:
+                    _a.sent();
+                    _a.label = 8;
+                case 8: return [2 /*return*/];
+            }
+        });
+    });
+}
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: 
-                // await testmapper();
-                return [4 /*yield*/, testreducer()];
+                case 0: return [4 /*yield*/, executeMappers()];
                 case 1:
-                    // await testmapper();
                     _a.sent();
                     return [2 /*return*/];
             }
