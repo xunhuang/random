@@ -37,6 +37,8 @@ jobs:
     - run: cd website; npm ci  ; cd ..
     - run: cd website; npm run build --if-present; cd ..
     - run: cd website; echo "gowatchit.net" > build/CNAME; cd ..
+    - run: mkdir -p website/build/data/vaccine
+    - run: node dataget.js -t Calfiornia-Vaccine-Overtime-Table  > website/build/data/vaccine/CA.json
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
