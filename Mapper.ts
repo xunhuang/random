@@ -1,48 +1,7 @@
 const cheerio = require('cheerio');
 import * as Email from './Email';
 import * as CloudDB from './CloudDB';
-
-// ----------------------------------------------------------------
-// vvvvvvvv
-const JobExecStatus = {
-    UNKNOWN: "pending",
-    SUCCESS: "success",
-    FAIL: "failed",
-}
-
-function computeUnfinishedJobs(
-    allJobs: CloudDB.DataRecord[],
-    successIds: string[],
-): CloudDB.DataRecord[] {
-    var successIdsMap = successIds.reduce(function (map, obj) {
-        map[obj] = true;
-        return map;
-    }, {});
-
-    let unfinished = [];
-    for (const job of allJobs) {
-        if (!successIdsMap[job.key]) {
-            unfinished.push(job);
-        }
-    }
-    return unfinished;
-}
-
-function getSuccessfulJobs(jobStatusTable: object): string[] {
-    let successIds = [];
-    for (const key in jobStatusTable) {
-        if (jobStatusTable[key] === JobExecStatus.SUCCESS) {
-            successIds.push(key);
-        }
-    }
-    return successIds;
-}
-
-async function fetchJobsStatus(tablename: string): Promise<string[]> {
-    return await CloudDB.getJobStatusTable(tablename);
-}
-// ^^^^^^^^^^^
-// ----------------------------------------------------------------
+import * as MRUtils from './MapReduceUtils';
 
 type MapperOptions = {
     verbose?: false,
@@ -81,15 +40,15 @@ class MapperJob {
     }
 
     async execute() {
-        let jobStatusTable = await fetchJobsStatus(this.jobTableName);
-        let successIds = getSuccessfulJobs(jobStatusTable);
+        let jobStatusTable = await MRUtils.fetchJobsStatus(this.jobTableName);
+        let successIds = MRUtils.getSuccessfulJobs(jobStatusTable);
         let allJobs = await CloudDB.getFullRecords(this.srctablename);
-        let records = computeUnfinishedJobs(allJobs, successIds);
+        let records = MRUtils.computeUnfinishedJobs(allJobs, successIds);
 
         let dirty = false;
         for (const record of records) {
             console.log("working on:", record.key);
-            jobStatusTable[record.key] = JobExecStatus.SUCCESS;
+            jobStatusTable[record.key] = MRUtils.JobExecStatus.SUCCESS;
             let data = await record.fetchData();
             let output = this.process(data, record);
             if (output) {
@@ -147,9 +106,9 @@ const MapperJobs = [
             jobTableName: "California-Vaccine-2-job",
         }
     )];
+
 async function doit() {
     await executeMappers(MapperJobs);
 }
 
-
-doit()
+doit().then(() => process.exit());

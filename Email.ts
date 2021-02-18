@@ -12,6 +12,10 @@ export async function send(emails: string[], subject: string, html: string) {
             html: html
         };
 
+        if (emails.length == 0) {
+            console.log("Empty to: fields. No email sent");
+        }
+
         mailgun.messages().send(data, (error, body) => {
             if (error) {
                 console.log("error is " + error);

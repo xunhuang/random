@@ -50,6 +50,9 @@ function send(emails, subject, html) {
                         subject: subject,
                         html: html
                     };
+                    if (emails.length == 0) {
+                        console.log("Empty to: fields. No email sent");
+                    }
                     mailgun.messages().send(data, function (error, body) {
                         if (error) {
                             console.log("error is " + error);

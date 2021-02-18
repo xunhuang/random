@@ -38,10 +38,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio = require('cheerio');
 var Email = require("./Email");
-var CloudDB = require("./CloudDB");
 var MRUtils = require("./MapReduceUtils");
-var MapperJob = /** @class */ (function () {
-    function MapperJob(name, srctablename, outputTable, process, options) {
+var CloudDB = require("./CloudDB");
+var ReducerJob = /** @class */ (function () {
+    function ReducerJob(name, srctablename, outputTable, process, options) {
         if (options === void 0) { options = null; }
         this.jobTableName = null;
         this.options = null;
@@ -59,57 +59,77 @@ var MapperJob = /** @class */ (function () {
             this.jobTableName = this.name + "-" + this.srctablename + "-" + this.outputTable;
         }
     }
-    MapperJob.prototype.execute = function () {
+    ReducerJob.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var jobStatusTable, successIds, allJobs, records, dirty, _i, records_1, record, data, output;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var jobStatusTable, successIds, allJobs, records, initialresult, previousresults, succesfulruns, _i, records_1, record, data, error_1, _a, succesfulruns_1, job;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: return [4 /*yield*/, MRUtils.fetchJobsStatus(this.jobTableName)];
                     case 1:
-                        jobStatusTable = _a.sent();
+                        jobStatusTable = _b.sent();
                         successIds = MRUtils.getSuccessfulJobs(jobStatusTable);
                         return [4 /*yield*/, CloudDB.getFullRecords(this.srctablename)];
                     case 2:
-                        allJobs = _a.sent();
+                        allJobs = _b.sent();
                         records = MRUtils.computeUnfinishedJobs(allJobs, successIds);
-                        dirty = false;
-                        _i = 0, records_1 = records;
-                        _a.label = 3;
+                        return [4 /*yield*/, CloudDB.getLastRecord(this.outputTable)];
                     case 3:
-                        if (!(_i < records_1.length)) return [3 /*break*/, 7];
+                        initialresult = _b.sent();
+                        previousresults = initialresult;
+                        succesfulruns = [];
+                        _i = 0, records_1 = records;
+                        _b.label = 4;
+                    case 4:
+                        if (!(_i < records_1.length)) return [3 /*break*/, 10];
                         record = records_1[_i];
                         console.log("working on:", record.key);
-                        jobStatusTable[record.key] = MRUtils.JobExecStatus.SUCCESS;
-                        return [4 /*yield*/, record.fetchData()];
-                    case 4:
-                        data = _a.sent();
-                        output = this.process(data, record);
-                        if (!output) return [3 /*break*/, 6];
-                        return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.outputTable, output, record.timestamp, record.key)];
+                        _b.label = 5;
                     case 5:
-                        _a.sent();
-                        dirty = true;
-                        return [3 /*break*/, 6];
+                        _b.trys.push([5, 8, , 9]);
+                        return [4 /*yield*/, record.fetchData()];
                     case 6:
-                        _i++;
-                        return [3 /*break*/, 3];
+                        data = _b.sent();
+                        return [4 /*yield*/, this.process(data, previousresults)];
                     case 7:
-                        if (!dirty) return [3 /*break*/, 9];
-                        return [4 /*yield*/, CloudDB.saveJobStatusTable(this.jobTableName, jobStatusTable)];
+                        previousresults = _b.sent();
+                        succesfulruns.push(record.key);
+                        return [3 /*break*/, 9];
                     case 8:
-                        _a.sent();
-                        return [3 /*break*/, 10];
+                        error_1 = _b.sent();
+                        console.log("error on:", record.key);
+                        console.log(error_1);
+                        return [3 /*break*/, 9];
                     case 9:
-                        console.log("nothing to update");
-                        _a.label = 10;
-                    case 10: return [2 /*return*/];
+                        _i++;
+                        return [3 /*break*/, 4];
+                    case 10:
+                        if (!(previousresults !== initialresult)) return [3 /*break*/, 12];
+                        // persist the new results. 
+                        return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.outputTable, previousresults)];
+                    case 11:
+                        // persist the new results. 
+                        _b.sent();
+                        _b.label = 12;
+                    case 12:
+                        if (!(succesfulruns.length > 0)) return [3 /*break*/, 14];
+                        for (_a = 0, succesfulruns_1 = succesfulruns; _a < succesfulruns_1.length; _a++) {
+                            job = succesfulruns_1[_a];
+                            jobStatusTable[job] = MRUtils.JobExecStatus.SUCCESS;
+                        }
+                        return [4 /*yield*/, CloudDB.saveJobStatusTable(this.jobTableName, jobStatusTable)];
+                    case 13:
+                        _b.sent();
+                        _b.label = 14;
+                    case 14:
+                        console.log("done with reducer");
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return MapperJob;
+    return ReducerJob;
 }());
-function executeMappers(jobs) {
+function executeReducers(jobs) {
     return __awaiter(this, void 0, void 0, function () {
         var errors, _i, jobs_1, job, err_1;
         return __generator(this, function (_a) {
@@ -139,7 +159,7 @@ function executeMappers(jobs) {
                     return [3 /*break*/, 1];
                 case 6:
                     if (!(errors.length > 0)) return [3 /*break*/, 8];
-                    return [4 /*yield*/, Email.send(["xhuang@gmail.com"], "Mapper Execution: " + errors.length + " from latest run", JSON.stringify(errors, null, 2))];
+                    return [4 /*yield*/, Email.send(["xhuang@gmail.com"], "Reducer Execution: " + errors.length + " from latest run", JSON.stringify(errors, null, 2))];
                 case 7:
                     _a.sent();
                     _a.label = 8;
@@ -148,20 +168,35 @@ function executeMappers(jobs) {
         });
     });
 }
-var MapperJobs = [
-    new MapperJob("CA Vaccine Mapper", "California-Vaccine 2", "testoutput", function (input, dataRecord) {
-        var dom = cheerio.load(input);
-        var processed = dom("#counties-vaccination-data").html();
-        return processed;
+var ReducerJobs = [
+    new ReducerJob("CA Vaccine Reducer", "testoutput", "Calfiornia-Vaccine-finaloutput", function (content, preresult) {
+        var result = preresult ?
+            JSON.parse(preresult) : [];
+        var input = JSON.parse(content);
+        for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
+            var entry = input_1[_i];
+            result.push({
+                fips: entry.fips,
+                county: entry.county,
+                date: entry.date,
+                doses_administered: entry.doses_administered,
+                population: entry.population,
+                new_doses_administered: entry.new_doses_administered,
+                doses_administered_per_100k: entry.doses_administered_per_100k,
+            });
+        }
+        result = MRUtils.list_deep_dedup(result);
+        console.log("so far length is :" + result.length);
+        return JSON.stringify(result);
     }, {
-        jobTableName: "California-Vaccine-2-job",
+        jobTableName: "California-Reducer",
     })
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, executeMappers(MapperJobs)];
+                case 0: return [4 /*yield*/, executeReducers(ReducerJobs)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -170,4 +205,4 @@ function doit() {
     });
 }
 doit().then(function () { return process.exit(); });
-//# sourceMappingURL=Mapper.js.map
+//# sourceMappingURL=Reducer.js.map

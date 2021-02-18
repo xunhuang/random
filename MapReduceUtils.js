@@ -35,15 +35,61 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var cheerio = require('cheerio');
-function doit() {
+exports.list_deep_dedup = exports.fetchJobsStatus = exports.getSuccessfulJobs = exports.computeUnfinishedJobs = exports.JobExecStatus = void 0;
+var CloudDB = require("./CloudDB");
+exports.JobExecStatus = {
+    UNKNOWN: "pending",
+    SUCCESS: "success",
+    FAIL: "failed",
+};
+function computeUnfinishedJobs(allJobs, successIds) {
+    var successIdsMap = successIds.reduce(function (map, obj) {
+        map[obj] = true;
+        return map;
+    }, {});
+    var unfinished = [];
+    for (var _i = 0, allJobs_1 = allJobs; _i < allJobs_1.length; _i++) {
+        var job = allJobs_1[_i];
+        if (!successIdsMap[job.key]) {
+            unfinished.push(job);
+        }
+    }
+    return unfinished;
+}
+exports.computeUnfinishedJobs = computeUnfinishedJobs;
+function getSuccessfulJobs(jobStatusTable) {
+    var successIds = [];
+    for (var key in jobStatusTable) {
+        if (jobStatusTable[key] === exports.JobExecStatus.SUCCESS) {
+            successIds.push(key);
+        }
+    }
+    return successIds;
+}
+exports.getSuccessfulJobs = getSuccessfulJobs;
+function fetchJobsStatus(tablename) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            console.log("hello world");
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, CloudDB.getJobStatusTable(tablename)];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
         });
     });
 }
-doit().then(function () { return process.exit(); });
-//# sourceMappingURL=debug.js.map
+exports.fetchJobsStatus = fetchJobsStatus;
+function list_deep_dedup(list) {
+    return list.reduce(function (r, i) {
+        return !r.some(function (j) { return !Object.keys(i).some(function (k) { return i[k] !== j[k]; }); }) ? __spreadArrays(r, [i]) : r;
+    }, []);
+}
+exports.list_deep_dedup = list_deep_dedup;
+//# sourceMappingURL=MapReduceUtils.js.map
