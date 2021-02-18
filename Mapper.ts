@@ -94,16 +94,16 @@ async function executeMappers(jobs: MapperJob[]) {
 
 const MapperJobs = [
     new MapperJob(
-        "CA Vaccine Mapper",
+        "CA Vaccine Mapper (html to json)",
         "California-Vaccine 2",
-        "testoutput",
+        "California-Vaccine-Json-table",
         (input: string, dataRecord: CloudDB.DataRecord) => {
             let dom = cheerio.load(input);
             let processed = dom("#counties-vaccination-data").html();
             return processed;
         },
         {
-            jobTableName: "California-Vaccine-2-job",
+            // jobTableName: "California-Vaccine-2-job",
         }
     )];
 

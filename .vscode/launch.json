@@ -14,8 +14,8 @@
             "type": "pwa-node"
         },
         {
-            "name": "Run basic tester",
-            "program": "${workspaceFolder}/debug.js",
+            "name": "Run Mapper",
+            "program": "${workspaceFolder}/Mapper.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"

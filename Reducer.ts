@@ -97,9 +97,9 @@ async function executeReducers(jobs: ReducerJob[]) {
 
 const ReducerJobs = [
     new ReducerJob(
-        "CA Vaccine Reducer",
-        "testoutput",
-        "Calfiornia-Vaccine-finaloutput",
+        "CA Vaccine Reducer (aggregate JSON table over time)",
+        "California-Vaccine-Json-table",
+        "Calfiornia-Vaccine-Overtime-Table",
         (content: string, preresult: string | null): string => {
             let result = preresult ?
                 JSON.parse(preresult) : [];
@@ -121,7 +121,6 @@ const ReducerJobs = [
             return JSON.stringify(result);
         },
         {
-            jobTableName: "California-Reducer",
         }
 
     )];

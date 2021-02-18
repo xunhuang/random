@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio = require('cheerio');
 var Email = require("./Email");
 var MRUtils = require("./MapReduceUtils");
@@ -169,7 +169,7 @@ function executeReducers(jobs) {
     });
 }
 var ReducerJobs = [
-    new ReducerJob("CA Vaccine Reducer", "testoutput", "Calfiornia-Vaccine-finaloutput", function (content, preresult) {
+    new ReducerJob("CA Vaccine Reducer (aggregate JSON table over time)", "California-Vaccine-Json-table", "Calfiornia-Vaccine-Overtime-Table", function (content, preresult) {
         var result = preresult ?
             JSON.parse(preresult) : [];
         var input = JSON.parse(content);
@@ -182,15 +182,13 @@ var ReducerJobs = [
                 doses_administered: entry.doses_administered,
                 population: entry.population,
                 new_doses_administered: entry.new_doses_administered,
-                doses_administered_per_100k: entry.doses_administered_per_100k
+                doses_administered_per_100k: entry.doses_administered_per_100k,
             });
         }
         result = MRUtils.list_deep_dedup(result);
         console.log("so far length is :" + result.length);
         return JSON.stringify(result);
-    }, {
-        jobTableName: "California-Reducer"
-    })
+    }, {})
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
@@ -205,3 +203,4 @@ function doit() {
     });
 }
 doit().then(function () { return process.exit(); });
+//# sourceMappingURL=Reducer.js.map
