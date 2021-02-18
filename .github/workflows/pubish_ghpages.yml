@@ -1,0 +1,46 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Publish To GH Pages
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+  - cron: "*/20 * * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Setup timezone
+      uses: zcong1993/setup-timezone@master
+      with:
+        timezone: America/Los_Angeles
+    - name: firebaseConfig
+      env:
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      run: cd website; echo "${FIREBASE_CONFIG}" > ./firebaseConfig.json;  cd ..
+    - run: npmv=$(echo $(npm -v) | head -c 1); if [ "$npmv" -lt "6" ]; then npm i -g npm; else echo "Node.js Docker Team finally decided to include npm v6+ in latest image; you can remove this script now"; fi
+    - run: cd website; npm ci  ; cd ..
+    - run: cd website; npm run build --if-present; cd ..
+    - run: cd website; echo "gowatchit.net" > build/CNAME; cd ..
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: website/build # The folder the action should deploy.
+        CLEAN: true # Automatically remove deleted files from the deploy branch
