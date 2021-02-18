@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = require("moment");
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
@@ -254,7 +254,7 @@ function saveJobStatusTable(tablename, jobstatus) {
                 case 0:
                     docRef = db.collection("JobStatus").doc(tablename);
                     return [4 /*yield*/, docRef.set(jobstatus).then(function (doc) {
-                        })["catch"](function (err) {
+                        }).catch(function (err) {
                             return null;
                         })];
                 case 1:
@@ -279,3 +279,4 @@ export async function fetchUnfinishedJobs(tablename: string,
         });
 }
 */ 
+//# sourceMappingURL=CloudDB.js.map
