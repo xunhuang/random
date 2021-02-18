@@ -209,6 +209,7 @@ const NewSubscriptions = [
             storageTableName: "California-Vaccine 2"
         }
     ),
+    /*
     new Subscription(
         "Alameda County Vaccine Hospital",
         "https://covid-19.acgov.org/vaccines",
@@ -220,6 +221,7 @@ const NewSubscriptions = [
             storageTableName: "Alameda-Vaccine 2"
         }
     ),
+    */
     new Subscription(
         "CDC State Vaccination Data",
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data",

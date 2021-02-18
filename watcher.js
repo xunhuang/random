@@ -275,12 +275,19 @@ var NewSubscriptions = [
     new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
         storageTableName: "California-Vaccine 2"
     }),
-    new Subscription("Alameda County Vaccine Hospital", "https://covid-19.acgov.org/vaccines", ["xhuang@gmail.com"], {
-        customHeaders: {
-            'user-agent': 'curl/7.64.1',
-        },
-        storageTableName: "Alameda-Vaccine 2"
-    }),
+    /*
+    new Subscription(
+        "Alameda County Vaccine Hospital",
+        "https://covid-19.acgov.org/vaccines",
+        ["xhuang@gmail.com"],
+        {
+            customHeaders: {
+                'user-agent': 'curl/7.64.1',
+            },
+            storageTableName: "Alameda-Vaccine 2"
+        }
+    ),
+    */
     new Subscription("CDC State Vaccination Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data", ["xhuang@gmail.com"], {
         storageTableName: "CDC State Vaccination Data"
     }),
