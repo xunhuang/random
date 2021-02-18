@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var cheerio = require('cheerio');
 var Email = require("./Email");
 var MRUtils = require("./MapReduceUtils");
@@ -182,14 +182,14 @@ var ReducerJobs = [
                 doses_administered: entry.doses_administered,
                 population: entry.population,
                 new_doses_administered: entry.new_doses_administered,
-                doses_administered_per_100k: entry.doses_administered_per_100k,
+                doses_administered_per_100k: entry.doses_administered_per_100k
             });
         }
         result = MRUtils.list_deep_dedup(result);
         console.log("so far length is :" + result.length);
         return JSON.stringify(result);
     }, {
-        jobTableName: "California-Reducer",
+        jobTableName: "California-Reducer"
     })
 ];
 function doit() {
@@ -205,4 +205,3 @@ function doit() {
     });
 }
 doit().then(function () { return process.exit(); });
-//# sourceMappingURL=Reducer.js.map

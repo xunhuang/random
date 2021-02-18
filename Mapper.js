@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var cheerio = require('cheerio');
 var Email = require("./Email");
 var CloudDB = require("./CloudDB");
@@ -154,7 +154,7 @@ var MapperJobs = [
         var processed = dom("#counties-vaccination-data").html();
         return processed;
     }, {
-        jobTableName: "California-Vaccine-2-job",
+        jobTableName: "California-Vaccine-2-job"
     })
 ];
 function doit() {
@@ -170,4 +170,3 @@ function doit() {
     });
 }
 doit().then(function () { return process.exit(); });
-//# sourceMappingURL=Mapper.js.map
