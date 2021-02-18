@@ -37,10 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio = require('cheerio');
+var argv = require('minimist')(process.argv.slice(2));
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            console.log("hello world");
+            console.log(argv);
             return [2 /*return*/];
         });
     });

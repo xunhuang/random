@@ -5,9 +5,17 @@ import * as CloudDB from './CloudDB';
 
 var argv = require('minimist')(process.argv.slice(2));
 
+function usage() {
+    console.log(`Usage:   program -t tablename`);
+}
 
 async function doit() {
-    console.log(argv);
+    if (argv["t"]) {
+        let data = await CloudDB.getLastRecord(argv["t"]);
+        console.log(data);
+    } else {
+        usage();
+    }
 }
 
 doit().then(() => process.exit());

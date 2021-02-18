@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,38 +54,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-exports.send = void 0;
-function send(emails, subject, html) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var cheerio = require('cheerio');
+var CloudDB = __importStar(require("./CloudDB"));
+var argv = require('minimist')(process.argv.slice(2));
+function usage() {
+    console.log("Usage:   program -t tablename");
+}
+function doit() {
     return __awaiter(this, void 0, void 0, function () {
+        var data;
         return __generator(this, function (_a) {
-            return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var API_KEY = process.env.MAILGUN_TOKEN;
-                    var DOMAIN = 'yumyum.today';
-                    var mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
-                    var data = {
-                        from: 'YumYum Mailer<mail@yumyum.today>',
-                        to: emails.join(","),
-                        subject: subject,
-                        html: html
-                    };
-                    if (emails.length == 0) {
-                        console.log("Empty to: fields. No email sent");
-                    }
-                    mailgun.messages().send(data, function (error, body) {
-                        if (error) {
-                            console.log("error is " + error);
-                            console.log(emails);
-                            console.log(emails.join(","));
-                            resolve(false); // or use rejcet(false) but then you will have to handle errors
-                        }
-                        else {
-                            console.log("Email sent to " + emails.join(","));
-                            resolve(true);
-                        }
-                    });
-                })];
+            switch (_a.label) {
+                case 0:
+                    if (!argv["t"]) return [3 /*break*/, 2];
+                    return [4 /*yield*/, CloudDB.getLastRecord(argv["t"])];
+                case 1:
+                    data = _a.sent();
+                    console.log(data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    usage();
+                    _a.label = 3;
+                case 3: return [2 /*return*/];
+            }
         });
     });
 }
-exports.send = send;
+doit().then(function () { return process.exit(); });
+//# sourceMappingURL=dataget.js.map

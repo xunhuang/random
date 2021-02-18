@@ -1,5 +1,5 @@
-import * as moment from 'moment';
 import * as StorageType from "@firebase/storage-types";
+import * as moment from 'moment';
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 

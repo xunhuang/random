@@ -42,13 +42,13 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.list_deep_dedup = exports.fetchJobsStatus = exports.getSuccessfulJobs = exports.computeUnfinishedJobs = exports.JobExecStatus = void 0;
 var CloudDB = require("./CloudDB");
 exports.JobExecStatus = {
     UNKNOWN: "pending",
     SUCCESS: "success",
-    FAIL: "failed",
+    FAIL: "failed"
 };
 function computeUnfinishedJobs(allJobs, successIds) {
     var successIdsMap = successIds.reduce(function (map, obj) {
@@ -92,4 +92,3 @@ function list_deep_dedup(list) {
     }, []);
 }
 exports.list_deep_dedup = list_deep_dedup;
-//# sourceMappingURL=MapReduceUtils.js.map
