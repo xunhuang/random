@@ -64,6 +64,7 @@ var ReducerJob = /** @class */ (function () {
         if (options === void 0) { options = null; }
         this.jobTableName = null;
         this.options = null;
+        this.preProcessor = null;
         this.name = name;
         this.srctablename = srctablename;
         this.outputTable = outputTable;
@@ -73,6 +74,8 @@ var ReducerJob = /** @class */ (function () {
                 this.verbose = options.verbose;
             if (options.jobTableName)
                 this.jobTableName = options.jobTableName;
+            if (options.preProcessor)
+                this.preProcessor = options.preProcessor;
         }
         if (!this.jobTableName) {
             this.jobTableName = this.name + "-" + this.srctablename + "-" + this.outputTable;
@@ -108,6 +111,9 @@ var ReducerJob = /** @class */ (function () {
                         return [4 /*yield*/, record.fetchData()];
                     case 6:
                         data = _b.sent();
+                        if (this.preProcessor) {
+                            data = this.preProcessor(data);
+                        }
                         return [4 /*yield*/, this.process(data, previousresults)];
                     case 7:
                         previousresults = _b.sent();
@@ -187,27 +193,30 @@ function executeReducers(jobs) {
         });
     });
 }
-var ReducerJobs = [
-    new ReducerJob("CA Vaccine Reducer (aggregate JSON table over time)", "California-Vaccine-Json-table", "Calfiornia-Vaccine-Overtime-Table", function (content, preresult) {
-        var result = preresult ?
-            JSON.parse(preresult) : [];
+var BuiltInReducers = {
+    /* this assumes results to be a line, it pushes items onto the list and perform a (deep) dedeup */
+    ArrayPushDedup: function (content, preresult) {
+        var result = preresult ? JSON.parse(preresult) : [];
         var input = JSON.parse(content);
         for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
             var entry = input_1[_i];
-            result.push({
-                fips: entry.fips,
-                county: entry.county,
-                date: entry.date,
-                doses_administered: entry.doses_administered,
-                population: entry.population,
-                new_doses_administered: entry.new_doses_administered,
-                doses_administered_per_100k: entry.doses_administered_per_100k,
-            });
+            result.push(entry);
         }
+        console.log("len is " + result.length + " post pre-deup");
         result = MRUtils.list_deep_dedup(result);
-        console.log("so far length is :" + result.length);
+        console.log("len is " + result.length + " post de-deup");
         return JSON.stringify(result);
-    }, {})
+    },
+};
+var ReducerJobs = [
+    new ReducerJob("CA Vaccine Reducer (aggregate JSON table over time)", "California-Vaccine-Json-table", "Calfiornia-Vaccine-Overtime-Table", BuiltInReducers.ArrayPushDedup),
+    new ReducerJob("CDC State Vaccine Reducer (aggregate JSON table over time)", "CDC State Vaccination Data", "CDC-Vaccine-Overtime-Table", BuiltInReducers.ArrayPushDedup, {
+        preProcessor: function (content) {
+            var input = JSON.parse(content);
+            var result = input.vaccination_data;
+            return JSON.stringify(result);
+        }
+    }),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {

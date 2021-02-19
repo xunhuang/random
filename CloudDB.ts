@@ -95,7 +95,7 @@ export async function saveInfoAtSystem(
 
     let url = await storeStringAsBlob(tablename, docRef.id, content);
 
-    timestamp = timestamp ? timestamp : moment().unix();
+    timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
     let obj = new DataRecord(
         docRef.id,
         cryptojs.MD5(content).toString(),
@@ -164,18 +164,3 @@ export async function saveJobStatusTable(tablename: string, jobstatus: object) {
     });
     return true;
 }
-
-/*
-export async function fetchUnfinishedJobs(tablename: string,
-    skips: string[],
-    njobs: number = 3): Promise<DataRecord[]> {
-    var docRef = db.collection(tablename)
-        .orderBy("timestamp", "asc")
-        .where("key", "not-in", skips)
-        .limit(njobs);
-    return await docRef.get().then(
-        function (querySnapshot) {
-            return snapshotToArrayDataRecord(querySnapshot);
-        });
-}
-*/

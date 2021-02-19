@@ -3,12 +3,14 @@ import * as Email from './Email';
 import * as MRUtils from './MapReduceUtils';
 import * as CloudDB from './CloudDB';
 
+type ReducerFunction = (content: string | null, preresult: string) => string;
+type ReducerPreprocessFunction = (content: string) => string;
+
 type ReducerOptions = {
     verbose?: false,
     jobTableName?: string;
+    preProcessor?: ReducerPreprocessFunction;
 }
-
-type ReducerFunction = (content: string | null, preresult: string) => string;
 
 class ReducerJob {
     name: string;
@@ -18,6 +20,7 @@ class ReducerJob {
     options: ReducerOptions | null = null;
     verbose: false;
     process: ReducerFunction;
+    preProcessor: ReducerPreprocessFunction | null = null;
 
     constructor(
         name: string,
@@ -33,6 +36,7 @@ class ReducerJob {
         if (options) {
             if (options.verbose) this.verbose = options.verbose;
             if (options.jobTableName) this.jobTableName = options.jobTableName;
+            if (options.preProcessor) this.preProcessor = options.preProcessor;
         }
         if (!this.jobTableName) {
             this.jobTableName = `${this.name}-${this.srctablename}-${this.outputTable}`;
@@ -52,6 +56,9 @@ class ReducerJob {
             console.log("working on:", record.key);
             try {
                 let data = await record.fetchData();
+                if (this.preProcessor) {
+                    data = this.preProcessor(data);
+                }
                 previousresults = await this.process(data, previousresults);
                 succesfulruns.push(record.key);
             } catch (error) {
@@ -95,35 +102,42 @@ async function executeReducers(jobs: ReducerJob[]) {
     }
 }
 
+const BuiltInReducers = {
+    /* this assumes results to be a line, it pushes items onto the list and perform a (deep) dedeup */
+    ArrayPushDedup: (content: string, preresult: string | null): string => {
+        let result = preresult ? JSON.parse(preresult) : [];
+        let input = JSON.parse(content);
+        for (const entry of input) {
+            result.push(entry);
+        }
+        console.log(`len is ${result.length} post pre-deup`)
+        result = MRUtils.list_deep_dedup(result);
+        console.log(`len is ${result.length} post de-deup`)
+        return JSON.stringify(result);
+    },
+}
+
 const ReducerJobs = [
     new ReducerJob(
         "CA Vaccine Reducer (aggregate JSON table over time)",
         "California-Vaccine-Json-table",
         "Calfiornia-Vaccine-Overtime-Table",
-        (content: string, preresult: string | null): string => {
-            let result = preresult ?
-                JSON.parse(preresult) : [];
-            let input = JSON.parse(content);
-            for (const entry of input) {
-                result.push({
-                    fips: entry.fips,
-                    county: entry.county,
-                    date: entry.date,
-                    doses_administered: entry.doses_administered,
-                    population: entry.population,
-                    new_doses_administered: entry.new_doses_administered,
-                    doses_administered_per_100k: entry.doses_administered_per_100k,
-                }
-                )
-            }
-            result = MRUtils.list_deep_dedup(result);
-            console.log("so far length is :" + result.length);
-            return JSON.stringify(result);
-        },
+        BuiltInReducers.ArrayPushDedup,
+    ),
+    new ReducerJob(
+        "CDC State Vaccine Reducer (aggregate JSON table over time)",
+        "CDC State Vaccination Data",
+        "CDC-Vaccine-Overtime-Table",
+        BuiltInReducers.ArrayPushDedup,
         {
+            preProcessor: (content: string): string => {
+                let input = JSON.parse(content);
+                let result = input.vaccination_data;
+                return JSON.stringify(result);
+            }
         }
-
-    )];
+    ),
+];
 
 async function doit() {
     await executeReducers(ReducerJobs);

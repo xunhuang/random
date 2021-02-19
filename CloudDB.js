@@ -150,7 +150,7 @@ function saveInfoAtSystem(tablename, content, timestamp, key) {
                     return [4 /*yield*/, storeStringAsBlob(tablename, docRef.id, content)];
                 case 1:
                     url = _a.sent();
-                    timestamp = timestamp ? timestamp : moment().unix();
+                    timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
                     obj = new DataRecord(docRef.id, cryptojs.MD5(content).toString(), timestamp, url);
                     return [4 /*yield*/, docRef.set(obj.toSimpleObject())];
                 case 2:
@@ -284,18 +284,4 @@ function saveJobStatusTable(tablename, jobstatus) {
     });
 }
 exports.saveJobStatusTable = saveJobStatusTable;
-/*
-export async function fetchUnfinishedJobs(tablename: string,
-    skips: string[],
-    njobs: number = 3): Promise<DataRecord[]> {
-    var docRef = db.collection(tablename)
-        .orderBy("timestamp", "asc")
-        .where("key", "not-in", skips)
-        .limit(njobs);
-    return await docRef.get().then(
-        function (querySnapshot) {
-            return snapshotToArrayDataRecord(querySnapshot);
-        });
-}
-*/ 
 //# sourceMappingURL=CloudDB.js.map

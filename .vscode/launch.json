@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Reducer Launch Program",
+            "program": "${workspaceFolder}/Reducer.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "dataget Program",
             "program": "${workspaceFolder}/dataget.js",
             "args": [
