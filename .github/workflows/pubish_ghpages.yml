@@ -40,6 +40,7 @@ jobs:
     - run: cd website; echo "gowatchit.net" > build/CNAME; cd ..
     - run: mkdir -p website/build/data/vaccine/counties
     - run: node dataget.js -t Calfiornia-Vaccine-Overtime-Table  > website/build/data/vaccine/counties/CA.json
+    - run: node dataget.js -t Calfiornia-Vaccine-Overtime-Table -f fips -o website/build/data/vaccine/counties
     - run: node dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
     - run: node datasplit.js -t CDC-Vaccine-Overtime-Table -f Location -o website/build/data/vaccine
     - name: Deploy
