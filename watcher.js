@@ -269,9 +269,16 @@ var NewSubscriptions = [
         jqQuery: ".providerList",
         storageTableName: "NYC-Vaccines",
     }),
-    new Subscription("Stanford Hospital", "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html", ["xhuang@gmail.com"], {
-        storageTableName: "Stanford-Vaccine",
-    }),
+    /*
+    new Subscription(
+        "Stanford Hospital",
+        "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
+        ["xhuang@gmail.com"],
+        {
+            storageTableName: "Stanford-Vaccine",
+        }
+    ),
+    */
     new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
         storageTableName: "California-Vaccine 2"
     }),

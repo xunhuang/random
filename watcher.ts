@@ -193,6 +193,7 @@ const NewSubscriptions = [
             storageTableName: "NYC-Vaccines",
         }
     ),
+    /*
     new Subscription(
         "Stanford Hospital",
         "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
@@ -201,6 +202,7 @@ const NewSubscriptions = [
             storageTableName: "Stanford-Vaccine",
         }
     ),
+    */
     new Subscription(
         "LA Times Vaccine Info",
         "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
