@@ -27,6 +27,23 @@
             "type": "pwa-node"
         },
         {
+            "name": "datasplit Program",
+            "program": "${workspaceFolder}/datasplit.js",
+            "args": [
+                "-t",
+                "CDC-Vaccine-Overtime-Table",
+                "-f",
+                "Location",
+                "-o",
+                "abc",
+            ],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "t2 run",
             "program": "${workspaceFolder}/t2.js",
             "request": "launch",

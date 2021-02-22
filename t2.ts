@@ -8,7 +8,6 @@ const fetch = require("node-fetch");
 const dfd = require("danfojs-node");
 
 
-/*
 let a = require("./NJ15iQMsgoRumVCL6lKi.json")
 
 let json_data = [{ A: 0.4612, B: 4.28283, C: -1.509, D: -1.1352 },
@@ -23,28 +22,12 @@ let df = new dfd.DataFrame(a);
 // df.sort_values({ by: "county", inplace: true })
 
 let grp = df.groupby(["county"]);
+let object = grp.col_dict;
+for (const key in object) {
+    if (object.hasOwnProperty(key)) {
+        const element = object[key];
+        grp.get_groups([key]).to_json().then(json => console.log(json));
+    }
+}
 // grp.get_groups(["Alameda"]).print();
 // df.print();
-
-// grp.col(max(["doses_administered"]).print();
-grp.col(['doses_administered']).max().print();
-
-*/
-
-
-function list_deep_dedup(list) {
-    return list.reduce((r, i) =>
-        !r.some(j => !Object.keys(i).some(k => i[k] !== j[k])) ? [...r, i] : r
-        , [])
-}
-
-let a = [
-    { a: 1, b: 2 },
-    { a: 1, b: 2 },
-    { a: 1, b: 2, c: 2 },
-]
-
-let c = list_deep_dedup(a);
-console.log(c);
-
-console.log("hello!");
