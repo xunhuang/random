@@ -295,13 +295,13 @@ var NewSubscriptions = [
         }
     ),
     */
-    new Subscription("CDC State Vaccination Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data", ["xhuang@gmail.com"], {
+    new Subscription("CDC State Vaccination Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data", [], {
         storageTableName: "CDC State Vaccination Data"
     }),
-    new Subscription("CDC National Vaccination Trends", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data", ["xhuang@gmail.com"], {
+    new Subscription("CDC National Vaccination Trends", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data", [], {
         storageTableName: "CDC National Vaccination Trends"
     }),
-    new Subscription("CDC Vaccination Demographic", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_demographics_data", ["xhuang@gmail.com"], {
+    new Subscription("CDC Vaccination Demographic", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_demographics_data", [], {
         storageTableName: "CDC Vaccination Demographic"
     }),
 ];

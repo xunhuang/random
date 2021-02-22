@@ -227,7 +227,7 @@ const NewSubscriptions = [
     new Subscription(
         "CDC State Vaccination Data",
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data",
-        ["xhuang@gmail.com"],
+        [],
         {
             storageTableName: "CDC State Vaccination Data"
         }
@@ -235,7 +235,7 @@ const NewSubscriptions = [
     new Subscription(
         "CDC National Vaccination Trends",
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data",
-        ["xhuang@gmail.com"],
+        [],
         {
             storageTableName: "CDC National Vaccination Trends"
         }
@@ -243,7 +243,7 @@ const NewSubscriptions = [
     new Subscription(
         "CDC Vaccination Demographic",
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_demographics_data",
-        ["xhuang@gmail.com"],
+        [],
         {
             storageTableName: "CDC Vaccination Demographic"
         }
