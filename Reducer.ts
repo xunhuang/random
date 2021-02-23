@@ -2,14 +2,19 @@ const cheerio = require('cheerio');
 import * as Email from './Email';
 import * as MRUtils from './MapReduceUtils';
 import * as CloudDB from './CloudDB';
+import * as moment from "moment";
 
 type ReducerFunction = (content: string | null, preresult: string) => string;
 type ReducerPreprocessFunction = (content: string) => string;
+type ReducerPostprocessFunction = (content: string) => string;
+type ReducerIteratorProcessingFunction = (content: object) => object;
 
 type ReducerOptions = {
     verbose?: false,
     jobTableName?: string;
     preProcessor?: ReducerPreprocessFunction;
+    postProcessor?: ReducerPostprocessFunction;
+    iteratorProcessor?: ReducerIteratorProcessingFunction;
 }
 
 class ReducerJob {
@@ -110,11 +115,36 @@ const BuiltInReducers = {
         for (const entry of input) {
             result.push(entry);
         }
-        console.log(`len is ${result.length} post pre-deup`)
+        // console.log(`len is ${result.length} post pre-deup`)
         result = MRUtils.list_deep_dedup(result);
-        console.log(`len is ${result.length} post de-deup`)
+        // console.log(`len is ${result.length} post de-deup`)
         return JSON.stringify(result);
     },
+}
+
+function groupMaxTimeDedup(list: object[], groupby: string, timefield: string): object[] {
+    let objects = {};
+    for (const line of list) {
+        let date = line[groupby];
+        let fielddata = objects[date] || [];
+        fielddata.push(line);
+        objects[date] = fielddata;
+    }
+
+    function unixtime(o) {
+        return moment.utc(o[timefield]).unix();
+    }
+
+    for (const key in objects) {
+        if (objects.hasOwnProperty(key)) {
+            let entries = objects[key];
+            const max = entries.reduce(function (prev, current) {
+                return (unixtime(prev) > unixtime(current)) ? prev : current
+            }) //returns object
+            objects[key] = max;
+        }
+    }
+    return Object.values(objects);
 }
 
 const ReducerJobs = [
@@ -123,6 +153,17 @@ const ReducerJobs = [
         "California-Vaccine-Json-table",
         "Calfiornia-Vaccine-Overtime-Table",
         BuiltInReducers.ArrayPushDedup,
+        {
+            iteratorProcessor: (content: object): object => {
+                delete content["url"];
+                return content;
+            },
+            postProcessor: (content: string): string => {
+                let input = JSON.parse(content);
+                let result = groupMaxTimeDedup(input, "date", "updated_time");
+                return JSON.stringify(result);
+            },
+        },
     ),
     new ReducerJob(
         "CDC State Vaccine Reducer (aggregate JSON table over time)",

@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -42,13 +61,13 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.list_deep_dedup = exports.fetchJobsStatus = exports.getSuccessfulJobs = exports.computeUnfinishedJobs = exports.JobExecStatus = void 0;
-var CloudDB = require("./CloudDB");
+var CloudDB = __importStar(require("./CloudDB"));
 exports.JobExecStatus = {
     UNKNOWN: "pending",
     SUCCESS: "success",
-    FAIL: "failed"
+    FAIL: "failed",
 };
 function computeUnfinishedJobs(allJobs, successIds) {
     var successIdsMap = successIds.reduce(function (map, obj) {
@@ -92,3 +111,4 @@ function list_deep_dedup(list) {
     }, []);
 }
 exports.list_deep_dedup = list_deep_dedup;
+//# sourceMappingURL=MapReduceUtils.js.map

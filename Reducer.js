@@ -59,6 +59,7 @@ var cheerio = require('cheerio');
 var Email = __importStar(require("./Email"));
 var MRUtils = __importStar(require("./MapReduceUtils"));
 var CloudDB = __importStar(require("./CloudDB"));
+var moment = __importStar(require("moment"));
 var ReducerJob = /** @class */ (function () {
     function ReducerJob(name, srctablename, outputTable, process, options) {
         if (options === void 0) { options = null; }
@@ -202,14 +203,47 @@ var BuiltInReducers = {
             var entry = input_1[_i];
             result.push(entry);
         }
-        console.log("len is " + result.length + " post pre-deup");
+        // console.log(`len is ${result.length} post pre-deup`)
         result = MRUtils.list_deep_dedup(result);
-        console.log("len is " + result.length + " post de-deup");
+        // console.log(`len is ${result.length} post de-deup`)
         return JSON.stringify(result);
     },
 };
+function groupMaxTimeDedup(list, groupby, timefield) {
+    var objects = {};
+    for (var _i = 0, list_1 = list; _i < list_1.length; _i++) {
+        var line = list_1[_i];
+        var date = line[groupby];
+        var fielddata = objects[date] || [];
+        fielddata.push(line);
+        objects[date] = fielddata;
+    }
+    function unixtime(o) {
+        return moment.utc(o[timefield]).unix();
+    }
+    for (var key in objects) {
+        if (objects.hasOwnProperty(key)) {
+            var entries = objects[key];
+            var max = entries.reduce(function (prev, current) {
+                return (unixtime(prev) > unixtime(current)) ? prev : current;
+            }); //returns object
+            objects[key] = max;
+        }
+    }
+    return Object.values(objects);
+}
 var ReducerJobs = [
-    new ReducerJob("CA Vaccine Reducer (aggregate JSON table over time)", "California-Vaccine-Json-table", "Calfiornia-Vaccine-Overtime-Table", BuiltInReducers.ArrayPushDedup),
+    new ReducerJob("CA Vaccine Reducer (aggregate JSON table over time)", "California-Vaccine-Json-table", "Calfiornia-Vaccine-Overtime-Table", BuiltInReducers.ArrayPushDedup, {
+        iteratorProcessor: function (content) {
+            delete content["url"];
+            return content;
+        },
+        postProcessor: function (content) {
+            var input = JSON.parse(content);
+            var result = groupMaxTimeDedup(input, "date", "updated_time");
+            return JSON.stringify(result);
+        },
+    }),
     new ReducerJob("CDC State Vaccine Reducer (aggregate JSON table over time)", "CDC State Vaccination Data", "CDC-Vaccine-Overtime-Table", BuiltInReducers.ArrayPushDedup, {
         preProcessor: function (content) {
             var input = JSON.parse(content);
