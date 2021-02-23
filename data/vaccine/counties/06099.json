@@ -183,15 +183,15 @@
   },
   {
     "county": "Stanislaus",
-    "doses_administered": 81643,
+    "doses_administered": 83112,
     "date": "2021-02-23",
     "fips": "06099",
     "population": 539301,
-    "doses_administered_per_100k": 15138.6702416647,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 1985.8571428571,
+    "doses_administered_per_100k": 15411.0598719454,
+    "new_doses_administered": 1469,
+    "new_doses_administered_seven_day_average": 2195.7142857143,
     "new_doses_administered_yesterday": 698,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-23 09:26:14"
+    "new_doses_administered_today": 1469,
+    "updated_time": "2021-02-23 14:57:02"
   }
 ]

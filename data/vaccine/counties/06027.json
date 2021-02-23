@@ -183,15 +183,15 @@
   },
   {
     "county": "Inyo",
-    "doses_administered": 3534,
+    "doses_administered": 3571,
     "date": "2021-02-23",
     "fips": "06027",
     "population": 18085,
-    "doses_administered_per_100k": 19541.0561238596,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 140.8571428571,
+    "doses_administered_per_100k": 19745.645562621,
+    "new_doses_administered": 37,
+    "new_doses_administered_seven_day_average": 146.1428571429,
     "new_doses_administered_yesterday": 270,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-23 09:26:14"
+    "new_doses_administered_today": 37,
+    "updated_time": "2021-02-23 14:57:02"
   }
 ]
