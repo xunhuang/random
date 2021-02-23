@@ -115,5 +115,14 @@
     "Doses_Administered": 6579236,
     "Administered_Dose1_Pop_Pct": 0,
     "Administered_Dose2_Pop_Pct": 0
+  },
+  {
+    "Date": "2021-02-23",
+    "Location": "LTC",
+    "ShortName": "LTC",
+    "LongName": "Long Term Care",
+    "Doses_Administered": 6627820,
+    "Administered_Dose1_Pop_Pct": 0,
+    "Administered_Dose2_Pop_Pct": 0
   }
 ]
