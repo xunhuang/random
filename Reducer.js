@@ -66,17 +66,19 @@ var ReducerJob = /** @class */ (function () {
         this.jobTableName = null;
         this.options = null;
         this.preProcessor = null;
+        this.postProcessor = null;
         this.name = name;
         this.srctablename = srctablename;
         this.outputTable = outputTable;
         this.process = process;
         if (options) {
-            if (options.verbose)
-                this.verbose = options.verbose;
-            if (options.jobTableName)
-                this.jobTableName = options.jobTableName;
-            if (options.preProcessor)
-                this.preProcessor = options.preProcessor;
+            for (var key in options) {
+                this[key] = options[key];
+            }
+            // if (options.verbose) this.verbose = options.verbose;
+            // (options.jobTableName) this.jobTableName = options.jobTableName;
+            // (options.preProcessor) this.preProcessor = options.preProcessor;
+            // options.postProcessor) this.postProcessor = options.postProcessor;
         }
         if (!this.jobTableName) {
             this.jobTableName = this.name + "-" + this.srctablename + "-" + this.outputTable;
@@ -118,6 +120,9 @@ var ReducerJob = /** @class */ (function () {
                         return [4 /*yield*/, this.process(data, previousresults)];
                     case 7:
                         previousresults = _b.sent();
+                        if (this.postProcessor) {
+                            previousresults = this.postProcessor(previousresults);
+                        }
                         succesfulruns.push(record.key);
                         return [3 /*break*/, 9];
                     case 8:
@@ -210,13 +215,16 @@ var BuiltInReducers = {
     },
 };
 function groupMaxTimeDedup(list, groupby, timefield) {
+    function keyfromfields(o, fields) {
+        return fields.map(function (f) { return o[f]; }).join(",");
+    }
     var objects = {};
     for (var _i = 0, list_1 = list; _i < list_1.length; _i++) {
         var line = list_1[_i];
-        var date = line[groupby];
-        var fielddata = objects[date] || [];
+        var key = keyfromfields(line, groupby);
+        var fielddata = objects[key] || [];
         fielddata.push(line);
-        objects[date] = fielddata;
+        objects[key] = fielddata;
     }
     function unixtime(o) {
         return moment.utc(o[timefield]).unix();
@@ -234,13 +242,20 @@ function groupMaxTimeDedup(list, groupby, timefield) {
 }
 var ReducerJobs = [
     new ReducerJob("CA Vaccine Reducer (aggregate JSON table over time)", "California-Vaccine-Json-table", "Calfiornia-Vaccine-Overtime-Table", BuiltInReducers.ArrayPushDedup, {
-        iteratorProcessor: function (content) {
-            delete content["url"];
-            return content;
+        preProcessor: function (content) {
+            var input = JSON.parse(content);
+            var result = input.map(function (entry) {
+                if (entry.fips.length == 3) {
+                    entry.fips = "06" + entry.fips;
+                }
+                delete entry["url"];
+                return entry;
+            });
+            return JSON.stringify(result);
         },
         postProcessor: function (content) {
             var input = JSON.parse(content);
-            var result = groupMaxTimeDedup(input, "date", "updated_time");
+            var result = groupMaxTimeDedup(input, ["fips", "date"], "updated_time");
             return JSON.stringify(result);
         },
     }),

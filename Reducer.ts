@@ -7,14 +7,12 @@ import * as moment from "moment";
 type ReducerFunction = (content: string | null, preresult: string) => string;
 type ReducerPreprocessFunction = (content: string) => string;
 type ReducerPostprocessFunction = (content: string) => string;
-type ReducerIteratorProcessingFunction = (content: object) => object;
 
 type ReducerOptions = {
     verbose?: false,
     jobTableName?: string;
     preProcessor?: ReducerPreprocessFunction;
     postProcessor?: ReducerPostprocessFunction;
-    iteratorProcessor?: ReducerIteratorProcessingFunction;
 }
 
 class ReducerJob {
@@ -26,6 +24,7 @@ class ReducerJob {
     verbose: false;
     process: ReducerFunction;
     preProcessor: ReducerPreprocessFunction | null = null;
+    postProcessor: ReducerPostprocessFunction | null = null;
 
     constructor(
         name: string,
@@ -39,9 +38,13 @@ class ReducerJob {
         this.outputTable = outputTable;
         this.process = process;
         if (options) {
-            if (options.verbose) this.verbose = options.verbose;
-            if (options.jobTableName) this.jobTableName = options.jobTableName;
-            if (options.preProcessor) this.preProcessor = options.preProcessor;
+            for (const key in options) {
+                this[key] = options[key];
+            }
+            // if (options.verbose) this.verbose = options.verbose;
+            // (options.jobTableName) this.jobTableName = options.jobTableName;
+            // (options.preProcessor) this.preProcessor = options.preProcessor;
+            // options.postProcessor) this.postProcessor = options.postProcessor;
         }
         if (!this.jobTableName) {
             this.jobTableName = `${this.name}-${this.srctablename}-${this.outputTable}`;
@@ -65,6 +68,9 @@ class ReducerJob {
                     data = this.preProcessor(data);
                 }
                 previousresults = await this.process(data, previousresults);
+                if (this.postProcessor) {
+                    previousresults = this.postProcessor(previousresults);
+                }
                 succesfulruns.push(record.key);
             } catch (error) {
                 console.log("error on:", record.key);
@@ -122,13 +128,18 @@ const BuiltInReducers = {
     },
 }
 
-function groupMaxTimeDedup(list: object[], groupby: string, timefield: string): object[] {
+function groupMaxTimeDedup(list: object[], groupby: string[], timefield: string): object[] {
+
+    function keyfromfields(o: object, fields: string[]) {
+        return fields.map(f => o[f]).join(",");
+    }
+
     let objects = {};
     for (const line of list) {
-        let date = line[groupby];
-        let fielddata = objects[date] || [];
+        let key = keyfromfields(line, groupby);
+        let fielddata = objects[key] || [];
         fielddata.push(line);
-        objects[date] = fielddata;
+        objects[key] = fielddata;
     }
 
     function unixtime(o) {
@@ -154,13 +165,20 @@ const ReducerJobs = [
         "Calfiornia-Vaccine-Overtime-Table",
         BuiltInReducers.ArrayPushDedup,
         {
-            iteratorProcessor: (content: object): object => {
-                delete content["url"];
-                return content;
+            preProcessor: (content: string): string => {
+                let input = JSON.parse(content);
+                let result = input.map(entry => {
+                    if (entry.fips.length == 3) {
+                        entry.fips = "06" + entry.fips;
+                    }
+                    delete entry["url"];
+                    return entry;
+                });
+                return JSON.stringify(result);
             },
             postProcessor: (content: string): string => {
                 let input = JSON.parse(content);
-                let result = groupMaxTimeDedup(input, "date", "updated_time");
+                let result = groupMaxTimeDedup(input, ["fips", "date"], "updated_time");
                 return JSON.stringify(result);
             },
         },
