@@ -180,5 +180,18 @@
     "new_doses_administered_yesterday": 110,
     "new_doses_administered_today": 372,
     "updated_time": "2021-02-22 21:00:24"
+  },
+  {
+    "county": "Yuba",
+    "doses_administered": 8254,
+    "date": "2021-02-23",
+    "fips": "06115",
+    "population": 75493,
+    "doses_administered_per_100k": 10933.4640297776,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 204.1428571429,
+    "new_doses_administered_yesterday": 372,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-02-23 09:26:14"
   }
 ]
