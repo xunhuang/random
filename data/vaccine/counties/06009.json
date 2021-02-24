@@ -193,5 +193,18 @@
     "new_doses_administered_yesterday": 64,
     "new_doses_administered_today": 145,
     "updated_time": "2021-02-23 20:54:35"
+  },
+  {
+    "county": "Calaveras",
+    "doses_administered": 9360,
+    "date": "2021-02-24",
+    "fips": "06009",
+    "population": 45235,
+    "doses_administered_per_100k": 20691.9420802476,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 280.7142857143,
+    "new_doses_administered_yesterday": 145,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-02-24 09:33:18"
   }
 ]

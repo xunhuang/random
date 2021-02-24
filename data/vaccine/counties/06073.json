@@ -193,5 +193,18 @@
     "new_doses_administered_yesterday": 12887,
     "new_doses_administered_today": 8403,
     "updated_time": "2021-02-23 20:54:35"
+  },
+  {
+    "county": "San Diego",
+    "doses_administered": 724683,
+    "date": "2021-02-24",
+    "fips": "06073",
+    "population": 3302833,
+    "doses_administered_per_100k": 21941.2546743962,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 13263.7142857143,
+    "new_doses_administered_yesterday": 8403,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-02-24 09:33:18"
   }
 ]

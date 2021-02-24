@@ -193,5 +193,18 @@
     "new_doses_administered_yesterday": 25128,
     "new_doses_administered_today": 27311,
     "updated_time": "2021-02-23 20:54:35"
+  },
+  {
+    "county": "Los Angeles",
+    "doses_administered": 1854920,
+    "date": "2021-02-24",
+    "fips": "06037",
+    "population": 10098052,
+    "doses_administered_per_100k": 18369.0874239903,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 38423.1428571429,
+    "new_doses_administered_yesterday": 27311,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-02-24 09:33:18"
   }
 ]
