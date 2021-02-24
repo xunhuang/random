@@ -196,15 +196,15 @@
   },
   {
     "county": "San Bernardino",
-    "doses_administered": 313379,
+    "doses_administered": 322117,
     "date": "2021-02-24",
     "fips": "06071",
     "population": 2135413,
-    "doses_administered_per_100k": 14675.3344669158,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 6429.5714285714,
+    "doses_administered_per_100k": 15084.5293158747,
+    "new_doses_administered": 8738,
+    "new_doses_administered_seven_day_average": 7677.8571428571,
     "new_doses_administered_yesterday": 7284,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-24 09:33:18"
+    "new_doses_administered_today": 8738,
+    "updated_time": "2021-02-24 14:56:07"
   }
 ]

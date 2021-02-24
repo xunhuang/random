@@ -196,15 +196,15 @@
   },
   {
     "county": "Orange",
-    "doses_administered": 635285,
+    "doses_administered": 644816,
     "date": "2021-02-24",
     "fips": "06059",
     "population": 3164182,
-    "doses_administered_per_100k": 20077.3849291855,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 11082.5714285714,
+    "doses_administered_per_100k": 20378.6002195828,
+    "new_doses_administered": 9531,
+    "new_doses_administered_seven_day_average": 12444.1428571429,
     "new_doses_administered_yesterday": 7161,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-24 09:33:18"
+    "new_doses_administered_today": 9531,
+    "updated_time": "2021-02-24 14:56:07"
   }
 ]
