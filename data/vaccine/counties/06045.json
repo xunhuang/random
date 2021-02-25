@@ -209,15 +209,15 @@
   },
   {
     "county": "Mendocino",
-    "doses_administered": 23030,
+    "doses_administered": 24847,
     "date": "2021-02-25",
     "fips": "06045",
     "population": 87422,
-    "doses_administered_per_100k": 26343.4833337146,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 429.7142857143,
+    "doses_administered_per_100k": 28421.9075289973,
+    "new_doses_administered": 1817,
+    "new_doses_administered_seven_day_average": 689.2857142857,
     "new_doses_administered_yesterday": 544,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-25 09:25:08"
+    "new_doses_administered_today": 1817,
+    "updated_time": "2021-02-25 15:02:33"
   }
 ]

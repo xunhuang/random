@@ -209,15 +209,15 @@
   },
   {
     "county": "Tulare",
-    "doses_administered": 60000,
+    "doses_administered": 61741,
     "date": "2021-02-25",
     "fips": "06107",
     "population": 460477,
-    "doses_administered_per_100k": 13029.9667518682,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 1562.4285714286,
+    "doses_administered_per_100k": 13408.0529537849,
+    "new_doses_administered": 1741,
+    "new_doses_administered_seven_day_average": 1811.1428571429,
     "new_doses_administered_yesterday": 1093,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-25 09:25:08"
+    "new_doses_administered_today": 1741,
+    "updated_time": "2021-02-25 15:02:33"
   }
 ]
