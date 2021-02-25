@@ -206,5 +206,18 @@
     "new_doses_administered_yesterday": 8388,
     "new_doses_administered_today": 9919,
     "updated_time": "2021-02-24 21:06:02"
+  },
+  {
+    "county": "Alameda",
+    "doses_administered": 350830,
+    "date": "2021-02-25",
+    "fips": "06001",
+    "population": 1643700,
+    "doses_administered_per_100k": 21343.9192066679,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 9607.4285714286,
+    "new_doses_administered_yesterday": 9919,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-02-25 09:25:08"
   }
 ]
