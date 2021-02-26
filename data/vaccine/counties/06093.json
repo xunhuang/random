@@ -219,5 +219,18 @@
     "new_doses_administered_yesterday": 174,
     "new_doses_administered_today": 158,
     "updated_time": "2021-02-25 21:01:07"
+  },
+  {
+    "county": "Siskiyou",
+    "doses_administered": 9228,
+    "date": "2021-02-26",
+    "fips": "06093",
+    "population": 43540,
+    "doses_administered_per_100k": 21194.3040881948,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 92.7142857143,
+    "new_doses_administered_yesterday": 158,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-02-26 09:26:10"
   }
 ]

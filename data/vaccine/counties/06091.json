@@ -219,5 +219,18 @@
     "new_doses_administered_yesterday": 2,
     "new_doses_administered_today": 1,
     "updated_time": "2021-02-25 21:01:07"
+  },
+  {
+    "county": "Sierra",
+    "doses_administered": 923,
+    "date": "2021-02-26",
+    "fips": "06091",
+    "population": 2930,
+    "doses_administered_per_100k": 31501.7064846416,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 4.7142857143,
+    "new_doses_administered_yesterday": 1,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-02-26 09:26:10"
   }
 ]
