@@ -248,15 +248,15 @@
   },
   {
     "county": "Ventura",
-    "doses_administered": 177929,
+    "doses_administered": 186702,
     "date": "2021-02-28",
     "fips": "06111",
     "population": 848112,
-    "doses_administered_per_100k": 20979.4225290999,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 4313.8571428571,
+    "doses_administered_per_100k": 22013.8377950082,
+    "new_doses_administered": 8773,
+    "new_doses_administered_seven_day_average": 5567.1428571429,
     "new_doses_administered_yesterday": 5394,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-28 09:20:11"
+    "new_doses_administered_today": 8773,
+    "updated_time": "2021-02-28 14:57:04"
   }
 ]

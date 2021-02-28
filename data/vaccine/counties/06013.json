@@ -248,15 +248,15 @@
   },
   {
     "county": "Contra Costa",
-    "doses_administered": 307601,
+    "doses_administered": 315094,
     "date": "2021-02-28",
     "fips": "06013",
     "population": 1133247,
-    "doses_administered_per_100k": 27143.3323891438,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 6006.8571428571,
+    "doses_administered_per_100k": 27804.5298156536,
+    "new_doses_administered": 7493,
+    "new_doses_administered_seven_day_average": 7077.2857142857,
     "new_doses_administered_yesterday": 8111,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-28 09:20:11"
+    "new_doses_administered_today": 7493,
+    "updated_time": "2021-02-28 14:57:04"
   }
 ]

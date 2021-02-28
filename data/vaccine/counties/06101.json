@@ -248,15 +248,15 @@
   },
   {
     "county": "Sutter",
-    "doses_administered": 18955,
+    "doses_administered": 19137,
     "date": "2021-02-28",
     "fips": "06101",
     "population": 95872,
-    "doses_administered_per_100k": 19771.1532042724,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 398,
+    "doses_administered_per_100k": 19960.9896528705,
+    "new_doses_administered": 182,
+    "new_doses_administered_seven_day_average": 424,
     "new_doses_administered_yesterday": 419,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-02-28 09:20:11"
+    "new_doses_administered_today": 182,
+    "updated_time": "2021-02-28 14:57:04"
   }
 ]
