@@ -264,7 +264,7 @@ var Subscription = /** @class */ (function () {
 }());
 ;
 var NewSubscriptions = [
-    new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["xhuang@gmail.com", "sandy_hou@yahoo.com"], {
+    new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["sandy_hou@yahoo.com"], {
         contentType: "json",
         jqQuery: ".providerList",
         storageTableName: "NYC-Vaccines",

@@ -186,7 +186,7 @@ const NewSubscriptions = [
     new Subscription(
         "NYS Covid Watcher",
         "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
-        ["xhuang@gmail.com", "sandy_hou@yahoo.com"],
+        ["sandy_hou@yahoo.com"],
         {
             contentType: "json",
             jqQuery: ".providerList",
