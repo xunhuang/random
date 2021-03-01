@@ -258,5 +258,18 @@
     "new_doses_administered_yesterday": 17498,
     "new_doses_administered_today": 29846,
     "updated_time": "2021-02-28 21:01:33"
+  },
+  {
+    "county": "Orange",
+    "doses_administered": 726840,
+    "date": "2021-03-01",
+    "fips": "06059",
+    "population": 3164182,
+    "doses_administered_per_100k": 22970.8657719436,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 14102.2857142857,
+    "new_doses_administered_yesterday": 29846,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-01 09:26:01"
   }
 ]
