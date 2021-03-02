@@ -261,15 +261,15 @@
   },
   {
     "county": "Napa",
-    "doses_administered": 45834,
+    "doses_administered": 47699,
     "date": "2021-03-01",
     "fips": "06055",
     "population": 140530,
-    "doses_administered_per_100k": 32615.0999786522,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 827.7142857143,
+    "doses_administered_per_100k": 33942.2187433288,
+    "new_doses_administered": 1865,
+    "new_doses_administered_seven_day_average": 1094.1428571429,
     "new_doses_administered_yesterday": 991,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-01 09:26:01"
+    "new_doses_administered_today": 1865,
+    "updated_time": "2021-03-01 15:00:43"
   }
 ]

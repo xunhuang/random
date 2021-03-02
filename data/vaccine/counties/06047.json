@@ -261,15 +261,15 @@
   },
   {
     "county": "Merced",
-    "doses_administered": 35334,
+    "doses_administered": 36391,
     "date": "2021-03-01",
     "fips": "06047",
     "population": 269075,
-    "doses_administered_per_100k": 13131.6547431014,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 944.2857142857,
+    "doses_administered_per_100k": 13524.4820217411,
+    "new_doses_administered": 1057,
+    "new_doses_administered_seven_day_average": 1095.2857142857,
     "new_doses_administered_yesterday": 1477,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-01 09:26:01"
+    "new_doses_administered_today": 1057,
+    "updated_time": "2021-03-01 15:00:43"
   }
 ]
