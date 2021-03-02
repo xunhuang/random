@@ -271,5 +271,18 @@
     "new_doses_administered_yesterday": 8004,
     "new_doses_administered_today": 11712,
     "updated_time": "2021-03-01 21:11:14"
+  },
+  {
+    "county": "Sacramento",
+    "doses_administered": 305006,
+    "date": "2021-03-02",
+    "fips": "06067",
+    "population": 1510023,
+    "doses_administered_per_100k": 20198.7651843714,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 6690.4285714286,
+    "new_doses_administered_yesterday": 11712,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-02 09:15:22"
   }
 ]
