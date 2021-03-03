@@ -284,5 +284,18 @@
     "new_doses_administered_yesterday": 9957,
     "new_doses_administered_today": 7048,
     "updated_time": "2021-03-02 20:55:42"
+  },
+  {
+    "county": "San Bernardino",
+    "doses_administered": 374438,
+    "date": "2021-03-03",
+    "fips": "06071",
+    "population": 2135413,
+    "doses_administered_per_100k": 17534.6876693174,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 7474.4285714286,
+    "new_doses_administered_yesterday": 7048,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-03 09:32:35"
   }
 ]

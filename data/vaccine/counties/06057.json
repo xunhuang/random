@@ -284,5 +284,18 @@
     "new_doses_administered_yesterday": 764,
     "new_doses_administered_today": 586,
     "updated_time": "2021-03-02 20:55:42"
+  },
+  {
+    "county": "Nevada",
+    "doses_administered": 24784,
+    "date": "2021-03-03",
+    "fips": "06057",
+    "population": 99092,
+    "doses_administered_per_100k": 25011.1007952206,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 545.8571428571,
+    "new_doses_administered_yesterday": 586,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-03 09:32:35"
   }
 ]
