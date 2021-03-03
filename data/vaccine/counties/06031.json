@@ -274,15 +274,15 @@
   },
   {
     "county": "Kings",
-    "doses_administered": 14387,
+    "doses_administered": 14719,
     "date": "2021-03-02",
     "fips": "06031",
     "population": 150075,
-    "doses_administered_per_100k": 9586.5400633017,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 437.8571428571,
+    "doses_administered_per_100k": 9807.762785274,
+    "new_doses_administered": 332,
+    "new_doses_administered_seven_day_average": 485.2857142857,
     "new_doses_administered_yesterday": 740,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-02 09:15:22"
+    "new_doses_administered_today": 332,
+    "updated_time": "2021-03-02 15:30:18"
   }
 ]

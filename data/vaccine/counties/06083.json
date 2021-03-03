@@ -274,15 +274,15 @@
   },
   {
     "county": "Santa Barbara",
-    "doses_administered": 95253,
+    "doses_administered": 96948,
     "date": "2021-03-02",
     "fips": "06083",
     "population": 443738,
-    "doses_administered_per_100k": 21466.0452789709,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 2238.5714285714,
+    "doses_administered_per_100k": 21848.0274396153,
+    "new_doses_administered": 1695,
+    "new_doses_administered_seven_day_average": 2480.7142857143,
     "new_doses_administered_yesterday": 1792,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-02 09:15:22"
+    "new_doses_administered_today": 1695,
+    "updated_time": "2021-03-02 15:30:18"
   }
 ]

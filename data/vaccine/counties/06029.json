@@ -274,15 +274,15 @@
   },
   {
     "county": "Kern",
-    "doses_administered": 131391,
+    "doses_administered": 135625,
     "date": "2021-03-02",
     "fips": "06029",
     "population": 883053,
-    "doses_administered_per_100k": 14879.174862664,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 3430.7142857143,
+    "doses_administered_per_100k": 15358.6477821829,
+    "new_doses_administered": 4234,
+    "new_doses_administered_seven_day_average": 4035.5714285714,
     "new_doses_administered_yesterday": 4449,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-02 09:15:22"
+    "new_doses_administered_today": 4234,
+    "updated_time": "2021-03-02 15:30:18"
   }
 ]

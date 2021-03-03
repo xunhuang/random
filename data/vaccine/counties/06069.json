@@ -274,15 +274,15 @@
   },
   {
     "county": "San Benito",
-    "doses_administered": 9071,
+    "doses_administered": 9371,
     "date": "2021-03-02",
     "fips": "06069",
     "population": 59416,
-    "doses_administered_per_100k": 15266.9314662717,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 250,
+    "doses_administered_per_100k": 15771.8459674162,
+    "new_doses_administered": 300,
+    "new_doses_administered_seven_day_average": 292.8571428571,
     "new_doses_administered_yesterday": 297,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-02 09:15:22"
+    "new_doses_administered_today": 300,
+    "updated_time": "2021-03-02 15:30:18"
   }
 ]
