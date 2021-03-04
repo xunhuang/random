@@ -297,5 +297,18 @@
     "new_doses_administered_yesterday": 846,
     "new_doses_administered_today": 972,
     "updated_time": "2021-03-03 21:01:56"
+  },
+  {
+    "county": "Butte",
+    "doses_administered": 58374,
+    "date": "2021-03-04",
+    "fips": "06007",
+    "population": 227075,
+    "doses_administered_per_100k": 25706.9250247715,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 747.8571428571,
+    "new_doses_administered_yesterday": 972,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-04 03:03:15"
   }
 ]
