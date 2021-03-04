@@ -287,15 +287,15 @@
   },
   {
     "county": "Placer",
-    "doses_administered": 116291,
+    "doses_administered": 118146,
     "date": "2021-03-03",
     "fips": "06061",
     "population": 380077,
-    "doses_administered_per_100k": 30596.6948802479,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 2322.1428571429,
+    "doses_administered_per_100k": 31084.7538788193,
+    "new_doses_administered": 1855,
+    "new_doses_administered_seven_day_average": 2587.1428571429,
     "new_doses_administered_yesterday": 2095,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-03 09:32:35"
+    "new_doses_administered_today": 1855,
+    "updated_time": "2021-03-03 19:11:33"
   }
 ]

@@ -287,15 +287,15 @@
   },
   {
     "county": "Sonoma",
-    "doses_administered": 151949,
+    "doses_administered": 154634,
     "date": "2021-03-03",
     "fips": "06097",
     "population": 501317,
-    "doses_administered_per_100k": 30309.9635559935,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 3948,
+    "doses_administered_per_100k": 30845.5528138882,
+    "new_doses_administered": 2685,
+    "new_doses_administered_seven_day_average": 4331.5714285714,
     "new_doses_administered_yesterday": 4211,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-03 09:32:35"
+    "new_doses_administered_today": 2685,
+    "updated_time": "2021-03-03 19:11:33"
   }
 ]
