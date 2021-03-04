@@ -1,20 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(require("react"));
-var logo_svg_1 = __importDefault(require("./logo.svg"));
-require("./App.css");
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import logo from './logo.svg';
+import './App.css';
 function App() {
-    return (react_1.default.createElement("div", { className: "App" },
-        react_1.default.createElement("header", { className: "App-header" },
-            react_1.default.createElement("img", { src: logo_svg_1.default, className: "App-logo", alt: "logo" }),
-            react_1.default.createElement("p", null,
-                "Edit ",
-                react_1.default.createElement("code", null, "src/App.tsx"),
-                " and save to reload."),
-            react_1.default.createElement("a", { className: "App-link", href: "https://reactjs.org", target: "_blank", rel: "noopener noreferrer" }, "Learn React"))));
+    return (_jsx("div", Object.assign({ className: "App" }, { children: _jsxs("header", Object.assign({ className: "App-header" }, { children: [_jsx("img", { src: logo, className: "App-logo", alt: "logo" }, void 0),
+                _jsxs("p", { children: ["Edit ", _jsx("code", { children: "src/App.tsx" }, void 0), " and save to reload."] }, void 0),
+                _jsx("a", Object.assign({ className: "App-link", href: "https://reactjs.org", target: "_blank", rel: "noopener noreferrer" }, { children: "Learn React 123" }), void 0)] }), void 0) }), void 0));
 }
-exports.default = App;
-//# sourceMappingURL=App.js.map
+export default App;
