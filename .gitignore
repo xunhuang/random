@@ -67,3 +67,4 @@ node_modules/
 .env
 bb.json
 .data .vaccination.swp
+website/src/firebaseConfig.json

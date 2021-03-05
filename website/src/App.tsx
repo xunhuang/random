@@ -1,27 +1,107 @@
-/* eslint-disable import/first */
-
 import React from 'react';
-import logo from './logo.svg';
+import { Switch, Redirect, Route, withRouter } from 'react-router-dom'
+// import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+// import { ThemeProvider } from '@material-ui/core/styles';
+import { AuthUserContext } from './AuthUserContext';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+import { UserCredential } from '@firebase/auth-types';
+
+require("@firebase/firestore");
+require("@firebase/auth");
+
+const firebase = require('firebase/app').default
+
+const firebaseConfig = require('./firebaseConfig.json');
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig)
+}
+
+const googleSignInPopup = (success: any, fail: any) => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider).then(function (result: UserCredential) {
+    console.log(result);
+    if (success) {
+      success(result.user)
+    }
+  }).catch(function (error: any) {
+    if (fail) {
+      console.log(error);
+      fail(error);
+    }
+  });
+}
+
+const Page404 = () => {
+  return <h1>
+    Oops! That page couldn&apos;t be found.
+                </h1>;
+}
+
+const UserSubscriptions = () => {
+  let user = React.useContext(AuthUserContext) as any;
+  return <h1> My Subscription for {user.displayName} </h1>;
+}
+
+const App = (props: any) => {
+  return <BrowserRouter>
+    {/* <ThemeProvider theme={compactTheme}> */}
+    <header>
+      <div className="App">
+        <Home />
+      </div>
+    </header>
+    {/* </ThemeProvider> */}
+  </BrowserRouter >;
+};
+
+function AuthenticatedApp() {
+  return <div>
+    <SafeRoutes />
+    <p onClick={(event) => {
+      firebase.auth().signOut();
+    }}>
+      Logout
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React 123
-        </a>
-      </header>
-    </div>
+  </div>
+}
+
+function UnauthenticatedApp() {
+  return <h1> Un-AuthenticatedApp
+        <p onClick={(event) => {
+      googleSignInPopup(null, null);
+    }}>
+      Sign in here
+        </p>
+  </h1>;
+}
+
+function Home() {
+  const [authUser, setAuthUser] = React.useState(undefined);
+  React.useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user: any) {
+      setAuthUser(user);
+    });
+  });
+
+  if (authUser === undefined) return <h2> Loading</h2>;
+
+  return (authUser) ?
+    <AuthUserContext.Provider value={authUser}>
+      <AuthenticatedApp />
+    </AuthUserContext.Provider>
+    : <UnauthenticatedApp />;
+}
+
+const SafeRoutes = (props: any) => {
+  return (
+    <Route>
+      <Switch>
+        <Route exact path="/sub" component={UserSubscriptions} />
+        <Route exact path="*" component={Page404} />
+      </Switch>
+    </Route>
   );
 }
 
