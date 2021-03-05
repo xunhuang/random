@@ -32,7 +32,7 @@ jobs:
     - name: firebaseConfig
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-      run: cd website; echo "${FIREBASE_CONFIG}" > ./firebaseConfig.json;  cd ..
+      run: cd website; echo "${FIREBASE_CONFIG}" > ./src/firebaseConfig.json;  cd ..
     - run: npmv=$(echo $(npm -v) | head -c 1); if [ "$npmv" -lt "6" ]; then npm i -g npm; else echo "Node.js Docker Team finally decided to include npm v6+ in latest image; you can remove this script now"; fi
     - run: npm ci
     - run: cd website; npm ci  ; cd ..
