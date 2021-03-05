@@ -530,5 +530,33 @@
     "Distributed_Per_100k_18Plus": 43066,
     "Administered_18Plus": 82504049,
     "Admin_Per_100k_18Plus": 32329
+  },
+  {
+    "Date": "2021-03-05",
+    "Location": "US",
+    "ShortName": "USA",
+    "LongName": "United States",
+    "Census2019": 331996199,
+    "Doses_Distributed": 114133115,
+    "Doses_Administered": 85008094,
+    "Administered_Dose1": 55547697,
+    "Administered_Dose2": 28701201,
+    "Administered_Moderna": 41507728,
+    "Administered_Pfizer": 43373717,
+    "Administered_Unk_Manuf": 118059,
+    "Administered_Dose1_Pop_Pct": 16.7,
+    "Administered_Dose2_Pop_Pct": 8.6,
+    "date_type": "Report",
+    "Recip_Administered": 85008094,
+    "Administered_Dose1_Recip": 55547697,
+    "Administered_Dose2_Recip": 28701201,
+    "Administered_Dose1_Recip_18Plus": 55496015,
+    "Administered_Dose2_Recip_18Plus": 28681864,
+    "Administered_Dose1_Recip_18PlusPop_Pct": 21.7,
+    "Administered_Dose2_Recip_18PlusPop_Pct": 11.2,
+    "Census2019_18PlusPop": 255200373,
+    "Distributed_Per_100k_18Plus": 44723,
+    "Administered_18Plus": 84936600,
+    "Admin_Per_100k_18Plus": 33282
   }
 ]
