@@ -310,5 +310,18 @@
     "new_doses_administered_yesterday": 2283,
     "new_doses_administered_today": 0,
     "updated_time": "2021-03-04 20:02:45"
+  },
+  {
+    "county": "Ventura",
+    "doses_administered": 224134,
+    "date": "2021-03-05",
+    "fips": "06111",
+    "population": 848112,
+    "doses_administered_per_100k": 26427.4058143264,
+    "new_doses_administered": 14083,
+    "new_doses_administered_seven_day_average": 7371.2857142857,
+    "new_doses_administered_yesterday": 0,
+    "new_doses_administered_today": 14083,
+    "updated_time": "2021-03-05 12:11:00"
   }
 ]
