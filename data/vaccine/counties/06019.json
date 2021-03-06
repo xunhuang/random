@@ -323,5 +323,18 @@
     "new_doses_administered_yesterday": 0,
     "new_doses_administered_today": 12915,
     "updated_time": "2021-03-05 21:02:51"
+  },
+  {
+    "county": "Fresno",
+    "doses_administered": 199578,
+    "date": "2021-03-06",
+    "fips": "06019",
+    "population": 978130,
+    "doses_administered_per_100k": 20404.036273297,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 3337.2857142857,
+    "new_doses_administered_yesterday": 12915,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-06 09:22:22"
   }
 ]
