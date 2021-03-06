@@ -1,11 +1,10 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-// import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-// import { ThemeProvider } from '@material-ui/core/styles';
 import { AuthUserContext } from './AuthUserContext';
+import { GetCurrentAuthUser } from "./AuthUser";
 require("@firebase/firestore");
 require("@firebase/auth");
 const firebase = require('firebase/app').default;
@@ -16,7 +15,6 @@ if (!firebase.apps.length) {
 const googleSignInPopup = (success, fail) => {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function (result) {
-        console.log(result);
         if (success) {
             success(result.user);
         }
@@ -28,11 +26,17 @@ const googleSignInPopup = (success, fail) => {
     });
 };
 const Page404 = () => {
-    return _jsx("h1", { children: "Oops! That page couldn't be found." }, void 0);
+    return _jsx("h1", { children: " Oops! That page couldn't be found. " }, void 0);
+};
+const AuthenicatedHome = () => {
+    // let user = React.useContext(AuthUserContext) as any;
+    let user = GetCurrentAuthUser();
+    return _jsxs("h1", { children: [" AuthenticatedHome - ", user.displayName, ", ", user.uid, " "] }, void 0);
 };
 const UserSubscriptions = () => {
-    let user = React.useContext(AuthUserContext);
-    return _jsxs("h1", { children: [" My Subscription for ", user.displayName, " "] }, void 0);
+    // let user = React.useContext(AuthUserContext) as any;
+    let user = GetCurrentAuthUser();
+    return _jsxs("h1", { children: [" My Subscription for ", user.displayName, ", ", user.uid, " "] }, void 0);
 };
 const App = (props) => {
     return _jsx(BrowserRouter, { children: _jsx("header", { children: _jsx("div", Object.assign({ className: "App" }, { children: _jsx(Home, {}, void 0) }), void 0) }, void 0) }, void 0);
@@ -62,7 +66,8 @@ function Home() {
         : _jsx(UnauthenticatedApp, {}, void 0);
 }
 const SafeRoutes = (props) => {
-    return (_jsx(Route, { children: _jsxs(Switch, { children: [_jsx(Route, { exact: true, path: "/sub", component: UserSubscriptions }, void 0),
+    return (_jsx(Route, { children: _jsxs(Switch, { children: [_jsx(Route, { exact: true, path: "/", component: AuthenicatedHome }, void 0),
+                _jsx(Route, { exact: true, path: "/sub", component: UserSubscriptions }, void 0),
                 _jsx(Route, { exact: true, path: "*", component: Page404 }, void 0)] }, void 0) }, void 0));
 };
 export default App;

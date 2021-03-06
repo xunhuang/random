@@ -1,10 +1,10 @@
 import React from 'react';
 import { Switch, Redirect, Route, withRouter } from 'react-router-dom'
-// import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-// import { ThemeProvider } from '@material-ui/core/styles';
 import { AuthUserContext } from './AuthUserContext';
+import { GetCurrentAuthUser } from "./AuthUser";
+// import { ThemeProvider } from '@material-ui/core/styles';
 
 import { UserCredential } from '@firebase/auth-types';
 
@@ -21,7 +21,6 @@ if (!firebase.apps.length) {
 const googleSignInPopup = (success: any, fail: any) => {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider).then(function (result: UserCredential) {
-    console.log(result);
     if (success) {
       success(result.user)
     }
@@ -34,14 +33,19 @@ const googleSignInPopup = (success: any, fail: any) => {
 }
 
 const Page404 = () => {
-  return <h1>
-    Oops! That page couldn&apos;t be found.
-                </h1>;
+  return <h1> Oops! That page couldn&apos;t be found. </h1>;
+}
+
+const AuthenicatedHome = () => {
+  // let user = React.useContext(AuthUserContext) as any;
+  let user = GetCurrentAuthUser();
+  return <h1> AuthenticatedHome - {user.displayName}, {user.uid} </h1>;
 }
 
 const UserSubscriptions = () => {
-  let user = React.useContext(AuthUserContext) as any;
-  return <h1> My Subscription for {user.displayName} </h1>;
+  // let user = React.useContext(AuthUserContext) as any;
+  let user = GetCurrentAuthUser();
+  return <h1> My Subscription for {user.displayName}, {user.uid} </h1>;
 }
 
 const App = (props: any) => {
@@ -98,6 +102,7 @@ const SafeRoutes = (props: any) => {
   return (
     <Route>
       <Switch>
+        <Route exact path="/" component={AuthenicatedHome} />
         <Route exact path="/sub" component={UserSubscriptions} />
         <Route exact path="*" component={Page404} />
       </Switch>
