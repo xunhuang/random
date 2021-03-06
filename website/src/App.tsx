@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Redirect, Route, withRouter } from 'react-router-dom'
+import { Switch, Redirect, Route, withRouter, RouteComponentProps } from 'react-router-dom'
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthUserContext } from './AuthUserContext';
@@ -37,9 +37,9 @@ const Page404 = () => {
 }
 
 const AuthenicatedHome = () => {
-  // let user = React.useContext(AuthUserContext) as any;
   let user = GetCurrentAuthUser();
   return <h1> AuthenticatedHome - {user.displayName}, {user.uid} </h1>;
+
 }
 
 const UserSubscriptions = () => {
@@ -53,7 +53,7 @@ const App = (props: any) => {
     {/* <ThemeProvider theme={compactTheme}> */}
     <header>
       <div className="App">
-        <Home />
+        <Home {...props} />
       </div>
     </header>
     {/* </ThemeProvider> */}
@@ -81,7 +81,8 @@ function UnauthenticatedApp() {
   </h1>;
 }
 
-function Home() {
+function Home(props: any) {
+
   const [authUser, setAuthUser] = React.useState(undefined);
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user: any) {
@@ -98,16 +99,19 @@ function Home() {
     : <UnauthenticatedApp />;
 }
 
-const SafeRoutes = (props: any) => {
+const SafeRoutes = withRouter((props: RouteComponentProps) => {
+  /* this came from the 404 redirect */
+  if (props.location.search.startsWith("?/")) {
+    return <Redirect to={props.location.search.slice(1)} />;
+  }
+
   return (
-    <Route>
-      <Switch>
-        <Route exact path="/" component={AuthenicatedHome} />
-        <Route exact path="/sub" component={UserSubscriptions} />
-        <Route exact path="*" component={Page404} />
-      </Switch>
-    </Route>
+    <Switch>
+      <Route exact path="/" component={AuthenicatedHome} />
+      <Route exact path="/sub" component={UserSubscriptions} />
+      <Route exact path="*" component={Page404} />
+    </Switch>
   );
-}
+});
 
 export default App;
