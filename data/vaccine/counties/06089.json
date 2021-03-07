@@ -336,5 +336,18 @@
     "new_doses_administered_yesterday": 1774,
     "new_doses_administered_today": 489,
     "updated_time": "2021-03-06 21:02:52"
+  },
+  {
+    "county": "Shasta",
+    "doses_administered": 34436,
+    "date": "2021-03-07",
+    "fips": "06089",
+    "population": 179085,
+    "doses_administered_per_100k": 19228.857804953,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 695,
+    "new_doses_administered_yesterday": 489,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-07 02:58:23"
   }
 ]

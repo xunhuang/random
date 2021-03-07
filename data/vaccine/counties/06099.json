@@ -336,5 +336,18 @@
     "new_doses_administered_yesterday": 6737,
     "new_doses_administered_today": 4452,
     "updated_time": "2021-03-06 21:02:52"
+  },
+  {
+    "county": "Stanislaus",
+    "doses_administered": 110036,
+    "date": "2021-03-07",
+    "fips": "06099",
+    "population": 539301,
+    "doses_administered_per_100k": 20403.4481671645,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 2017.2857142857,
+    "new_doses_administered_yesterday": 4452,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-07 02:58:23"
   }
 ]

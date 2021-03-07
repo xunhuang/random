@@ -336,5 +336,18 @@
     "new_doses_administered_yesterday": 22639,
     "new_doses_administered_today": 6618,
     "updated_time": "2021-03-06 21:02:52"
+  },
+  {
+    "county": "Santa Clara",
+    "doses_administered": 491508,
+    "date": "2021-03-07",
+    "fips": "06085",
+    "population": 1922200,
+    "doses_administered_per_100k": 25570.0759546353,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 8255.8571428571,
+    "new_doses_administered_yesterday": 6618,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-07 02:58:23"
   }
 ]
