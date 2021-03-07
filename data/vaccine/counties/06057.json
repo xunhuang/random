@@ -326,15 +326,15 @@
   },
   {
     "county": "Nevada",
-    "doses_administered": 26768,
+    "doses_administered": 27224,
     "date": "2021-03-06",
     "fips": "06057",
     "population": 99092,
-    "doses_administered_per_100k": 27013.2805877366,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 619.2857142857,
+    "doses_administered_per_100k": 27473.4590077907,
+    "new_doses_administered": 456,
+    "new_doses_administered_seven_day_average": 684.4285714286,
     "new_doses_administered_yesterday": 1455,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-06 09:22:22"
+    "new_doses_administered_today": 456,
+    "updated_time": "2021-03-06 21:02:52"
   }
 ]

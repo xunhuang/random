@@ -326,15 +326,15 @@
   },
   {
     "county": "Mariposa",
-    "doses_administered": 3189,
+    "doses_administered": 3210,
     "date": "2021-03-06",
     "fips": "06043",
     "population": 17540,
-    "doses_administered_per_100k": 18181.2998859749,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 107.8571428571,
+    "doses_administered_per_100k": 18301.0262257697,
+    "new_doses_administered": 21,
+    "new_doses_administered_seven_day_average": 110.8571428571,
     "new_doses_administered_yesterday": 498,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-06 09:22:22"
+    "new_doses_administered_today": 21,
+    "updated_time": "2021-03-06 21:02:52"
   }
 ]
