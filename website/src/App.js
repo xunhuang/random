@@ -4,37 +4,17 @@ import { Switch, Redirect, Route, withRouter } from 'react-router-dom';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthUserContext } from './AuthUserContext';
-import { GetCurrentAuthUser } from "./AuthUser";
-require("@firebase/firestore");
-require("@firebase/auth");
-const firebase = require('firebase/app').default;
-const firebaseConfig = require('./firebaseConfig.json');
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-const googleSignInPopup = (success, fail) => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-        if (success) {
-            success(result.user);
-        }
-    }).catch(function (error) {
-        if (fail) {
-            console.log(error);
-            fail(error);
-        }
-    });
-};
+import { RandomBackend } from "./RandomBackend";
 const Page404 = () => {
     return _jsx("h1", { children: " Oops! That page couldn't be found. " }, void 0);
 };
 const AuthenicatedHome = () => {
-    let user = GetCurrentAuthUser();
+    let user = RandomBackend.getCurrentUserNotNull();
     return _jsxs("h1", { children: [" AuthenticatedHome - ", user.displayName, ", ", user.uid, " "] }, void 0);
 };
 const UserSubscriptions = () => {
     // let user = React.useContext(AuthUserContext) as any;
-    let user = GetCurrentAuthUser();
+    let user = RandomBackend.getCurrentUserNotNull();
     return _jsxs("h1", { children: [" My Subscription for ", user.displayName, ", ", user.uid, " "] }, void 0);
 };
 const App = (props) => {
@@ -43,21 +23,22 @@ const App = (props) => {
 function AuthenticatedApp() {
     return _jsxs("div", { children: [_jsx(SafeRoutes, {}, void 0),
             _jsx("p", Object.assign({ onClick: (event) => {
-                    firebase.auth().signOut();
+                    RandomBackend.logout();
                 } }, { children: "Logout" }), void 0)] }, void 0);
 }
 function UnauthenticatedApp() {
-    return _jsxs("h1", { children: [" Un-AuthenticatedApp", _jsx("p", Object.assign({ onClick: (event) => {
-                    googleSignInPopup(null, null);
+    return _jsxs("h1", { children: [" Un-AuthenticatedApp xxx", _jsx("p", Object.assign({ onClick: (event) => {
+                    console.log("clicked");
+                    RandomBackend.login();
                 } }, { children: "Sign in here" }), void 0)] }, void 0);
 }
 function Home(props) {
     const [authUser, setAuthUser] = React.useState(undefined);
     React.useEffect(() => {
-        firebase.auth().onAuthStateChanged(function (user) {
+        RandomBackend.userStatusChange(function (user) {
             setAuthUser(user);
         });
-    });
+    }, []);
     if (authUser === undefined)
         return _jsx("h2", { children: " Loading" }, void 0);
     return (authUser) ?
