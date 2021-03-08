@@ -26,7 +26,7 @@ class RandomBackendClass {
         this.currentUser = null;
         firebase.auth().signOut();
     }
-    userStatusChange(f: (user: any) => void) {
+    userStatusChange(f: (user: AuthUser | null) => void) {
         firebase.auth().onAuthStateChanged((user: User) => {
             if (user) {
                 console.log("newuser 2 !")

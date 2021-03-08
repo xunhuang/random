@@ -1,5 +1,8 @@
 import * as StorageType from "@firebase/storage-types";
 import * as moment from 'moment';
+import * as fireorm from 'fireorm';
+import { Collection, getRepository } from 'fireorm';
+import { IsEmail } from 'class-validator';
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 
@@ -13,6 +16,10 @@ const firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
+
+fireorm.initialize(db, {
+    validateModels: true
+});
 
 export function getDB() {
     return db;
@@ -53,16 +60,7 @@ export class DataRecord {
     toSimpleObject() {
         return Object.assign({}, this);
     }
-
 };
-
-function snapshotToArrayData(snapshot) {
-    var result = [];
-    snapshot.forEach(function (childSnapshot) {
-        result.push(childSnapshot.data());
-    });
-    return result;
-}
 
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
@@ -71,7 +69,6 @@ function snapshotToArrayDataRecord(snapshot) {
     });
     return result;
 }
-
 
 const StorageRootDirectory = "WatchStorage";
 
@@ -146,21 +143,4 @@ export async function getFullRecords(tablename: string): Promise<DataRecord[]> {
         function (querySnapshot) {
             return snapshotToArrayDataRecord(querySnapshot);
         });
-}
-
-export async function getJobStatusTable(jobDescriptionID: string): Promise<string[]> {
-    var docRef = db.collection("JobStatus").doc(jobDescriptionID);
-    return await docRef.get().then(
-        function (doc) {
-            return doc.data() || {};
-        });
-}
-export async function saveJobStatusTable(tablename: string, jobstatus: object) {
-    let docRef = db.collection("JobStatus").doc(tablename);
-    await docRef.set(jobstatus).then((doc) => {
-
-    }).catch(err => {
-        return null;
-    });
-    return true;
 }

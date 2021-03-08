@@ -57,7 +57,7 @@ function UnauthenticatedApp() {
 function Home(props: any) {
   const [authUser, setAuthUser] = React.useState<any>(undefined);
   React.useEffect(() => {
-    RandomBackend.userStatusChange(function (user) {
+    RandomBackend.userStatusChange(function (user: AuthUser | null) {
       setAuthUser(user);
     });
   }, []);

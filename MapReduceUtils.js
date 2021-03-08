@@ -1,22 +1,9 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -62,49 +49,81 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.list_deep_dedup = exports.fetchJobsStatus = exports.getSuccessfulJobs = exports.computeUnfinishedJobs = exports.JobExecStatus = void 0;
-var CloudDB = __importStar(require("./CloudDB"));
-exports.JobExecStatus = {
-    UNKNOWN: "pending",
-    SUCCESS: "success",
-    FAIL: "failed",
-};
-function computeUnfinishedJobs(allJobs, successIds) {
-    var successIdsMap = successIds.reduce(function (map, obj) {
-        map[obj] = true;
-        return map;
-    }, {});
-    var unfinished = [];
-    for (var _i = 0, allJobs_1 = allJobs; _i < allJobs_1.length; _i++) {
-        var job = allJobs_1[_i];
-        if (!successIdsMap[job.key]) {
-            unfinished.push(job);
-        }
+exports.list_deep_dedup = exports.saveJobsStatus = exports.fetchJobsStatus = exports.JobStatusTable = exports.JobExecStatus = void 0;
+var fireorm_1 = require("fireorm");
+var JobExecStatus;
+(function (JobExecStatus) {
+    JobExecStatus["UNKNOWN"] = "pending";
+    JobExecStatus["SUCCESS"] = "success";
+    JobExecStatus["FAIL"] = "failed";
+})(JobExecStatus = exports.JobExecStatus || (exports.JobExecStatus = {}));
+var JobStatusTable = /** @class */ (function () {
+    function JobStatusTable() {
     }
-    return unfinished;
-}
-exports.computeUnfinishedJobs = computeUnfinishedJobs;
-function getSuccessfulJobs(jobStatusTable) {
-    var successIds = [];
-    for (var key in jobStatusTable) {
-        if (jobStatusTable[key] === exports.JobExecStatus.SUCCESS) {
-            successIds.push(key);
+    JobStatusTable_1 = JobStatusTable;
+    JobStatusTable.fromTableName = function (tablename) {
+        var newitem = new JobStatusTable_1();
+        newitem.id = tablename;
+        newitem.tableName = tablename;
+        newitem.data = {};
+        return newitem;
+    };
+    JobStatusTable.prototype.computeUnfinishedJobs = function (allJobs) {
+        var unfinished = [];
+        for (var _i = 0, allJobs_1 = allJobs; _i < allJobs_1.length; _i++) {
+            var job = allJobs_1[_i];
+            var status_1 = this.data[job.key];
+            if (!status_1 || status_1 != JobExecStatus.SUCCESS) {
+                unfinished.push(job);
+            }
         }
-    }
-    return successIds;
-}
-exports.getSuccessfulJobs = getSuccessfulJobs;
+        return unfinished;
+    };
+    var JobStatusTable_1;
+    JobStatusTable = JobStatusTable_1 = __decorate([
+        fireorm_1.Collection()
+    ], JobStatusTable);
+    return JobStatusTable;
+}());
+exports.JobStatusTable = JobStatusTable;
 function fetchJobsStatus(tablename) {
     return __awaiter(this, void 0, void 0, function () {
+        var repos, table;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, CloudDB.getJobStatusTable(tablename)];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 0:
+                    repos = fireorm_1.getRepository(JobStatusTable);
+                    return [4 /*yield*/, repos.whereEqualTo(function (a) { return a.tableName; }, tablename).findOne()];
+                case 1:
+                    table = _a.sent();
+                    if (!!table) return [3 /*break*/, 3];
+                    table = JobStatusTable.fromTableName(tablename);
+                    return [4 /*yield*/, repos.create(table)];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3: return [2 /*return*/, table];
             }
         });
     });
 }
 exports.fetchJobsStatus = fetchJobsStatus;
+function saveJobsStatus(job) {
+    return __awaiter(this, void 0, void 0, function () {
+        var repos;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    repos = fireorm_1.getRepository(JobStatusTable);
+                    return [4 /*yield*/, repos.update(job)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.saveJobsStatus = saveJobsStatus;
 function list_deep_dedup(list) {
     return list.reduce(function (r, i) {
         return !r.some(function (j) { return !Object.keys(i).some(function (k) { return i[k] !== j[k]; }); }) ? __spreadArrays(r, [i]) : r;

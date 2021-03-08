@@ -1,45 +1,51 @@
-import { AuthUser } from "./AuthUser";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RandomBackend = void 0;
+var AuthUser_1 = require("./AuthUser");
 require("@firebase/firestore");
 require("@firebase/auth");
-const firebase = require('firebase/app').default;
-const firebaseConfig = require('./firebaseConfig.json');
+var firebase = require('firebase/app').default;
+var firebaseConfig = require('./firebaseConfig.json');
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
-class RandomBackendClass {
-    constructor() {
+var RandomBackendClass = /** @class */ (function () {
+    function RandomBackendClass() {
         this.currentUser = null;
     }
     ;
-    login() {
-        const provider = new firebase.auth.GoogleAuthProvider();
+    RandomBackendClass.prototype.login = function () {
+        var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function (result) {
             console.log(result.user);
         }).catch(function (error) {
             console.log(error);
         });
-    }
-    logout() {
+    };
+    RandomBackendClass.prototype.logout = function () {
         this.currentUser = null;
         firebase.auth().signOut();
-    }
-    userStatusChange(f) {
-        firebase.auth().onAuthStateChanged((user) => {
+    };
+    RandomBackendClass.prototype.userStatusChange = function (f) {
+        var _this = this;
+        firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 console.log("newuser 2 !");
-                this.currentUser = new AuthUser(user);
+                _this.currentUser = new AuthUser_1.AuthUser(user);
             }
             else {
                 console.log("user loggout!");
             }
-            f(this.currentUser);
+            f(_this.currentUser);
         });
-    }
-    getCurrentUser() {
+    };
+    RandomBackendClass.prototype.getCurrentUser = function () {
         return this.currentUser;
-    }
-    getCurrentUserNotNull() {
+    };
+    RandomBackendClass.prototype.getCurrentUserNotNull = function () {
         return this.currentUser;
-    }
-}
-export const RandomBackend = new RandomBackendClass();
+    };
+    return RandomBackendClass;
+}());
+exports.RandomBackend = new RandomBackendClass();
+//# sourceMappingURL=RandomBackend.js.map

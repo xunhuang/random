@@ -53,9 +53,8 @@ class ReducerJob {
 
     async execute() {
         let jobStatusTable = await MRUtils.fetchJobsStatus(this.jobTableName);
-        let successIds = MRUtils.getSuccessfulJobs(jobStatusTable);
         let allJobs = await CloudDB.getFullRecords(this.srctablename);
-        let records = MRUtils.computeUnfinishedJobs(allJobs, successIds);
+        let records = jobStatusTable.computeUnfinishedJobs(allJobs);
 
         var initialresult = await CloudDB.getLastRecord(this.outputTable) as string;
         var previousresults = initialresult;
@@ -85,9 +84,9 @@ class ReducerJob {
 
         if (succesfulruns.length > 0) {
             for (const job of succesfulruns) {
-                jobStatusTable[job] = MRUtils.JobExecStatus.SUCCESS;
+                jobStatusTable.data[job] = MRUtils.JobExecStatus.SUCCESS;
             }
-            await CloudDB.saveJobStatusTable(this.jobTableName, jobStatusTable);
+            await MRUtils.saveJobsStatus(jobStatusTable);
         }
         console.log("done with reducer")
     }

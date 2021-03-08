@@ -55,8 +55,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveJobStatusTable = exports.getJobStatusTable = exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
+exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = __importStar(require("moment"));
+var fireorm = __importStar(require("fireorm"));
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 require("@firebase/firestore");
 require("@firebase/storage");
@@ -66,6 +67,9 @@ var superagent = require('superagent');
 var firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
+fireorm.initialize(db, {
+    validateModels: true
+});
 function getDB() {
     return db;
 }
@@ -102,13 +106,6 @@ var DataRecord = /** @class */ (function () {
 }());
 exports.DataRecord = DataRecord;
 ;
-function snapshotToArrayData(snapshot) {
-    var result = [];
-    snapshot.forEach(function (childSnapshot) {
-        result.push(childSnapshot.data());
-    });
-    return result;
-}
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
@@ -249,39 +246,4 @@ function getFullRecords(tablename) {
     });
 }
 exports.getFullRecords = getFullRecords;
-function getJobStatusTable(jobDescriptionID) {
-    return __awaiter(this, void 0, void 0, function () {
-        var docRef;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    docRef = db.collection("JobStatus").doc(jobDescriptionID);
-                    return [4 /*yield*/, docRef.get().then(function (doc) {
-                            return doc.data() || {};
-                        })];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-exports.getJobStatusTable = getJobStatusTable;
-function saveJobStatusTable(tablename, jobstatus) {
-    return __awaiter(this, void 0, void 0, function () {
-        var docRef;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    docRef = db.collection("JobStatus").doc(tablename);
-                    return [4 /*yield*/, docRef.set(jobstatus).then(function (doc) {
-                        }).catch(function (err) {
-                            return null;
-                        })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/, true];
-            }
-        });
-    });
-}
-exports.saveJobStatusTable = saveJobStatusTable;
 //# sourceMappingURL=CloudDB.js.map

@@ -86,17 +86,16 @@ var ReducerJob = /** @class */ (function () {
     }
     ReducerJob.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var jobStatusTable, successIds, allJobs, records, initialresult, previousresults, succesfulruns, _i, records_1, record, data, error_1, _a, succesfulruns_1, job;
+            var jobStatusTable, allJobs, records, initialresult, previousresults, succesfulruns, _i, records_1, record, data, error_1, _a, succesfulruns_1, job;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, MRUtils.fetchJobsStatus(this.jobTableName)];
                     case 1:
                         jobStatusTable = _b.sent();
-                        successIds = MRUtils.getSuccessfulJobs(jobStatusTable);
                         return [4 /*yield*/, CloudDB.getFullRecords(this.srctablename)];
                     case 2:
                         allJobs = _b.sent();
-                        records = MRUtils.computeUnfinishedJobs(allJobs, successIds);
+                        records = jobStatusTable.computeUnfinishedJobs(allJobs);
                         return [4 /*yield*/, CloudDB.getLastRecord(this.outputTable)];
                     case 3:
                         initialresult = _b.sent();
@@ -145,9 +144,9 @@ var ReducerJob = /** @class */ (function () {
                         if (!(succesfulruns.length > 0)) return [3 /*break*/, 14];
                         for (_a = 0, succesfulruns_1 = succesfulruns; _a < succesfulruns_1.length; _a++) {
                             job = succesfulruns_1[_a];
-                            jobStatusTable[job] = MRUtils.JobExecStatus.SUCCESS;
+                            jobStatusTable.data[job] = MRUtils.JobExecStatus.SUCCESS;
                         }
-                        return [4 /*yield*/, CloudDB.saveJobStatusTable(this.jobTableName, jobStatusTable)];
+                        return [4 /*yield*/, MRUtils.saveJobsStatus(jobStatusTable)];
                     case 13:
                         _b.sent();
                         _b.label = 14;

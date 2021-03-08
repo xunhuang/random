@@ -41,14 +41,13 @@ class MapperJob {
 
     async execute() {
         let jobStatusTable = await MRUtils.fetchJobsStatus(this.jobTableName);
-        let successIds = MRUtils.getSuccessfulJobs(jobStatusTable);
         let allJobs = await CloudDB.getFullRecords(this.srctablename);
-        let records = MRUtils.computeUnfinishedJobs(allJobs, successIds);
+        let records = jobStatusTable.computeUnfinishedJobs(allJobs);
 
         let dirty = false;
         for (const record of records) {
             console.log("working on:", record.key);
-            jobStatusTable[record.key] = MRUtils.JobExecStatus.SUCCESS;
+            jobStatusTable.data[record.key] = MRUtils.JobExecStatusInterface.SUCCESS;
             let data = await record.fetchData();
             let output = this.process(data, record);
             if (output) {
@@ -58,12 +57,10 @@ class MapperJob {
                     record.key
                 );
                 dirty = true;
-            } else {
-                // what to do if output is empty? marked as errors or what?
             }
         }
         if (dirty) {
-            await CloudDB.saveJobStatusTable(this.jobTableName, jobStatusTable);
+            await MRUtils.saveJobsStatus(jobStatusTable);
         } else {
             console.log("nothing to update");
         }

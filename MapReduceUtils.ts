@@ -1,41 +1,54 @@
 import * as CloudDB from './CloudDB';
+import { Collection, getRepository } from 'fireorm';
+import * as fireorm from 'fireorm';
 
-export const JobExecStatus = {
-    UNKNOWN: "pending",
-    SUCCESS: "success",
-    FAIL: "failed",
+export enum JobExecStatus {
+    UNKNOWN = "pending",
+    SUCCESS = "success",
+    FAIL = "failed",
 }
 
-export function computeUnfinishedJobs(
-    allJobs: CloudDB.DataRecord[],
-    successIds: string[],
-): CloudDB.DataRecord[] {
-    var successIdsMap = successIds.reduce(function (map, obj) {
-        map[obj] = true;
-        return map;
-    }, {});
-
-    let unfinished = [];
-    for (const job of allJobs) {
-        if (!successIdsMap[job.key]) {
-            unfinished.push(job);
-        }
+@Collection()
+export class JobStatusTable {
+    id: string;
+    tableName: string;
+    data: {
+        [key: string]: JobExecStatus;
     }
-    return unfinished;
-}
 
-export function getSuccessfulJobs(jobStatusTable: object): string[] {
-    let successIds = [];
-    for (const key in jobStatusTable) {
-        if (jobStatusTable[key] === JobExecStatus.SUCCESS) {
-            successIds.push(key);
-        }
+    static fromTableName(tablename) {
+        let newitem = new JobStatusTable();
+        newitem.id = tablename;
+        newitem.tableName = tablename;
+        newitem.data = {};
+        return newitem;
     }
-    return successIds;
+
+    computeUnfinishedJobs(allJobs: CloudDB.DataRecord[],): CloudDB.DataRecord[] {
+        let unfinished = [];
+        for (const job of allJobs) {
+            let status = this.data[job.key];
+            if (!status || status != JobExecStatus.SUCCESS) {
+                unfinished.push(job);
+            }
+        }
+        return unfinished
+    }
+
+}
+export async function fetchJobsStatus(tablename: string): Promise<JobStatusTable> {
+    let repos = getRepository(JobStatusTable);
+    let table = await repos.whereEqualTo(a => a.tableName, tablename).findOne();
+    if (!table) {
+        table = JobStatusTable.fromTableName(tablename);
+        await repos.create(table);
+    }
+    return table;
 }
 
-export async function fetchJobsStatus(tablename: string): Promise<string[]> {
-    return await CloudDB.getJobStatusTable(tablename);
+export async function saveJobsStatus(job: JobStatusTable): Promise<void> {
+    let repos = getRepository(JobStatusTable);
+    await repos.update(job);
 }
 
 export function list_deep_dedup(list) {
