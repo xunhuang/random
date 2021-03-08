@@ -339,15 +339,15 @@
   },
   {
     "county": "Sacramento",
-    "doses_administered": 335830,
+    "doses_administered": 339737,
     "date": "2021-03-07",
     "fips": "06067",
     "population": 1510023,
-    "doses_administered_per_100k": 22240.058595134,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 6076.5714285714,
+    "doses_administered_per_100k": 22498.7963759492,
+    "new_doses_administered": 3907,
+    "new_doses_administered_seven_day_average": 6634.7142857143,
     "new_doses_administered_yesterday": 4241,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-07 09:22:05"
+    "new_doses_administered_today": 3907,
+    "updated_time": "2021-03-07 21:02:58"
   }
 ]

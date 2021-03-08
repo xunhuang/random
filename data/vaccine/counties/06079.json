@@ -339,15 +339,15 @@
   },
   {
     "county": "San Luis Obispo",
-    "doses_administered": 79622,
+    "doses_administered": 79904,
     "date": "2021-03-07",
     "fips": "06079",
     "population": 281455,
-    "doses_administered_per_100k": 28289.4245971825,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 2394.2857142857,
+    "doses_administered_per_100k": 28389.6182338207,
+    "new_doses_administered": 282,
+    "new_doses_administered_seven_day_average": 2434.5714285714,
     "new_doses_administered_yesterday": 1989,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-07 09:22:05"
+    "new_doses_administered_today": 282,
+    "updated_time": "2021-03-07 21:02:58"
   }
 ]

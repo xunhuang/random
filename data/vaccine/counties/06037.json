@@ -339,15 +339,15 @@
   },
   {
     "county": "Los Angeles",
-    "doses_administered": 2489533,
+    "doses_administered": 2536916,
     "date": "2021-03-07",
     "fips": "06037",
     "population": 10098052,
-    "doses_administered_per_100k": 24653.5965550583,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 51878.1428571429,
+    "doses_administered_per_100k": 25122.825669743,
+    "new_doses_administered": 47383,
+    "new_doses_administered_seven_day_average": 58647.1428571429,
     "new_doses_administered_yesterday": 69403,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-07 09:22:05"
+    "new_doses_administered_today": 47383,
+    "updated_time": "2021-03-07 21:02:58"
   }
 ]
