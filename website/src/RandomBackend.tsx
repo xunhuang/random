@@ -30,7 +30,7 @@ class RandomBackendClass {
         firebase.auth().onAuthStateChanged((user: User) => {
             if (user) {
                 console.log("newuser 2 !")
-                this.currentUser = new AuthUser(user);
+                this.currentUser = AuthUser.fromFirebaseUser(user);
             } else {
                 console.log("user loggout!")
             }

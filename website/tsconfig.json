@@ -19,6 +19,9 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "noEmit": false,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   },
   "include": [
     "src"

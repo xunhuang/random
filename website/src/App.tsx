@@ -12,14 +12,14 @@ const Page404 = () => {
 
 const AuthenicatedHome = () => {
   let user = RandomBackend.getCurrentUserNotNull();
-  return <h1> AuthenticatedHome - {user.displayName}, {user.uid} </h1>;
+  return <h1> AuthenticatedHome - {user.displayName}, {user.id} </h1>;
 
 }
 
 const UserSubscriptions = () => {
   // let user = React.useContext(AuthUserContext) as any;
   let user = RandomBackend.getCurrentUserNotNull();
-  return <h1> My Subscription for {user.displayName}, {user.uid} </h1>;
+  return <h1> My Subscription for {user.displayName}, {user.id} </h1>;
 }
 
 const App = (props: any) => {
