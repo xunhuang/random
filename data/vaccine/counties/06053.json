@@ -349,5 +349,18 @@
     "new_doses_administered_yesterday": 1572,
     "new_doses_administered_today": 1820,
     "updated_time": "2021-03-07 21:02:58"
+  },
+  {
+    "county": "Monterey",
+    "doses_administered": 87536,
+    "date": "2021-03-08",
+    "fips": "06053",
+    "population": 433212,
+    "doses_administered_per_100k": 20206.2731410949,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 1883.5714285714,
+    "new_doses_administered_yesterday": 1820,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-08 09:27:16"
   }
 ]
