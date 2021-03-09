@@ -1,11 +1,21 @@
 import { User } from '@firebase/auth-types';
 /* eslint-disable import/first */ // not sure why line position matters
-import { Collection, getRepository } from 'fireorm';
+import { Collection, getRepository, ISubCollection, SubCollection } from 'fireorm';
+
+export class WatchSubscription {
+    id: string;
+    name: string;
+    url: string;
+    frequency: number;
+};
 
 @Collection()
 export class AuthUser {
     id: string;
     displayName: string | null = null;
+
+    @SubCollection(WatchSubscription)
+    subscriptions: ISubCollection<WatchSubscription>;
 
     static fromFirebaseUser(user: User) {
         let u = new AuthUser();
@@ -14,4 +24,8 @@ export class AuthUser {
         return u;
     }
     uid() { return this.id; }
+
+    subscriptionAdd(sub: WatchSubscription) {
+        this.subscriptions.create(sub);
+    }
 }
