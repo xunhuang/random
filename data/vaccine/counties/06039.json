@@ -352,15 +352,15 @@
   },
   {
     "county": "Madera",
-    "doses_administered": 30960,
+    "doses_administered": 31060,
     "date": "2021-03-08",
     "fips": "06039",
     "population": 155013,
-    "doses_administered_per_100k": 19972.5184339378,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 593.1428571429,
+    "doses_administered_per_100k": 20037.0291523937,
+    "new_doses_administered": 100,
+    "new_doses_administered_seven_day_average": 607.4285714286,
     "new_doses_administered_yesterday": 402,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-08 09:27:16"
+    "new_doses_administered_today": 100,
+    "updated_time": "2021-03-08 14:58:47"
   }
 ]

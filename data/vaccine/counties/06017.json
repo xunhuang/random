@@ -352,15 +352,15 @@
   },
   {
     "county": "El Dorado",
-    "doses_administered": 49757,
+    "doses_administered": 50126,
     "date": "2021-03-08",
     "fips": "06017",
     "population": 186661,
-    "doses_administered_per_100k": 26656.3449247566,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 791.2857142857,
+    "doses_administered_per_100k": 26854.029497324,
+    "new_doses_administered": 369,
+    "new_doses_administered_seven_day_average": 844,
     "new_doses_administered_yesterday": 358,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-08 09:27:16"
+    "new_doses_administered_today": 369,
+    "updated_time": "2021-03-08 14:58:47"
   }
 ]

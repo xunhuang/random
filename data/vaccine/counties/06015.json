@@ -352,15 +352,15 @@
   },
   {
     "county": "Del Norte",
-    "doses_administered": 4252,
+    "doses_administered": 4271,
     "date": "2021-03-08",
     "fips": "06015",
     "population": 27424,
-    "doses_administered_per_100k": 15504.6674445741,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 87.5714285714,
+    "doses_administered_per_100k": 15573.9498249708,
+    "new_doses_administered": 19,
+    "new_doses_administered_seven_day_average": 90.2857142857,
     "new_doses_administered_yesterday": 185,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-08 09:27:16"
+    "new_doses_administered_today": 19,
+    "updated_time": "2021-03-08 14:58:47"
   }
 ]
