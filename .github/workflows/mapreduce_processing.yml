@@ -32,7 +32,7 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
      
-      - run: npx tsc Reducer.js Mapper.js --experimentalDecorators
+      - run: npx tsc Reducer.ts Mapper.ts --experimentalDecorators
 
       - run: node Mapper.js
         env:
