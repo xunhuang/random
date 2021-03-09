@@ -365,15 +365,15 @@
   },
   {
     "county": "Amador",
-    "doses_administered": 11269,
+    "doses_administered": 11309,
     "date": "2021-03-09",
     "fips": "06005",
     "population": 37829,
-    "doses_administered_per_100k": 29789.3150757355,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 156,
+    "doses_administered_per_100k": 29895.0540590552,
+    "new_doses_administered": 40,
+    "new_doses_administered_seven_day_average": 161.7142857143,
     "new_doses_administered_yesterday": 142,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-09 09:31:29"
+    "new_doses_administered_today": 40,
+    "updated_time": "2021-03-09 15:06:31"
   }
 ]

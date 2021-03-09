@@ -365,15 +365,15 @@
   },
   {
     "county": "San Diego",
-    "doses_administered": 1065999,
+    "doses_administered": 1100819,
     "date": "2021-03-09",
     "fips": "06073",
     "population": 3302833,
-    "doses_administered_per_100k": 32275.2921507082,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 17537.8571428571,
+    "doses_administered_per_100k": 33329.5386112468,
+    "new_doses_administered": 34820,
+    "new_doses_administered_seven_day_average": 22512.1428571429,
     "new_doses_administered_yesterday": 30514,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-09 09:31:29"
+    "new_doses_administered_today": 34820,
+    "updated_time": "2021-03-09 15:06:31"
   }
 ]
