@@ -362,5 +362,18 @@
     "new_doses_administered_yesterday": 1621,
     "new_doses_administered_today": 539,
     "updated_time": "2021-03-08 21:03:27"
+  },
+  {
+    "county": "Sonoma",
+    "doses_administered": 166142,
+    "date": "2021-03-09",
+    "fips": "06097",
+    "population": 501317,
+    "doses_administered_per_100k": 33141.1063259375,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 2027.5714285714,
+    "new_doses_administered_yesterday": 539,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-09 09:31:29"
   }
 ]

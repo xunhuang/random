@@ -362,5 +362,18 @@
     "new_doses_administered_yesterday": 260,
     "new_doses_administered_today": 9,
     "updated_time": "2021-03-08 21:03:27"
+  },
+  {
+    "county": "Tehama",
+    "doses_administered": 10994,
+    "date": "2021-03-09",
+    "fips": "06103",
+    "population": 63373,
+    "doses_administered_per_100k": 17348.0819907532,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 207.7142857143,
+    "new_doses_administered_yesterday": 9,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-09 09:31:29"
   }
 ]

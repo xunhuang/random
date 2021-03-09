@@ -362,5 +362,18 @@
     "new_doses_administered_yesterday": 273,
     "new_doses_administered_today": 5,
     "updated_time": "2021-03-08 21:03:27"
+  },
+  {
+    "county": "Glenn",
+    "doses_administered": 6624,
+    "date": "2021-03-09",
+    "fips": "06021",
+    "population": 27897,
+    "doses_administered_per_100k": 23744.4886546941,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 152.5714285714,
+    "new_doses_administered_yesterday": 5,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-09 09:31:29"
   }
 ]
