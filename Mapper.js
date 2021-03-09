@@ -1,14 +1,14 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function (o, m, k, k2) {
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function () { return m[k]; } });
-}) : (function (o, m, k, k2) {
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
 }));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function (o, v) {
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function (o, v) {
+}) : function(o, v) {
     o["default"] = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
@@ -28,8 +28,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -97,7 +97,7 @@ var MapperJob = /** @class */ (function () {
                         if (!(_i < records_1.length)) return [3 /*break*/, 7];
                         record = records_1[_i];
                         console.log("working on:", record.key);
-                        jobStatusTable.data[record.key] = MRUtils.JobExecStatusInterface.SUCCESS;
+                        jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
                         return [4 /*yield*/, record.fetchData()];
                     case 4:
                         data = _a.sent();
@@ -172,7 +172,7 @@ var MapperJobs = [
         var processed = dom("#counties-vaccination-data").html();
         return processed;
     }, {
-        // jobTableName: "California-Vaccine-2-job",
+    // jobTableName: "California-Vaccine-2-job",
     })
 ];
 function doit() {

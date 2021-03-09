@@ -47,7 +47,7 @@ class MapperJob {
         let dirty = false;
         for (const record of records) {
             console.log("working on:", record.key);
-            jobStatusTable.data[record.key] = MRUtils.JobExecStatusInterface.SUCCESS;
+            jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
             let data = await record.fetchData();
             let output = this.process(data, record);
             if (output) {
