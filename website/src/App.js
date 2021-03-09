@@ -5,34 +5,9 @@ import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthUserContext } from './AuthUserContext';
 import { RandomBackend } from "./RandomBackend";
-import { WatchSubscription } from "./AuthUser";
+import { AuthenicatedHome } from './AuthenicatedHome';
 const Page404 = () => {
     return _jsx("h1", { children: " Oops! That page couldn't be found. " }, void 0);
-};
-const AuthenicatedHome = () => {
-    let user = RandomBackend.getCurrentUser();
-    const [subs, setSubs] = React.useState(undefined);
-    const [reload, setReload] = React.useState(false);
-    React.useEffect(() => {
-        user.subscriptions.find().then(data => {
-            setSubs(data);
-        });
-    }, [reload]);
-    if (subs) {
-        console.log(subs);
-    }
-    return _jsxs("h1", { children: ["AuthenticatedHome - ", user.displayName, ", ", user.id, subs &&
-                subs.map((sub) => _jsxs("li", { children: [" ", sub.name, ",  ", sub.url, " "] }, sub.id)),
-            _jsx("p", Object.assign({ onClick: (event) => {
-                    let user = RandomBackend.getCurrentUser();
-                    let sub = new WatchSubscription();
-                    sub.name = "hey hey";
-                    sub.url = "https://cnn.com";
-                    user.subscriptions.create(sub).then(function () {
-                        console.log("done creating subscriptions");
-                        setReload(!reload);
-                    });
-                } }, { children: "Add Subscription" }), void 0)] }, void 0);
 };
 const UserSubscriptions = () => {
     let user = RandomBackend.getCurrentUser();
