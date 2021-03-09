@@ -9,12 +9,11 @@ const Page404 = () => {
     return _jsx("h1", { children: " Oops! That page couldn't be found. " }, void 0);
 };
 const AuthenicatedHome = () => {
-    let user = RandomBackend.getCurrentUserNotNull();
+    let user = RandomBackend.getCurrentUser();
     return _jsxs("h1", { children: [" AuthenticatedHome - ", user.displayName, ", ", user.id, " "] }, void 0);
 };
 const UserSubscriptions = () => {
-    // let user = React.useContext(AuthUserContext) as any;
-    let user = RandomBackend.getCurrentUserNotNull();
+    let user = RandomBackend.getCurrentUser();
     return _jsxs("h1", { children: [" My Subscription for ", user.displayName, ", ", user.id, " "] }, void 0);
 };
 const App = (props) => {

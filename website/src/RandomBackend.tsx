@@ -1,5 +1,8 @@
 import { User, UserCredential } from '@firebase/auth-types';
 import { AuthUser } from "./AuthUser";
+import { Collection, getRepository } from 'fireorm';
+import * as fireorm from 'fireorm';
+import { get } from 'https';
 require("@firebase/firestore");
 require("@firebase/auth");
 
@@ -8,6 +11,9 @@ const firebaseConfig = require('./firebaseConfig.json');
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig)
 }
+fireorm.initialize(firebase.firestore(), {
+    validateModels: true
+});
 
 class RandomBackendClass {
     currentUser: AuthUser | null = null;;
@@ -29,18 +35,24 @@ class RandomBackendClass {
     userStatusChange(f: (user: AuthUser | null) => void) {
         firebase.auth().onAuthStateChanged((user: User) => {
             if (user) {
-                console.log("newuser 2 !")
-                this.currentUser = AuthUser.fromFirebaseUser(user);
+                getRepository(AuthUser).findById(user.uid).then(firebaseUser => {
+                    this.currentUser = firebaseUser;
+                    if (!firebaseUser) {
+                        this.currentUser = AuthUser.fromFirebaseUser(user);
+                        getRepository(AuthUser).create(this.currentUser);
+                    }
+                    f(this.currentUser);
+                });
             } else {
                 console.log("user loggout!")
+                f(null);
             }
-            f(this.currentUser);
         });
     }
-    getCurrentUser() {
+    getCurrentUserOrNull() {
         return this.currentUser;
     }
-    getCurrentUserNotNull(): AuthUser {
+    getCurrentUser(): AuthUser {
         return this.currentUser as AuthUser;
     }
 }
