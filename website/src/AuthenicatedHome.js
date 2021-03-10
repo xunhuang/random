@@ -38,8 +38,7 @@ function SubscriptionForm(props) {
         }
     });
     let sub = props.sub;
-    return (_jsxs("div", { children: [sub ?
-                _jsx("label", { children: "Update Subscription" }, void 0) :
+    return (_jsxs("div", { children: [sub ? _jsx("label", { children: "Update Subscription" }, void 0) :
                 _jsx("label", { children: "New Subscription" }, void 0),
             _jsxs("form", Object.assign({ onSubmit: onSubmit }, { children: [_jsx("label", { children: "Name" }, void 0),
                     _jsx("input", { name: "name", ref: register, defaultValue: sub && sub.name }, void 0), errors.name && "Name is required", _jsx("label", { children: "URL" }, void 0),
@@ -47,8 +46,8 @@ function SubscriptionForm(props) {
 }
 const SubscripionList = (props) => {
     const columns = [
-        { label: 'Title', name: 'name' },
-        { label: 'Author', name: 'url' },
+        { label: 'Name', name: 'name' },
+        { label: 'URL', name: 'url' },
     ];
     const options = {
         onRowsDelete: (rowsDeleted) => {

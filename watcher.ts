@@ -225,6 +225,22 @@ const NewSubscriptions = [
     ),
     */
     new Subscription(
+        "CDC County Data",
+        "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_latest_external_data",
+        ["xhuang@gmail.com"],
+        {
+            storageTableName: "CDC County Data"
+        }
+    ),
+    new Subscription(
+        "CDC State Testing Data",
+        "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=US_MAP_TESTING",
+        ["xhuang@gmail.com"],
+        {
+            storageTableName: "CDC State Testing Data"
+        }
+    ),
+    new Subscription(
         "CDC State Vaccination Data",
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data",
         [],

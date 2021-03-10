@@ -46,11 +46,8 @@ function SubscriptionForm(props: SubscriptionFormProperty) {
     let sub = props.sub;
     return (
         <div>
-            {
-                sub ?
-                    <label>Update Subscription</label> :
-                    <label>New Subscription</label>
-            }
+            { sub ? <label>Update Subscription</label> :
+                <label>New Subscription</label>}
             <form onSubmit={onSubmit}>
                 <label>Name</label>
                 <input name="name" ref={register} defaultValue={sub && sub.name} />
@@ -72,8 +69,8 @@ interface SubscriptionListProperty {
 
 const SubscripionList = (props: SubscriptionListProperty) => {
     const columns = [
-        { label: 'Title', name: 'name' },
-        { label: 'Author', name: 'url' },
+        { label: 'Name', name: 'name' },
+        { label: 'URL', name: 'url' },
     ];
 
     const options = {
