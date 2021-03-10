@@ -375,5 +375,18 @@
     "new_doses_administered_yesterday": 100,
     "new_doses_administered_today": 96,
     "updated_time": "2021-03-09 20:57:14"
+  },
+  {
+    "county": "Madera",
+    "doses_administered": 31156,
+    "date": "2021-03-10",
+    "fips": "06039",
+    "population": 155013,
+    "doses_administered_per_100k": 20098.9594421113,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 456,
+    "new_doses_administered_yesterday": 96,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-10 09:26:54"
   }
 ]

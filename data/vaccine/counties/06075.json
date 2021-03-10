@@ -375,5 +375,18 @@
     "new_doses_administered_yesterday": 4511,
     "new_doses_administered_today": 3756,
     "updated_time": "2021-03-09 20:57:14"
+  },
+  {
+    "county": "San Francisco",
+    "doses_administered": 291490,
+    "date": "2021-03-10",
+    "fips": "06075",
+    "population": 870044,
+    "doses_administered_per_100k": 33502.9033014422,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 5989.7142857143,
+    "new_doses_administered_yesterday": 3756,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-10 09:26:54"
   }
 ]

@@ -375,5 +375,18 @@
     "new_doses_administered_yesterday": 263,
     "new_doses_administered_today": 286,
     "updated_time": "2021-03-09 20:57:14"
+  },
+  {
+    "county": "Yolo",
+    "doses_administered": 64306,
+    "date": "2021-03-10",
+    "fips": "06113",
+    "population": 214977,
+    "doses_administered_per_100k": 29912.9674337255,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 905.1428571429,
+    "new_doses_administered_yesterday": 286,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-10 09:26:54"
   }
 ]
