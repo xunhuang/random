@@ -48,7 +48,7 @@ jobs:
     - run: node datasplit.js -t Calfiornia-Vaccine-Overtime-Table -f fips -o website/build/data/vaccine/counties
     - run: node dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
     - run: node datasplit.js -t CDC-Vaccine-Overtime-Table -f Location -o website/build/data/vaccine
-    - run: f=`curl -s -L https://healthdata.gov/dataset/covid-19-diagnostic-laboratory-testing-pcr-testing-time-series.xml | xmlstarlet sel -t -v "/rdf:RDF/dcat:Distribution/dcat:downloadURL/@rdf:resource"` ; echo $f; curl -s $f | csvtojson | jq -f website/state.jq > website/build/testing/states.json
+    - run: f=`curl -s -L https://healthdata.gov/dataset/covid-19-diagnostic-laboratory-testing-pcr-testing-time-series.xml | xmlstarlet sel -t -v "/rdf:RDF/dcat:Distribution/dcat:downloadURL/@rdf:resource"` ; echo $f; curl -s $f | npx csvtojson | jq -f website/state.jq > website/build/testing/states.json
     - name: Deploy to Website
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
