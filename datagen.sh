@@ -20,6 +20,7 @@ getTestingData() {
    cat $target_dir/states-original.json | jq -f website/state.jq > $target_dir/states.json
    datasplit $target_dir/states.json state $target_dir/
    cat $target_dir/states.json  | jq -f website/testingUSSummarize.jq  > $target_dir/USA.json
+   cat $target_dir/states.json  | jq -f website/testingStateTable.jq  > $target_dir/states-last.json
 }
 
 getHospitalization() {
