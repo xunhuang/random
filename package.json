@@ -29,6 +29,7 @@
     "@firebase/storage-types": "^0.3.13",
     "@google-cloud/storage": "^5.7.4",
     "cheerio": "^1.0.0-rc.5",
+    "cheerio-cli": "^0.2.0",
     "class-validator": "^0.13.1",
     "crypto-js": "^4.0.0",
     "danfojs-node": "^0.2.2",

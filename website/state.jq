@@ -15,10 +15,10 @@ new_inconclusive:.new_results_reported  |tonumber,
 }
 else "xxx" end ]  | group_by (.state_fips, .date) []  | 
 {
-    date: .[0].date,
+    date: (.[0].date | gsub("-";"") |tonumber),
     state: .[0].state,
     state_name: .[0].state_name,
-    state_fips: .[0].state_fips,
+    fips: .[0].state_fips,
     positive: max_by(.total_positive) |.total_positive, 
     negative: max_by(.total_negative) |.total_negative,
     inconclusive: max_by(.total_inconclusive) |.total_inconclusive,
