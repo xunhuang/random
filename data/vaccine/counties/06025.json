@@ -378,15 +378,15 @@
   },
   {
     "county": "Imperial",
-    "doses_administered": 31983,
+    "doses_administered": 32321,
     "date": "2021-03-10",
     "fips": "06025",
     "population": 180216,
-    "doses_administered_per_100k": 17747.0368890665,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 478.8571428571,
+    "doses_administered_per_100k": 17934.5896035868,
+    "new_doses_administered": 338,
+    "new_doses_administered_seven_day_average": 527.1428571429,
     "new_doses_administered_yesterday": 47,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-10 09:26:54"
+    "new_doses_administered_today": 338,
+    "updated_time": "2021-03-10 14:59:10"
   }
 ]
