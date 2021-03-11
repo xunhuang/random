@@ -388,5 +388,18 @@
     "new_doses_administered_yesterday": 1205,
     "new_doses_administered_today": 396,
     "updated_time": "2021-03-10 14:59:10"
+  },
+  {
+    "county": "Tuolumne",
+    "doses_administered": 18971,
+    "date": "2021-03-11",
+    "fips": "06109",
+    "population": 53932,
+    "doses_administered_per_100k": 35175.7769042498,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 461.4285714286,
+    "new_doses_administered_yesterday": 396,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-11 03:04:43"
   }
 ]
