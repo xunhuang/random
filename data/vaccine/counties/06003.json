@@ -391,15 +391,15 @@
   },
   {
     "county": "Alpine",
-    "doses_administered": 634,
+    "doses_administered": 643,
     "date": "2021-03-11",
     "fips": "06003",
     "population": 1148,
-    "doses_administered_per_100k": 55226.4808362369,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 12.8571428571,
+    "doses_administered_per_100k": 56010.4529616725,
+    "new_doses_administered": 9,
+    "new_doses_administered_seven_day_average": 14.1428571429,
     "new_doses_administered_yesterday": 0,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-11 09:28:31"
+    "new_doses_administered_today": 9,
+    "updated_time": "2021-03-11 16:04:14"
   }
 ]

@@ -391,15 +391,15 @@
   },
   {
     "county": "Yuba",
-    "doses_administered": 11724,
+    "doses_administered": 11902,
     "date": "2021-03-11",
     "fips": "06115",
     "population": 75493,
-    "doses_administered_per_100k": 15529.9166810168,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 205.5714285714,
+    "doses_administered_per_100k": 15765.700131138,
+    "new_doses_administered": 178,
+    "new_doses_administered_seven_day_average": 231,
     "new_doses_administered_yesterday": 174,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-11 09:28:31"
+    "new_doses_administered_today": 178,
+    "updated_time": "2021-03-11 16:04:14"
   }
 ]

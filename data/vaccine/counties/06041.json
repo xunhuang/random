@@ -391,15 +391,15 @@
   },
   {
     "county": "Marin",
-    "doses_administered": 103361,
+    "doses_administered": 104490,
     "date": "2021-03-11",
     "fips": "06041",
     "population": 260295,
-    "doses_administered_per_100k": 39709.1761270866,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 1583.4285714286,
+    "doses_administered_per_100k": 40142.9147697804,
+    "new_doses_administered": 1129,
+    "new_doses_administered_seven_day_average": 1744.7142857143,
     "new_doses_administered_yesterday": 855,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-11 09:28:31"
+    "new_doses_administered_today": 1129,
+    "updated_time": "2021-03-11 16:04:14"
   }
 ]

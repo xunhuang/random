@@ -391,15 +391,15 @@
   },
   {
     "county": "Fresno",
-    "doses_administered": 216892,
+    "doses_administered": 221654,
     "date": "2021-03-11",
     "fips": "06019",
     "population": 978130,
-    "doses_administered_per_100k": 22174.1486305501,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 4318.4285714286,
+    "doses_administered_per_100k": 22660.9959821292,
+    "new_doses_administered": 4762,
+    "new_doses_administered_seven_day_average": 4998.7142857143,
     "new_doses_administered_yesterday": 3451,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-11 09:28:31"
+    "new_doses_administered_today": 4762,
+    "updated_time": "2021-03-11 16:04:14"
   }
 ]
