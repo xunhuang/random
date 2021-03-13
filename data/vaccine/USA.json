@@ -13,6 +13,9 @@
     "Admin_Dose_2_Daily": 1355,
     "Admin_Dose_2_Cumulative": 1355,
     "Admin_Dose_2_Day_Rolling_Average": 1355,
+    "Series_Complete_Daily": 1359,
+    "Series_Complete_Cumulative": 1359,
+    "Series_Complete_Day_Rolling_Average": 1359,
     "date_type": "Admin"
   },
   {
@@ -29,6 +32,9 @@
     "Admin_Dose_2_Daily": 4,
     "Admin_Dose_2_Cumulative": 1359,
     "Admin_Dose_2_Day_Rolling_Average": 680,
+    "Series_Complete_Daily": 4,
+    "Series_Complete_Cumulative": 1363,
+    "Series_Complete_Day_Rolling_Average": 681,
     "date_type": "Admin"
   },
   {
@@ -45,6 +51,9 @@
     "Admin_Dose_2_Daily": 25,
     "Admin_Dose_2_Cumulative": 1384,
     "Admin_Dose_2_Day_Rolling_Average": 461,
+    "Series_Complete_Daily": 26,
+    "Series_Complete_Cumulative": 1389,
+    "Series_Complete_Day_Rolling_Average": 463,
     "date_type": "Admin"
   },
   {
@@ -61,6 +70,9 @@
     "Admin_Dose_2_Daily": 193,
     "Admin_Dose_2_Cumulative": 1577,
     "Admin_Dose_2_Day_Rolling_Average": 394,
+    "Series_Complete_Daily": 193,
+    "Series_Complete_Cumulative": 1582,
+    "Series_Complete_Day_Rolling_Average": 395,
     "date_type": "Admin"
   },
   {
@@ -77,6 +89,9 @@
     "Admin_Dose_2_Daily": 475,
     "Admin_Dose_2_Cumulative": 2052,
     "Admin_Dose_2_Day_Rolling_Average": 410,
+    "Series_Complete_Daily": 475,
+    "Series_Complete_Cumulative": 2057,
+    "Series_Complete_Day_Rolling_Average": 411,
     "date_type": "Admin"
   },
   {
@@ -93,6 +108,9 @@
     "Admin_Dose_2_Daily": 550,
     "Admin_Dose_2_Cumulative": 2602,
     "Admin_Dose_2_Day_Rolling_Average": 434,
+    "Series_Complete_Daily": 550,
+    "Series_Complete_Cumulative": 2607,
+    "Series_Complete_Day_Rolling_Average": 434,
     "date_type": "Admin"
   },
   {
@@ -109,6 +127,9 @@
     "Admin_Dose_2_Daily": 687,
     "Admin_Dose_2_Cumulative": 3289,
     "Admin_Dose_2_Day_Rolling_Average": 470,
+    "Series_Complete_Daily": 687,
+    "Series_Complete_Cumulative": 3294,
+    "Series_Complete_Day_Rolling_Average": 470,
     "date_type": "Admin"
   },
   {
@@ -125,6 +146,9 @@
     "Admin_Dose_2_Daily": 450,
     "Admin_Dose_2_Cumulative": 3739,
     "Admin_Dose_2_Day_Rolling_Average": 341,
+    "Series_Complete_Daily": 450,
+    "Series_Complete_Cumulative": 3744,
+    "Series_Complete_Day_Rolling_Average": 340,
     "date_type": "Admin"
   },
   {
@@ -141,6 +165,9 @@
     "Admin_Dose_2_Daily": 722,
     "Admin_Dose_2_Cumulative": 4461,
     "Admin_Dose_2_Day_Rolling_Average": 443,
+    "Series_Complete_Daily": 722,
+    "Series_Complete_Cumulative": 4466,
+    "Series_Complete_Day_Rolling_Average": 443,
     "date_type": "Admin"
   },
   {
@@ -157,6 +184,9 @@
     "Admin_Dose_2_Daily": 1862,
     "Admin_Dose_2_Cumulative": 6323,
     "Admin_Dose_2_Day_Rolling_Average": 706,
+    "Series_Complete_Daily": 1862,
+    "Series_Complete_Cumulative": 6328,
+    "Series_Complete_Day_Rolling_Average": 705,
     "date_type": "Admin"
   },
   {
@@ -173,6 +203,9 @@
     "Admin_Dose_2_Daily": 1565,
     "Admin_Dose_2_Cumulative": 7888,
     "Admin_Dose_2_Day_Rolling_Average": 902,
+    "Series_Complete_Daily": 1565,
+    "Series_Complete_Cumulative": 7893,
+    "Series_Complete_Day_Rolling_Average": 901,
     "date_type": "Admin"
   },
   {
@@ -189,6 +222,9 @@
     "Admin_Dose_2_Daily": 880,
     "Admin_Dose_2_Cumulative": 8768,
     "Admin_Dose_2_Day_Rolling_Average": 959,
+    "Series_Complete_Daily": 880,
+    "Series_Complete_Cumulative": 8773,
+    "Series_Complete_Day_Rolling_Average": 959,
     "date_type": "Admin"
   },
   {
@@ -205,6 +241,9 @@
     "Admin_Dose_2_Daily": 35,
     "Admin_Dose_2_Cumulative": 8803,
     "Admin_Dose_2_Day_Rolling_Average": 886,
+    "Series_Complete_Daily": 35,
+    "Series_Complete_Cumulative": 8808,
+    "Series_Complete_Day_Rolling_Average": 885,
     "date_type": "Admin"
   },
   {
@@ -221,6 +260,9 @@
     "Admin_Dose_2_Daily": 300,
     "Admin_Dose_2_Cumulative": 9103,
     "Admin_Dose_2_Day_Rolling_Average": 831,
+    "Series_Complete_Daily": 300,
+    "Series_Complete_Cumulative": 9108,
+    "Series_Complete_Day_Rolling_Average": 830,
     "date_type": "Admin"
   },
   {
@@ -237,6 +279,9 @@
     "Admin_Dose_2_Daily": 283,
     "Admin_Dose_2_Cumulative": 9386,
     "Admin_Dose_2_Day_Rolling_Average": 807,
+    "Series_Complete_Daily": 283,
+    "Series_Complete_Cumulative": 9391,
+    "Series_Complete_Day_Rolling_Average": 806,
     "date_type": "Admin"
   },
   {
@@ -253,6 +298,9 @@
     "Admin_Dose_2_Daily": 2112,
     "Admin_Dose_2_Cumulative": 11498,
     "Admin_Dose_2_Day_Rolling_Average": 1005,
+    "Series_Complete_Daily": 2112,
+    "Series_Complete_Cumulative": 11503,
+    "Series_Complete_Day_Rolling_Average": 1005,
     "date_type": "Admin"
   },
   {
@@ -269,6 +317,9 @@
     "Admin_Dose_2_Daily": 2609,
     "Admin_Dose_2_Cumulative": 14107,
     "Admin_Dose_2_Day_Rolling_Average": 1112,
+    "Series_Complete_Daily": 2609,
+    "Series_Complete_Cumulative": 14112,
+    "Series_Complete_Day_Rolling_Average": 1112,
     "date_type": "Admin"
   },
   {
@@ -285,6 +336,9 @@
     "Admin_Dose_2_Daily": 4680,
     "Admin_Dose_2_Cumulative": 18787,
     "Admin_Dose_2_Day_Rolling_Average": 1557,
+    "Series_Complete_Daily": 4680,
+    "Series_Complete_Cumulative": 18792,
+    "Series_Complete_Day_Rolling_Average": 1557,
     "date_type": "Admin"
   },
   {
@@ -301,6 +355,9 @@
     "Admin_Dose_2_Daily": 1529,
     "Admin_Dose_2_Cumulative": 20316,
     "Admin_Dose_2_Day_Rolling_Average": 1650,
+    "Series_Complete_Daily": 1529,
+    "Series_Complete_Cumulative": 20321,
+    "Series_Complete_Day_Rolling_Average": 1649,
     "date_type": "Admin"
   },
   {
@@ -317,6 +374,9 @@
     "Admin_Dose_2_Daily": 830,
     "Admin_Dose_2_Cumulative": 21146,
     "Admin_Dose_2_Day_Rolling_Average": 1763,
+    "Series_Complete_Daily": 834,
+    "Series_Complete_Cumulative": 21155,
+    "Series_Complete_Day_Rolling_Average": 1763,
     "date_type": "Admin"
   },
   {
@@ -333,6 +393,9 @@
     "Admin_Dose_2_Daily": 1849,
     "Admin_Dose_2_Cumulative": 22995,
     "Admin_Dose_2_Day_Rolling_Average": 1985,
+    "Series_Complete_Daily": 1850,
+    "Series_Complete_Cumulative": 23005,
+    "Series_Complete_Day_Rolling_Average": 1985,
     "date_type": "Admin"
   },
   {
@@ -349,6 +412,9 @@
     "Admin_Dose_2_Daily": 1893,
     "Admin_Dose_2_Cumulative": 24888,
     "Admin_Dose_2_Day_Rolling_Average": 2215,
+    "Series_Complete_Daily": 1893,
+    "Series_Complete_Cumulative": 24898,
+    "Series_Complete_Day_Rolling_Average": 2215,
     "date_type": "Admin"
   },
   {
@@ -365,6 +431,9 @@
     "Admin_Dose_2_Daily": 41099,
     "Admin_Dose_2_Cumulative": 65987,
     "Admin_Dose_2_Day_Rolling_Average": 7784,
+    "Series_Complete_Daily": 41100,
+    "Series_Complete_Cumulative": 65998,
+    "Series_Complete_Day_Rolling_Average": 7785,
     "date_type": "Admin"
   },
   {
@@ -381,6 +450,9 @@
     "Admin_Dose_2_Daily": 80583,
     "Admin_Dose_2_Cumulative": 146570,
     "Admin_Dose_2_Day_Rolling_Average": 18923,
+    "Series_Complete_Daily": 80583,
+    "Series_Complete_Cumulative": 146581,
+    "Series_Complete_Day_Rolling_Average": 18924,
     "date_type": "Admin"
   },
   {
@@ -397,6 +469,9 @@
     "Admin_Dose_2_Daily": 162927,
     "Admin_Dose_2_Cumulative": 309497,
     "Admin_Dose_2_Day_Rolling_Average": 41530,
+    "Series_Complete_Daily": 162930,
+    "Series_Complete_Cumulative": 309511,
+    "Series_Complete_Day_Rolling_Average": 41531,
     "date_type": "Admin"
   },
   {
@@ -413,6 +488,9 @@
     "Admin_Dose_2_Daily": 264195,
     "Admin_Dose_2_Cumulative": 573692,
     "Admin_Dose_2_Day_Rolling_Average": 79054,
+    "Series_Complete_Daily": 264196,
+    "Series_Complete_Cumulative": 573707,
+    "Series_Complete_Day_Rolling_Average": 79055,
     "date_type": "Admin"
   },
   {
@@ -429,6 +507,9 @@
     "Admin_Dose_2_Daily": 344985,
     "Admin_Dose_2_Cumulative": 918677,
     "Admin_Dose_2_Day_Rolling_Average": 128219,
+    "Series_Complete_Daily": 344987,
+    "Series_Complete_Cumulative": 918694,
+    "Series_Complete_Day_Rolling_Average": 128219,
     "date_type": "Admin"
   },
   {
@@ -445,6 +526,9 @@
     "Admin_Dose_2_Daily": 121882,
     "Admin_Dose_2_Cumulative": 1040559,
     "Admin_Dose_2_Day_Rolling_Average": 145366,
+    "Series_Complete_Daily": 121882,
+    "Series_Complete_Cumulative": 1040576,
+    "Series_Complete_Day_Rolling_Average": 145367,
     "date_type": "Admin"
   },
   {
@@ -461,6 +545,9 @@
     "Admin_Dose_2_Daily": 65927,
     "Admin_Dose_2_Cumulative": 1106486,
     "Admin_Dose_2_Day_Rolling_Average": 154514,
+    "Series_Complete_Daily": 65927,
+    "Series_Complete_Cumulative": 1106503,
+    "Series_Complete_Day_Rolling_Average": 154515,
     "date_type": "Admin"
   },
   {
@@ -477,6 +564,9 @@
     "Admin_Dose_2_Daily": 307789,
     "Admin_Dose_2_Cumulative": 1414275,
     "Admin_Dose_2_Day_Rolling_Average": 192613,
+    "Series_Complete_Daily": 307789,
+    "Series_Complete_Cumulative": 1414292,
+    "Series_Complete_Day_Rolling_Average": 192613,
     "date_type": "Admin"
   },
   {
@@ -493,6 +583,9 @@
     "Admin_Dose_2_Daily": 299406,
     "Admin_Dose_2_Cumulative": 1713681,
     "Admin_Dose_2_Day_Rolling_Average": 223873,
+    "Series_Complete_Daily": 299408,
+    "Series_Complete_Cumulative": 1713700,
+    "Series_Complete_Day_Rolling_Average": 223874,
     "date_type": "Admin"
   },
   {
@@ -509,6 +602,9 @@
     "Admin_Dose_2_Daily": 255755,
     "Admin_Dose_2_Cumulative": 1969436,
     "Admin_Dose_2_Day_Rolling_Average": 237134,
+    "Series_Complete_Daily": 255757,
+    "Series_Complete_Cumulative": 1969457,
+    "Series_Complete_Day_Rolling_Average": 237135,
     "date_type": "Admin"
   },
   {
@@ -525,6 +621,9 @@
     "Admin_Dose_2_Daily": 126276,
     "Admin_Dose_2_Cumulative": 2095712,
     "Admin_Dose_2_Day_Rolling_Average": 217431,
+    "Series_Complete_Daily": 126277,
+    "Series_Complete_Cumulative": 2095734,
+    "Series_Complete_Day_Rolling_Average": 217432,
     "date_type": "Admin"
   },
   {
@@ -541,6 +640,9 @@
     "Admin_Dose_2_Daily": 111046,
     "Admin_Dose_2_Cumulative": 2206758,
     "Admin_Dose_2_Day_Rolling_Average": 184012,
+    "Series_Complete_Daily": 111047,
+    "Series_Complete_Cumulative": 2206781,
+    "Series_Complete_Day_Rolling_Average": 184012,
     "date_type": "Admin"
   },
   {
@@ -557,6 +659,9 @@
     "Admin_Dose_2_Daily": 65963,
     "Admin_Dose_2_Cumulative": 2272721,
     "Admin_Dose_2_Day_Rolling_Average": 176023,
+    "Series_Complete_Daily": 65965,
+    "Series_Complete_Cumulative": 2272746,
+    "Series_Complete_Day_Rolling_Average": 176024,
     "date_type": "Admin"
   },
   {
@@ -573,6 +678,9 @@
     "Admin_Dose_2_Daily": 37842,
     "Admin_Dose_2_Cumulative": 2310563,
     "Admin_Dose_2_Day_Rolling_Average": 172011,
+    "Series_Complete_Daily": 37842,
+    "Series_Complete_Cumulative": 2310588,
+    "Series_Complete_Day_Rolling_Average": 172012,
     "date_type": "Admin"
   },
   {
@@ -589,6 +697,9 @@
     "Admin_Dose_2_Daily": 208554,
     "Admin_Dose_2_Cumulative": 2519117,
     "Admin_Dose_2_Day_Rolling_Average": 157835,
+    "Series_Complete_Daily": 208554,
+    "Series_Complete_Cumulative": 2519142,
+    "Series_Complete_Day_Rolling_Average": 157835,
     "date_type": "Admin"
   },
   {
@@ -605,6 +716,9 @@
     "Admin_Dose_2_Daily": 326286,
     "Admin_Dose_2_Cumulative": 2845403,
     "Admin_Dose_2_Day_Rolling_Average": 161675,
+    "Series_Complete_Daily": 326286,
+    "Series_Complete_Cumulative": 2845428,
+    "Series_Complete_Day_Rolling_Average": 161675,
     "date_type": "Admin"
   },
   {
@@ -621,6 +735,9 @@
     "Admin_Dose_2_Daily": 391701,
     "Admin_Dose_2_Cumulative": 3237104,
     "Admin_Dose_2_Day_Rolling_Average": 181095,
+    "Series_Complete_Daily": 391701,
+    "Series_Complete_Cumulative": 3237129,
+    "Series_Complete_Day_Rolling_Average": 181096,
     "date_type": "Admin"
   },
   {
@@ -637,6 +754,9 @@
     "Admin_Dose_2_Daily": 252605,
     "Admin_Dose_2_Cumulative": 3489709,
     "Admin_Dose_2_Day_Rolling_Average": 199142,
+    "Series_Complete_Daily": 252607,
+    "Series_Complete_Cumulative": 3489736,
+    "Series_Complete_Day_Rolling_Average": 199143,
     "date_type": "Admin"
   },
   {
@@ -653,6 +773,9 @@
     "Admin_Dose_2_Daily": 193184,
     "Admin_Dose_2_Cumulative": 3682893,
     "Admin_Dose_2_Day_Rolling_Average": 210876,
+    "Series_Complete_Daily": 193185,
+    "Series_Complete_Cumulative": 3682921,
+    "Series_Complete_Day_Rolling_Average": 210877,
     "date_type": "Admin"
   },
   {
@@ -669,6 +792,9 @@
     "Admin_Dose_2_Daily": 138022,
     "Admin_Dose_2_Cumulative": 3820915,
     "Admin_Dose_2_Day_Rolling_Average": 221171,
+    "Series_Complete_Daily": 138022,
+    "Series_Complete_Cumulative": 3820943,
+    "Series_Complete_Day_Rolling_Average": 221171,
     "date_type": "Admin"
   },
   {
@@ -685,6 +811,9 @@
     "Admin_Dose_2_Daily": 79292,
     "Admin_Dose_2_Cumulative": 3900207,
     "Admin_Dose_2_Day_Rolling_Average": 227092,
+    "Series_Complete_Daily": 79293,
+    "Series_Complete_Cumulative": 3900236,
+    "Series_Complete_Day_Rolling_Average": 227092,
     "date_type": "Admin"
   },
   {
@@ -701,6 +830,9 @@
     "Admin_Dose_2_Daily": 445728,
     "Admin_Dose_2_Cumulative": 4345935,
     "Admin_Dose_2_Day_Rolling_Average": 260974,
+    "Series_Complete_Daily": 445730,
+    "Series_Complete_Cumulative": 4345966,
+    "Series_Complete_Day_Rolling_Average": 260974,
     "date_type": "Admin"
   },
   {
@@ -717,6 +849,9 @@
     "Admin_Dose_2_Daily": 530047,
     "Admin_Dose_2_Cumulative": 4875982,
     "Admin_Dose_2_Day_Rolling_Average": 290083,
+    "Series_Complete_Daily": 530051,
+    "Series_Complete_Cumulative": 4876017,
+    "Series_Complete_Day_Rolling_Average": 290084,
     "date_type": "Admin"
   },
   {
@@ -733,6 +868,9 @@
     "Admin_Dose_2_Daily": 595860,
     "Admin_Dose_2_Cumulative": 5471842,
     "Admin_Dose_2_Day_Rolling_Average": 319248,
+    "Series_Complete_Daily": 595863,
+    "Series_Complete_Cumulative": 5471880,
+    "Series_Complete_Day_Rolling_Average": 319250,
     "date_type": "Admin"
   },
   {
@@ -749,6 +887,9 @@
     "Admin_Dose_2_Daily": 507705,
     "Admin_Dose_2_Cumulative": 5979547,
     "Admin_Dose_2_Day_Rolling_Average": 355691,
+    "Series_Complete_Daily": 507708,
+    "Series_Complete_Cumulative": 5979588,
+    "Series_Complete_Day_Rolling_Average": 355693,
     "date_type": "Admin"
   },
   {
@@ -765,6 +906,9 @@
     "Admin_Dose_2_Daily": 452991,
     "Admin_Dose_2_Cumulative": 6432538,
     "Admin_Dose_2_Day_Rolling_Average": 392806,
+    "Series_Complete_Daily": 452996,
+    "Series_Complete_Cumulative": 6432584,
+    "Series_Complete_Day_Rolling_Average": 392809,
     "date_type": "Admin"
   },
   {
@@ -781,6 +925,9 @@
     "Admin_Dose_2_Daily": 221098,
     "Admin_Dose_2_Cumulative": 6653636,
     "Admin_Dose_2_Day_Rolling_Average": 404674,
+    "Series_Complete_Daily": 221098,
+    "Series_Complete_Cumulative": 6653682,
+    "Series_Complete_Day_Rolling_Average": 404677,
     "date_type": "Admin"
   },
   {
@@ -797,6 +944,9 @@
     "Admin_Dose_2_Daily": 112365,
     "Admin_Dose_2_Cumulative": 6766001,
     "Admin_Dose_2_Day_Rolling_Average": 409399,
+    "Series_Complete_Daily": 112366,
+    "Series_Complete_Cumulative": 6766048,
+    "Series_Complete_Day_Rolling_Average": 409401,
     "date_type": "Admin"
   },
   {
@@ -813,6 +963,9 @@
     "Admin_Dose_2_Daily": 507992,
     "Admin_Dose_2_Cumulative": 7273993,
     "Admin_Dose_2_Day_Rolling_Average": 418294,
+    "Series_Complete_Daily": 507995,
+    "Series_Complete_Cumulative": 7274043,
+    "Series_Complete_Day_Rolling_Average": 418296,
     "date_type": "Admin"
   },
   {
@@ -829,6 +982,9 @@
     "Admin_Dose_2_Daily": 635617,
     "Admin_Dose_2_Cumulative": 7909610,
     "Admin_Dose_2_Day_Rolling_Average": 433375,
+    "Series_Complete_Daily": 635622,
+    "Series_Complete_Cumulative": 7909665,
+    "Series_Complete_Day_Rolling_Average": 433378,
     "date_type": "Admin"
   },
   {
@@ -845,6 +1001,9 @@
     "Admin_Dose_2_Daily": 763552,
     "Admin_Dose_2_Cumulative": 8673162,
     "Admin_Dose_2_Day_Rolling_Average": 457331,
+    "Series_Complete_Daily": 763554,
+    "Series_Complete_Cumulative": 8673219,
+    "Series_Complete_Day_Rolling_Average": 457334,
     "date_type": "Admin"
   },
   {
@@ -861,6 +1020,9 @@
     "Admin_Dose_2_Daily": 834357,
     "Admin_Dose_2_Cumulative": 9507519,
     "Admin_Dose_2_Day_Rolling_Average": 503996,
+    "Series_Complete_Daily": 834362,
+    "Series_Complete_Cumulative": 9507581,
+    "Series_Complete_Day_Rolling_Average": 503999,
     "date_type": "Admin"
   },
   {
@@ -877,6 +1039,9 @@
     "Admin_Dose_2_Daily": 882029,
     "Admin_Dose_2_Cumulative": 10389548,
     "Admin_Dose_2_Day_Rolling_Average": 565287,
+    "Series_Complete_Daily": 882038,
+    "Series_Complete_Cumulative": 10389619,
+    "Series_Complete_Day_Rolling_Average": 565290,
     "date_type": "Admin"
   },
   {
@@ -893,6 +1058,9 @@
     "Admin_Dose_2_Daily": 390788,
     "Admin_Dose_2_Cumulative": 10780336,
     "Admin_Dose_2_Day_Rolling_Average": 589529,
+    "Series_Complete_Daily": 390804,
+    "Series_Complete_Cumulative": 10780423,
+    "Series_Complete_Day_Rolling_Average": 589534,
     "date_type": "Admin"
   },
   {
@@ -909,6 +1077,9 @@
     "Admin_Dose_2_Daily": 142241,
     "Admin_Dose_2_Cumulative": 10922577,
     "Admin_Dose_2_Day_Rolling_Average": 593797,
+    "Series_Complete_Daily": 142242,
+    "Series_Complete_Cumulative": 10922665,
+    "Series_Complete_Day_Rolling_Average": 593802,
     "date_type": "Admin"
   },
   {
@@ -925,6 +1096,9 @@
     "Admin_Dose_2_Daily": 635738,
     "Admin_Dose_2_Cumulative": 11558315,
     "Admin_Dose_2_Day_Rolling_Average": 612046,
+    "Series_Complete_Daily": 635741,
+    "Series_Complete_Cumulative": 11558406,
+    "Series_Complete_Day_Rolling_Average": 612051,
     "date_type": "Admin"
   },
   {
@@ -941,6 +1115,9 @@
     "Admin_Dose_2_Daily": 813838,
     "Admin_Dose_2_Cumulative": 12372153,
     "Admin_Dose_2_Day_Rolling_Average": 637506,
+    "Series_Complete_Daily": 813839,
+    "Series_Complete_Cumulative": 12372245,
+    "Series_Complete_Day_Rolling_Average": 637511,
     "date_type": "Admin"
   },
   {
@@ -957,6 +1134,9 @@
     "Admin_Dose_2_Daily": 946627,
     "Admin_Dose_2_Cumulative": 13318780,
     "Admin_Dose_2_Day_Rolling_Average": 663660,
+    "Series_Complete_Daily": 946629,
+    "Series_Complete_Cumulative": 13318874,
+    "Series_Complete_Day_Rolling_Average": 663665,
     "date_type": "Admin"
   },
   {
@@ -973,6 +1153,9 @@
     "Admin_Dose_2_Daily": 994911,
     "Admin_Dose_2_Cumulative": 14313691,
     "Admin_Dose_2_Day_Rolling_Average": 686596,
+    "Series_Complete_Daily": 994913,
+    "Series_Complete_Cumulative": 14313787,
+    "Series_Complete_Day_Rolling_Average": 686600,
     "date_type": "Admin"
   },
   {
@@ -989,6 +1172,9 @@
     "Admin_Dose_2_Daily": 1062421,
     "Admin_Dose_2_Cumulative": 15376112,
     "Admin_Dose_2_Day_Rolling_Average": 712366,
+    "Series_Complete_Daily": 1062428,
+    "Series_Complete_Cumulative": 15376215,
+    "Series_Complete_Day_Rolling_Average": 712370,
     "date_type": "Admin"
   },
   {
@@ -1005,6 +1191,9 @@
     "Admin_Dose_2_Daily": 537110,
     "Admin_Dose_2_Cumulative": 15913222,
     "Admin_Dose_2_Day_Rolling_Average": 733269,
+    "Series_Complete_Daily": 537111,
+    "Series_Complete_Cumulative": 15913326,
+    "Series_Complete_Day_Rolling_Average": 733271,
     "date_type": "Admin"
   },
   {
@@ -1021,6 +1210,9 @@
     "Admin_Dose_2_Daily": 211733,
     "Admin_Dose_2_Cumulative": 16124955,
     "Admin_Dose_2_Day_Rolling_Average": 743197,
+    "Series_Complete_Daily": 211734,
+    "Series_Complete_Cumulative": 16125060,
+    "Series_Complete_Day_Rolling_Average": 743199,
     "date_type": "Admin"
   },
   {
@@ -1037,6 +1229,9 @@
     "Admin_Dose_2_Daily": 482539,
     "Admin_Dose_2_Cumulative": 16607494,
     "Admin_Dose_2_Day_Rolling_Average": 721311,
+    "Series_Complete_Daily": 482539,
+    "Series_Complete_Cumulative": 16607599,
+    "Series_Complete_Day_Rolling_Average": 721313,
     "date_type": "Admin"
   },
   {
@@ -1053,6 +1248,9 @@
     "Admin_Dose_2_Daily": 727155,
     "Admin_Dose_2_Cumulative": 17334649,
     "Admin_Dose_2_Day_Rolling_Average": 708928,
+    "Series_Complete_Daily": 727161,
+    "Series_Complete_Cumulative": 17334760,
+    "Series_Complete_Day_Rolling_Average": 708930,
     "date_type": "Admin"
   },
   {
@@ -1069,6 +1267,9 @@
     "Admin_Dose_2_Daily": 921246,
     "Admin_Dose_2_Cumulative": 18255895,
     "Admin_Dose_2_Day_Rolling_Average": 705302,
+    "Series_Complete_Daily": 921248,
+    "Series_Complete_Cumulative": 18256008,
+    "Series_Complete_Day_Rolling_Average": 705304,
     "date_type": "Admin"
   },
   {
@@ -1085,6 +1286,9 @@
     "Admin_Dose_2_Daily": 894122,
     "Admin_Dose_2_Cumulative": 19150017,
     "Admin_Dose_2_Day_Rolling_Average": 690904,
+    "Series_Complete_Daily": 894141,
+    "Series_Complete_Cumulative": 19150149,
+    "Series_Complete_Day_Rolling_Average": 690908,
     "date_type": "Admin"
   },
   {
@@ -1101,6 +1305,9 @@
     "Admin_Dose_2_Daily": 1005330,
     "Admin_Dose_2_Cumulative": 20155347,
     "Admin_Dose_2_Day_Rolling_Average": 682748,
+    "Series_Complete_Daily": 1005450,
+    "Series_Complete_Cumulative": 20155599,
+    "Series_Complete_Day_Rolling_Average": 682769,
     "date_type": "Admin"
   },
   {
@@ -1117,6 +1324,9 @@
     "Admin_Dose_2_Daily": 625416,
     "Admin_Dose_2_Cumulative": 20780763,
     "Admin_Dose_2_Day_Rolling_Average": 695363,
+    "Series_Complete_Daily": 625420,
+    "Series_Complete_Cumulative": 20781019,
+    "Series_Complete_Day_Rolling_Average": 695384,
     "date_type": "Admin"
   },
   {
@@ -1133,6 +1343,9 @@
     "Admin_Dose_2_Daily": 283704,
     "Admin_Dose_2_Cumulative": 21064467,
     "Admin_Dose_2_Day_Rolling_Average": 705645,
+    "Series_Complete_Daily": 283709,
+    "Series_Complete_Cumulative": 21064728,
+    "Series_Complete_Day_Rolling_Average": 705666,
     "date_type": "Admin"
   },
   {
@@ -1149,6 +1362,9 @@
     "Admin_Dose_2_Daily": 722295,
     "Admin_Dose_2_Cumulative": 21786762,
     "Admin_Dose_2_Day_Rolling_Average": 739895,
+    "Series_Complete_Daily": 722324,
+    "Series_Complete_Cumulative": 21787052,
+    "Series_Complete_Day_Rolling_Average": 739921,
     "date_type": "Admin"
   },
   {
@@ -1165,6 +1381,9 @@
     "Admin_Dose_2_Daily": 921525,
     "Admin_Dose_2_Cumulative": 22708287,
     "Admin_Dose_2_Day_Rolling_Average": 767663,
+    "Series_Complete_Daily": 921553,
+    "Series_Complete_Cumulative": 22708605,
+    "Series_Complete_Day_Rolling_Average": 767692,
     "date_type": "Admin"
   },
   {
@@ -1181,6 +1400,9 @@
     "Admin_Dose_2_Daily": 1092766,
     "Admin_Dose_2_Cumulative": 23801053,
     "Admin_Dose_2_Day_Rolling_Average": 792165,
+    "Series_Complete_Daily": 1092811,
+    "Series_Complete_Cumulative": 23801416,
+    "Series_Complete_Day_Rolling_Average": 792201,
     "date_type": "Admin"
   },
   {
@@ -1197,6 +1419,9 @@
     "Admin_Dose_2_Daily": 1182754,
     "Admin_Dose_2_Cumulative": 24983807,
     "Admin_Dose_2_Day_Rolling_Average": 833399,
+    "Series_Complete_Daily": 1182775,
+    "Series_Complete_Cumulative": 24984191,
+    "Series_Complete_Day_Rolling_Average": 833434,
     "date_type": "Admin"
   },
   {
@@ -1213,6 +1438,9 @@
     "Admin_Dose_2_Daily": 1228766,
     "Admin_Dose_2_Cumulative": 26212573,
     "Admin_Dose_2_Day_Rolling_Average": 865318,
+    "Series_Complete_Daily": 1228784,
+    "Series_Complete_Cumulative": 26212975,
+    "Series_Complete_Day_Rolling_Average": 865339,
     "date_type": "Admin"
   },
   {
@@ -1229,6 +1457,9 @@
     "Admin_Dose_2_Daily": 733875,
     "Admin_Dose_2_Cumulative": 26946448,
     "Admin_Dose_2_Day_Rolling_Average": 880812,
+    "Series_Complete_Daily": 733971,
+    "Series_Complete_Cumulative": 26946946,
+    "Series_Complete_Day_Rolling_Average": 880846,
     "date_type": "Admin"
   },
   {
@@ -1245,6 +1476,9 @@
     "Admin_Dose_2_Daily": 258196,
     "Admin_Dose_2_Cumulative": 27204644,
     "Admin_Dose_2_Day_Rolling_Average": 877168,
+    "Series_Complete_Daily": 258201,
+    "Series_Complete_Cumulative": 27205147,
+    "Series_Complete_Day_Rolling_Average": 877202,
     "date_type": "Admin"
   },
   {
@@ -1261,6 +1495,9 @@
     "Admin_Dose_2_Daily": 660852,
     "Admin_Dose_2_Cumulative": 27865496,
     "Admin_Dose_2_Day_Rolling_Average": 868391,
+    "Series_Complete_Daily": 660949,
+    "Series_Complete_Cumulative": 27866096,
+    "Series_Complete_Day_Rolling_Average": 868434,
     "date_type": "Admin"
   },
   {
@@ -1277,6 +1514,9 @@
     "Admin_Dose_2_Daily": 813144,
     "Admin_Dose_2_Cumulative": 28678640,
     "Admin_Dose_2_Day_Rolling_Average": 852908,
+    "Series_Complete_Daily": 813644,
+    "Series_Complete_Cumulative": 28679740,
+    "Series_Complete_Day_Rolling_Average": 853019,
     "date_type": "Admin"
   },
   {
@@ -1293,6 +1533,9 @@
     "Admin_Dose_2_Daily": 956048,
     "Admin_Dose_2_Cumulative": 29634688,
     "Admin_Dose_2_Day_Rolling_Average": 833376,
+    "Series_Complete_Daily": 964219,
+    "Series_Complete_Cumulative": 29643959,
+    "Series_Complete_Day_Rolling_Average": 834649,
     "date_type": "Admin"
   },
   {
@@ -1309,6 +1552,9 @@
     "Admin_Dose_2_Daily": 992288,
     "Admin_Dose_2_Cumulative": 30626976,
     "Admin_Dose_2_Day_Rolling_Average": 806167,
+    "Series_Complete_Daily": 1036017,
+    "Series_Complete_Cumulative": 30679976,
+    "Series_Complete_Day_Rolling_Average": 813683,
     "date_type": "Admin"
   },
   {
@@ -1325,6 +1571,9 @@
     "Admin_Dose_2_Daily": 966667,
     "Admin_Dose_2_Cumulative": 31593643,
     "Admin_Dose_2_Day_Rolling_Average": 768724,
+    "Series_Complete_Daily": 1075364,
+    "Series_Complete_Cumulative": 31755340,
+    "Series_Complete_Day_Rolling_Average": 791766,
     "date_type": "Admin"
   },
   {
@@ -1341,6 +1590,9 @@
     "Admin_Dose_2_Daily": 541031,
     "Admin_Dose_2_Cumulative": 32134674,
     "Admin_Dose_2_Day_Rolling_Average": 741175,
+    "Series_Complete_Daily": 688056,
+    "Series_Complete_Cumulative": 32443396,
+    "Series_Complete_Day_Rolling_Average": 785207,
     "date_type": "Admin"
   },
   {
@@ -1357,6 +1609,9 @@
     "Admin_Dose_2_Daily": 194237,
     "Admin_Dose_2_Cumulative": 32328911,
     "Admin_Dose_2_Day_Rolling_Average": 732038,
+    "Series_Complete_Daily": 273739,
+    "Series_Complete_Cumulative": 32717135,
+    "Series_Complete_Day_Rolling_Average": 787426,
     "date_type": "Admin"
   },
   {
@@ -1373,6 +1628,9 @@
     "Admin_Dose_2_Daily": 515607,
     "Admin_Dose_2_Cumulative": 32844518,
     "Admin_Dose_2_Day_Rolling_Average": 711289,
+    "Series_Complete_Daily": 671841,
+    "Series_Complete_Cumulative": 33388976,
+    "Series_Complete_Day_Rolling_Average": 788982,
     "date_type": "Admin"
   },
   {
@@ -1389,6 +1647,9 @@
     "Admin_Dose_2_Daily": 624895,
     "Admin_Dose_2_Cumulative": 33469413,
     "Admin_Dose_2_Day_Rolling_Average": 684396,
+    "Series_Complete_Daily": 785524,
+    "Series_Complete_Cumulative": 34174500,
+    "Series_Complete_Day_Rolling_Average": 784965,
     "date_type": "Admin"
   },
   {
@@ -1405,6 +1666,9 @@
     "Admin_Dose_2_Daily": 561831,
     "Admin_Dose_2_Cumulative": 34031244,
     "Admin_Dose_2_Day_Rolling_Average": 628079,
+    "Series_Complete_Daily": 699880,
+    "Series_Complete_Cumulative": 34874380,
+    "Series_Complete_Day_Rolling_Average": 747203,
     "date_type": "Admin"
   },
   {
@@ -1421,6 +1685,9 @@
     "Admin_Dose_2_Daily": 98195,
     "Admin_Dose_2_Cumulative": 34129439,
     "Admin_Dose_2_Day_Rolling_Average": 500352,
+    "Series_Complete_Daily": 125683,
+    "Series_Complete_Cumulative": 35000063,
+    "Series_Complete_Day_Rolling_Average": 617155,
     "date_type": "Admin"
   },
   {
@@ -1437,6 +1704,9 @@
     "Admin_Dose_2_Daily": 1,
     "Admin_Dose_2_Cumulative": 34129440,
     "Admin_Dose_2_Day_Rolling_Average": 362257,
+    "Series_Complete_Daily": 1,
+    "Series_Complete_Cumulative": 35000064,
+    "Series_Complete_Day_Rolling_Average": 463532,
     "date_type": "Admin"
   }
 ]
