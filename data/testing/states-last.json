@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "date": 20210201,
+    "state": "AL",
+    "state_name": "Alabama",
+    "fips": "01",
+    "positive": null,
+    "negative": null,
+    "inconclusive": 8617,
+    "positiveIncrease": null,
+    "negativeIncrease": null,
+    "inconclusiveIncrease": 6,
+    "totalTestResults": 8617,
+    "totalTestResultsIncrease": 6
+  }
+]
