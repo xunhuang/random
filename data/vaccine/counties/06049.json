@@ -427,5 +427,18 @@
     "new_doses_administered_yesterday": 100,
     "new_doses_administered_today": 71,
     "updated_time": "2021-03-13 21:03:52"
+  },
+  {
+    "county": "Modoc",
+    "doses_administered": 3208,
+    "date": "2021-03-14",
+    "fips": "06049",
+    "population": 8938,
+    "doses_administered_per_100k": 35891.6983665249,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 42.8571428571,
+    "new_doses_administered_yesterday": 71,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-14 03:58:48"
   }
 ]
