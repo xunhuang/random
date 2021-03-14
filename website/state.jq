@@ -15,7 +15,7 @@ new_inconclusive:.new_results_reported  |tonumber,
 }
 else "xxx" end ]  | group_by (.state_fips, .date) []  | 
 {
-    date: (.[0].date  | .[:10]| gsub("-";"") |tonumber),
+    date: (.[0].date | gsub("/";"") |tonumber),
     state: .[0].state,
     state_name: .[0].state_name,
     fips: .[0].state_fips,

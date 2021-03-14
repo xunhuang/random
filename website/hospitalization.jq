@@ -1,6 +1,6 @@
 [.[] | { 
     state:.state,
-    date: (.date |.[:10] | gsub("-";"") |tonumber),
+    date: (.date | gsub("/";"") |tonumber),
     dateOriginal:.date, 
     hospitalizedCurrently: .inpatient_beds_used_covid | (if ( . =="") then 0 else . end ) | tonumber,
     inIcuCurrently: .staffed_icu_adult_patients_confirmed_and_suspected_covid | (if ( . =="") then 0 else . end ) | tonumber,
