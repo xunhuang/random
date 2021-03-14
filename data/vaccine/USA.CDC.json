@@ -1,5 +1,5 @@
 {
-  "runid": 1853,
+  "runid": 1854,
   "vaccination_trends_data": [
     {
       "Date": "2020-12-14",
@@ -2608,6 +2608,44 @@
     },
     {
       "Date": "2021-03-13",
+      "Location": "LTC",
+      "ShortName": "LTC",
+      "LongName": "Long Term Care",
+      "Administered_Daily": 0,
+      "Administered_Cumulative": 7473597,
+      "Administered_7_Day_Rolling_Average": 8666,
+      "Admin_Dose_1_Daily": 0,
+      "Admin_Dose_1_Cumulative": 4753051,
+      "Admin_Dose_1_Day_Rolling_Average": 2824,
+      "Admin_Dose_2_Daily": 0,
+      "Admin_Dose_2_Cumulative": 2679141,
+      "Admin_Dose_2_Day_Rolling_Average": 5772,
+      "Series_Complete_Daily": 0,
+      "Series_Complete_Cumulative": 2679217,
+      "Series_Complete_Day_Rolling_Average": 5772,
+      "date_type": "Admin"
+    },
+    {
+      "Date": "2021-03-12",
+      "Location": "LTC",
+      "ShortName": "LTC",
+      "LongName": "Long Term Care",
+      "Administered_Daily": 0,
+      "Administered_Cumulative": 7473597,
+      "Administered_7_Day_Rolling_Average": 10935,
+      "Admin_Dose_1_Daily": 0,
+      "Admin_Dose_1_Cumulative": 4753051,
+      "Admin_Dose_1_Day_Rolling_Average": 3539,
+      "Admin_Dose_2_Daily": 0,
+      "Admin_Dose_2_Cumulative": 2679141,
+      "Admin_Dose_2_Day_Rolling_Average": 7307,
+      "Series_Complete_Daily": 0,
+      "Series_Complete_Cumulative": 2679217,
+      "Series_Complete_Day_Rolling_Average": 7315,
+      "date_type": "Admin"
+    },
+    {
+      "Date": "2021-03-11",
       "Location": "LTC",
       "ShortName": "LTC",
       "LongName": "Long Term Care",
