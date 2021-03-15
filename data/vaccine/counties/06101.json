@@ -440,5 +440,18 @@
     "new_doses_administered_yesterday": 196,
     "new_doses_administered_today": 688,
     "updated_time": "2021-03-14 22:02:46"
+  },
+  {
+    "county": "Sutter",
+    "doses_administered": 24986,
+    "date": "2021-03-15",
+    "fips": "06101",
+    "population": 95872,
+    "doses_administered_per_100k": 26061.8324432577,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 246.8571428571,
+    "new_doses_administered_yesterday": 688,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-15 04:03:18"
   }
 ]
