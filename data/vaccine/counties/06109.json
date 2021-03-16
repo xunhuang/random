@@ -456,15 +456,15 @@
   },
   {
     "county": "Tuolumne",
-    "doses_administered": 20959,
+    "doses_administered": 21310,
     "date": "2021-03-16",
     "fips": "06109",
     "population": 53932,
-    "doses_administered_per_100k": 38861.9001705852,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 340.5714285714,
+    "doses_administered_per_100k": 39512.7197211303,
+    "new_doses_administered": 351,
+    "new_doses_administered_seven_day_average": 390.7142857143,
     "new_doses_administered_yesterday": 386,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-16 04:04:38"
+    "new_doses_administered_today": 351,
+    "updated_time": "2021-03-16 10:28:08"
   }
 ]
