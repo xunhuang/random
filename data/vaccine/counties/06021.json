@@ -443,15 +443,15 @@
   },
   {
     "county": "Glenn",
-    "doses_administered": 7433,
+    "doses_administered": 7743,
     "date": "2021-03-15",
     "fips": "06021",
     "population": 27897,
-    "doses_administered_per_100k": 26644.4420547012,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 115.5714285714,
+    "doses_administered_per_100k": 27755.6726529734,
+    "new_doses_administered": 310,
+    "new_doses_administered_seven_day_average": 159.8571428571,
     "new_doses_administered_yesterday": 333,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-15 20:07:50"
+    "new_doses_administered_today": 310,
+    "updated_time": "2021-03-15 20:58:47"
   }
 ]

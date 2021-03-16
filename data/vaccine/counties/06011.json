@@ -443,15 +443,15 @@
   },
   {
     "county": "Colusa",
-    "doses_administered": 4753,
+    "doses_administered": 4869,
     "date": "2021-03-15",
     "fips": "06011",
     "population": 21464,
-    "doses_administered_per_100k": 22144.0551621319,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 124.7142857143,
+    "doses_administered_per_100k": 22684.494968319,
+    "new_doses_administered": 116,
+    "new_doses_administered_seven_day_average": 141.2857142857,
     "new_doses_administered_yesterday": 112,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-15 20:07:50"
+    "new_doses_administered_today": 116,
+    "updated_time": "2021-03-15 20:58:47"
   }
 ]

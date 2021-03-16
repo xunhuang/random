@@ -443,15 +443,15 @@
   },
   {
     "county": "Lake",
-    "doses_administered": 17109,
+    "doses_administered": 17391,
     "date": "2021-03-15",
     "fips": "06033",
     "population": 64148,
-    "doses_administered_per_100k": 26671.1354991582,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 246.5714285714,
+    "doses_administered_per_100k": 27110.7439047203,
+    "new_doses_administered": 282,
+    "new_doses_administered_seven_day_average": 286.8571428571,
     "new_doses_administered_yesterday": 652,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-15 20:07:50"
+    "new_doses_administered_today": 282,
+    "updated_time": "2021-03-15 20:58:47"
   }
 ]

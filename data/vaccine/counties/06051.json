@@ -443,15 +443,15 @@
   },
   {
     "county": "Mono",
-    "doses_administered": 8347,
+    "doses_administered": 8406,
     "date": "2021-03-15",
     "fips": "06051",
     "population": 14174,
-    "doses_administered_per_100k": 58889.5160152392,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 47.2857142857,
+    "doses_administered_per_100k": 59305.7711302385,
+    "new_doses_administered": 59,
+    "new_doses_administered_seven_day_average": 55.7142857143,
     "new_doses_administered_yesterday": 319,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-15 20:07:50"
+    "new_doses_administered_today": 59,
+    "updated_time": "2021-03-15 20:58:47"
   }
 ]
