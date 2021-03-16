@@ -453,5 +453,18 @@
     "new_doses_administered_yesterday": 2660,
     "new_doses_administered_today": 9579,
     "updated_time": "2021-03-15 20:58:47"
+  },
+  {
+    "county": "Solano",
+    "doses_administered": 120258,
+    "date": "2021-03-16",
+    "fips": "06095",
+    "population": 438530,
+    "doses_administered_per_100k": 27422.9813239687,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 2373.5714285714,
+    "new_doses_administered_yesterday": 9579,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-16 04:04:38"
   }
 ]
