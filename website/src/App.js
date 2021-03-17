@@ -1,53 +1,82 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import React from 'react';
-import { Switch, Redirect, Route, withRouter } from 'react-router-dom';
-import './App.css';
-import { BrowserRouter } from 'react-router-dom';
-import { AuthUserContext } from './AuthUserContext';
-import { RandomBackend } from "./RandomBackend";
-import { AuthenicatedHome } from './AuthenicatedHome';
-const Page404 = () => {
-    return _jsx("h1", { children: " Oops! That page couldn't be found. " }, void 0);
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
-const UserSubscriptions = () => {
-    let user = RandomBackend.getCurrentUser();
-    return _jsxs("h1", { children: [" My Subscription for ", user.displayName, ", ", user.id, " "] }, void 0);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const App = (props) => {
-    return _jsx(BrowserRouter, { children: _jsx("header", { children: _jsx("div", Object.assign({ className: "App" }, { children: _jsx(Home, Object.assign({}, props), void 0) }), void 0) }, void 0) }, void 0);
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(require("react"));
+var react_router_dom_1 = require("react-router-dom");
+require("./App.css");
+var react_router_dom_2 = require("react-router-dom");
+var AuthUserContext_1 = require("./AuthUserContext");
+var RandomBackend_1 = require("./RandomBackend");
+var AuthenicatedHome_1 = require("./AuthenicatedHome");
+var Page404 = function () {
+    return react_1.default.createElement("h1", null, " Oops! That page couldn't be found. ");
+};
+var UserSubscriptions = function () {
+    var user = RandomBackend_1.RandomBackend.getCurrentUser();
+    return react_1.default.createElement("h1", null,
+        " My Subscription for ",
+        user.displayName,
+        ", ",
+        user.id,
+        " ");
+};
+var App = function (props) {
+    return react_1.default.createElement(react_router_dom_2.BrowserRouter, null,
+        react_1.default.createElement("header", null,
+            react_1.default.createElement("div", { className: "App" },
+                react_1.default.createElement(Home, __assign({}, props)))));
 };
 function AuthenticatedApp() {
-    return _jsxs("div", { children: [_jsx(SafeRoutes, {}, void 0),
-            _jsx("p", Object.assign({ onClick: (event) => {
-                    RandomBackend.logout();
-                } }, { children: "Logout" }), void 0)] }, void 0);
+    return react_1.default.createElement("div", null,
+        react_1.default.createElement(SafeRoutes, null),
+        react_1.default.createElement("p", { onClick: function (event) {
+                RandomBackend_1.RandomBackend.logout();
+            } }, "Logout"));
 }
 function UnauthenticatedApp() {
-    return _jsxs("h1", { children: [" Un-AuthenticatedApp xxx", _jsx("p", Object.assign({ onClick: (event) => {
-                    console.log("clicked");
-                    RandomBackend.login();
-                } }, { children: "Sign in here" }), void 0)] }, void 0);
+    return react_1.default.createElement("h1", null,
+        " Un-AuthenticatedApp xxx",
+        react_1.default.createElement("p", { onClick: function (event) {
+                console.log("clicked");
+                RandomBackend_1.RandomBackend.login();
+            } }, "Sign in here"));
 }
 function Home(props) {
-    const [authUser, setAuthUser] = React.useState(undefined);
-    React.useEffect(() => {
-        RandomBackend.userStatusChange(function (user) {
+    var _a = react_1.default.useState(undefined), authUser = _a[0], setAuthUser = _a[1];
+    react_1.default.useEffect(function () {
+        RandomBackend_1.RandomBackend.userStatusChange(function (user) {
             setAuthUser(user);
         });
     }, []);
     if (authUser === undefined)
-        return _jsx("h2", { children: " Loading" }, void 0);
+        return react_1.default.createElement("h2", null, " Loading");
     return (authUser) ?
-        _jsx(AuthUserContext.Provider, Object.assign({ value: authUser }, { children: _jsx(AuthenticatedApp, {}, void 0) }), void 0)
-        : _jsx(UnauthenticatedApp, {}, void 0);
+        react_1.default.createElement(AuthUserContext_1.AuthUserContext.Provider, { value: authUser },
+            react_1.default.createElement(AuthenticatedApp, null))
+        : react_1.default.createElement(UnauthenticatedApp, null);
 }
-const SafeRoutes = withRouter((props) => {
+var SafeRoutes = react_router_dom_1.withRouter(function (props) {
     /* this came from the 404 redirect */
     if (props.location.search.startsWith("?/")) {
-        return _jsx(Redirect, { to: props.location.search.slice(1) }, void 0);
+        return react_1.default.createElement(react_router_dom_1.Redirect, { to: props.location.search.slice(1) });
     }
-    return (_jsxs(Switch, { children: [_jsx(Route, { exact: true, path: "/", component: AuthenicatedHome }, void 0),
-            _jsx(Route, { exact: true, path: "/sub", component: UserSubscriptions }, void 0),
-            _jsx(Route, { exact: true, path: "*", component: Page404 }, void 0)] }, void 0));
+    return (react_1.default.createElement(react_router_dom_1.Switch, null,
+        react_1.default.createElement(react_router_dom_1.Route, { exact: true, path: "/", component: AuthenicatedHome_1.AuthenicatedHome }),
+        react_1.default.createElement(react_router_dom_1.Route, { exact: true, path: "/sub", component: UserSubscriptions }),
+        react_1.default.createElement(react_router_dom_1.Route, { exact: true, path: "*", component: Page404 })));
 });
-export default App;
+exports.default = App;
+//# sourceMappingURL=App.js.map

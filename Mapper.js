@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,11 +54,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.serializeNdJson = void 0;
 var cheerio = require('cheerio');
-var Email = require("./Email");
-var CloudDB = require("./CloudDB");
-var MRUtils = require("./MapReduceUtils");
+var Email = __importStar(require("./Email"));
+var CloudDB = __importStar(require("./CloudDB"));
+var MRUtils = __importStar(require("./MapReduceUtils"));
+function serializeNdJson(data) {
+    var serializedList = [];
+    for (var i = 0, len = data.length; i < len; i++) {
+        serializedList.push(JSON.stringify(data[i]) + "\n");
+    }
+    return serializedList.join("");
+}
+exports.serializeNdJson = serializeNdJson;
 var MapperJob = /** @class */ (function () {
     function MapperJob(name, srctablename, outputTable, process, options) {
         if (options === void 0) { options = null; }
@@ -82,7 +110,7 @@ var MapperJob = /** @class */ (function () {
                         return [4 /*yield*/, record.fetchData()];
                     case 4:
                         data = _a.sent();
-                        output = this.process(data, record);
+                        output = this.process(data);
                         if (!output) return [3 /*break*/, 6];
                         return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.outputTable, output, record.timestamp, record.key)];
                     case 5:
@@ -148,13 +176,19 @@ function executeMappers(jobs) {
     });
 }
 var MapperJobs = [
-    new MapperJob("CA Vaccine Mapper (html to json)", "California-Vaccine 2", "California-Vaccine-Json-table", function (input, dataRecord) {
+    new MapperJob("CA Vaccine Mapper (html to json)", "California-Vaccine 2", "California-Vaccine-Json-table", function (input) {
         var dom = cheerio.load(input);
         var processed = dom("#counties-vaccination-data").html();
         return processed;
     }, {
     // jobTableName: "California-Vaccine-2-job",
-    })
+    }),
+    new MapperJob("CDC County Test (JSONL)", "CDC County Data", "CDC-County-Test-JSONL", function (input) {
+        var dom = JSON.parse(input);
+        var data = dom.integrated_county_latest_external_data;
+        var output = serializeNdJson(data);
+        return output;
+    }, {}),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
@@ -169,3 +203,4 @@ function doit() {
     });
 }
 doit().then(function () { return process.exit(); });
+//# sourceMappingURL=Mapper.js.map

@@ -3,12 +3,22 @@ import * as Email from './Email';
 import * as CloudDB from './CloudDB';
 import * as MRUtils from './MapReduceUtils';
 
+
+export function serializeNdJson(data: unknown[]): string {
+    const serializedList: string[] = [];
+    for (let i = 0, len = data.length; i < len; i++) {
+        serializedList.push(JSON.stringify(data[i]) + "\n");
+    }
+    return serializedList.join("");
+}
+
+
 type MapperOptions = {
     verbose?: false,
     jobTableName?: string;
 }
 
-type MapperFunction = (content: string | null, record: CloudDB.DataRecord) => string;
+type MapperFunction = (content: string | null) => string;
 
 class MapperJob {
     name: string;
@@ -49,7 +59,7 @@ class MapperJob {
             console.log("working on:", record.key);
             jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
             let data = await record.fetchData();
-            let output = this.process(data, record);
+            let output = this.process(data);
             if (output) {
                 await CloudDB.saveInfoAtSystem(this.outputTable,
                     output,
@@ -70,7 +80,6 @@ class MapperJob {
 async function executeMappers(jobs: MapperJob[]) {
     let errors = [];
     for (const job of jobs) {
-
         try {
             console.log(job);
             await job.execute();
@@ -78,7 +87,6 @@ async function executeMappers(jobs: MapperJob[]) {
             console.log(err);
             console.log("Error but soldier on....");
         }
-
     }
     if (errors.length > 0) {
         await Email.send(
@@ -94,7 +102,7 @@ const MapperJobs = [
         "CA Vaccine Mapper (html to json)",
         "California-Vaccine 2",
         "California-Vaccine-Json-table",
-        (input: string, dataRecord: CloudDB.DataRecord) => {
+        (input: string) => {
             let dom = cheerio.load(input);
             let processed = dom("#counties-vaccination-data").html();
             return processed;
@@ -102,7 +110,21 @@ const MapperJobs = [
         {
             // jobTableName: "California-Vaccine-2-job",
         }
-    )];
+    ),
+    new MapperJob(
+        "CDC County Test (JSONL)",
+        "CDC County Data",
+        "CDC-County-Test-JSONL",
+        (input: string) => {
+            let dom = JSON.parse(input);
+            let data = dom.integrated_county_latest_external_data;
+            let output = serializeNdJson(data);
+            return output;
+        },
+        {
+        }
+    ),
+];
 
 async function doit() {
     await executeMappers(MapperJobs);

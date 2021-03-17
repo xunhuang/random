@@ -48,7 +48,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.list_deep_dedup = exports.saveJobsStatus = exports.fetchJobsStatus = exports.JobStatusTable = exports.JobExecStatus = void 0;
 var fireorm_1 = require("fireorm");
 var JobExecStatus;
@@ -130,3 +130,4 @@ function list_deep_dedup(list) {
     }, []);
 }
 exports.list_deep_dedup = list_deep_dedup;
+//# sourceMappingURL=MapReduceUtils.js.map
