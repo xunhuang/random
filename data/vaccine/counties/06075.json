@@ -469,15 +469,15 @@
   },
   {
     "county": "San Francisco",
-    "doses_administered": 357837,
+    "doses_administered": 373473,
     "date": "2021-03-17",
     "fips": "06075",
     "population": 870044,
-    "doses_administered_per_100k": 41128.6095875611,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 8715.8571428571,
+    "doses_administered_per_100k": 42925.7600765019,
+    "new_doses_administered": 15636,
+    "new_doses_administered_seven_day_average": 10949.5714285714,
     "new_doses_administered_yesterday": 18190,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-17 04:03:49"
+    "new_doses_administered_today": 15636,
+    "updated_time": "2021-03-17 10:23:21"
   }
 ]

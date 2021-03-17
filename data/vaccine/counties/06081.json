@@ -469,15 +469,15 @@
   },
   {
     "county": "San Mateo",
-    "doses_administered": 314002,
+    "doses_administered": 325024,
     "date": "2021-03-17",
     "fips": "06081",
     "population": 765935,
-    "doses_administered_per_100k": 40995.9069633846,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 6958.2857142857,
+    "doses_administered_per_100k": 42434.9324681598,
+    "new_doses_administered": 11022,
+    "new_doses_administered_seven_day_average": 8532.8571428571,
     "new_doses_administered_yesterday": 14108,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-17 04:03:49"
+    "new_doses_administered_today": 11022,
+    "updated_time": "2021-03-17 10:23:21"
   }
 ]
