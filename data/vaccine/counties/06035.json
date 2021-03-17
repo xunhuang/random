@@ -466,5 +466,18 @@
     "new_doses_administered_yesterday": 54,
     "new_doses_administered_today": 67,
     "updated_time": "2021-03-16 16:00:24"
+  },
+  {
+    "county": "Lassen",
+    "doses_administered": 5407,
+    "date": "2021-03-17",
+    "fips": "06035",
+    "population": 31185,
+    "doses_administered_per_100k": 17338.4640051307,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 86.8571428571,
+    "new_doses_administered_yesterday": 67,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-17 04:03:49"
   }
 ]

@@ -466,5 +466,18 @@
     "new_doses_administered_yesterday": 715,
     "new_doses_administered_today": 1687,
     "updated_time": "2021-03-16 16:00:24"
+  },
+  {
+    "county": "Imperial",
+    "doses_administered": 38053,
+    "date": "2021-03-17",
+    "fips": "06025",
+    "population": 180216,
+    "doses_administered_per_100k": 21115.2172948018,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 818.8571428571,
+    "new_doses_administered_yesterday": 1687,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-17 04:03:49"
   }
 ]

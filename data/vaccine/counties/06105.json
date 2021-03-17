@@ -466,5 +466,18 @@
     "new_doses_administered_yesterday": 109,
     "new_doses_administered_today": 112,
     "updated_time": "2021-03-16 16:00:24"
+  },
+  {
+    "county": "Trinity",
+    "doses_administered": 3084,
+    "date": "2021-03-17",
+    "fips": "06105",
+    "population": 12862,
+    "doses_administered_per_100k": 23977.6084590266,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 84.1428571429,
+    "new_doses_administered_yesterday": 112,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-17 04:03:49"
   }
 ]
