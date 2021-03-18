@@ -108,7 +108,7 @@ const BigQueryJobs = [
     new GCSToBigQueryJobs(
         "CDC Test County Data into Big Query",
         "CDC-County-Test-JSONL3",
-        "CDC-County-Test-Time-Series",
+        "CDC-County-Test-Time-Series1",
         {
             // jobTableName: "California-Vaccine-2-job",
         }

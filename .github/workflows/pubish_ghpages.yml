@@ -32,6 +32,11 @@ jobs:
     - name: firebaseConfig
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+    - name: Google project credentials
+      env:
+        GOOGLE_SVC_ACCOUNT_CREDENTIALS: ${{ secrets.GOOGLE_SVC_ACCOUNT_CREDENTIALS }}
+      run: echo "${GOOGLE_SVC_ACCOUNT_CREDENTIALS}" > /tmp/.googleCredentials.json
+     
       run: cd website; echo "${FIREBASE_CONFIG}" > ./src/firebaseConfig.json;  cd ..
     - run: npmv=$(echo $(npm -v) | head -c 1); if [ "$npmv" -lt "6" ]; then npm i -g npm; else echo "Node.js Docker Team finally decided to include npm v6+ in latest image; you can remove this script now"; fi
     - run: sudo apt-get update -y
@@ -47,8 +52,10 @@ jobs:
     - run: node datasplit.js -t Calfiornia-Vaccine-Overtime-Table -f fips -o website/build/data/vaccine/counties
     - run: node dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
     - run: node datasplit.js -t CDC-Vaccine-Overtime-Table -f Location -o website/build/data/vaccine
-    #- run: f=`curl -s -L https://healthdata.gov/dataset/covid-19-diagnostic-laboratory-testing-pcr-testing-time-series.xml | xmlstarlet sel -t -v "/rdf:RDF/dcat:Distribution/dcat:downloadURL/@rdf:resource"` ; echo $f; curl -s $f | npx csvtojson | jq -f website/state.jq > website/build/data/testing/states.json
     - run: sh -vxe datagen.sh
+        env:
+          MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/.googleCredentials.json
     - name: Deploy to Website
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
