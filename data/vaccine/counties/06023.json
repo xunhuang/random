@@ -479,5 +479,18 @@
     "new_doses_administered_yesterday": 908,
     "new_doses_administered_today": 1292,
     "updated_time": "2021-03-17 22:04:15"
+  },
+  {
+    "county": "Humboldt",
+    "doses_administered": 43855,
+    "date": "2021-03-18",
+    "fips": "06023",
+    "population": 135768,
+    "doses_administered_per_100k": 32301.4259619351,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 907,
+    "new_doses_administered_yesterday": 1292,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-18 03:59:22"
   }
 ]

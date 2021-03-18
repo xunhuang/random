@@ -479,5 +479,18 @@
     "new_doses_administered_yesterday": 26059,
     "new_doses_administered_today": 19681,
     "updated_time": "2021-03-17 22:04:15"
+  },
+  {
+    "county": "Riverside",
+    "doses_administered": 659215,
+    "date": "2021-03-18",
+    "fips": "06065",
+    "population": 2383286,
+    "doses_administered_per_100k": 27659.9199592495,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 14901.5714285714,
+    "new_doses_administered_yesterday": 19681,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-18 03:59:22"
   }
 ]

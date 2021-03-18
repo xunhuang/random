@@ -479,5 +479,18 @@
     "new_doses_administered_yesterday": 268,
     "new_doses_administered_today": 316,
     "updated_time": "2021-03-17 22:04:15"
+  },
+  {
+    "county": "Lake",
+    "doses_administered": 17975,
+    "date": "2021-03-18",
+    "fips": "06033",
+    "population": 64148,
+    "doses_administered_per_100k": 28021.1386169483,
+    "new_doses_administered": 0,
+    "new_doses_administered_seven_day_average": 261.1428571429,
+    "new_doses_administered_yesterday": 316,
+    "new_doses_administered_today": 0,
+    "updated_time": "2021-03-18 03:59:22"
   }
 ]
