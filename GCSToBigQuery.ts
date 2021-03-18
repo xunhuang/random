@@ -3,6 +3,7 @@ import * as Email from './Email';
 import * as CloudDB from './CloudDB';
 import * as MRUtils from './MapReduceUtils';
 const { BigQuery } = require('@google-cloud/bigquery');
+const { Storage } = require('@google-cloud/storage');
 
 type BigQueryJobsOption = {
     verbose?: false,
@@ -49,17 +50,21 @@ class GCSToBigQueryJobs {
             jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
             {
                 const bigquery = new BigQuery();
+                const storage = new Storage();
                 const metadata = {
                     sourceFormat: 'NEWLINE_DELIMITED_JSON',
                     autodetect: true,
                     location: 'US',
                 };
 
+                let storagepath = storage.bucket(record.dataBucket).file(record.dataPath);
+
                 // Load data from a Google Cloud Storage file into the table
                 const [job] = await bigquery
                     .dataset(this.datasetId)
                     .table(this.outputTable)
-                    .load(record.dataUrl, metadata);
+                    .load(storagepath, metadata);
+                // .load(record.dataUrl, metadata);
                 // load() waits for the job to finish
                 console.log(`Job ${job.id} completed.`);
 
@@ -102,7 +107,7 @@ async function executeMappers(jobs: GCSToBigQueryJobs[]) {
 const BigQueryJobs = [
     new GCSToBigQueryJobs(
         "CDC Test County Data into Big Query",
-        "CDC-County-Test-JSONL",
+        "CDC-County-Test-JSONL3",
         "CDC-County-Test-Time-Series",
         {
             // jobTableName: "California-Vaccine-2-job",

@@ -60,6 +60,7 @@ var Email = __importStar(require("./Email"));
 var CloudDB = __importStar(require("./CloudDB"));
 var MRUtils = __importStar(require("./MapReduceUtils"));
 var BigQuery = require('@google-cloud/bigquery').BigQuery;
+var Storage = require('@google-cloud/storage').Storage;
 var GCSToBigQueryJobs = /** @class */ (function () {
     function GCSToBigQueryJobs(name, srctablename, outputTable, options) {
         if (options === void 0) { options = null; }
@@ -80,7 +81,7 @@ var GCSToBigQueryJobs = /** @class */ (function () {
     }
     GCSToBigQueryJobs.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var jobStatusTable, allJobs, records, dirty, _i, records_1, record, bigquery, metadata, job, errors;
+            var jobStatusTable, allJobs, records, dirty, _i, records_1, record, bigquery, storage, metadata, storagepath, job, errors;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, MRUtils.fetchJobsStatus(this.jobTableName)];
@@ -99,17 +100,20 @@ var GCSToBigQueryJobs = /** @class */ (function () {
                         console.log("working on:", record.key);
                         jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
                         bigquery = new BigQuery();
+                        storage = new Storage();
                         metadata = {
                             sourceFormat: 'NEWLINE_DELIMITED_JSON',
                             autodetect: true,
                             location: 'US',
                         };
+                        storagepath = storage.bucket(record.dataBucket).file(record.dataPath);
                         return [4 /*yield*/, bigquery
                                 .dataset(this.datasetId)
                                 .table(this.outputTable)
-                                .load(record.dataUrl, metadata)];
+                                .load(storagepath, metadata)];
                     case 4:
                         job = (_a.sent())[0];
+                        // .load(record.dataUrl, metadata);
                         // load() waits for the job to finish
                         console.log("Job " + job.id + " completed.");
                         errors = job.status.errors;
@@ -177,7 +181,7 @@ function executeMappers(jobs) {
     });
 }
 var BigQueryJobs = [
-    new GCSToBigQueryJobs("CDC Test County Data into Big Query", "CDC-County-Test-JSONL", "CDC-County-Test-Time-Series", {
+    new GCSToBigQueryJobs("CDC Test County Data into Big Query", "CDC-County-Test-JSONL3", "CDC-County-Test-Time-Series", {
     // jobTableName: "California-Vaccine-2-job",
     }),
 ];

@@ -31,15 +31,23 @@ jobs:
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
+      
+      - name:Google project credentials
+        env:
+          GOOGLE_SVC_ACCOUNT_CREDENTIALS: ${{ secrets.GOOGLE_SVC_ACCOUNT_CREDENTIALS }}
+        run: echo "${GOOGLE_SVC_ACCOUNT_CREDENTIALS}" > /tmp/.googleCredentials.json
      
       - run: npx tsc Reducer.ts Mapper.ts --experimentalDecorators
 
       - run: node Mapper.js
         env:
-          MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
 
       - run: node Reducer.js
         env:
-          MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
+        
+      - run: node GCSToBigQuery.js
+        env:
+          MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/.googleCredentials.json
