@@ -32,6 +32,7 @@ jobs:
     - name: firebaseConfig
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
     - name: Google project credentials
       env:
         GOOGLE_SVC_ACCOUNT_CREDENTIALS: ${{ secrets.GOOGLE_SVC_ACCOUNT_CREDENTIALS }}
