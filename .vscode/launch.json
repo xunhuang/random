@@ -62,6 +62,15 @@
             "type": "pwa-node"
         },
         {
+            "name": "Run GCSToBigQuery",
+            "program": "${workspaceFolder}/GCSToBigQuery.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Run Watcher",
             "program": "${workspaceFolder}/watcher.js",
             "request": "launch",

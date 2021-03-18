@@ -9,7 +9,6 @@ global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bu
 require("@firebase/firestore");
 require("@firebase/storage");
 const firebase = require("firebase");
-const cryptojs = require("crypto-js");
 const superagent = require('superagent');
 
 const firebaseConfig = require('./.firebaseConfig.json');
@@ -33,22 +32,25 @@ export class DataRecord {
     key: string;
     timestamp: number;
     timestampReadable: string;
+    dataBucket: string;
+    dataPath: string;
     dataUrl: string;
-    dataMd5: string;
 
-    constructor(key: string, contentMd5: string, unixtimestamp: number, dataurl: string) {
+    constructor(key: string, unixtimestamp: number, dataBucket: string, dataPath: string, dataurl: string) {
         this.key = key;
         this.timestamp = unixtimestamp;
         this.timestampReadable = moment.unix(this.timestamp).toString();
         this.dataUrl = dataurl;
-        this.dataMd5 = contentMd5;
+        this.dataBucket = dataBucket;
+        this.dataPath = dataPath;
     }
 
     static factory(obj: any) {
         return new DataRecord(
             obj.key,
-            obj.dataMd5,
             obj.timestamp,
+            obj.dataBucket,
+            obj.dataPath,
             obj.dataUrl,
         )
     }
@@ -72,9 +74,12 @@ function snapshotToArrayDataRecord(snapshot) {
 
 const StorageRootDirectory = "WatchStorage";
 
+function storageFileName(tablename: string, dockey: string) {
+    return `${StorageRootDirectory}/${tablename}/${dockey}.txt`;
+}
+
 async function storeStringAsBlob(tablename: string, dockey: string, content: string): Promise<string> {
-    var ref = getStorageRef().child(`${StorageRootDirectory}/${tablename}/${dockey}.txt`);
-    // Raw string is the default if no format is provided
+    var ref = getStorageRef().child(storageFileName(tablename, dockey));
     await ref.putString(content)
     return await ref.getDownloadURL();
 }
@@ -95,8 +100,9 @@ export async function saveInfoAtSystem(
     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
     let obj = new DataRecord(
         docRef.id,
-        cryptojs.MD5(content).toString(),
         timestamp,
+        firebaseConfig.storageBucket,
+        storageFileName(tablename, docRef.id),
         url,
     );
 

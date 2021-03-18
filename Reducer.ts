@@ -41,10 +41,6 @@ class ReducerJob {
             for (const key in options) {
                 this[key] = options[key];
             }
-            // if (options.verbose) this.verbose = options.verbose;
-            // (options.jobTableName) this.jobTableName = options.jobTableName;
-            // (options.preProcessor) this.preProcessor = options.preProcessor;
-            // options.postProcessor) this.postProcessor = options.postProcessor;
         }
         if (!this.jobTableName) {
             this.jobTableName = `${this.name}-${this.srctablename}-${this.outputTable}`;

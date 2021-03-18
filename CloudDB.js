@@ -62,7 +62,6 @@ global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bu
 require("@firebase/firestore");
 require("@firebase/storage");
 var firebase = require("firebase");
-var cryptojs = require("crypto-js");
 var superagent = require('superagent');
 var firebaseConfig = require('./.firebaseConfig.json');
 firebase.initializeApp(firebaseConfig);
@@ -79,15 +78,16 @@ function getStorageRef() {
 }
 exports.getStorageRef = getStorageRef;
 var DataRecord = /** @class */ (function () {
-    function DataRecord(key, contentMd5, unixtimestamp, dataurl) {
+    function DataRecord(key, unixtimestamp, dataBucket, dataPath, dataurl) {
         this.key = key;
         this.timestamp = unixtimestamp;
         this.timestampReadable = moment.unix(this.timestamp).toString();
         this.dataUrl = dataurl;
-        this.dataMd5 = contentMd5;
+        this.dataBucket = dataBucket;
+        this.dataPath = dataPath;
     }
     DataRecord.factory = function (obj) {
-        return new DataRecord(obj.key, obj.dataMd5, obj.timestamp, obj.dataUrl);
+        return new DataRecord(obj.key, obj.timestamp, obj.dataBucket, obj.dataPath, obj.dataUrl);
     };
     DataRecord.prototype.fetchData = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -114,17 +114,18 @@ function snapshotToArrayDataRecord(snapshot) {
     return result;
 }
 var StorageRootDirectory = "WatchStorage";
+function storageFileName(tablename, dockey) {
+    return StorageRootDirectory + "/" + tablename + "/" + dockey + ".txt";
+}
 function storeStringAsBlob(tablename, dockey, content) {
     return __awaiter(this, void 0, void 0, function () {
         var ref;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    ref = getStorageRef().child(StorageRootDirectory + "/" + tablename + "/" + dockey + ".txt");
-                    // Raw string is the default if no format is provided
+                    ref = getStorageRef().child(storageFileName(tablename, dockey));
                     return [4 /*yield*/, ref.putString(content)];
                 case 1:
-                    // Raw string is the default if no format is provided
                     _a.sent();
                     return [4 /*yield*/, ref.getDownloadURL()];
                 case 2: return [2 /*return*/, _a.sent()];
@@ -148,7 +149,7 @@ function saveInfoAtSystem(tablename, content, timestamp, key) {
                 case 1:
                     url = _a.sent();
                     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
-                    obj = new DataRecord(docRef.id, cryptojs.MD5(content).toString(), timestamp, url);
+                    obj = new DataRecord(docRef.id, timestamp, firebaseConfig.storageBucket, storageFileName(tablename, docRef.id), url);
                     return [4 /*yield*/, docRef.set(obj.toSimpleObject())];
                 case 2:
                     _a.sent();

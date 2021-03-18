@@ -55,41 +55,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serializeNdJson = void 0;
 var cheerio = require('cheerio');
 var Email = __importStar(require("./Email"));
 var CloudDB = __importStar(require("./CloudDB"));
 var MRUtils = __importStar(require("./MapReduceUtils"));
-function serializeNdJson(data) {
-    var serializedList = [];
-    for (var i = 0, len = data.length; i < len; i++) {
-        serializedList.push(JSON.stringify(data[i]) + "\n");
-    }
-    return serializedList.join("");
-}
-exports.serializeNdJson = serializeNdJson;
-var MapperJob = /** @class */ (function () {
-    function MapperJob(name, srctablename, outputTable, process, options) {
+var BigQuery = require('@google-cloud/bigquery').BigQuery;
+var GCSToBigQueryJobs = /** @class */ (function () {
+    function GCSToBigQueryJobs(name, srctablename, outputTable, options) {
         if (options === void 0) { options = null; }
         this.jobTableName = null;
         this.options = null;
+        this.datasetId = 'my_dataset';
         this.name = name;
         this.srctablename = srctablename;
         this.outputTable = outputTable;
-        this.process = process;
         if (options) {
-            if (options.verbose)
-                this.verbose = options.verbose;
-            if (options.jobTableName)
-                this.jobTableName = options.jobTableName;
+            for (var key in options) {
+                this[key] = options[key];
+            }
         }
         if (!this.jobTableName) {
-            this.jobTableName = this.name + "-" + this.srctablename + "-" + this.outputTable;
+            this.jobTableName = "GCSToBigQuery-" + this.name + "-" + this.srctablename + "-" + this.outputTable;
         }
     }
-    MapperJob.prototype.execute = function () {
+    GCSToBigQueryJobs.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var jobStatusTable, allJobs, records, dirty, _i, records_1, record, data, output;
+            var jobStatusTable, allJobs, records, dirty, _i, records_1, record, bigquery, metadata, job, errors;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, MRUtils.fetchJobsStatus(this.jobTableName)];
@@ -103,38 +94,48 @@ var MapperJob = /** @class */ (function () {
                         _i = 0, records_1 = records;
                         _a.label = 3;
                     case 3:
-                        if (!(_i < records_1.length)) return [3 /*break*/, 7];
+                        if (!(_i < records_1.length)) return [3 /*break*/, 6];
                         record = records_1[_i];
                         console.log("working on:", record.key);
                         jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
-                        return [4 /*yield*/, record.fetchData()];
+                        bigquery = new BigQuery();
+                        metadata = {
+                            sourceFormat: 'NEWLINE_DELIMITED_JSON',
+                            autodetect: true,
+                            location: 'US',
+                        };
+                        return [4 /*yield*/, bigquery
+                                .dataset(this.datasetId)
+                                .table(this.outputTable)
+                                .load(record.dataUrl, metadata)];
                     case 4:
-                        data = _a.sent();
-                        output = this.process(data);
-                        if (!output) return [3 /*break*/, 6];
-                        return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.outputTable, output, record.timestamp, record.key)];
-                    case 5:
-                        _a.sent();
+                        job = (_a.sent())[0];
+                        // load() waits for the job to finish
+                        console.log("Job " + job.id + " completed.");
+                        errors = job.status.errors;
+                        if (errors && errors.length > 0) {
+                            throw errors;
+                        }
                         dirty = true;
-                        _a.label = 6;
-                    case 6:
+                        _a.label = 5;
+                    case 5:
                         _i++;
                         return [3 /*break*/, 3];
-                    case 7:
-                        if (!dirty) return [3 /*break*/, 9];
+                    case 6:
+                        if (!dirty) return [3 /*break*/, 8];
                         return [4 /*yield*/, MRUtils.saveJobsStatus(jobStatusTable)];
-                    case 8:
+                    case 7:
                         _a.sent();
-                        return [3 /*break*/, 10];
-                    case 9:
+                        return [3 /*break*/, 9];
+                    case 8:
                         console.log("nothing to update");
-                        _a.label = 10;
-                    case 10: return [2 /*return*/];
+                        _a.label = 9;
+                    case 9: return [2 /*return*/];
                 }
             });
         });
     };
-    return MapperJob;
+    return GCSToBigQueryJobs;
 }());
 function executeMappers(jobs) {
     return __awaiter(this, void 0, void 0, function () {
@@ -175,26 +176,16 @@ function executeMappers(jobs) {
         });
     });
 }
-var MapperJobs = [
-    new MapperJob("CA Vaccine Mapper (html to json)", "California-Vaccine 2", "California-Vaccine-Json-table", function (input) {
-        var dom = cheerio.load(input);
-        var processed = dom("#counties-vaccination-data").html();
-        return processed;
-    }, {
+var BigQueryJobs = [
+    new GCSToBigQueryJobs("CDC Test County Data into Big Query", "CDC-County-Test-JSONL", "CDC-County-Test-Time-Series", {
     // jobTableName: "California-Vaccine-2-job",
     }),
-    new MapperJob("CDC County Test (JSONL)", "CDC County Data", "CDC-County-Test-JSONL3", function (input) {
-        var dom = JSON.parse(input);
-        var data = dom.integrated_county_latest_external_data;
-        var output = serializeNdJson(data);
-        return output;
-    }, {}),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, executeMappers(MapperJobs)];
+                case 0: return [4 /*yield*/, executeMappers(BigQueryJobs)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -203,4 +194,4 @@ function doit() {
     });
 }
 doit().then(function () { return process.exit(); });
-//# sourceMappingURL=Mapper.js.map
+//# sourceMappingURL=GCSToBigQuery.js.map

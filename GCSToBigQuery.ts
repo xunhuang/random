@@ -2,48 +2,39 @@ const cheerio = require('cheerio');
 import * as Email from './Email';
 import * as CloudDB from './CloudDB';
 import * as MRUtils from './MapReduceUtils';
+const { BigQuery } = require('@google-cloud/bigquery');
 
-export function serializeNdJson(data: unknown[]): string {
-    const serializedList: string[] = [];
-    for (let i = 0, len = data.length; i < len; i++) {
-        serializedList.push(JSON.stringify(data[i]) + "\n");
-    }
-    return serializedList.join("");
-}
-
-type MapperOptions = {
+type BigQueryJobsOption = {
     verbose?: false,
     jobTableName?: string;
+    datasetId?: string;
 }
 
-type MapperFunction = (content: string | null) => string;
-
-class MapperJob {
+class GCSToBigQueryJobs {
     name: string;
     srctablename: string;
     outputTable: string;
     jobTableName: string | null = null;
-    options: MapperOptions | null = null;
+    options: BigQueryJobsOption | null = null;
     verbose: false;
-    process: MapperFunction;
+    datasetId: string = 'my_dataset';
 
     constructor(
         name: string,
         srctablename: string,
         outputTable: string,
-        process: MapperFunction,
-        options: MapperOptions | null = null
+        options: BigQueryJobsOption | null = null
     ) {
         this.name = name;
         this.srctablename = srctablename;
         this.outputTable = outputTable;
-        this.process = process;
         if (options) {
-            if (options.verbose) this.verbose = options.verbose;
-            if (options.jobTableName) this.jobTableName = options.jobTableName;
+            for (const key in options) {
+                this[key] = options[key];
+            }
         }
         if (!this.jobTableName) {
-            this.jobTableName = `${this.name}-${this.srctablename}-${this.outputTable}`;
+            this.jobTableName = `GCSToBigQuery-${this.name}-${this.srctablename}-${this.outputTable}`;
         }
     }
 
@@ -56,14 +47,27 @@ class MapperJob {
         for (const record of records) {
             console.log("working on:", record.key);
             jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
-            let data = await record.fetchData();
-            let output = this.process(data);
-            if (output) {
-                await CloudDB.saveInfoAtSystem(this.outputTable,
-                    output,
-                    record.timestamp,
-                    record.key
-                );
+            {
+                const bigquery = new BigQuery();
+                const metadata = {
+                    sourceFormat: 'NEWLINE_DELIMITED_JSON',
+                    autodetect: true,
+                    location: 'US',
+                };
+
+                // Load data from a Google Cloud Storage file into the table
+                const [job] = await bigquery
+                    .dataset(this.datasetId)
+                    .table(this.outputTable)
+                    .load(record.dataUrl, metadata);
+                // load() waits for the job to finish
+                console.log(`Job ${job.id} completed.`);
+
+                // Check the job's status for errors
+                const errors = job.status.errors;
+                if (errors && errors.length > 0) {
+                    throw errors;
+                }
                 dirty = true;
             }
         }
@@ -75,7 +79,7 @@ class MapperJob {
     }
 }
 
-async function executeMappers(jobs: MapperJob[]) {
+async function executeMappers(jobs: GCSToBigQueryJobs[]) {
     let errors = [];
     for (const job of jobs) {
         try {
@@ -95,37 +99,19 @@ async function executeMappers(jobs: MapperJob[]) {
     }
 }
 
-const MapperJobs = [
-    new MapperJob(
-        "CA Vaccine Mapper (html to json)",
-        "California-Vaccine 2",
-        "California-Vaccine-Json-table",
-        (input: string) => {
-            let dom = cheerio.load(input);
-            let processed = dom("#counties-vaccination-data").html();
-            return processed;
-        },
+const BigQueryJobs = [
+    new GCSToBigQueryJobs(
+        "CDC Test County Data into Big Query",
+        "CDC-County-Test-JSONL",
+        "CDC-County-Test-Time-Series",
         {
             // jobTableName: "California-Vaccine-2-job",
-        }
-    ),
-    new MapperJob(
-        "CDC County Test (JSONL)",
-        "CDC County Data",
-        "CDC-County-Test-JSONL3",
-        (input: string) => {
-            let dom = JSON.parse(input);
-            let data = dom.integrated_county_latest_external_data;
-            let output = serializeNdJson(data);
-            return output;
-        },
-        {
         }
     ),
 ];
 
 async function doit() {
-    await executeMappers(MapperJobs);
+    await executeMappers(BigQueryJobs);
 }
 
 doit().then(() => process.exit());
