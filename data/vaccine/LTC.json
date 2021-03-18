@@ -381,5 +381,19 @@
     "Administered_Fed_LTC_Dose2": 0,
     "Series_Complete_Yes": 0,
     "Series_Complete_FedLTC": 0
+  },
+  {
+    "Date": "2021-03-18",
+    "Location": "LTC",
+    "ShortName": "LTC",
+    "LongName": "Long Term Care",
+    "Doses_Administered": 7614153,
+    "Administered_Dose1_Pop_Pct": 0,
+    "Administered_Dose2_Pop_Pct": 0,
+    "Administered_Fed_LTC": 0,
+    "Administered_Fed_LTC_Dose1": 0,
+    "Administered_Fed_LTC_Dose2": 0,
+    "Series_Complete_Yes": 0,
+    "Series_Complete_FedLTC": 0
   }
 ]
