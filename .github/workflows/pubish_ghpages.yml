@@ -52,7 +52,8 @@ jobs:
     - run: node datasplit.js -t Calfiornia-Vaccine-Overtime-Table -f fips -o website/build/data/vaccine/counties
     - run: node dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
     - run: node datasplit.js -t CDC-Vaccine-Overtime-Table -f Location -o website/build/data/vaccine
-    - run: sh -vxe datagen.sh
+    - name: fetch data
+      run: sh -vxe datagen.sh
       env:
         MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
         GOOGLE_APPLICATION_CREDENTIALS: /tmp/.googleCredentials.json
