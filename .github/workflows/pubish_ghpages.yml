@@ -32,12 +32,11 @@ jobs:
     - name: firebaseConfig
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-      run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
+      run: cd website; echo "${FIREBASE_CONFIG}" > ./src/firebaseConfig.json;  cd ..
     - name: Google project credentials
       env:
         GOOGLE_SVC_ACCOUNT_CREDENTIALS: ${{ secrets.GOOGLE_SVC_ACCOUNT_CREDENTIALS }}
       run: echo "${GOOGLE_SVC_ACCOUNT_CREDENTIALS}" > /tmp/.googleCredentials.json
-      run: cd website; echo "${FIREBASE_CONFIG}" > ./src/firebaseConfig.json;  cd ..
     - run: npmv=$(echo $(npm -v) | head -c 1); if [ "$npmv" -lt "6" ]; then npm i -g npm; else echo "Node.js Docker Team finally decided to include npm v6+ in latest image; you can remove this script now"; fi
     - run: sudo apt-get update -y
     - run: sudo apt-get install -y xmlstarlet
