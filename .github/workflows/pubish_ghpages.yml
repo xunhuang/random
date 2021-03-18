@@ -53,9 +53,9 @@ jobs:
     - run: node dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
     - run: node datasplit.js -t CDC-Vaccine-Overtime-Table -f Location -o website/build/data/vaccine
     - run: sh -vxe datagen.sh
-        env:
-          MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
-          GOOGLE_APPLICATION_CREDENTIALS: /tmp/.googleCredentials.json
+      env:
+        MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
+        GOOGLE_APPLICATION_CREDENTIALS: /tmp/.googleCredentials.json
     - name: Deploy to Website
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
