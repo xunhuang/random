@@ -13,7 +13,6 @@ export function serializeNdJson(data: unknown[]): string {
 }
 
 type MapperOptions = {
-    verbose?: false,
     jobTableName?: string;
 }
 
@@ -25,7 +24,6 @@ class MapperJob {
     outputTable: string;
     jobTableName: string | null = null;
     options: MapperOptions | null = null;
-    verbose: false;
     process: MapperFunction;
 
     constructor(
@@ -40,7 +38,6 @@ class MapperJob {
         this.outputTable = outputTable;
         this.process = process;
         if (options) {
-            if (options.verbose) this.verbose = options.verbose;
             if (options.jobTableName) this.jobTableName = options.jobTableName;
         }
         if (!this.jobTableName) {
@@ -133,6 +130,83 @@ const MapperJobs = [
         },
         {
             jobTableName: "transition-CDC-county-test"
+        }
+    ),
+    // transitional mapper job to move src ingested table.
+    new MapperJob(
+        "CDC national vaccination trends",
+        "CDC National Vaccination Trends",
+        "RandomDataTables/CDC-National-Vaccination-Trends/DataRecords",
+        (input: string) => {
+            return input;
+        },
+        {
+            jobTableName: "transition-CDC-national-vac-trends"
+        }
+    ),
+
+    // transitional mapper job to move src ingested table.
+    new MapperJob(
+        "CDC State Testing Data",
+        "CDC State Testing Data",
+        "RandomDataTables/CDC-State-Testing-Data/DataRecords",
+        (input: string) => {
+            return input;
+        },
+        {
+            jobTableName: "transition-CDC-State-Testing-Data"
+        }
+    ),
+
+    // transitional mapper job to move src ingested table.
+    new MapperJob(
+        "CDC State Vaccination Data",
+        "CDC State Vaccination Data",
+        "RandomDataTables/CDC-State-Vaccination-Data/DataRecords",
+        (input: string) => {
+            return input;
+        },
+        {
+            jobTableName: "transition-CDC-State-Vaccination-Data"
+        }
+    ),
+
+    // transitional mapper job to move src ingested table.
+    new MapperJob(
+        "CDC Vaccination Demographic",
+        "CDC Vaccination Demographic",
+        "RandomDataTables/CDC-Vaccination-Demographic/DataRecords",
+        (input: string) => {
+            return input;
+        },
+        {
+            jobTableName: "transition-CDC-Vaccination-Demographic"
+        }
+    ),
+
+    // transitional mapper job to move src ingested table.
+    new MapperJob(
+        "California-Vaccine 2",
+        "California-Vaccine 2",
+        "RandomDataTables/California-Vaccine-2/DataRecords",
+        (input: string) => {
+            return input;
+        },
+        {
+            jobTableName: "transition-California-Vaccine-2"
+        }
+
+    ),
+    // transitional mapper job to move src ingested table.
+    new MapperJob(
+        "NYC-Vaccines",
+        "NYC-Vaccines",
+        "RandomDataTables/NYC-Vaccines-New/DataRecords",
+        (input: string) => {
+            return input;
+        },
+        {
+            jobTableName: "transition-NYC-Vaccines-New"
         }
     ),
 ];
