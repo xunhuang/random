@@ -11,12 +11,6 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -61,10 +55,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.RandomDataTable = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
+exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.storeStringAsBlob = exports.storageFileName = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = __importStar(require("moment"));
 var fireorm = __importStar(require("fireorm"));
-var fireorm_1 = require("fireorm");
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 require("@firebase/firestore");
 require("@firebase/storage");
@@ -89,8 +82,8 @@ var DataRecord = /** @class */ (function () {
     }
     DataRecord.factory = function (obj) {
         var data = new DataRecord();
-        data.key = obj.key;
         data.timestamp = obj.timestamp;
+        data.timestampReadable = moment.unix(obj.timestamp).toString();
         data.dataBucket = obj.dataBucket;
         data.dataPath = obj.dataPath;
         data.dataUrl = obj.dataUrl;
@@ -113,78 +106,6 @@ var DataRecord = /** @class */ (function () {
 }());
 exports.DataRecord = DataRecord;
 ;
-var RandomDataTable = /** @class */ (function () {
-    function RandomDataTable() {
-        this.displayName = null;
-    }
-    RandomDataTable_1 = RandomDataTable;
-    RandomDataTable.prototype.dataRecordAdd = function (content) {
-        return __awaiter(this, void 0, void 0, function () {
-            var record, url, timestamp;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.dataRecords.create(new DataRecord())];
-                    case 1:
-                        record = _a.sent();
-                        return [4 /*yield*/, storeStringAsBlob(this.id, record.id, content)];
-                    case 2:
-                        url = _a.sent();
-                        timestamp = moment.now() / 1000;
-                        record.timestamp = timestamp;
-                        record.dataBucket = firebaseConfig.storageBucket;
-                        record.dataPath = storageFileName(this.id, record.id);
-                        record.dataUrl = url;
-                        return [4 /*yield*/, this.dataRecords.update(record)];
-                    case 3:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    RandomDataTable.prototype.lastDataRecord = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.dataRecords.orderByDescending(function (item) { return item.timestamp; }).findOne()];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    RandomDataTable.findOrCreate = function (storageTableName) {
-        return __awaiter(this, void 0, void 0, function () {
-            var collection_name, storageTable, newtable;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        collection_name = "users/user-id/messages/message-id/senders";
-                        return [4 /*yield*/, fireorm_1.getRepository(RandomDataTable_1).findById(storageTableName)];
-                    case 1:
-                        storageTable = _a.sent();
-                        if (!!storageTable) return [3 /*break*/, 3];
-                        newtable = new RandomDataTable_1();
-                        newtable.id = storageTableName;
-                        return [4 /*yield*/, fireorm_1.getRepository(RandomDataTable_1).create(newtable)];
-                    case 2:
-                        // storageTable = await getRepository(RandomDataTable).create(newtable);
-                        storageTable = _a.sent();
-                        _a.label = 3;
-                    case 3: return [2 /*return*/, storageTable];
-                }
-            });
-        });
-    };
-    var RandomDataTable_1;
-    __decorate([
-        fireorm_1.SubCollection(DataRecord)
-    ], RandomDataTable.prototype, "dataRecords", void 0);
-    RandomDataTable = RandomDataTable_1 = __decorate([
-        fireorm_1.Collection()
-    ], RandomDataTable);
-    return RandomDataTable;
-}());
-exports.RandomDataTable = RandomDataTable;
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
@@ -196,48 +117,53 @@ var StorageRootDirectory = "WatchStorage";
 function storageFileName(tablename, dockey) {
     return StorageRootDirectory + "/" + tablename + "/" + dockey + ".txt";
 }
+exports.storageFileName = storageFileName;
 function storeStringAsBlob(tablename, dockey, content) {
     return __awaiter(this, void 0, void 0, function () {
-        var ref;
+        var path, ref, url;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    ref = getStorageRef().child(storageFileName(tablename, dockey));
+                    path = storageFileName(tablename, dockey);
+                    ref = getStorageRef().child(path);
                     return [4 /*yield*/, ref.putString(content)];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, ref.getDownloadURL()];
-                case 2: return [2 /*return*/, _a.sent()];
+                case 2:
+                    url = _a.sent();
+                    return [2 /*return*/, [url, path, firebaseConfig.storageBucket]];
             }
         });
     });
 }
+exports.storeStringAsBlob = storeStringAsBlob;
 // some application semantics 
 function saveInfoAtSystem(tablename, content, timestamp, key) {
     if (timestamp === void 0) { timestamp = 0; }
     if (key === void 0) { key = null; }
     return __awaiter(this, void 0, void 0, function () {
-        var docRef, url, obj;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var docRef, _a, url, path, dataBucket, obj;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     docRef = (key) ?
                         db.collection(tablename).doc(key) :
                         db.collection(tablename).doc();
                     return [4 /*yield*/, storeStringAsBlob(tablename, docRef.id, content)];
                 case 1:
-                    url = _a.sent();
+                    _a = _b.sent(), url = _a[0], path = _a[1], dataBucket = _a[2];
                     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
                     obj = DataRecord.factory({
                         key: docRef.id,
                         timestamp: timestamp,
-                        dataBucket: firebaseConfig.storageBucket,
-                        dataPath: storageFileName(tablename, docRef.id),
+                        dataBucket: dataBucket,
+                        dataPath: path,
                         dataUrl: url,
                     });
                     return [4 /*yield*/, docRef.set(obj.toSimpleObject())];
                 case 2:
-                    _a.sent();
+                    _b.sent();
                     return [2 /*return*/, obj];
             }
         });

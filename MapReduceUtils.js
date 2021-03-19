@@ -72,7 +72,7 @@ var JobStatusTable = /** @class */ (function () {
         var unfinished = [];
         for (var _i = 0, allJobs_1 = allJobs; _i < allJobs_1.length; _i++) {
             var job = allJobs_1[_i];
-            var status_1 = this.data[job.key];
+            var status_1 = this.data[job.id];
             if (!status_1 || status_1 != JobExecStatus.SUCCESS) {
                 unfinished.push(job);
             }

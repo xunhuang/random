@@ -58,7 +58,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var superagent = require('superagent');
 var ContentDiffer = __importStar(require("./ContentDiffer"));
 var Email = __importStar(require("./Email"));
-var CloudDB_1 = require("./CloudDB");
+var RandomDataTable_1 = require("./RandomDataTable");
 var cheerio = __importStar(require("cheerio"));
 var assert = require('assert');
 var jq = require('node-jq');
@@ -210,7 +210,11 @@ var Subscription = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, CloudDB_1.RandomDataTable.findOrCreate(this.storageTableName)];
+                    case 0: return [4 /*yield*/, RandomDataTable_1.RandomDataTable.findOrCreate(this.storageTableName, {
+                            sourceOperation: "Ingest",
+                            displayName: this.displayName,
+                            sourceTableName: this.watchURL,
+                        })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

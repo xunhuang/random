@@ -1,7 +1,6 @@
 import * as StorageType from "@firebase/storage-types";
 import * as moment from 'moment';
 import * as fireorm from 'fireorm';
-import { Collection, getRepository, ISubCollection, SubCollection } from 'fireorm';
 import { IsEmail } from 'class-validator';
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
@@ -30,7 +29,6 @@ export function getStorageRef(): StorageType.Reference {
 
 export class DataRecord {
     id: string;
-    key: string;
     timestamp: number;
     timestampReadable: string;
     dataBucket: string;
@@ -39,8 +37,8 @@ export class DataRecord {
 
     static factory(obj: any): DataRecord {
         let data = new DataRecord();
-        data.key = obj.key;
         data.timestamp = obj.timestamp;
+        data.timestampReadable = moment.unix(obj.timestamp).toString();
         data.dataBucket = obj.dataBucket;
         data.dataPath = obj.dataPath;
         data.dataUrl = obj.dataUrl;
@@ -56,46 +54,6 @@ export class DataRecord {
     }
 };
 
-@Collection()
-export class RandomDataTable {
-    id: string;
-    displayName: string | null = null;
-
-    @SubCollection(DataRecord)
-    dataRecords: ISubCollection<DataRecord>;
-
-    async dataRecordAdd(content: string) {
-        let record = await this.dataRecords.create(new DataRecord());
-        let url = await storeStringAsBlob(this.id, record.id, content);
-        let timestamp = moment.now() / 1000; // convert from ms to seconds.
-
-        record.timestamp = timestamp;
-        record.dataBucket = firebaseConfig.storageBucket;
-        record.dataPath = storageFileName(this.id, record.id);
-        record.dataUrl = url;
-        await this.dataRecords.update(record);
-    }
-
-    async lastDataRecord() {
-        return await this.dataRecords.orderByDescending(item => item.timestamp).findOne();
-    }
-
-    static async findOrCreate(storageTableName: string): Promise<RandomDataTable> {
-        let collection_name = "users/user-id/messages/message-id/senders";
-
-        let storageTable = await getRepository(RandomDataTable).findById(storageTableName);
-        // let storageTable = await getRepository(RandomDataTable).findById(storageTableName);
-        if (!storageTable) {
-            let newtable = new RandomDataTable();
-            newtable.id = storageTableName;
-            // storageTable = await getRepository(RandomDataTable).create(newtable);
-            storageTable = await getRepository(RandomDataTable).create(newtable);
-        }
-        return storageTable as RandomDataTable;
-    }
-
-}
-
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
@@ -106,14 +64,16 @@ function snapshotToArrayDataRecord(snapshot) {
 
 const StorageRootDirectory = "WatchStorage";
 
-function storageFileName(tablename: string, dockey: string) {
+export function storageFileName(tablename: string, dockey: string) {
     return `${StorageRootDirectory}/${tablename}/${dockey}.txt`;
 }
 
-async function storeStringAsBlob(tablename: string, dockey: string, content: string): Promise<string> {
-    var ref = getStorageRef().child(storageFileName(tablename, dockey));
-    await ref.putString(content)
-    return await ref.getDownloadURL();
+export async function storeStringAsBlob(tablename: string, dockey: string, content: string): Promise<[string, string, string]> {
+    let path = storageFileName(tablename, dockey);
+    var ref = getStorageRef().child(path);
+    await ref.putString(content);
+    let url = await ref.getDownloadURL();
+    return [url, path, firebaseConfig.storageBucket];
 }
 
 // some application semantics 
@@ -127,15 +87,15 @@ export async function saveInfoAtSystem(
         db.collection(tablename).doc(key) :
         db.collection(tablename).doc();
 
-    let url = await storeStringAsBlob(tablename, docRef.id, content);
+    let [url, path, dataBucket] = await storeStringAsBlob(tablename, docRef.id, content);
 
     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
     let obj = DataRecord.factory(
         {
             key: docRef.id,
             timestamp: timestamp,
-            dataBucket: firebaseConfig.storageBucket,
-            dataPath: storageFileName(tablename, docRef.id),
+            dataBucket: dataBucket,
+            dataPath: path,
             dataUrl: url,
         }
     );

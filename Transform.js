@@ -55,92 +55,112 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.serializeNdJson = void 0;
 var cheerio = require('cheerio');
 var Email = __importStar(require("./Email"));
-var CloudDB = __importStar(require("./CloudDB"));
+var RandomDataTable_1 = require("./RandomDataTable");
 var MRUtils = __importStar(require("./MapReduceUtils"));
-var BigQuery = require('@google-cloud/bigquery').BigQuery;
-var Storage = require('@google-cloud/storage').Storage;
-var GCSToBigQueryJobs = /** @class */ (function () {
-    function GCSToBigQueryJobs(name, srctablename, outputTable, options) {
+function serializeNdJson(data) {
+    var serializedList = [];
+    for (var i = 0, len = data.length; i < len; i++) {
+        serializedList.push(JSON.stringify(data[i]) + "\n");
+    }
+    return serializedList.join("");
+}
+exports.serializeNdJson = serializeNdJson;
+var TransformerJob = /** @class */ (function () {
+    function TransformerJob(name, srctablename, outputTable, process, options) {
         if (options === void 0) { options = null; }
         this.jobTableName = null;
         this.options = null;
-        this.datasetId = 'my_dataset';
         this.name = name;
         this.srctablename = srctablename;
         this.outputTable = outputTable;
+        this.process = process;
         if (options) {
-            for (var key in options) {
-                this[key] = options[key];
-            }
+            if (options.verbose)
+                this.verbose = options.verbose;
+            if (options.jobTableName)
+                this.jobTableName = options.jobTableName;
         }
         if (!this.jobTableName) {
-            this.jobTableName = "GCSToBigQuery-" + this.name + "-" + this.srctablename + "-" + this.outputTable;
+            this.jobTableName = "TRANSFORM-" + this.name + "-" + this.srctablename + "-" + this.outputTable;
         }
     }
-    GCSToBigQueryJobs.prototype.execute = function () {
+    TransformerJob.prototype.getStorageTable = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var jobStatusTable, allJobs, records, dirty, _i, records_1, record, bigquery, storage, metadata, storagepath, job, errors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, RandomDataTable_1.RandomDataTable.findOrCreate(this.outputTable, {
+                            sourceOperation: "Transform",
+                            displayName: this.name,
+                            sourceTableName: this.srctablename,
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    TransformerJob.prototype.execute = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var jobStatusTable, allJobs, records, dirtyCount, _i, records_1, record, data, output, storage;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, MRUtils.fetchJobsStatus(this.jobTableName)];
                     case 1:
                         jobStatusTable = _a.sent();
-                        return [4 /*yield*/, CloudDB.getFullRecords(this.srctablename)];
+                        return [4 /*yield*/, RandomDataTable_1.RandomDataTable.findTableRecords(this.srctablename)];
                     case 2:
                         allJobs = _a.sent();
                         records = jobStatusTable.computeUnfinishedJobs(allJobs);
-                        dirty = false;
+                        dirtyCount = 0;
                         _i = 0, records_1 = records;
                         _a.label = 3;
                     case 3:
-                        if (!(_i < records_1.length)) return [3 /*break*/, 6];
+                        if (!(_i < records_1.length)) return [3 /*break*/, 9];
                         record = records_1[_i];
                         console.log("working on:", record.id);
                         jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
-                        bigquery = new BigQuery();
-                        storage = new Storage();
-                        metadata = {
-                            sourceFormat: 'NEWLINE_DELIMITED_JSON',
-                            autodetect: true,
-                            location: 'US',
-                        };
-                        storagepath = storage.bucket(record.dataBucket).file(record.dataPath);
-                        return [4 /*yield*/, bigquery
-                                .dataset(this.datasetId)
-                                .table(this.outputTable)
-                                .load(storagepath, metadata)];
+                        return [4 /*yield*/, record.fetchData()];
                     case 4:
-                        job = (_a.sent())[0];
-                        // load() waits for the job to finish
-                        console.log("Job " + job.id + " completed.");
-                        errors = job.status.errors;
-                        if (errors && errors.length > 0) {
-                            throw errors;
-                        }
-                        dirty = true;
-                        _a.label = 5;
+                        data = _a.sent();
+                        output = this.process(data);
+                        if (!output) return [3 /*break*/, 8];
+                        return [4 /*yield*/, this.getStorageTable()];
                     case 5:
-                        _i++;
-                        return [3 /*break*/, 3];
+                        storage = _a.sent();
+                        // inheriting the original timestamp.
+                        return [4 /*yield*/, storage.dataRecordAdd(output, record.timestamp)];
                     case 6:
-                        if (!dirty) return [3 /*break*/, 8];
+                        // inheriting the original timestamp.
+                        _a.sent();
+                        dirtyCount++;
+                        if (!(dirtyCount === 5)) return [3 /*break*/, 8];
                         return [4 /*yield*/, MRUtils.saveJobsStatus(jobStatusTable)];
                     case 7:
                         _a.sent();
-                        return [3 /*break*/, 9];
+                        dirtyCount = 0;
+                        _a.label = 8;
                     case 8:
+                        _i++;
+                        return [3 /*break*/, 3];
+                    case 9:
+                        if (!dirtyCount) return [3 /*break*/, 11];
+                        return [4 /*yield*/, MRUtils.saveJobsStatus(jobStatusTable)];
+                    case 10:
+                        _a.sent();
+                        return [3 /*break*/, 12];
+                    case 11:
                         console.log("nothing to update");
-                        _a.label = 9;
-                    case 9: return [2 /*return*/];
+                        _a.label = 12;
+                    case 12: return [2 /*return*/];
                 }
             });
         });
     };
-    return GCSToBigQueryJobs;
+    return TransformerJob;
 }());
-function executeMappers(jobs) {
+function executeTransformers(jobs) {
     return __awaiter(this, void 0, void 0, function () {
         var errors, _i, jobs_1, job, err_1;
         return __generator(this, function (_a) {
@@ -170,7 +190,7 @@ function executeMappers(jobs) {
                     return [3 /*break*/, 1];
                 case 6:
                     if (!(errors.length > 0)) return [3 /*break*/, 8];
-                    return [4 /*yield*/, Email.send(["xhuang@gmail.com"], "Mapper Execution: " + errors.length + " from latest run", JSON.stringify(errors, null, 2))];
+                    return [4 /*yield*/, Email.send(["xhuang@gmail.com"], "Transformer Execution: " + errors.length + " from latest run", JSON.stringify(errors, null, 2))];
                 case 7:
                     _a.sent();
                     _a.label = 8;
@@ -179,14 +199,34 @@ function executeMappers(jobs) {
         });
     });
 }
-var BigQueryJobs = [
-    new GCSToBigQueryJobs("CDC Test County Data into Big Query", "CDC-County-Test-JSONL3", "CDC-County-Test-Time-Series"),
+var TransformerJobs = [
+    new TransformerJob("CA Vaccine Transformer (html to json)", "California-Vaccine-2", "California-Vaccine-Json-table", function (input) {
+        var dom = cheerio.load(input);
+        var processed = dom("#counties-vaccination-data").html();
+        return processed;
+    }),
+    new TransformerJob("CDC County Test (JSONL)", "CDC-County-Data", "CDC-County-Test-JSONL3", function (input) {
+        var dom = JSON.parse(input);
+        var data = dom.integrated_county_latest_external_data;
+        var output = serializeNdJson(data);
+        return output;
+    }),
+    new TransformerJob("CA Vaccine (aggregate JSON table over time), this should go into BigQuery", "California-Vaccine-Json-table", "Calfiornia-Vaccine-Overtime-Table-NLJSON", function (input) {
+        var dom = JSON.parse(input);
+        var output = serializeNdJson(dom);
+        return output;
+    }),
+    new TransformerJob("CDC State Vaccine (aggregate JSON table over time), this should go into BigQuery", "CDC-State-Vaccination-Data", "CDC-Vaccine-Overtime-Table-NLJSON", function (input) {
+        var dom = JSON.parse(input);
+        var output = serializeNdJson(dom.vaccination_data);
+        return output;
+    }),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, executeMappers(BigQueryJobs)];
+                case 0: return [4 /*yield*/, executeTransformers(TransformerJobs)];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -195,4 +235,4 @@ function doit() {
     });
 }
 doit().then(function () { return process.exit(); });
-//# sourceMappingURL=GCSToBigQuery.js.map
+//# sourceMappingURL=Transform.js.map

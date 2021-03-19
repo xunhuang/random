@@ -46,8 +46,8 @@ class GCSToBigQueryJobs {
 
         let dirty = false;
         for (const record of records) {
-            console.log("working on:", record.key);
-            jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
+            console.log("working on:", record.id);
+            jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
             {
                 const bigquery = new BigQuery();
                 const storage = new Storage();
@@ -105,10 +105,7 @@ const BigQueryJobs = [
     new GCSToBigQueryJobs(
         "CDC Test County Data into Big Query",
         "CDC-County-Test-JSONL3",
-        "CDC-County-Test-Time-Series",
-        {
-            // jobTableName: "California-Vaccine-2-job",
-        }
+        "CDC-County-Test-Time-Series"
     ),
 ];
 

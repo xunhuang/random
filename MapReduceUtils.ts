@@ -27,7 +27,7 @@ export class JobStatusTable {
     computeUnfinishedJobs(allJobs: CloudDB.DataRecord[],): CloudDB.DataRecord[] {
         let unfinished = [];
         for (const job of allJobs) {
-            let status = this.data[job.key];
+            let status = this.data[job.id];
             if (!status || status != JobExecStatus.SUCCESS) {
                 unfinished.push(job);
             }

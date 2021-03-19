@@ -105,14 +105,14 @@ var MapperJob = /** @class */ (function () {
                     case 3:
                         if (!(_i < records_1.length)) return [3 /*break*/, 7];
                         record = records_1[_i];
-                        console.log("working on:", record.key);
-                        jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
+                        console.log("working on:", record.id);
+                        jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
                         return [4 /*yield*/, record.fetchData()];
                     case 4:
                         data = _a.sent();
                         output = this.process(data);
                         if (!output) return [3 /*break*/, 6];
-                        return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.outputTable, output, record.timestamp, record.key)];
+                        return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.outputTable, output, record.timestamp, record.id)];
                     case 5:
                         _a.sent();
                         dirty = true;

@@ -2,7 +2,7 @@ const superagent = require('superagent');
 
 import * as ContentDiffer from './ContentDiffer';
 import * as Email from './Email';
-import { RandomDataTable } from './CloudDB';
+import { RandomDataTable } from "./RandomDataTable";
 import * as cheerio from "cheerio"
 var assert = require('assert');
 const jq = require('node-jq');
@@ -159,7 +159,11 @@ class Subscription {
     }
 
     async getStorageTable(): Promise<RandomDataTable> {
-        return await RandomDataTable.findOrCreate(this.storageTableName);
+        return await RandomDataTable.findOrCreate(this.storageTableName, {
+            sourceOperation: "Ingest",
+            displayName: this.displayName,
+            sourceTableName: this.watchURL,
+        });
     }
 
     async getLastRecord(): Promise<WebPageContent> {
