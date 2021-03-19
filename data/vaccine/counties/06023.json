@@ -495,15 +495,15 @@
   },
   {
     "county": "Humboldt",
-    "doses_administered": 45364,
+    "doses_administered": 47149,
     "date": "2021-03-19",
     "fips": "06023",
     "population": 135768,
-    "doses_administered_per_100k": 33412.8807966531,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 1034,
+    "doses_administered_per_100k": 34727.6235931884,
+    "new_doses_administered": 1785,
+    "new_doses_administered_seven_day_average": 1289,
     "new_doses_administered_yesterday": 1509,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-19 04:04:17"
+    "new_doses_administered_today": 1785,
+    "updated_time": "2021-03-19 10:24:51"
   }
 ]

@@ -495,15 +495,15 @@
   },
   {
     "county": "Plumas",
-    "doses_administered": 5991,
+    "doses_administered": 6035,
     "date": "2021-03-19",
     "fips": "06063",
     "population": 18699,
-    "doses_administered_per_100k": 32039.1464784213,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 116.2857142857,
+    "doses_administered_per_100k": 32274.4531793144,
+    "new_doses_administered": 44,
+    "new_doses_administered_seven_day_average": 122.5714285714,
     "new_doses_administered_yesterday": 71,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-19 04:04:17"
+    "new_doses_administered_today": 44,
+    "updated_time": "2021-03-19 10:24:51"
   }
 ]
