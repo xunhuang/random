@@ -482,15 +482,15 @@
   },
   {
     "county": "San Joaquin",
-    "doses_administered": 183792,
+    "doses_administered": 191461,
     "date": "2021-03-18",
     "fips": "06077",
     "population": 732212,
-    "doses_administered_per_100k": 25100.9270539133,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 4154,
+    "doses_administered_per_100k": 26148.301311642,
+    "new_doses_administered": 7669,
+    "new_doses_administered_seven_day_average": 5249.5714285714,
     "new_doses_administered_yesterday": 7388,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-18 03:59:22"
+    "new_doses_administered_today": 7669,
+    "updated_time": "2021-03-18 16:00:37"
   }
 ]

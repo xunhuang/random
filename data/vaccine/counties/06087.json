@@ -482,15 +482,15 @@
   },
   {
     "county": "Santa Cruz",
-    "doses_administered": 116433,
+    "doses_administered": 119879,
     "date": "2021-03-18",
     "fips": "06087",
     "population": 273765,
-    "doses_administered_per_100k": 42530.2723138458,
-    "new_doses_administered": 0,
-    "new_doses_administered_seven_day_average": 2393,
+    "doses_administered_per_100k": 43789.0161269702,
+    "new_doses_administered": 3446,
+    "new_doses_administered_seven_day_average": 2885.2857142857,
     "new_doses_administered_yesterday": 2682,
-    "new_doses_administered_today": 0,
-    "updated_time": "2021-03-18 03:59:22"
+    "new_doses_administered_today": 3446,
+    "updated_time": "2021-03-18 16:00:37"
   }
 ]
