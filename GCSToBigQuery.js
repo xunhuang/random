@@ -113,7 +113,6 @@ var GCSToBigQueryJobs = /** @class */ (function () {
                                 .load(storagepath, metadata)];
                     case 4:
                         job = (_a.sent())[0];
-                        // .load(record.dataUrl, metadata);
                         // load() waits for the job to finish
                         console.log("Job " + job.id + " completed.");
                         errors = job.status.errors;

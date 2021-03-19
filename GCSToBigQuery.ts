@@ -59,16 +59,13 @@ class GCSToBigQueryJobs {
 
                 let storagepath = storage.bucket(record.dataBucket).file(record.dataPath);
 
-                // Load data from a Google Cloud Storage file into the table
                 const [job] = await bigquery
                     .dataset(this.datasetId)
                     .table(this.outputTable)
                     .load(storagepath, metadata);
-                // .load(record.dataUrl, metadata);
                 // load() waits for the job to finish
                 console.log(`Job ${job.id} completed.`);
 
-                // Check the job's status for errors
                 const errors = job.status.errors;
                 if (errors && errors.length > 0) {
                     throw errors;
