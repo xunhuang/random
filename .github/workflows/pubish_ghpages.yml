@@ -46,7 +46,7 @@ jobs:
     - run: cd website; echo "gowatchit.net" > build/CNAME; cd ..
     - run: mkdir -p website/build/data/vaccine/counties website/build/data/testing
     - run: node dataget.js -t Calfiornia-Vaccine-Overtime-Table  > website/build/data/vaccine/counties/CA.json
-    - run: node dataget.js -t "CDC National Vaccination Trends" > website/build/data/vaccine/USA.CDC.json
+    - run: node dataget.js -t "RandomDataTables/CDC-National-Vaccination-Trends/DataRecords" > website/build/data/vaccine/USA.CDC.json
     - run : cat website/build/data/vaccine/USA.CDC.json | jq  '[ .vaccination_trends_data | .[] |select (.Location=="US") | select (.date_type == "Admin")  ] |sort_by(.Date)' > website/build/data/vaccine/USA.json
     - run: node datasplit.js -t Calfiornia-Vaccine-Overtime-Table -f fips -o website/build/data/vaccine/counties
     - run: node dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
