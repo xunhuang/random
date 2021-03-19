@@ -2,7 +2,7 @@ const superagent = require('superagent');
 
 import * as ContentDiffer from './ContentDiffer';
 import * as Email from './Email';
-import * as CloudDB from './CloudDB';
+import { RandomDataTable } from './CloudDB';
 import * as cheerio from "cheerio"
 var assert = require('assert');
 const jq = require('node-jq');
@@ -158,8 +158,12 @@ class Subscription {
         return contentWeb;
     }
 
+    async getStorageTable(): Promise<RandomDataTable> {
+        return await RandomDataTable.findOrCreate(this.storageTableName);
+    }
+
     async getLastRecord(): Promise<WebPageContent> {
-        let storageTable = await CloudDB.InjestedData.findOrCreate(this.storageTableName);
+        let storageTable = await this.getStorageTable();
         let record = await storageTable.lastDataRecord();
         if (!record) {
             return new WebPageContent();
@@ -168,7 +172,7 @@ class Subscription {
     }
 
     async saveRecord(content: WebPageContent) {
-        let storageTable = await CloudDB.InjestedData.findOrCreate(this.storageTableName);
+        let storageTable = await this.getStorageTable();
         await storageTable.dataRecordAdd(content.toString());
     }
 
@@ -184,6 +188,14 @@ class Subscription {
 
 const NewSubscriptions = [
     new Subscription(
+        "LA Times Vaccine Info",
+        "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
+        ["xhuang@gmail.com"],
+        {
+            storageTableName: "California-Vaccine-2"
+        }
+    ),
+    new Subscription(
         "NYS Covid Watcher",
         "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
         [],
@@ -194,19 +206,11 @@ const NewSubscriptions = [
         }
     ),
     new Subscription(
-        "LA Times Vaccine Info",
-        "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
-        ["xhuang@gmail.com"],
-        {
-            storageTableName: "California-Vaccine 2"
-        }
-    ),
-    new Subscription(
         "CDC County Data",
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_latest_external_data",
         ["xhuang@gmail.com"],
         {
-            storageTableName: "CDC County Data"
+            storageTableName: "CDC-County-Data"
         }
     ),
     new Subscription(
@@ -214,7 +218,7 @@ const NewSubscriptions = [
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=US_MAP_TESTING",
         ["xhuang@gmail.com"],
         {
-            storageTableName: "CDC State Testing Data"
+            storageTableName: "CDC-State-Testing-Data"
         }
     ),
     new Subscription(
@@ -222,7 +226,7 @@ const NewSubscriptions = [
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data",
         [],
         {
-            storageTableName: "CDC State Vaccination Data"
+            storageTableName: "CDC-State-Vaccination-Data"
         }
     ),
     new Subscription(
@@ -230,7 +234,7 @@ const NewSubscriptions = [
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data",
         [],
         {
-            storageTableName: "CDC National Vaccination Trends"
+            storageTableName: "CDC-National-Vaccination-Trends"
         }
     ),
     new Subscription(
@@ -238,7 +242,7 @@ const NewSubscriptions = [
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_demographics_data",
         [],
         {
-            storageTableName: "CDC Vaccination Demographic"
+            storageTableName: "CDC-Vaccination-Demographic"
         }
     ),
 ];
@@ -312,7 +316,7 @@ async function processSubscription(sub: Subscription) {
 
 async function doit() {
     let subs = NewSubscriptions;
-    subs = NewSubscriptions.slice(0, 1); // first item
+    // subs = NewSubscriptions.slice(0, 1); // first item
     // subs = NewSubscriptions.slice(-1); // last item
 
     let errors = [];

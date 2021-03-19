@@ -20,8 +20,6 @@ fireorm.initialize(db, {
     validateModels: true
 });
 
-
-
 export function getDB() {
     return db;
 }
@@ -38,29 +36,6 @@ export class DataRecord {
     dataBucket: string;
     dataPath: string;
     dataUrl: string;
-
-    /*
-    constructor(key: string, unixtimestamp: number, dataBucket: string, dataPath: string, dataurl: string) {
-        this.key = key;
-        this.timestamp = unixtimestamp;
-        this.timestampReadable = moment.unix(this.timestamp).toString();
-        this.dataUrl = dataurl;
-        this.dataBucket = dataBucket;
-        this.dataPath = dataPath;
-    }
-    */
-
-    /*
-    static factory(obj: any) {
-        return new DataRecord(
-            obj.key,
-            obj.timestamp,
-            obj.dataBucket,
-            obj.dataPath,
-            obj.dataUrl,
-        )
-    }
-    */
 
     static factory(obj: any): DataRecord {
         let data = new DataRecord();
@@ -81,15 +56,13 @@ export class DataRecord {
     }
 };
 
-
 @Collection()
-export class InjestedData {
+export class RandomDataTable {
     id: string;
     displayName: string | null = null;
 
     @SubCollection(DataRecord)
     dataRecords: ISubCollection<DataRecord>;
-
 
     async dataRecordAdd(content: string) {
         let record = await this.dataRecords.create(new DataRecord());
@@ -107,14 +80,18 @@ export class InjestedData {
         return await this.dataRecords.orderByDescending(item => item.timestamp).findOne();
     }
 
-    static async findOrCreate(storageTableName: string): Promise<InjestedData> {
-        let storageTable = await getRepository(InjestedData).findById(storageTableName);
+    static async findOrCreate(storageTableName: string): Promise<RandomDataTable> {
+        let collection_name = "users/user-id/messages/message-id/senders";
+
+        let storageTable = await getRepository(RandomDataTable).findById(storageTableName);
+        // let storageTable = await getRepository(RandomDataTable).findById(storageTableName);
         if (!storageTable) {
-            let newtable = new InjestedData();
+            let newtable = new RandomDataTable();
             newtable.id = storageTableName;
-            storageTable = await getRepository(InjestedData).create(newtable);
+            // storageTable = await getRepository(RandomDataTable).create(newtable);
+            storageTable = await getRepository(RandomDataTable).create(newtable);
         }
-        return storageTable;
+        return storageTable as RandomDataTable;
     }
 
 }

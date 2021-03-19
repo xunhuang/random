@@ -58,7 +58,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var superagent = require('superagent');
 var ContentDiffer = __importStar(require("./ContentDiffer"));
 var Email = __importStar(require("./Email"));
-var CloudDB = __importStar(require("./CloudDB"));
+var CloudDB_1 = require("./CloudDB");
 var cheerio = __importStar(require("cheerio"));
 var assert = require('assert');
 var jq = require('node-jq');
@@ -206,12 +206,22 @@ var Subscription = /** @class */ (function () {
             });
         });
     };
+    Subscription.prototype.getStorageTable = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, CloudDB_1.RandomDataTable.findOrCreate(this.storageTableName)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     Subscription.prototype.getLastRecord = function () {
         return __awaiter(this, void 0, void 0, function () {
             var storageTable, record, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, CloudDB.InjestedData.findOrCreate(this.storageTableName)];
+                    case 0: return [4 /*yield*/, this.getStorageTable()];
                     case 1:
                         storageTable = _b.sent();
                         return [4 /*yield*/, storageTable.lastDataRecord()];
@@ -232,7 +242,7 @@ var Subscription = /** @class */ (function () {
             var storageTable;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, CloudDB.InjestedData.findOrCreate(this.storageTableName)];
+                    case 0: return [4 /*yield*/, this.getStorageTable()];
                     case 1:
                         storageTable = _a.sent();
                         return [4 /*yield*/, storageTable.dataRecordAdd(content.toString())];
@@ -255,28 +265,28 @@ var Subscription = /** @class */ (function () {
 }());
 ;
 var NewSubscriptions = [
+    new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
+        storageTableName: "California-Vaccine-2"
+    }),
     new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", [], {
         contentType: "json",
         jqQuery: ".providerList",
         storageTableName: "NYC-Vaccines-New",
     }),
-    new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
-        storageTableName: "California-Vaccine 2"
-    }),
     new Subscription("CDC County Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_latest_external_data", ["xhuang@gmail.com"], {
-        storageTableName: "CDC County Data"
+        storageTableName: "CDC-County-Data"
     }),
     new Subscription("CDC State Testing Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=US_MAP_TESTING", ["xhuang@gmail.com"], {
-        storageTableName: "CDC State Testing Data"
+        storageTableName: "CDC-State-Testing-Data"
     }),
     new Subscription("CDC State Vaccination Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data", [], {
-        storageTableName: "CDC State Vaccination Data"
+        storageTableName: "CDC-State-Vaccination-Data"
     }),
     new Subscription("CDC National Vaccination Trends", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data", [], {
-        storageTableName: "CDC National Vaccination Trends"
+        storageTableName: "CDC-National-Vaccination-Trends"
     }),
     new Subscription("CDC Vaccination Demographic", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_demographics_data", [], {
-        storageTableName: "CDC Vaccination Demographic"
+        storageTableName: "CDC-Vaccination-Demographic"
     }),
 ];
 function scrape(url, customHeaders) {
@@ -360,7 +370,6 @@ function doit() {
             switch (_a.label) {
                 case 0:
                     subs = NewSubscriptions;
-                    subs = NewSubscriptions.slice(0, 1); // first item
                     errors = [];
                     i = 0;
                     _a.label = 1;

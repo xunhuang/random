@@ -61,7 +61,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.InjestedData = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
+exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.RandomDataTable = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = __importStar(require("moment"));
 var fireorm = __importStar(require("fireorm"));
 var fireorm_1 = require("fireorm");
@@ -87,27 +87,6 @@ exports.getStorageRef = getStorageRef;
 var DataRecord = /** @class */ (function () {
     function DataRecord() {
     }
-    /*
-    constructor(key: string, unixtimestamp: number, dataBucket: string, dataPath: string, dataurl: string) {
-        this.key = key;
-        this.timestamp = unixtimestamp;
-        this.timestampReadable = moment.unix(this.timestamp).toString();
-        this.dataUrl = dataurl;
-        this.dataBucket = dataBucket;
-        this.dataPath = dataPath;
-    }
-    */
-    /*
-    static factory(obj: any) {
-        return new DataRecord(
-            obj.key,
-            obj.timestamp,
-            obj.dataBucket,
-            obj.dataPath,
-            obj.dataUrl,
-        )
-    }
-    */
     DataRecord.factory = function (obj) {
         var data = new DataRecord();
         data.key = obj.key;
@@ -134,12 +113,12 @@ var DataRecord = /** @class */ (function () {
 }());
 exports.DataRecord = DataRecord;
 ;
-var InjestedData = /** @class */ (function () {
-    function InjestedData() {
+var RandomDataTable = /** @class */ (function () {
+    function RandomDataTable() {
         this.displayName = null;
     }
-    InjestedData_1 = InjestedData;
-    InjestedData.prototype.dataRecordAdd = function (content) {
+    RandomDataTable_1 = RandomDataTable;
+    RandomDataTable.prototype.dataRecordAdd = function (content) {
         return __awaiter(this, void 0, void 0, function () {
             var record, url, timestamp;
             return __generator(this, function (_a) {
@@ -163,7 +142,7 @@ var InjestedData = /** @class */ (function () {
             });
         });
     };
-    InjestedData.prototype.lastDataRecord = function () {
+    RandomDataTable.prototype.lastDataRecord = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -173,19 +152,22 @@ var InjestedData = /** @class */ (function () {
             });
         });
     };
-    InjestedData.findOrCreate = function (storageTableName) {
+    RandomDataTable.findOrCreate = function (storageTableName) {
         return __awaiter(this, void 0, void 0, function () {
-            var storageTable, newtable;
+            var collection_name, storageTable, newtable;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, fireorm_1.getRepository(InjestedData_1).findById(storageTableName)];
+                    case 0:
+                        collection_name = "users/user-id/messages/message-id/senders";
+                        return [4 /*yield*/, fireorm_1.getRepository(RandomDataTable_1).findById(storageTableName)];
                     case 1:
                         storageTable = _a.sent();
                         if (!!storageTable) return [3 /*break*/, 3];
-                        newtable = new InjestedData_1();
+                        newtable = new RandomDataTable_1();
                         newtable.id = storageTableName;
-                        return [4 /*yield*/, fireorm_1.getRepository(InjestedData_1).create(newtable)];
+                        return [4 /*yield*/, fireorm_1.getRepository(RandomDataTable_1).create(newtable)];
                     case 2:
+                        // storageTable = await getRepository(RandomDataTable).create(newtable);
                         storageTable = _a.sent();
                         _a.label = 3;
                     case 3: return [2 /*return*/, storageTable];
@@ -193,16 +175,16 @@ var InjestedData = /** @class */ (function () {
             });
         });
     };
-    var InjestedData_1;
+    var RandomDataTable_1;
     __decorate([
         fireorm_1.SubCollection(DataRecord)
-    ], InjestedData.prototype, "dataRecords", void 0);
-    InjestedData = InjestedData_1 = __decorate([
+    ], RandomDataTable.prototype, "dataRecords", void 0);
+    RandomDataTable = RandomDataTable_1 = __decorate([
         fireorm_1.Collection()
-    ], InjestedData);
-    return InjestedData;
+    ], RandomDataTable);
+    return RandomDataTable;
 }());
-exports.InjestedData = InjestedData;
+exports.RandomDataTable = RandomDataTable;
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
