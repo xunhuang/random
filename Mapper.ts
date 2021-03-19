@@ -3,6 +3,7 @@ import * as Email from './Email';
 import * as CloudDB from './CloudDB';
 import * as MRUtils from './MapReduceUtils';
 
+
 export function serializeNdJson(data: unknown[]): string {
     const serializedList: string[] = [];
     for (let i = 0, len = data.length; i < len; i++) {
@@ -120,6 +121,18 @@ const MapperJobs = [
             return output;
         },
         {
+        }
+    ),
+    // transitional mapper job to move src ingested table.
+    new MapperJob(
+        "CDC County Test (JSONL)",
+        "CDC County Data",
+        "RandomDataTables/CDC-County-Data/DataRecords",
+        (input: string) => {
+            return input;
+        },
+        {
+            jobTableName: "transition-CDC-county-test"
         }
     ),
 ];

@@ -189,6 +189,12 @@ var MapperJobs = [
         var output = serializeNdJson(data);
         return output;
     }, {}),
+    // transitional mapper job to move src ingested table.
+    new MapperJob("CDC County Test (JSONL)", "CDC County Data", "RandomDataTables/CDC-County-Data/DataRecords", function (input) {
+        return input;
+    }, {
+        jobTableName: "transition-CDC-county-test"
+    }),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {
