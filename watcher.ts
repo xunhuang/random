@@ -28,7 +28,7 @@ class WebPageContent {
     contentType: WebPageContentType = WebPageContentType.UNKNOWN;
     contentJsonObject: object = null;
 
-    constructor(content: string | object | null) {
+    constructor(content: string | object | null = null) {
         if (typeof content === "object") {
             this.contentType = WebPageContentType.JSON;
             this.contentRaw = JSON.stringify(content, null, 2);
@@ -110,7 +110,7 @@ type SubscriptionOptions = {
 }
 
 class Subscription {
-    name: string;
+    displayName: string;
     watchURL: string;
     contentType: string = "text";
     storageTableName: string;
@@ -127,18 +127,16 @@ class Subscription {
         emails: string[],
         options: SubscriptionOptions | null = null
     ) {
-        this.name = name;
+        this.displayName = name;
         this.watchURL = watchURL;
-        this.storageTableName = watchURL.replace(/\//g, "_");
         this.emails = emails;
         if (options) {
-            if (options.contentType) this.contentType = options.contentType;
-            if (options.customHeaders) this.customHeaders = options.customHeaders;
-            if (options.notifyEvenNothingNew) this.notifyEvenNothingNew = options.notifyEvenNothingNew;
-            if (options.storageTableName) this.storageTableName = options.storageTableName;
-            if (options.cssSelect) this.cssSelect = options.cssSelect;
-            if (options.jqQuery) this.jqQuery = options.jqQuery;
-            if (options.ignoreErrors) this.ignoreErrors = options.ignoreErrors;
+            for (const key in options) {
+                this[key] = options[key];
+            }
+        }
+        if (!this.storageTableName) {
+            this.storageTableName = watchURL.replace(/\//g, "_");
         }
     }
 
@@ -161,15 +159,17 @@ class Subscription {
     }
 
     async getLastRecord(): Promise<WebPageContent> {
-        let last = await CloudDB.getLastRecord(this.storageTableName);
-        return new WebPageContent(last);
+        let storageTable = await CloudDB.InjestedData.findOrCreate(this.storageTableName);
+        let record = await storageTable.lastDataRecord();
+        if (!record) {
+            return new WebPageContent();
+        }
+        return new WebPageContent(await record.fetchData());
     }
-    async getFirstRecord(): Promise<WebPageContent> {
-        let last = await CloudDB.getFirstRecord(this.storageTableName);
-        return new WebPageContent(last);
-    }
+
     async saveRecord(content: WebPageContent) {
-        await CloudDB.saveInfoAtSystem(this.storageTableName, content.toString());
+        let storageTable = await CloudDB.InjestedData.findOrCreate(this.storageTableName);
+        await storageTable.dataRecordAdd(content.toString());
     }
 
     interestDetector(current: WebPageContent, last: WebPageContent | null) { return true; }
@@ -186,23 +186,13 @@ const NewSubscriptions = [
     new Subscription(
         "NYS Covid Watcher",
         "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers",
-        ["sandy_hou@yahoo.com"],
+        [],
         {
             contentType: "json",
             jqQuery: ".providerList",
-            storageTableName: "NYC-Vaccines",
+            storageTableName: "NYC-Vaccines-New",
         }
     ),
-    /*
-    new Subscription(
-        "Stanford Hospital",
-        "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
-        ["xhuang@gmail.com"],
-        {
-            storageTableName: "Stanford-Vaccine",
-        }
-    ),
-    */
     new Subscription(
         "LA Times Vaccine Info",
         "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/",
@@ -211,19 +201,6 @@ const NewSubscriptions = [
             storageTableName: "California-Vaccine 2"
         }
     ),
-    /*
-    new Subscription(
-        "Alameda County Vaccine Hospital",
-        "https://covid-19.acgov.org/vaccines",
-        ["xhuang@gmail.com"],
-        {
-            customHeaders: {
-                'user-agent': 'curl/7.64.1',
-            },
-            storageTableName: "Alameda-Vaccine 2"
-        }
-    ),
-    */
     new Subscription(
         "CDC County Data",
         "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_latest_external_data",
@@ -311,22 +288,22 @@ async function processSubscription(sub: Subscription) {
     if (!content.equal(last)) {
         await sub.saveRecord(content);
         if (last.isNull()) {
-            await Email.send(sub.emails, sub.name + ": First run ",
+            await Email.send(sub.emails, sub.displayName + ": First run ",
                 headers(sub.notificationContent(content, last), content, last)
             );
         } else if (sub.interestDetector(content, last)) {
-            await Email.send(sub.emails, sub.name + ": interesting change detected",
+            await Email.send(sub.emails, sub.displayName + ": interesting change detected",
                 headers(sub.notificationContent(content, last), content, last)
             );
         } else {
-            await Email.send(sub.emails, sub.name + ": change detected but not interesting",
+            await Email.send(sub.emails, sub.displayName + ": change detected but not interesting",
                 headers(sub.notificationContent(content, last), content, last)
             );
         }
     } else {
         console.log("change not detected - no action");
         if (sub.notifyEvenNothingNew) {
-            await Email.send(sub.emails, sub.name + ": nothing new (but you asked me to send this)",
+            await Email.send(sub.emails, sub.displayName + ": nothing new (but you asked me to send this)",
                 headers(sub.notificationContent(content, last), content, last)
             );
         }
@@ -335,7 +312,7 @@ async function processSubscription(sub: Subscription) {
 
 async function doit() {
     let subs = NewSubscriptions;
-    // subs = NewSubscriptions.slice(0, 1); // first item
+    subs = NewSubscriptions.slice(0, 1); // first item
     // subs = NewSubscriptions.slice(-1); // last item
 
     let errors = [];
@@ -347,7 +324,7 @@ async function doit() {
         } catch (err) {
             if (!sub.ignoreErrors) {
                 errors.push({
-                    name: sub.name,
+                    name: sub.displayName,
                     error: err.toString(),
                 })
             }
@@ -363,7 +340,6 @@ async function doit() {
             JSON.stringify(errors, null, 2)
         );
     }
-    // await Email.send(["xhuang@gmail.com"], "test from github", "what about this?")
 }
 
 doit().then(() => process.exit());

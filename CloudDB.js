@@ -11,6 +11,12 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -55,9 +61,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
+exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.InjestedData = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = __importStar(require("moment"));
 var fireorm = __importStar(require("fireorm"));
+var fireorm_1 = require("fireorm");
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 require("@firebase/firestore");
 require("@firebase/storage");
@@ -78,7 +85,10 @@ function getStorageRef() {
 }
 exports.getStorageRef = getStorageRef;
 var DataRecord = /** @class */ (function () {
-    function DataRecord(key, unixtimestamp, dataBucket, dataPath, dataurl) {
+    function DataRecord() {
+    }
+    /*
+    constructor(key: string, unixtimestamp: number, dataBucket: string, dataPath: string, dataurl: string) {
         this.key = key;
         this.timestamp = unixtimestamp;
         this.timestampReadable = moment.unix(this.timestamp).toString();
@@ -86,8 +96,26 @@ var DataRecord = /** @class */ (function () {
         this.dataBucket = dataBucket;
         this.dataPath = dataPath;
     }
+    */
+    /*
+    static factory(obj: any) {
+        return new DataRecord(
+            obj.key,
+            obj.timestamp,
+            obj.dataBucket,
+            obj.dataPath,
+            obj.dataUrl,
+        )
+    }
+    */
     DataRecord.factory = function (obj) {
-        return new DataRecord(obj.key, obj.timestamp, obj.dataBucket, obj.dataPath, obj.dataUrl);
+        var data = new DataRecord();
+        data.key = obj.key;
+        data.timestamp = obj.timestamp;
+        data.dataBucket = obj.dataBucket;
+        data.dataPath = obj.dataPath;
+        data.dataUrl = obj.dataUrl;
+        return data;
     };
     DataRecord.prototype.fetchData = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -106,6 +134,75 @@ var DataRecord = /** @class */ (function () {
 }());
 exports.DataRecord = DataRecord;
 ;
+var InjestedData = /** @class */ (function () {
+    function InjestedData() {
+        this.displayName = null;
+    }
+    InjestedData_1 = InjestedData;
+    InjestedData.prototype.dataRecordAdd = function (content) {
+        return __awaiter(this, void 0, void 0, function () {
+            var record, url, timestamp;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.dataRecords.create(new DataRecord())];
+                    case 1:
+                        record = _a.sent();
+                        return [4 /*yield*/, storeStringAsBlob(this.id, record.id, content)];
+                    case 2:
+                        url = _a.sent();
+                        timestamp = moment.now() / 1000;
+                        record.timestamp = timestamp;
+                        record.dataBucket = firebaseConfig.storageBucket;
+                        record.dataPath = storageFileName(this.id, record.id);
+                        record.dataUrl = url;
+                        return [4 /*yield*/, this.dataRecords.update(record)];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    InjestedData.prototype.lastDataRecord = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.dataRecords.orderByDescending(function (item) { return item.timestamp; }).findOne()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    InjestedData.findOrCreate = function (storageTableName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var storageTable, newtable;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fireorm_1.getRepository(InjestedData_1).findById(storageTableName)];
+                    case 1:
+                        storageTable = _a.sent();
+                        if (!!storageTable) return [3 /*break*/, 3];
+                        newtable = new InjestedData_1();
+                        newtable.id = storageTableName;
+                        return [4 /*yield*/, fireorm_1.getRepository(InjestedData_1).create(newtable)];
+                    case 2:
+                        storageTable = _a.sent();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/, storageTable];
+                }
+            });
+        });
+    };
+    var InjestedData_1;
+    __decorate([
+        fireorm_1.SubCollection(DataRecord)
+    ], InjestedData.prototype, "dataRecords", void 0);
+    InjestedData = InjestedData_1 = __decorate([
+        fireorm_1.Collection()
+    ], InjestedData);
+    return InjestedData;
+}());
+exports.InjestedData = InjestedData;
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
@@ -149,7 +246,13 @@ function saveInfoAtSystem(tablename, content, timestamp, key) {
                 case 1:
                     url = _a.sent();
                     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
-                    obj = new DataRecord(docRef.id, timestamp, firebaseConfig.storageBucket, storageFileName(tablename, docRef.id), url);
+                    obj = DataRecord.factory({
+                        key: docRef.id,
+                        timestamp: timestamp,
+                        dataBucket: firebaseConfig.storageBucket,
+                        dataPath: storageFileName(tablename, docRef.id),
+                        dataUrl: url,
+                    });
                     return [4 /*yield*/, docRef.set(obj.toSimpleObject())];
                 case 2:
                     _a.sent();

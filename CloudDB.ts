@@ -1,7 +1,7 @@
 import * as StorageType from "@firebase/storage-types";
 import * as moment from 'moment';
 import * as fireorm from 'fireorm';
-import { Collection, getRepository } from 'fireorm';
+import { Collection, getRepository, ISubCollection, SubCollection } from 'fireorm';
 import { IsEmail } from 'class-validator';
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
@@ -20,6 +20,8 @@ fireorm.initialize(db, {
     validateModels: true
 });
 
+
+
 export function getDB() {
     return db;
 }
@@ -29,6 +31,7 @@ export function getStorageRef(): StorageType.Reference {
 }
 
 export class DataRecord {
+    id: string;
     key: string;
     timestamp: number;
     timestampReadable: string;
@@ -36,6 +39,7 @@ export class DataRecord {
     dataPath: string;
     dataUrl: string;
 
+    /*
     constructor(key: string, unixtimestamp: number, dataBucket: string, dataPath: string, dataurl: string) {
         this.key = key;
         this.timestamp = unixtimestamp;
@@ -44,7 +48,9 @@ export class DataRecord {
         this.dataBucket = dataBucket;
         this.dataPath = dataPath;
     }
+    */
 
+    /*
     static factory(obj: any) {
         return new DataRecord(
             obj.key,
@@ -53,6 +59,17 @@ export class DataRecord {
             obj.dataPath,
             obj.dataUrl,
         )
+    }
+    */
+
+    static factory(obj: any): DataRecord {
+        let data = new DataRecord();
+        data.key = obj.key;
+        data.timestamp = obj.timestamp;
+        data.dataBucket = obj.dataBucket;
+        data.dataPath = obj.dataPath;
+        data.dataUrl = obj.dataUrl;
+        return data;
     }
 
     async fetchData(): Promise<string> {
@@ -63,6 +80,44 @@ export class DataRecord {
         return Object.assign({}, this);
     }
 };
+
+
+@Collection()
+export class InjestedData {
+    id: string;
+    displayName: string | null = null;
+
+    @SubCollection(DataRecord)
+    dataRecords: ISubCollection<DataRecord>;
+
+
+    async dataRecordAdd(content: string) {
+        let record = await this.dataRecords.create(new DataRecord());
+        let url = await storeStringAsBlob(this.id, record.id, content);
+        let timestamp = moment.now() / 1000; // convert from ms to seconds.
+
+        record.timestamp = timestamp;
+        record.dataBucket = firebaseConfig.storageBucket;
+        record.dataPath = storageFileName(this.id, record.id);
+        record.dataUrl = url;
+        await this.dataRecords.update(record);
+    }
+
+    async lastDataRecord() {
+        return await this.dataRecords.orderByDescending(item => item.timestamp).findOne();
+    }
+
+    static async findOrCreate(storageTableName: string): Promise<InjestedData> {
+        let storageTable = await getRepository(InjestedData).findById(storageTableName);
+        if (!storageTable) {
+            let newtable = new InjestedData();
+            newtable.id = storageTableName;
+            storageTable = await getRepository(InjestedData).create(newtable);
+        }
+        return storageTable;
+    }
+
+}
 
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
@@ -98,12 +153,14 @@ export async function saveInfoAtSystem(
     let url = await storeStringAsBlob(tablename, docRef.id, content);
 
     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
-    let obj = new DataRecord(
-        docRef.id,
-        timestamp,
-        firebaseConfig.storageBucket,
-        storageFileName(tablename, docRef.id),
-        url,
+    let obj = DataRecord.factory(
+        {
+            key: docRef.id,
+            timestamp: timestamp,
+            dataBucket: firebaseConfig.storageBucket,
+            dataPath: storageFileName(tablename, docRef.id),
+            dataUrl: url,
+        }
     );
 
     await docRef.set(obj.toSimpleObject());
