@@ -32,7 +32,7 @@ jobs:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
      
-      - run: npx tsc watcher.ts
+      - run: npx tsc watcher.ts  --experimentalDecorators
 
       - run: node watcher.js
         env:
