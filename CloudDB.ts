@@ -42,6 +42,7 @@ export class DataRecord {
         data.dataBucket = obj.dataBucket;
         data.dataPath = obj.dataPath;
         data.dataUrl = obj.dataUrl;
+        data.id = obj.id;
         return data;
     }
 
@@ -61,7 +62,13 @@ export class DataRecord {
 function snapshotToArrayDataRecord(snapshot) {
     var result = [];
     snapshot.forEach(function (childSnapshot) {
-        result.push(DataRecord.factory(childSnapshot.data()));
+        let data = childSnapshot.data();
+        result.push(DataRecord.factory(
+            {
+                id: childSnapshot.id,
+                ...data
+            }
+        ));
     });
     return result;
 }
