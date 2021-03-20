@@ -180,7 +180,7 @@ function executeMappers(jobs) {
 }
 var BigQueryJobs = [
     new GCSToBigQueryJobs("CDC Test County Data(XFER)", "CDC-County-Test-JSONL3", "CDC-County-Test-Time-Series-new"
-    /*
+    /* after getting stuck on 3/18/21, run the follow the change the schema
 bq --location=US query --replace \
 --destination_table myrandomwatch-b4b41:my_dataset.CDC-County-Test-Time-Series-new \
 --use_legacy_sql=false '        SELECT DATE(report_date) as report_date, DATE(case_death_end_date) as case_death_end_date, DATE(testing_start_date) as testing_start_date, DATE(testing_end_date) as testing_end_date, DATE(case_death_start_date) as case_death_start_date, * except ( case_death_end_date, testing_start_date, testing_end_date, report_date, case_death_start_date )  FROM `myrandomwatch-b4b41.my_dataset.CDC-County-Test-Time-Series-new`'
