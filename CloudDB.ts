@@ -1,7 +1,6 @@
 import * as StorageType from "@firebase/storage-types";
 import * as moment from 'moment';
 import * as fireorm from 'fireorm';
-import { IsEmail } from 'class-validator';
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 
@@ -18,10 +17,6 @@ const db = firebase.firestore();
 fireorm.initialize(db, {
     validateModels: true
 });
-
-export function getDB() {
-    return db;
-}
 
 export function getStorageRef(): StorageType.Reference {
     return firebase.storage().ref();
@@ -65,7 +60,7 @@ function snapshotToArrayDataRecord(snapshot) {
         let data = childSnapshot.data();
         result.push(DataRecord.factory(
             {
-                id: childSnapshot.id,
+                id: childSnapshot.id, // add ID to data record
                 ...data
             }
         ));
@@ -75,7 +70,7 @@ function snapshotToArrayDataRecord(snapshot) {
 
 const StorageRootDirectory = "WatchStorage";
 
-export function storageFileName(tablename: string, dockey: string) {
+function storageFileName(tablename: string, dockey: string) {
     return `${StorageRootDirectory}/${tablename}/${dockey}.txt`;
 }
 
@@ -103,7 +98,6 @@ export async function saveInfoAtSystem(
     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
     let obj = DataRecord.factory(
         {
-            key: docRef.id,
             timestamp: timestamp,
             dataBucket: dataBucket,
             dataPath: path,
@@ -133,18 +127,6 @@ export async function getLastRecord(tablename: string): Promise<string | object 
             });
         });
 
-    return (dataUrl) ? await fetch(dataUrl) : null;
-}
-
-export async function getFirstRecord(tablename: string): Promise<string | object | null> {
-    var docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
-    var dataUrl = null;
-    await docRef.get().then(
-        function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                dataUrl = doc.data().dataUrl;
-            });
-        });
     return (dataUrl) ? await fetch(dataUrl) : null;
 }
 

@@ -66,7 +66,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.storeStringAsBlob = exports.storageFileName = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
+exports.getFullRecords = exports.getLastRecord = exports.saveInfoAtSystem = exports.storeStringAsBlob = exports.DataRecord = exports.getStorageRef = void 0;
 var moment = __importStar(require("moment"));
 var fireorm = __importStar(require("fireorm"));
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
@@ -80,10 +80,6 @@ var db = firebase.firestore();
 fireorm.initialize(db, {
     validateModels: true
 });
-function getDB() {
-    return db;
-}
-exports.getDB = getDB;
 function getStorageRef() {
     return firebase.storage().ref();
 }
@@ -133,7 +129,6 @@ var StorageRootDirectory = "WatchStorage";
 function storageFileName(tablename, dockey) {
     return StorageRootDirectory + "/" + tablename + "/" + dockey + ".txt";
 }
-exports.storageFileName = storageFileName;
 function storeStringAsBlob(tablename, dockey, content) {
     return __awaiter(this, void 0, void 0, function () {
         var path, ref, url;
@@ -171,7 +166,6 @@ function saveInfoAtSystem(tablename, content, timestamp, key) {
                     _a = _b.sent(), url = _a[0], path = _a[1], dataBucket = _a[2];
                     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
                     obj = DataRecord.factory({
-                        key: docRef.id,
                         timestamp: timestamp,
                         dataBucket: dataBucket,
                         dataPath: path,
@@ -229,35 +223,6 @@ function getLastRecord(tablename) {
     });
 }
 exports.getLastRecord = getLastRecord;
-function getFirstRecord(tablename) {
-    return __awaiter(this, void 0, void 0, function () {
-        var docRef, dataUrl, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    docRef = db.collection(tablename).orderBy("timestamp", "asc").limit(1);
-                    dataUrl = null;
-                    return [4 /*yield*/, docRef.get().then(function (querySnapshot) {
-                            querySnapshot.forEach(function (doc) {
-                                dataUrl = doc.data().dataUrl;
-                            });
-                        })];
-                case 1:
-                    _b.sent();
-                    if (!(dataUrl)) return [3 /*break*/, 3];
-                    return [4 /*yield*/, fetch(dataUrl)];
-                case 2:
-                    _a = _b.sent();
-                    return [3 /*break*/, 4];
-                case 3:
-                    _a = null;
-                    _b.label = 4;
-                case 4: return [2 /*return*/, _a];
-            }
-        });
-    });
-}
-exports.getFirstRecord = getFirstRecord;
 function getFullRecords(tablename) {
     return __awaiter(this, void 0, void 0, function () {
         var docRef;
