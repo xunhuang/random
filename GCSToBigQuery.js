@@ -57,7 +57,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio = require('cheerio');
 var Email = __importStar(require("./Email"));
-var CloudDB = __importStar(require("./CloudDB"));
+var RandomDataTable_1 = require("./RandomDataTable");
 var MRUtils = __importStar(require("./MapReduceUtils"));
 var BigQuery = require('@google-cloud/bigquery').BigQuery;
 var Storage = require('@google-cloud/storage').Storage;
@@ -76,36 +76,42 @@ var GCSToBigQueryJobs = /** @class */ (function () {
             }
         }
         if (!this.jobTableName) {
-            this.jobTableName = "GCSToBigQuery-" + this.name + "-" + this.srctablename + "-" + this.outputTable;
+            this.jobTableName = "GCSToBigQuery-" + this.srctablename + "-" + this.outputTable;
         }
     }
     GCSToBigQueryJobs.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var jobStatusTable, allJobs, records, dirty, _i, records_1, record, bigquery, storage, metadata, storagepath, job, errors;
+            var jobStatusTable, allJobs, records, _i, records_1, record, bigquery, storage, metadata, storagepath, job, errors;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, MRUtils.fetchJobsStatus(this.jobTableName)];
                     case 1:
                         jobStatusTable = _a.sent();
-                        return [4 /*yield*/, CloudDB.getFullRecords(this.srctablename)];
+                        return [4 /*yield*/, RandomDataTable_1.RandomDataTable.findTableRecords(this.srctablename)];
                     case 2:
                         allJobs = _a.sent();
                         records = jobStatusTable.computeUnfinishedJobs(allJobs);
-                        dirty = false;
+                        console.log(records.length + " records to process");
                         _i = 0, records_1 = records;
                         _a.label = 3;
                     case 3:
-                        if (!(_i < records_1.length)) return [3 /*break*/, 6];
+                        if (!(_i < records_1.length)) return [3 /*break*/, 7];
                         record = records_1[_i];
                         console.log("working on:", record.id);
-                        jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
+                        console.log(record);
                         bigquery = new BigQuery();
                         storage = new Storage();
                         metadata = {
                             sourceFormat: 'NEWLINE_DELIMITED_JSON',
+                            schemaUpdateOptions: ['ALLOW_FIELD_ADDITION'],
                             autodetect: true,
                             location: 'US',
                         };
+                        if (!record.isValid()) {
+                            console.log("Skipping invalid record...");
+                            console.log(record);
+                            return [3 /*break*/, 6];
+                        }
                         storagepath = storage.bucket(record.dataBucket).file(record.dataPath);
                         return [4 /*yield*/, bigquery
                                 .dataset(this.datasetId)
@@ -113,27 +119,20 @@ var GCSToBigQueryJobs = /** @class */ (function () {
                                 .load(storagepath, metadata)];
                     case 4:
                         job = (_a.sent())[0];
-                        // load() waits for the job to finish
                         console.log("Job " + job.id + " completed.");
                         errors = job.status.errors;
                         if (errors && errors.length > 0) {
                             throw errors;
                         }
-                        dirty = true;
-                        _a.label = 5;
+                        jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
+                        return [4 /*yield*/, MRUtils.saveJobsStatus(jobStatusTable)];
                     case 5:
+                        _a.sent();
+                        _a.label = 6;
+                    case 6:
                         _i++;
                         return [3 /*break*/, 3];
-                    case 6:
-                        if (!dirty) return [3 /*break*/, 8];
-                        return [4 /*yield*/, MRUtils.saveJobsStatus(jobStatusTable)];
-                    case 7:
-                        _a.sent();
-                        return [3 /*break*/, 9];
-                    case 8:
-                        console.log("nothing to update");
-                        _a.label = 9;
-                    case 9: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -180,7 +179,15 @@ function executeMappers(jobs) {
     });
 }
 var BigQueryJobs = [
-    new GCSToBigQueryJobs("CDC Test County Data into Big Query", "CDC-County-Test-JSONL3", "CDC-County-Test-Time-Series"),
+    new GCSToBigQueryJobs("CDC Test County Data(XFER)", "CDC-County-Test-JSONL3", "CDC-County-Test-Time-Series-new"
+    /*
+bq --location=US query --replace \
+--destination_table myrandomwatch-b4b41:my_dataset.CDC-County-Test-Time-Series-new \
+--use_legacy_sql=false '        SELECT DATE(report_date) as report_date, DATE(case_death_end_date) as case_death_end_date, DATE(testing_start_date) as testing_start_date, DATE(testing_end_date) as testing_end_date, DATE(case_death_start_date) as case_death_start_date, * except ( case_death_end_date, testing_start_date, testing_end_date, report_date, case_death_start_date )  FROM `myrandomwatch-b4b41.my_dataset.CDC-County-Test-Time-Series-new`'
+*/
+    ),
+    new GCSToBigQueryJobs("CA County Data (XFER to BQ)", "Calfiornia-Vaccine-Overtime-Table-NLJSON", "Calfiornia-Vaccine-Overtime"),
+    new GCSToBigQueryJobs("CDC Vaccine County Data (XFER TO BQ)", "CDC-Vaccine-Overtime-Table-NLJSON", "CDC-Vaccine-Overtime-Table"),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {

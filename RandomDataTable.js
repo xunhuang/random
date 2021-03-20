@@ -149,7 +149,7 @@ var RandomDataTable = /** @class */ (function () {
                         if (!storageTable) {
                             return [2 /*return*/, []];
                         }
-                        return [4 /*yield*/, storageTable.dataRecords.find()];
+                        return [4 /*yield*/, storageTable.dataRecords.orderByAscending(function (item) { return item.timestamp; }).find()];
                     case 2: return [2 /*return*/, _a.sent()];
                 }
             });

@@ -61,6 +61,6 @@ export class RandomDataTable {
         if (!storageTable) {
             return [];
         }
-        return await storageTable.dataRecords.find();
+        return await storageTable.dataRecords.orderByAscending(item => item.timestamp).find();
     }
 }

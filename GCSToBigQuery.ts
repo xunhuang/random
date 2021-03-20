@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 import * as Email from './Email';
-import * as CloudDB from './CloudDB';
+import { RandomDataTable } from "./RandomDataTable";
 import * as MRUtils from './MapReduceUtils';
 const { BigQuery } = require('@google-cloud/bigquery');
 const { Storage } = require('@google-cloud/storage');
@@ -35,48 +35,47 @@ class GCSToBigQueryJobs {
             }
         }
         if (!this.jobTableName) {
-            this.jobTableName = `GCSToBigQuery-${this.name}-${this.srctablename}-${this.outputTable}`;
+            this.jobTableName = `GCSToBigQuery-${this.srctablename}-${this.outputTable}`;
         }
     }
 
     async execute() {
         let jobStatusTable = await MRUtils.fetchJobsStatus(this.jobTableName);
-        let allJobs = await CloudDB.getFullRecords(this.srctablename);
+        let allJobs = await RandomDataTable.findTableRecords(this.srctablename);
         let records = jobStatusTable.computeUnfinishedJobs(allJobs);
 
-        let dirty = false;
+        console.log(`${records.length} records to process`)
         for (const record of records) {
             console.log("working on:", record.id);
-            jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
-            {
-                const bigquery = new BigQuery();
-                const storage = new Storage();
-                const metadata = {
-                    sourceFormat: 'NEWLINE_DELIMITED_JSON',
-                    autodetect: true,
-                    location: 'US',
-                };
+            console.log(record);
+            const bigquery = new BigQuery();
+            const storage = new Storage();
+            const metadata = {
+                sourceFormat: 'NEWLINE_DELIMITED_JSON',
+                schemaUpdateOptions: ['ALLOW_FIELD_ADDITION'],
+                autodetect: true,
+                location: 'US',
+            };
 
-                let storagepath = storage.bucket(record.dataBucket).file(record.dataPath);
-
-                const [job] = await bigquery
-                    .dataset(this.datasetId)
-                    .table(this.outputTable)
-                    .load(storagepath, metadata);
-                // load() waits for the job to finish
-                console.log(`Job ${job.id} completed.`);
-
-                const errors = job.status.errors;
-                if (errors && errors.length > 0) {
-                    throw errors;
-                }
-                dirty = true;
+            if (!record.isValid()) {
+                console.log("Skipping invalid record...");
+                console.log(record);
+                continue;
             }
-        }
-        if (dirty) {
+            let storagepath = storage.bucket(record.dataBucket).file(record.dataPath);
+
+            const [job] = await bigquery
+                .dataset(this.datasetId)
+                .table(this.outputTable)
+                .load(storagepath, metadata);
+            console.log(`Job ${job.id} completed.`);
+
+            const errors = job.status.errors;
+            if (errors && errors.length > 0) {
+                throw errors;
+            }
+            jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
             await MRUtils.saveJobsStatus(jobStatusTable);
-        } else {
-            console.log("nothing to update");
         }
     }
 }
@@ -103,9 +102,24 @@ async function executeMappers(jobs: GCSToBigQueryJobs[]) {
 
 const BigQueryJobs = [
     new GCSToBigQueryJobs(
-        "CDC Test County Data into Big Query",
+        "CDC Test County Data(XFER)",
         "CDC-County-Test-JSONL3",
-        "CDC-County-Test-Time-Series"
+        "CDC-County-Test-Time-Series-new"
+        /* after getting stuck on 3/18/21, run the follow the change the schema
+ bq --location=US query --replace \
+--destination_table myrandomwatch-b4b41:my_dataset.CDC-County-Test-Time-Series-new \
+--use_legacy_sql=false '        SELECT DATE(report_date) as report_date, DATE(case_death_end_date) as case_death_end_date, DATE(testing_start_date) as testing_start_date, DATE(testing_end_date) as testing_end_date, DATE(case_death_start_date) as case_death_start_date, * except ( case_death_end_date, testing_start_date, testing_end_date, report_date, case_death_start_date )  FROM `myrandomwatch-b4b41.my_dataset.CDC-County-Test-Time-Series-new`'
+ */
+    ),
+    new GCSToBigQueryJobs(
+        "CA County Data (XFER to BQ)",
+        "Calfiornia-Vaccine-Overtime-Table-NLJSON",
+        "Calfiornia-Vaccine-Overtime"
+    ),
+    new GCSToBigQueryJobs(
+        "CDC Vaccine County Data (XFER TO BQ)",
+        "CDC-Vaccine-Overtime-Table-NLJSON",
+        "CDC-Vaccine-Overtime-Table"
     ),
 ];
 

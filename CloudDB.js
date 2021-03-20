@@ -102,6 +102,9 @@ var DataRecord = /** @class */ (function () {
     DataRecord.prototype.toSimpleObject = function () {
         return Object.assign({}, this);
     };
+    DataRecord.prototype.isValid = function () {
+        return this.dataUrl !== null && this.dataUrl !== undefined;
+    };
     return DataRecord;
 }());
 exports.DataRecord = DataRecord;

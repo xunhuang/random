@@ -52,6 +52,10 @@ export class DataRecord {
     toSimpleObject() {
         return Object.assign({}, this);
     }
+
+    isValid() {
+        return this.dataUrl !== null && this.dataUrl !== undefined;
+    }
 };
 
 function snapshotToArrayDataRecord(snapshot) {
