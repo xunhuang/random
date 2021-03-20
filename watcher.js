@@ -58,7 +58,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var superagent = require('superagent');
 var ContentDiffer = __importStar(require("./ContentDiffer"));
 var Email = __importStar(require("./Email"));
-var CloudDB = __importStar(require("./CloudDB"));
+var RandomDataTable_1 = require("./RandomDataTable");
 var cheerio = __importStar(require("cheerio"));
 var assert = require('assert');
 var jq = require('node-jq');
@@ -80,6 +80,7 @@ function isJson(str) {
 }
 var WebPageContent = /** @class */ (function () {
     function WebPageContent(content) {
+        if (content === void 0) { content = null; }
         this.contentRaw = "";
         this.contentType = WebPageContentType.UNKNOWN;
         this.contentJsonObject = null;
@@ -166,25 +167,16 @@ var Subscription = /** @class */ (function () {
         this.cssSelect = null;
         this.jqQuery = null;
         this.ignoreErrors = false;
-        this.name = name;
+        this.displayName = name;
         this.watchURL = watchURL;
-        this.storageTableName = watchURL.replace(/\//g, "_");
         this.emails = emails;
         if (options) {
-            if (options.contentType)
-                this.contentType = options.contentType;
-            if (options.customHeaders)
-                this.customHeaders = options.customHeaders;
-            if (options.notifyEvenNothingNew)
-                this.notifyEvenNothingNew = options.notifyEvenNothingNew;
-            if (options.storageTableName)
-                this.storageTableName = options.storageTableName;
-            if (options.cssSelect)
-                this.cssSelect = options.cssSelect;
-            if (options.jqQuery)
-                this.jqQuery = options.jqQuery;
-            if (options.ignoreErrors)
-                this.ignoreErrors = options.ignoreErrors;
+            for (var key in options) {
+                this[key] = options[key];
+            }
+        }
+        if (!this.storageTableName) {
+            this.storageTableName = watchURL.replace(/\//g, "_");
         }
     }
     Subscription.prototype.setStoragePrefix = function (prefix) { this.storageTableName = prefix; };
@@ -214,38 +206,51 @@ var Subscription = /** @class */ (function () {
             });
         });
     };
-    Subscription.prototype.getLastRecord = function () {
+    Subscription.prototype.getStorageTable = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var last;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, CloudDB.getLastRecord(this.storageTableName)];
-                    case 1:
-                        last = _a.sent();
-                        return [2 /*return*/, new WebPageContent(last)];
+                    case 0: return [4 /*yield*/, RandomDataTable_1.RandomDataTable.findOrCreate(this.storageTableName, {
+                            sourceOperation: "Ingest",
+                            displayName: this.displayName,
+                            sourceTableName: this.watchURL,
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    Subscription.prototype.getFirstRecord = function () {
+    Subscription.prototype.getLastRecord = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var last;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, CloudDB.getFirstRecord(this.storageTableName)];
+            var storageTable, record, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.getStorageTable()];
                     case 1:
-                        last = _a.sent();
-                        return [2 /*return*/, new WebPageContent(last)];
+                        storageTable = _b.sent();
+                        return [4 /*yield*/, storageTable.lastDataRecord()];
+                    case 2:
+                        record = _b.sent();
+                        if (!record) {
+                            return [2 /*return*/, new WebPageContent()];
+                        }
+                        _a = WebPageContent.bind;
+                        return [4 /*yield*/, record.fetchData()];
+                    case 3: return [2 /*return*/, new (_a.apply(WebPageContent, [void 0, _b.sent()]))()];
                 }
             });
         });
     };
     Subscription.prototype.saveRecord = function (content) {
         return __awaiter(this, void 0, void 0, function () {
+            var storageTable;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, CloudDB.saveInfoAtSystem(this.storageTableName, content.toString())];
+                    case 0: return [4 /*yield*/, this.getStorageTable()];
                     case 1:
+                        storageTable = _a.sent();
+                        return [4 /*yield*/, storageTable.dataRecordAdd(content.toString())];
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -264,51 +269,28 @@ var Subscription = /** @class */ (function () {
 }());
 ;
 var NewSubscriptions = [
-    new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", ["sandy_hou@yahoo.com"], {
+    new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
+        storageTableName: "California-Vaccine-2"
+    }),
+    new Subscription("NYS Covid Watcher", "https://am-i-eligible.covid19vaccine.health.ny.gov/api/list-providers", [], {
         contentType: "json",
         jqQuery: ".providerList",
-        storageTableName: "NYC-Vaccines",
+        storageTableName: "NYC-Vaccines-New",
     }),
-    /*
-    new Subscription(
-        "Stanford Hospital",
-        "https://stanfordhealthcare.org/discover/covid-19-resource-center/patient-care/safety-health-vaccine-planning.html",
-        ["xhuang@gmail.com"],
-        {
-            storageTableName: "Stanford-Vaccine",
-        }
-    ),
-    */
-    new Subscription("LA Times Vaccine Info", "https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/covid-19-vaccines-distribution/", ["xhuang@gmail.com"], {
-        storageTableName: "California-Vaccine 2"
-    }),
-    /*
-    new Subscription(
-        "Alameda County Vaccine Hospital",
-        "https://covid-19.acgov.org/vaccines",
-        ["xhuang@gmail.com"],
-        {
-            customHeaders: {
-                'user-agent': 'curl/7.64.1',
-            },
-            storageTableName: "Alameda-Vaccine 2"
-        }
-    ),
-    */
     new Subscription("CDC County Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_latest_external_data", ["xhuang@gmail.com"], {
-        storageTableName: "CDC County Data"
+        storageTableName: "CDC-County-Data"
     }),
     new Subscription("CDC State Testing Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=US_MAP_TESTING", ["xhuang@gmail.com"], {
-        storageTableName: "CDC State Testing Data"
+        storageTableName: "CDC-State-Testing-Data"
     }),
     new Subscription("CDC State Vaccination Data", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data", [], {
-        storageTableName: "CDC State Vaccination Data"
+        storageTableName: "CDC-State-Vaccination-Data"
     }),
     new Subscription("CDC National Vaccination Trends", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data", [], {
-        storageTableName: "CDC National Vaccination Trends"
+        storageTableName: "CDC-National-Vaccination-Trends"
     }),
     new Subscription("CDC Vaccination Demographic", "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_demographics_data", [], {
-        storageTableName: "CDC Vaccination Demographic"
+        storageTableName: "CDC-Vaccination-Demographic"
     }),
 ];
 function scrape(url, customHeaders) {
@@ -358,17 +340,17 @@ function processSubscription(sub) {
                 case 3:
                     _a.sent();
                     if (!last.isNull()) return [3 /*break*/, 5];
-                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": First run ", headers(sub.notificationContent(content, last), content, last))];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.displayName + ": First run ", headers(sub.notificationContent(content, last), content, last))];
                 case 4:
                     _a.sent();
                     return [3 /*break*/, 9];
                 case 5:
                     if (!sub.interestDetector(content, last)) return [3 /*break*/, 7];
-                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": interesting change detected", headers(sub.notificationContent(content, last), content, last))];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.displayName + ": interesting change detected", headers(sub.notificationContent(content, last), content, last))];
                 case 6:
                     _a.sent();
                     return [3 /*break*/, 9];
-                case 7: return [4 /*yield*/, Email.send(sub.emails, sub.name + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last))];
+                case 7: return [4 /*yield*/, Email.send(sub.emails, sub.displayName + ": change detected but not interesting", headers(sub.notificationContent(content, last), content, last))];
                 case 8:
                     _a.sent();
                     _a.label = 9;
@@ -376,7 +358,7 @@ function processSubscription(sub) {
                 case 10:
                     console.log("change not detected - no action");
                     if (!sub.notifyEvenNothingNew) return [3 /*break*/, 12];
-                    return [4 /*yield*/, Email.send(sub.emails, sub.name + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last))];
+                    return [4 /*yield*/, Email.send(sub.emails, sub.displayName + ": nothing new (but you asked me to send this)", headers(sub.notificationContent(content, last), content, last))];
                 case 11:
                     _a.sent();
                     _a.label = 12;
@@ -410,7 +392,7 @@ function doit() {
                     err_1 = _a.sent();
                     if (!sub.ignoreErrors) {
                         errors.push({
-                            name: sub.name,
+                            name: sub.displayName,
                             error: err_1.toString(),
                         });
                     }

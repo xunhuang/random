@@ -55,7 +55,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
+exports.getFullRecords = exports.getFirstRecord = exports.getLastRecord = exports.saveInfoAtSystem = exports.storeStringAsBlob = exports.storageFileName = exports.DataRecord = exports.getStorageRef = exports.getDB = void 0;
 var moment = __importStar(require("moment"));
 var fireorm = __importStar(require("fireorm"));
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
@@ -78,16 +78,16 @@ function getStorageRef() {
 }
 exports.getStorageRef = getStorageRef;
 var DataRecord = /** @class */ (function () {
-    function DataRecord(key, unixtimestamp, dataBucket, dataPath, dataurl) {
-        this.key = key;
-        this.timestamp = unixtimestamp;
-        this.timestampReadable = moment.unix(this.timestamp).toString();
-        this.dataUrl = dataurl;
-        this.dataBucket = dataBucket;
-        this.dataPath = dataPath;
+    function DataRecord() {
     }
     DataRecord.factory = function (obj) {
-        return new DataRecord(obj.key, obj.timestamp, obj.dataBucket, obj.dataPath, obj.dataUrl);
+        var data = new DataRecord();
+        data.timestamp = obj.timestamp;
+        data.timestampReadable = moment.unix(obj.timestamp).toString();
+        data.dataBucket = obj.dataBucket;
+        data.dataPath = obj.dataPath;
+        data.dataUrl = obj.dataUrl;
+        return data;
     };
     DataRecord.prototype.fetchData = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -101,6 +101,9 @@ var DataRecord = /** @class */ (function () {
     };
     DataRecord.prototype.toSimpleObject = function () {
         return Object.assign({}, this);
+    };
+    DataRecord.prototype.isValid = function () {
+        return this.dataUrl !== null && this.dataUrl !== undefined;
     };
     return DataRecord;
 }());
@@ -117,42 +120,53 @@ var StorageRootDirectory = "WatchStorage";
 function storageFileName(tablename, dockey) {
     return StorageRootDirectory + "/" + tablename + "/" + dockey + ".txt";
 }
+exports.storageFileName = storageFileName;
 function storeStringAsBlob(tablename, dockey, content) {
     return __awaiter(this, void 0, void 0, function () {
-        var ref;
+        var path, ref, url;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    ref = getStorageRef().child(storageFileName(tablename, dockey));
+                    path = storageFileName(tablename, dockey);
+                    ref = getStorageRef().child(path);
                     return [4 /*yield*/, ref.putString(content)];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, ref.getDownloadURL()];
-                case 2: return [2 /*return*/, _a.sent()];
+                case 2:
+                    url = _a.sent();
+                    return [2 /*return*/, [url, path, firebaseConfig.storageBucket]];
             }
         });
     });
 }
+exports.storeStringAsBlob = storeStringAsBlob;
 // some application semantics 
 function saveInfoAtSystem(tablename, content, timestamp, key) {
     if (timestamp === void 0) { timestamp = 0; }
     if (key === void 0) { key = null; }
     return __awaiter(this, void 0, void 0, function () {
-        var docRef, url, obj;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var docRef, _a, url, path, dataBucket, obj;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     docRef = (key) ?
                         db.collection(tablename).doc(key) :
                         db.collection(tablename).doc();
                     return [4 /*yield*/, storeStringAsBlob(tablename, docRef.id, content)];
                 case 1:
-                    url = _a.sent();
+                    _a = _b.sent(), url = _a[0], path = _a[1], dataBucket = _a[2];
                     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
-                    obj = new DataRecord(docRef.id, timestamp, firebaseConfig.storageBucket, storageFileName(tablename, docRef.id), url);
+                    obj = DataRecord.factory({
+                        key: docRef.id,
+                        timestamp: timestamp,
+                        dataBucket: dataBucket,
+                        dataPath: path,
+                        dataUrl: url,
+                    });
                     return [4 /*yield*/, docRef.set(obj.toSimpleObject())];
                 case 2:
-                    _a.sent();
+                    _b.sent();
                     return [2 /*return*/, obj];
             }
         });

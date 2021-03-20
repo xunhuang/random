@@ -1,7 +1,6 @@
 import * as StorageType from "@firebase/storage-types";
 import * as moment from 'moment';
 import * as fireorm from 'fireorm';
-import { Collection, getRepository } from 'fireorm';
 import { IsEmail } from 'class-validator';
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
@@ -29,30 +28,21 @@ export function getStorageRef(): StorageType.Reference {
 }
 
 export class DataRecord {
-    key: string;
+    id: string;
     timestamp: number;
     timestampReadable: string;
     dataBucket: string;
     dataPath: string;
     dataUrl: string;
 
-    constructor(key: string, unixtimestamp: number, dataBucket: string, dataPath: string, dataurl: string) {
-        this.key = key;
-        this.timestamp = unixtimestamp;
-        this.timestampReadable = moment.unix(this.timestamp).toString();
-        this.dataUrl = dataurl;
-        this.dataBucket = dataBucket;
-        this.dataPath = dataPath;
-    }
-
-    static factory(obj: any) {
-        return new DataRecord(
-            obj.key,
-            obj.timestamp,
-            obj.dataBucket,
-            obj.dataPath,
-            obj.dataUrl,
-        )
+    static factory(obj: any): DataRecord {
+        let data = new DataRecord();
+        data.timestamp = obj.timestamp;
+        data.timestampReadable = moment.unix(obj.timestamp).toString();
+        data.dataBucket = obj.dataBucket;
+        data.dataPath = obj.dataPath;
+        data.dataUrl = obj.dataUrl;
+        return data;
     }
 
     async fetchData(): Promise<string> {
@@ -61,6 +51,10 @@ export class DataRecord {
 
     toSimpleObject() {
         return Object.assign({}, this);
+    }
+
+    isValid() {
+        return this.dataUrl !== null && this.dataUrl !== undefined;
     }
 };
 
@@ -74,14 +68,16 @@ function snapshotToArrayDataRecord(snapshot) {
 
 const StorageRootDirectory = "WatchStorage";
 
-function storageFileName(tablename: string, dockey: string) {
+export function storageFileName(tablename: string, dockey: string) {
     return `${StorageRootDirectory}/${tablename}/${dockey}.txt`;
 }
 
-async function storeStringAsBlob(tablename: string, dockey: string, content: string): Promise<string> {
-    var ref = getStorageRef().child(storageFileName(tablename, dockey));
-    await ref.putString(content)
-    return await ref.getDownloadURL();
+export async function storeStringAsBlob(tablename: string, dockey: string, content: string): Promise<[string, string, string]> {
+    let path = storageFileName(tablename, dockey);
+    var ref = getStorageRef().child(path);
+    await ref.putString(content);
+    let url = await ref.getDownloadURL();
+    return [url, path, firebaseConfig.storageBucket];
 }
 
 // some application semantics 
@@ -95,15 +91,17 @@ export async function saveInfoAtSystem(
         db.collection(tablename).doc(key) :
         db.collection(tablename).doc();
 
-    let url = await storeStringAsBlob(tablename, docRef.id, content);
+    let [url, path, dataBucket] = await storeStringAsBlob(tablename, docRef.id, content);
 
     timestamp = timestamp ? timestamp : moment.now() / 1000; // convert from ms to seconds.
-    let obj = new DataRecord(
-        docRef.id,
-        timestamp,
-        firebaseConfig.storageBucket,
-        storageFileName(tablename, docRef.id),
-        url,
+    let obj = DataRecord.factory(
+        {
+            key: docRef.id,
+            timestamp: timestamp,
+            dataBucket: dataBucket,
+            dataPath: path,
+            dataUrl: url,
+        }
     );
 
     await docRef.set(obj.toSimpleObject());

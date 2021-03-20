@@ -62,6 +62,15 @@
             "type": "pwa-node"
         },
         {
+            "name": "Run Transformer",
+            "program": "${workspaceFolder}/Transform.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Run GCSToBigQuery",
             "program": "${workspaceFolder}/GCSToBigQuery.js",
             "request": "launch",

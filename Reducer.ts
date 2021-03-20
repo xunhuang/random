@@ -56,7 +56,7 @@ class ReducerJob {
         var previousresults = initialresult;
         var succesfulruns = [];
         for (const record of records) {
-            console.log("working on:", record.key);
+            console.log("working on:", record.id);
             try {
                 let data = await record.fetchData();
                 if (this.preProcessor) {
@@ -66,9 +66,9 @@ class ReducerJob {
                 if (this.postProcessor) {
                     previousresults = this.postProcessor(previousresults);
                 }
-                succesfulruns.push(record.key);
+                succesfulruns.push(record.id);
             } catch (error) {
-                console.log("error on:", record.key);
+                console.log("error on:", record.id);
                 console.log(error);
             }
         }

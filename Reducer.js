@@ -102,7 +102,7 @@ var ReducerJob = /** @class */ (function () {
                     case 4:
                         if (!(_i < records_1.length)) return [3 /*break*/, 10];
                         record = records_1[_i];
-                        console.log("working on:", record.key);
+                        console.log("working on:", record.id);
                         _b.label = 5;
                     case 5:
                         _b.trys.push([5, 8, , 9]);
@@ -118,11 +118,11 @@ var ReducerJob = /** @class */ (function () {
                         if (this.postProcessor) {
                             previousresults = this.postProcessor(previousresults);
                         }
-                        succesfulruns.push(record.key);
+                        succesfulruns.push(record.id);
                         return [3 /*break*/, 9];
                     case 8:
                         error_1 = _b.sent();
-                        console.log("error on:", record.key);
+                        console.log("error on:", record.id);
                         console.log(error_1);
                         return [3 /*break*/, 9];
                     case 9:

@@ -52,15 +52,15 @@ class MapperJob {
 
         let dirty = false;
         for (const record of records) {
-            console.log("working on:", record.key);
-            jobStatusTable.data[record.key] = MRUtils.JobExecStatus.SUCCESS;
+            console.log("working on:", record.id);
+            jobStatusTable.data[record.id] = MRUtils.JobExecStatus.SUCCESS;
             let data = await record.fetchData();
             let output = this.process(data);
             if (output) {
                 await CloudDB.saveInfoAtSystem(this.outputTable,
                     output,
                     record.timestamp,
-                    record.key
+                    record.id
                 );
                 dirty = true;
             }
