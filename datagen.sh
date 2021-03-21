@@ -13,6 +13,7 @@ getHealthDataGovURL() {
 }
 
 getTestingData() {
+   echo "fetching testing data from Health Data.gov"
    target_dir='website/build/data/testing'
    mkdir -p $target_dir
    f=`curl -L -S https://healthdata.gov/resource/w3ft-93it.json |jq -r ' .[-1] |.archive_link | .url'`
@@ -24,6 +25,7 @@ getTestingData() {
 }
 
 getHospitalization() {
+   echo "fetching hospitalization data from Health Data.gov"
    target_dir='website/build/data/hospitalization'
    mkdir -p $target_dir
    f=`curl -L -S https://healthdata.gov/resource/qqte-vkut.json |jq -r ' .[-1] |.archive_link | .url'`
@@ -33,13 +35,24 @@ getHospitalization() {
    cat $target_dir/states.json  | jq -f website/hospitalizationUSSummarize.jq  > $target_dir/USA.json
 }
 
-echo "fetching CDC County Data"
-target_dir='website/build/data/testing'
-mkdir -p $target_dir
-node BigQuery.js -t my_dataset.CDC-county-test-all > $target_dir/cdc-county-testing-all.json
-node BigQuery.js -t my_dataset.CDC-county-test-latest > $target_dir/cdc-county-testing-latest.json
+getCDCCountyTesting() {
+   echo "fetching CDC County Data"
+   target_dir='website/build/data/testing'
+   mkdir -p $target_dir
+   node BigQuery.js -t my_dataset.CDC-county-test-all > $target_dir/cdc-county-testing-all.json
+   node BigQuery.js -t my_dataset.CDC-county-test-latest > $target_dir/cdc-county-testing-latest.json
+}
 
-echo "fetching testing data from Health Data.gov"
+getCountySummary() {
+   echo "fetching County Summary Data"
+   target_dir='website/build/data/county'
+   mkdir -p $target_dir
+   node BigQuery.js -t my_dataset.covid-19-county-official-view > $target_dir/county-all.json
+   datasplit $target_dir/county-all.json county_fips_code $target_dir/
+}
+
+getCountySummary
+
+getCDCCountyTesting
 getTestingData
-echo "fetching hospitalization data from Health Data.gov"
 getHospitalization
