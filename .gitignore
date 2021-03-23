@@ -68,3 +68,12 @@ node_modules/
 bb.json
 .data .vaccination.swp
 website/src/firebaseConfig.json
+abc.json
+covid-all.json
+covidlatest-nl.json
+covidlatest.json
+last.json
+nyt.json
+nytimes-us-counties.json
+output.json
+t2.json

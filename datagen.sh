@@ -30,7 +30,7 @@ getHospitalization() {
    mkdir -p $target_dir
    f=`curl -L -S https://healthdata.gov/resource/qqte-vkut.json |jq -r ' .[-1] |.archive_link | .url'`
    curl -s $f | npx csvtojson  > $target_dir/states-original.json
-   jq -f website/hospitalization.jq  $target_dir/states-original.json > $target_dir/states.json 
+   jq -f website/hospitalization.jq  $target_dir/states-original.json > $target_dir/states.json
    datasplit $target_dir/states.json state $target_dir/
    cat $target_dir/states.json  | jq -f website/hospitalizationUSSummarize.jq  > $target_dir/USA.json
 }
@@ -51,8 +51,24 @@ getCountySummary() {
    datasplit $target_dir/county-all.json county_fips_code $target_dir/
 }
 
-getCountySummary
 
+getLatestCovidData() {
+   target_dir='website/build/data/county-details'
+   mkdir -p $target_dir
+   URLNewCasesJHU="https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases_US/FeatureServer/0/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(1%3D1)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=OBJECTID%20ASC&resultOffset=0&resultRecordCount=4000&cacheHint=true&quantizationParameters=%7B%22mode%22%3A%22edit%22%7D"
+   curl -o covidlatest.json "$URLNewCasesJHU"
+   cat covidlatest.json | jq -c " .features  | .[] | .attributes" > covidlatest-nl.json
+   node loadJsonFromGCS.js
+   # Dont' do this, takes forever, and it's 200M data per run
+   # node BigQuery.js -t my_dataset.Covid-cases-all > covid-all.json
+   # down the last day, validated on bigtable side.
+   node BigQuery.js -q 'select county_fips_code as fips, FORMAT_DATE("%F", date) as date , county, state_name as state, confirmed_cases as cases, deaths from  `my_dataset.ESRI-Covid-Lastday`'  > last.json
+   jq -s add last.json nytimes-us-counties.json  > covid-all.json
+   datasplit covid-all.json fips $target_dir/
+}
+
+getLatestCovidData
+getCountySummary
 getCDCCountyTesting
 getTestingData
 getHospitalization
