@@ -63,7 +63,9 @@ getLatestCovidData() {
    # node BigQuery.js -t my_dataset.Covid-cases-all > covid-all.json
    # down the last day, validated on bigtable side.
    node BigQuery.js -q 'select county_fips_code as fips, FORMAT_DATE("%F", date) as date , county, state_name as state, confirmed_cases as cases, deaths from  `my_dataset.ESRI-Covid-Lastday`'  > last.json
+   csvtojson covid-19-data/us-counties.csv > nytimes-us-counties.json
    jq -s add last.json nytimes-us-counties.json  > covid-all.json
+   csvtojson
    datasplit covid-all.json fips $target_dir/
 }
 
