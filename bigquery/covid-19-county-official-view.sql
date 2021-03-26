@@ -15,3 +15,5 @@ FROM `myrandomwatch-b4b41.mydataset2.fips_code_county` AS county
 LEFT OUTER JOIN `myrandomwatch-b4b41.mydataset2.us_county_health_department` AS health ON county.county_fips_code = health.fips
 LEFT OUTER JOIN `myrandomwatch-b4b41.my_dataset.CDC-county-test-latest` as testlatest ON county.county_fips_code =  testlatest.fips
 LEFT OUTER JOIN `myrandomwatch-b4b41.my_dataset.ESRI-Covid-Lastday` as lastesri ON county.county_fips_code =  lastesri.county_fips_code
+
+#test123
