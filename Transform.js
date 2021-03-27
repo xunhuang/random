@@ -221,6 +221,11 @@ var TransformerJobs = [
         var output = serializeNdJson(dom.vaccination_data);
         return output;
     }),
+    new TransformerJob("JHU-ESRI, this should go into BigQuery", "JHU-ESRI-Realtime2", "JHU-ESRI-Realtime2-NLJSON", function (input) {
+        var dom = JSON.parse(input);
+        var output = serializeNdJson(dom);
+        return output;
+    }),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {

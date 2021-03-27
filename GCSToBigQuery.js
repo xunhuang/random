@@ -67,6 +67,7 @@ var GCSToBigQueryJobs = /** @class */ (function () {
         this.jobTableName = null;
         this.options = null;
         this.datasetId = 'my_dataset';
+        this.overwriteTable = false;
         this.name = name;
         this.srctablename = srctablename;
         this.outputTable = outputTable;
@@ -103,10 +104,15 @@ var GCSToBigQueryJobs = /** @class */ (function () {
                         storage = new Storage();
                         metadata = {
                             sourceFormat: 'NEWLINE_DELIMITED_JSON',
+                            writeDisposition: 'WRITE_APPEND',
                             schemaUpdateOptions: ['ALLOW_FIELD_ADDITION'],
                             autodetect: true,
                             location: 'US',
                         };
+                        if (this.overwriteTable) {
+                            metadata.writeDisposition = 'WRITE_TRUNCATE';
+                            metadata.schemaUpdateOptions = null;
+                        }
                         if (!record.isValid()) {
                             console.log("Skipping invalid record...");
                             console.log(record);
@@ -188,6 +194,9 @@ bq --location=US query --replace \
     ),
     new GCSToBigQueryJobs("CA County Data (XFER to BQ)", "Calfiornia-Vaccine-Overtime-Table-NLJSON", "Calfiornia-Vaccine-Overtime"),
     new GCSToBigQueryJobs("CDC Vaccine County Data (XFER TO BQ)", "CDC-Vaccine-Overtime-Table-NLJSON", "CDC-Vaccine-Overtime-Table"),
+    new GCSToBigQueryJobs("Upload ESRI (test)", "JHU-ESRI-Realtime2-NLJSON", "JHU-ESRI-Realtime-test", {
+        overwriteTable: true,
+    }),
 ];
 function doit() {
     return __awaiter(this, void 0, void 0, function () {

@@ -62,4 +62,5 @@ function main(
     loadJSONFromGCS();
 }
 
+console.log(process.argv.slice(2));
 main(...process.argv.slice(2));

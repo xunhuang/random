@@ -31,6 +31,6 @@
         {
             "name": "Country_Region",
             "type": "STRING"
-        },
-    ],
+        }
+    ]
 }

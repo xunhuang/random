@@ -148,6 +148,17 @@ const TransformerJobs = [
             return output;
         }
     ),
+
+    new TransformerJob(
+        "JHU-ESRI, this should go into BigQuery",
+        "JHU-ESRI-Realtime2",
+        "JHU-ESRI-Realtime2-NLJSON",
+        (input: string) => {
+            let dom = JSON.parse(input);
+            let output = serializeNdJson(dom);
+            return output;
+        }
+    ),
 ];
 
 async function doit() {

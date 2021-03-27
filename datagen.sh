@@ -26,7 +26,6 @@ getTestingData() {
    jq -c '.[]' $target_dir/USA.json > tmp/us-testing.json
    jq -c '.[]' $target_dir/states.json > tmp/states-testing.json
 
-
    node loadJsonFromGCS.js my_dataset us-testing tmp/us-testing.json
    node loadJsonFromGCS.js my_dataset states-testing tmp/states-testing.json
 }

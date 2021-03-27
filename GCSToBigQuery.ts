@@ -9,6 +9,7 @@ type BigQueryJobsOption = {
     verbose?: false,
     jobTableName?: string;
     datasetId?: string;
+    overwriteTable?: boolean;
 }
 
 class GCSToBigQueryJobs {
@@ -19,6 +20,7 @@ class GCSToBigQueryJobs {
     options: BigQueryJobsOption | null = null;
     verbose: false;
     datasetId: string = 'my_dataset';
+    overwriteTable: boolean = false;
 
     constructor(
         name: string,
@@ -52,10 +54,15 @@ class GCSToBigQueryJobs {
             const storage = new Storage();
             const metadata = {
                 sourceFormat: 'NEWLINE_DELIMITED_JSON',
+                writeDisposition: 'WRITE_APPEND',
                 schemaUpdateOptions: ['ALLOW_FIELD_ADDITION'],
                 autodetect: true,
                 location: 'US',
             };
+            if (this.overwriteTable) {
+                metadata.writeDisposition = 'WRITE_TRUNCATE';
+                metadata.schemaUpdateOptions = null;
+            }
 
             if (!record.isValid()) {
                 console.log("Skipping invalid record...");
@@ -120,6 +127,14 @@ const BigQueryJobs = [
         "CDC Vaccine County Data (XFER TO BQ)",
         "CDC-Vaccine-Overtime-Table-NLJSON",
         "CDC-Vaccine-Overtime-Table"
+    ),
+    new GCSToBigQueryJobs(
+        "Upload ESRI (test)",
+        "JHU-ESRI-Realtime2-NLJSON",
+        "JHU-ESRI-Realtime-test",
+        {
+            overwriteTable: true,
+        }
     ),
 ];
 
