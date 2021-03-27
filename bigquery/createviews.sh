@@ -11,8 +11,7 @@ recreate_view() {
 
 #recreate_view my_dataset.CDC-county-test-all CDC-county-test-all.sql
 #recreate_view my_dataset.CDC-county-test-latest CDC-county-test-latest.sql
-recreate_view my_dataset.covid-19-county-official-view covid-19-county-official-view.sql
-
+#recreate_view my_dataset.covid-19-county-official-view covid-19-county-official-view.sql
 # recreate_view my_dataset.NYT-covid-latest NYT-covid-latest.sql
 # recreate_view my_dataset.ESRI-Covid-Lastday ESRI-Covid-Lastday.sql
 # recreate_view my_dataset.nyt-missingfips nyt-missingfips.sql
@@ -21,3 +20,9 @@ recreate_view my_dataset.covid-19-county-official-view covid-19-county-official-
 # recreate_view official.msa-cases-all msa-cases-all.sql
 # recreate_view official.state-cases-all state-cases-all.sql
 # recreate_view official.us-cases-all us-cases-all.sql
+
+
+# recreate_view official.states-hospitalization states-hospitalization.sql
+# recreate_view official.states-testing states-testing.sql
+#recreate_view official.us-testing us-testing.sql
+recreate_view official.us-hospitalization us-hospitalization.sql

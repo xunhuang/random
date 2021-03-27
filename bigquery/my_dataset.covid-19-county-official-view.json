@@ -1,0 +1,86 @@
+{
+  "creationTime": "1616728979805",
+  "etag": "OTHx8sOwI99Y3x/W4ncFkw==",
+  "id": "myrandomwatch-b4b41:my_dataset.covid-19-county-official-view",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616728979999",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "test_7day_total",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positivity_7day_avg",
+        "type": "FLOAT"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "community",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "school",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "report_date",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "healthwebsites",
+        "type": "STRING"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/covid-19-county-official-view",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "covid-19-county-official-view"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT\n       county.state_fips_code as state_fips_code,\n       county.county_fips_code as county_fips_code,\n       state,\n       county.area_name as county,\n       lastesri.confirmed_cases,\n       lastesri.deaths,\n       test_7day_total,\n       testlatest.positivity_7day_avg,\n       community,\n       school,\n       testlatest.date AS report_date,\n       health.websites AS healthwebsites\nFROM `myrandomwatch-b4b41.mydataset2.fips_code_county` AS county\nLEFT OUTER JOIN `myrandomwatch-b4b41.mydataset2.us_county_health_department` AS health ON county.county_fips_code = health.fips\nLEFT OUTER JOIN `myrandomwatch-b4b41.my_dataset.CDC-county-test-latest` as testlatest ON county.county_fips_code =  testlatest.fips\nLEFT OUTER JOIN `myrandomwatch-b4b41.my_dataset.ESRI-Covid-Lastday` as lastesri ON county.county_fips_code =  lastesri.county_fips_code\n\n#test123",
+    "useLegacySql": false
+  }
+}

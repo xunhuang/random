@@ -1,0 +1,66 @@
+{
+  "creationTime": "1616280228948",
+  "etag": "mzo09AoZrZ2pwSJELn96tg==",
+  "id": "myrandomwatch-b4b41:my_dataset.CDC-county-test-latest",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616280229030",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "state",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fips",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "test_7day_total",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positivity_7day_avg",
+        "type": "FLOAT"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "community",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "school",
+        "type": "STRING"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/CDC-county-test-latest",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "CDC-county-test-latest"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT State_name as state, county, format(\"%05d\",fips_code) as fips,\n total_test_results_reported_7_day_count_change as test_7day_total,\n percent_test_results_reported_positive_last_7_days as positivity_7day_avg,\n FORMAT_DATETIME('%Y-%m-%d',DATETIME(entry.report_date)) as date,\n community_transmission_level as community,\n school_composite as school,\n FROM (select distinct  * from `my_dataset.CDC-County-Test-Time-Series-new`) as entry\n INNER JOIN (SELECT fips_code as fips, max(report_date) as report_date,\n FROM `my_dataset.CDC-County-Test-Time-Series-new` \ngroup by fips ) as lastreport \n ON \n entry.report_date = lastreport.report_date \n and entry.fips_code = lastreport.fips",
+    "useLegacySql": false
+  }
+}

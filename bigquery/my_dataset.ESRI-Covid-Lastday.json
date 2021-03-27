@@ -1,0 +1,61 @@
+{
+  "creationTime": "1616521274689",
+  "etag": "1K+nPwcnN7Go0CuCUo/f9w==",
+  "id": "myrandomwatch-b4b41:my_dataset.ESRI-Covid-Lastday",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616652741887",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/ESRI-Covid-Lastday",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "ESRI-Covid-Lastday"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "select \n    date_add( (select max(date) from `myrandomwatch-b4b41.my_dataset.NYT-covid-latest`), interval  1 day) as date,\n    latest.Province_State as state_name,\n    latest.Admin2 as county, \n    county_code.state_fips_code, \n        county_code.county_fips_code, \n\n    GREATEST(ifnull(nyt.confirmed_cases,0), latest.Confirmed) as confirmed_cases,\n    GREATEST(ifnull(nyt.deaths, 0), latest.deaths) as deaths,\nfrom \n        (SELECT DATE(TIMESTAMP_MILLIS(CAST(Last_Update as INT64))) as date, \n            * except (Last_Update)  FROM `myrandomwatch-b4b41.my_dataset.ESRI_imported_raw`) as latest\n  left outer JOIN \n   `myrandomwatch-b4b41.my_dataset.NYT-covid-latest` as nyt\nON  latest.FIPS = nyt.county_fips_code    \nLEFT OUTER JOIN `myrandomwatch-b4b41.mydataset2.fips_code_county` as county_code \nON latest.FIPS = county_code.county_fips_code\nwhere county_code.county_fips_code is not null\n#and county_code.state_fips_code = '36'\norder by confirmed_cases desc",
+    "useLegacySql": false
+  }
+}

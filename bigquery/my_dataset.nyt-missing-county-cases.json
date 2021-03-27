@@ -1,0 +1,56 @@
+{
+  "creationTime": "1616696601600",
+  "etag": "ezfyE7hLMLOBoAyLM09Lgw==",
+  "id": "myrandomwatch-b4b41:my_dataset.nyt-missing-county-cases",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616696601756",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/nyt-missing-county-cases",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "nyt-missing-county-cases"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT * from \n(SELECT \ndate, \nfips as county_fips_code, \nconfirmed as confirmed_cases, \ndeaths,\nadmin2 as county,\nprovince_state as state_name\nFROM `bigquery-public-data.covid19_jhu_csse.summary` \nunion all \nselect \n(SELECT DATE(TIMESTAMP_MILLIS(CAST(Last_Update as INT64)))) as date,\nFIPS as count_fips_code, \nConfirmed as confirmed_cases, \nDeaths as deaths, \nAdmin2 as county,\nProvince_State as state_name\nfrom `myrandomwatch-b4b41.my_dataset.ESRI_imported_raw`\n)\nwhere county_fips_code in (select * from `myrandomwatch-b4b41.my_dataset.nyt-missingfips` )\n",
+    "useLegacySql": false
+  }
+}

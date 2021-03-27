@@ -1,0 +1,86 @@
+{
+  "creationTime": "1616733445816",
+  "etag": "09hcw+1gTqfFP5ae7GLXig==",
+  "id": "myrandomwatch-b4b41:official.states-testing",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616806756200",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "totalTestResults",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "negativeIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positiveIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "negative",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "totalTestResultsIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positive",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inconclusive",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inconclusiveIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/states-testing",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "states-testing"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT PARSE_DATE(\"%Y%m%d\", cast (date as string))  as date, * except (date, fips),\nformat (\"%02d\", fips) as state_fips_code\nFROM `myrandomwatch-b4b41.my_dataset.states-testing`",
+    "useLegacySql": false
+  }
+}

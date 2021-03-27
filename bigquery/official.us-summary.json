@@ -1,0 +1,106 @@
+{
+  "creationTime": "1616808081915",
+  "etag": "EE1SO6XCYEcjD0WEkfwjlw==",
+  "id": "myrandomwatch-b4b41:official.us-summary",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616808082479",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "totalTestResults",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "negativeIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positiveIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "negative",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positive",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inconclusive",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inconclusiveIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adult_icu_bed_used",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inIcuCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hospitalizedCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adult_icu_beds_capacity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_used",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_capacity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_increase",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_increase_14days",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/us-summary",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "us-summary"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "select * from (\nselect \n    sum(totalTestResults) as totalTestResults ,\n    sum(negativeIncrease) as negativeIncrease,\n    sum(positiveIncrease)as positiveIncrease,\n    sum(negative)as negative,\n    sum(positive)as positive,\n    sum(inconclusive)as inconclusive,\n    sum(inconclusiveIncrease) as inconclusiveIncrease \n    from \n        (select * from `myrandomwatch-b4b41.official.states-testing` t\n            join ( select state, max (date) as maxdate from `myrandomwatch-b4b41.official.states-testing` group by state) as tm\n            on tm.state = t.state and t.date = tm.maxdate )\n)\n, \n(\n    select \n\tsum(adult_icu_bed_used) as\tadult_icu_bed_used\t,\n  sum(inIcuCurrently) as\tinIcuCurrently\t,\n  sum(hospitalizedCurrently) as\thospitalizedCurrently\t,\n  sum(adult_icu_beds_capacity) as\tadult_icu_beds_capacity\t,\n  sum(inpatient_beds_used) as\tinpatient_beds_used\t,\n  sum(inpatient_beds_capacity) as inpatient_beds_capacity\n  from (\nselect * from `myrandomwatch-b4b41.official.states-hospitalization` t\n            join ( select state, max (date) as maxdate from `myrandomwatch-b4b41.official.states-hospitalization` group by state) as tm\n            on tm.state = t.state and t.date = tm.maxdate )\n), \n(\n    SELECT today.confirmed_cases, \ntoday.confirmed_cases - yesterday.confirmed_cases as confirmed_increase,\ntoday.confirmed_cases - twoweeks.confirmed_cases as confirmed_increase_14days,\nFROM `myrandomwatch-b4b41.official.us-cases-all` as today\nJOIN `myrandomwatch-b4b41.official.us-cases-all` as yesterday\nON yesterday.date =  date_sub(today.date, interval 1 day) \nJOIN `myrandomwatch-b4b41.official.us-cases-all` as twoweeks\nON twoweeks.date =  date_sub(today.date, interval 14 day) \nwhere\n today.date = (select max(date) from `myrandomwatch-b4b41.official.us-cases-all`) \n)\n",
+    "useLegacySql": false
+  }
+}

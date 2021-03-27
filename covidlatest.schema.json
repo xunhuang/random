@@ -1,0 +1,36 @@
+{
+    "fields": [
+        {
+            "name": "FIPS",
+            "type": "STRING"
+        },
+        {
+            "name": "Last_Update",
+            "type": "INTEGER"
+        },
+        {
+            "name": "Confirmed",
+            "type": "INTEGER"
+        },
+        {
+            "name": "Deaths",
+            "type": "INTEGER"
+        },
+        {
+            "name": "Combined_Key",
+            "type": "STRING"
+        },
+        {
+            "name": "Province_State",
+            "type": "STRING"
+        },
+        {
+            "name": "Admin2",
+            "type": "STRING"
+        },
+        {
+            "name": "Country_Region",
+            "type": "STRING"
+        },
+    ],
+}

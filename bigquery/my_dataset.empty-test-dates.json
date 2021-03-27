@@ -1,0 +1,36 @@
+{
+  "creationTime": "1616787714058",
+  "etag": "OkUw6VngWexXtBFH+3Mmpg==",
+  "id": "myrandomwatch-b4b41:my_dataset.empty-test-dates",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616789625648",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "state",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "missingdate",
+        "type": "DATE"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/empty-test-dates",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "empty-test-dates"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "\nselect allstates.state as state , d.date as missingdate \nfrom (select distinct date from `myrandomwatch-b4b41.official.states-testing` order by date desc) as d, \n(select distinct state from `myrandomwatch-b4b41.official.states-testing` ) as allstates\nleft outer join  `myrandomwatch-b4b41.official.states-testing` as data\non d.date = data.date and allstates.state =data.state  \nwhere totalTestResults is null \norder by missingdate desc, state\n",
+    "useLegacySql": false
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "creationTime": "1616795546531",
+  "etag": "h8AWylMb+7ktCLmM0+365A==",
+  "id": "myrandomwatch-b4b41:my_dataset.nyt-fixed-counties-nolastday",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616820709687",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/nyt-fixed-counties-nolastday",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "nyt-fixed-counties-nolastday"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT \ndate,\ncounty,\t\nstate_name,\nsubstr(county_fips_code,1,2) as state_fips_code, \ncounty_fips_code,\nconfirmed_cases,\t\ndeaths\nFROM `bigquery-public-data.covid19_nyt.us_counties`\nwhere county_fips_code is not null  # need to filter out things like NYC's 800K infected.\n \n union distinct\n (\n     SELECT \ndate, \nadmin2 as county,\nprovince_state as state_name,\nsubstr(fips,1,2) as state_fips_code, \nfips as county_fips_code,\nconfirmed as confirmed_cases, \ndeaths\nFROM `bigquery-public-data.covid19_jhu_csse.summary` \nwhere fips in (select * from `myrandomwatch-b4b41.my_dataset.nyt-missingfips` )\norder by date desc \n ) \n\nunion distinct  (\n    # need to do this otherwise state number's last day will be messed up if sum up. \nSELECT date, \ncounty, \nd.state_name, \ns.state_fips_code,\ncase county \n    when 'Joplin' then \"29300\"  # made up by Wilson\n    when 'Kansas City' then \"29301\" # made up by Wilson\n    when \"Unknown\" then format(\"%s000\", s.state_fips_code) # made up by Wilson\n    else  null  # NYC is the only entry without a fips code after this. \nend \nas county_fips_code, \nconfirmed_cases, \ndeaths\nFROM (select * from `bigquery-public-data.covid19_nyt.us_counties` \nwhere county_fips_code is null and county != \"New York City\") as d\nJOIN `mydataset2.fip_codes_states` as s\non s.state_name = d.state_name\n\n)\n",
+    "useLegacySql": false
+  }
+}

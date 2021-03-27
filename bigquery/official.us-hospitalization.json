@@ -1,0 +1,61 @@
+{
+  "creationTime": "1616734842107",
+  "etag": "XZ4n90lvtSl9ZyiGv+BOMw==",
+  "id": "myrandomwatch-b4b41:official.us-hospitalization",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616734842215",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adult_icu_bed_used",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inIcuCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hospitalizedCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adult_icu_beds_capacity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_used",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_capacity",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/us-hospitalization",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "us-hospitalization"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT\n    date,\n\tsum(adult_icu_bed_used) as\tadult_icu_bed_used\t,\n  sum(inIcuCurrently) as\tinIcuCurrently\t,\n  sum(hospitalizedCurrently) as\thospitalizedCurrently\t,\n  sum(adult_icu_beds_capacity) as\tadult_icu_beds_capacity\t,\n  sum(inpatient_beds_used) as\tinpatient_beds_used\t,\n  sum(inpatient_beds_capacity) as inpatient_beds_capacity\n\nFROM `myrandomwatch-b4b41.official.states-hospitalization`\ngroup by date",
+    "useLegacySql": false
+  }
+}

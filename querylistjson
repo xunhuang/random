@@ -1,0 +1,294 @@
+[
+  {
+    "creationTime": "1616211955233",
+    "id": "myrandomwatch-b4b41:my_dataset.CDC-County-Test-Time-Series",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "CDC-County-Test-Time-Series"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616208100547",
+    "id": "myrandomwatch-b4b41:my_dataset.CDC-County-Test-Time-Series-new",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "CDC-County-Test-Time-Series-new"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616208423398",
+    "id": "myrandomwatch-b4b41:my_dataset.CDC-Vaccine-Overtime-Table",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "CDC-Vaccine-Overtime-Table"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616280221838",
+    "id": "myrandomwatch-b4b41:my_dataset.CDC-county-test-all",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "CDC-county-test-all"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616280228948",
+    "id": "myrandomwatch-b4b41:my_dataset.CDC-county-test-latest",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "CDC-county-test-latest"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616208154179",
+    "id": "myrandomwatch-b4b41:my_dataset.Calfiornia-Vaccine-Overtime",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "Calfiornia-Vaccine-Overtime"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616521623829",
+    "id": "myrandomwatch-b4b41:my_dataset.Covid-cases-all",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "Covid-cases-all"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616521274689",
+    "id": "myrandomwatch-b4b41:my_dataset.ESRI-Covid-Lastday",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "ESRI-Covid-Lastday"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616522217451",
+    "id": "myrandomwatch-b4b41:my_dataset.ESRI_imported_raw",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "ESRI_imported_raw"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616473417471",
+    "id": "myrandomwatch-b4b41:my_dataset.NYT-covid-latest",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "NYT-covid-latest"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616801819730",
+    "id": "myrandomwatch-b4b41:my_dataset.betterLastday",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "betterLastday"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616626344038",
+    "id": "myrandomwatch-b4b41:my_dataset.county-cases-all",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "county-cases-all"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616728979805",
+    "id": "myrandomwatch-b4b41:my_dataset.covid-19-county-official-view",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "covid-19-county-official-view"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616548556766",
+    "id": "myrandomwatch-b4b41:my_dataset.covid-state-lastday-change",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "covid-state-lastday-change"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616787714058",
+    "id": "myrandomwatch-b4b41:my_dataset.empty-test-dates",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "empty-test-dates"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616560832008",
+    "id": "myrandomwatch-b4b41:my_dataset.msa_definition",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "msa_definition"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616795546531",
+    "id": "myrandomwatch-b4b41:my_dataset.nyt-fixed-counties-nolastday",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "nyt-fixed-counties-nolastday"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616696601600",
+    "id": "myrandomwatch-b4b41:my_dataset.nyt-missing-county-cases",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "nyt-missing-county-cases"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616694374167",
+    "id": "myrandomwatch-b4b41:my_dataset.nyt-missingfips",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "nyt-missingfips"
+    },
+    "type": "VIEW",
+    "view": {
+      "useLegacySql": false
+    }
+  },
+  {
+    "creationTime": "1616732503471",
+    "id": "myrandomwatch-b4b41:my_dataset.states-hospitalization",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "states-hospitalization"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616732489842",
+    "id": "myrandomwatch-b4b41:my_dataset.states-testing",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "states-testing"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616732499334",
+    "id": "myrandomwatch-b4b41:my_dataset.us-hospitalization",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "us-hospitalization"
+    },
+    "type": "TABLE"
+  },
+  {
+    "creationTime": "1616731853248",
+    "id": "myrandomwatch-b4b41:my_dataset.us-testing",
+    "kind": "bigquery#table",
+    "tableReference": {
+      "datasetId": "my_dataset",
+      "projectId": "myrandomwatch-b4b41",
+      "tableId": "us-testing"
+    },
+    "type": "TABLE"
+  }
+]

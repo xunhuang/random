@@ -1,0 +1,56 @@
+{
+  "creationTime": "1616626841120",
+  "etag": "vBX+Fl8lrOvtW+6nmwS3WA==",
+  "id": "myrandomwatch-b4b41:official.county-cases-all",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616803143589",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/county-cases-all",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "county-cases-all"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "\nSELECT  * FROM `myrandomwatch-b4b41.my_dataset.betterLastday` \nunion distinct \nSELECT  * FROM `myrandomwatch-b4b41.my_dataset.nyt-fixed-counties-nolastday`\n\n\n",
+    "useLegacySql": false
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "creationTime": "1616627517463",
+  "etag": "g7iooXcuzfEFK6W1WNAdlQ==",
+  "id": "myrandomwatch-b4b41:official.state-cases-all",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616803612620",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/state-cases-all",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "state-cases-all"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT \ndate,\nstate_name,\nstate_fips_code,\nconfirmed_cases,\t\ndeaths\t\nFROM (\n    # last day of state\n    SELECT \n        date, \n        state_fips_code,\n        max(state_name) as state_name, \n        sum(confirmed_cases) as confirmed_cases, \n        sum(deaths) as deaths  \n        FROM `myrandomwatch-b4b41.my_dataset.betterLastday` \n        group by state_fips_code, date\n)\nUNION ALL \nSELECT * FROM `bigquery-public-data.covid19_nyt.us_states` \n",
+    "useLegacySql": false
+  }
+}

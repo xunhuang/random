@@ -1,0 +1,46 @@
+{
+  "creationTime": "1616626930603",
+  "etag": "hIxEFVgZtpLQRNCk6tM2Yw==",
+  "id": "myrandomwatch-b4b41:official.msa-cases-all",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616626930753",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "msd_id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/msa-cases-all",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "msa-cases-all"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "\nselect * from \n(SELECT msa.ID as msd_id, tt.date, sum (tt.confirmed_cases) confirmed_cases, sum(tt.deaths) deaths\nFROM `myrandomwatch-b4b41.official.county-cases-all`  tt\n\njoin `myrandomwatch-b4b41.mydataset2.msa_definition_clean` as msa\non \ntt.county_fips_code = msa.county_fips_code \ngroup by msa.ID, tt.date )\n\n",
+    "useLegacySql": false
+  }
+}

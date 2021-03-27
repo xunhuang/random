@@ -1,0 +1,41 @@
+{
+  "creationTime": "1616628993560",
+  "etag": "axjMaiGQcKl6JUFT9FWNjw==",
+  "id": "myrandomwatch-b4b41:official.us-cases-all",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616629389468",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/us-cases-all",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "us-cases-all"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT \n    date, \n    sum (confirmed_cases) as confirmed_cases, \n    sum(deaths) as deaths\nFROM `myrandomwatch-b4b41.official.county-cases-all` \ngroup by date\norder by date desc ",
+    "useLegacySql": false
+  }
+}

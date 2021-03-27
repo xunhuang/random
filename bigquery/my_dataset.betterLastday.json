@@ -1,0 +1,61 @@
+{
+  "creationTime": "1616801819730",
+  "etag": "QkZ2lKG4MiSo5GoRDhhFHg==",
+  "id": "myrandomwatch-b4b41:my_dataset.betterLastday",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616803370769",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/betterLastday",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "betterLastday"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "    select \n    date_add( (select max(date) from `my_dataset.nyt-fixed-counties-nolastday`), interval  1 day) as date,\n      nyt.county as county, \n    nyt.state_name as state_name,\n    ifnull(county_code.state_fips_code, substr(nyt.county_fips_code,1,2)) as state_fips_code, \n        nyt.county_fips_code as county_fips_code, \n    GREATEST(nyt.confirmed_cases, ifnull(latest.Confirmed,0)) as confirmed_cases,\n    GREATEST(nyt.deaths, ifnull(latest.deaths,0)) as deaths,\n    # latest.Confirmed as latestConfirmed, \n    # nyt.confirmed_cases as yesterday\n    # nyt.*\nfrom \n  (\n   select \n         date, county, state_name, county_fips_code, confirmed_cases, deaths\n         from  `my_dataset.nyt-fixed-counties-nolastday` as nyt\n              where date = (SELECT max(date) FROM `my_dataset.nyt-fixed-counties-nolastday` )\n   ) as nyt\n  left outer JOIN \n   (SELECT * except (Last_Update)  FROM `myrandomwatch-b4b41.my_dataset.ESRI_imported_raw`) as latest\nON  latest.FIPS = nyt.county_fips_code    \nLEFT OUTER JOIN `myrandomwatch-b4b41.mydataset2.fips_code_county` as county_code \nON nyt.county_fips_code = county_code.county_fips_code\n# both can be true\n# where county_code.county_fips_code is not null\n#where county_code.county_fips_code is  null\n\n",
+    "useLegacySql": false
+  }
+}

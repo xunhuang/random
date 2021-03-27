@@ -1,0 +1,86 @@
+{
+  "creationTime": "1616733437848",
+  "etag": "jf6vikKbS/nJ7vdkP5O0Bg==",
+  "id": "myrandomwatch-b4b41:official.states-hospitalization",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616807507929",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adult_icu_bed_used",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inIcuCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hospitalizedCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adult_icu_beds_capacity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_used",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_capacity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_postal_abbreviation",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_gnisid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/states-hospitalization",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "states-hospitalization"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT dateOriginal as date, * except (date, dateOriginal,state_fips_code),\nstatefips.state_fips_code\nFROM `myrandomwatch-b4b41.my_dataset.states-hospitalization` hos\nJOIN `myrandomwatch-b4b41.mydataset2.fip_codes_states` statefips\non statefips.state_postal_abbreviation = hos.state",
+    "useLegacySql": false
+  }
+}

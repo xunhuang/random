@@ -1,0 +1,56 @@
+{
+  "creationTime": "1616626344038",
+  "etag": "tli6c62LvTmMzXZzmqx9jQ==",
+  "id": "myrandomwatch-b4b41:my_dataset.county-cases-all",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616626344209",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deaths",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/county-cases-all",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "county-cases-all"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT \ndate,\ncounty,\t\nstate_name,\ncounty_fips_code,\nconfirmed_cases,\t\ndeaths\t\nFROM `myrandomwatch-b4b41.my_dataset.ESRI-Covid-Lastday` \nUNION ALL \nSELECT * FROM `bigquery-public-data.covid19_nyt.us_counties` \n",
+    "useLegacySql": false
+  }
+}

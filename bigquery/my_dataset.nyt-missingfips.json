@@ -1,0 +1,31 @@
+{
+  "creationTime": "1616694374167",
+  "etag": "TEeVlXwMp8bd4I7EXNl8+w==",
+  "id": "myrandomwatch-b4b41:my_dataset.nyt-missingfips",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616694374360",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/my_dataset/tables/nyt-missingfips",
+  "tableReference": {
+    "datasetId": "my_dataset",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "nyt-missingfips"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "select legit.county_fips_code from `myrandomwatch-b4b41.mydataset2.fips_code_county` as legit\njoin \n(select distinct   county_fips_code, jhu.fips  from `bigquery-public-data.covid19_jhu_csse.summary` as jhu\nleft outer join  `myrandomwatch-b4b41.my_dataset.NYT-covid-latest` as nyt\non nyt.county_fips_code = jhu.fips\nwhere nyt.county_fips_code  is null) as missing_fips\non legit.county_fips_code = missing_fips.fips",
+    "useLegacySql": false
+  }
+}

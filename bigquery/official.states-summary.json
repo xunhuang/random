@@ -1,0 +1,96 @@
+{
+  "creationTime": "1616807621319",
+  "etag": "dH/7B3bKf5RpN0+PNEQ9Vg==",
+  "id": "myrandomwatch-b4b41:official.states-summary",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616821673718",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "state_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_cases",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_increase",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "confirmed_increase_14days",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "totalTestResults",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "totalTestResultsIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positive",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positiveIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inIcuCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hospitalizedCurrently",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adult_icu_beds_capacity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_used",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inpatient_beds_capacity",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/states-summary",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "states-summary"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "select \nttt.state_name as state_name, \nttt.state_fips_code as state_fips_code , \nttt.confirmed_cases  as confirmed_cases,\nttt.confirmed_cases - yesterday as confirmed_increase, \nttt.confirmed_cases - ttt.twoweeksago  as confirmed_increase_14days,\ntotalTestResults, \ntotalTestResultsIncrease, \npositive,\npositiveIncrease,\ninIcuCurrently,\nhospitalizedCurrently,\nadult_icu_beds_capacity,\ninpatient_beds_used,\ninpatient_beds_capacity\n from (\nSELECT today.state_name as state_name, \ntoday.confirmed_cases as confirmed_cases, \nyesterday.confirmed_cases as yesterday, \ntwoweeks.confirmed_cases as twoweeksago, \ntoday.state_fips_code as state_fips_code\nFROM `myrandomwatch-b4b41.official.state-cases-all` as today\nJOIN `myrandomwatch-b4b41.official.state-cases-all` as yesterday\nON yesterday.date =  date_sub(today.date, interval 1 day) and today.state_fips_code = yesterday.state_fips_code\nJOIN `myrandomwatch-b4b41.official.state-cases-all` as twoweeks\nON twoweeks.date =  date_sub(today.date, interval 14 day) and today.state_fips_code = twoweeks.state_fips_code\nwhere\n today.date = (select max(date) from `myrandomwatch-b4b41.official.state-cases-all`) ) as ttt\njoin       (select * from `myrandomwatch-b4b41.official.states-testing` t\n            join ( select state, max (date) as maxdate from `myrandomwatch-b4b41.official.states-testing` group by state) as tm\n            on tm.state = t.state and t.date = tm.maxdate ) lasttest\non ttt.state_fips_code   = lasttest.state_fips_code\n\njoin       (select * from `myrandomwatch-b4b41.official.states-hospitalization` t\n            join ( select state, max (date) as maxdate from `myrandomwatch-b4b41.official.states-hospitalization` group by state) as tm\n            on tm.state = t.state and t.date = tm.maxdate ) lasthospitalization\non ttt.state_fips_code   = lasthospitalization.state_fips_code",
+    "useLegacySql": false
+  }
+}

@@ -22,17 +22,32 @@ getTestingData() {
    datasplit $target_dir/states.json state $target_dir/
    cat $target_dir/states.json  | jq -f website/testingUSSummarize.jq  > $target_dir/USA.json
    cat $target_dir/states.json  | jq -f website/testingStateTable.jq  > $target_dir/states-last.json
+
+   jq -c '.[]' $target_dir/USA.json > tmp/us-testing.json
+   jq -c '.[]' $target_dir/states.json > tmp/states-testing.json
+
+
+   node loadJsonFromGCS.js my_dataset us-testing tmp/us-testing.json
+   node loadJsonFromGCS.js my_dataset states-testing tmp/states-testing.json
 }
 
 getHospitalization() {
    echo "fetching hospitalization data from Health Data.gov"
    target_dir='website/build/data/hospitalization'
    mkdir -p $target_dir
-   f=`curl -L -S https://healthdata.gov/resource/qqte-vkut.json |jq -r ' .[-1] |.archive_link | .url'`
+   # data for timeseries seems to have stalled since 3/20/2021
+   # non-timeseries version is here
+   # https://healthdata.gov/dataset/COVID-19-Reported-Patient-Impact-and-Hospital-Capa/4cnb-m4rz
+   f=`curl -L -S https://healthdata.gov/resource/qqte-vkut.json  |jq -r ' .[-1] |.archive_link | .url'`
    curl -s $f | npx csvtojson  > $target_dir/states-original.json
    jq -f website/hospitalization.jq  $target_dir/states-original.json > $target_dir/states.json
    datasplit $target_dir/states.json state $target_dir/
    cat $target_dir/states.json  | jq -f website/hospitalizationUSSummarize.jq  > $target_dir/USA.json
+
+   jq -c '.[]' $target_dir/states.json > tmp/states-hospitalization.json
+   jq -c '.[]' $target_dir/USA.json > tmp/us-hospitalization.json
+   node loadJsonFromGCS.js my_dataset us-hospitalization tmp/us-hospitalization.json
+   node loadJsonFromGCS.js my_dataset states-hospitalization tmp/states-hospitalization.json
 }
 
 getCDCCountyTesting() {
@@ -57,7 +72,7 @@ getLatestCovidData() {
    URLNewCasesJHU="https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases_US/FeatureServer/0/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(1%3D1)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=OBJECTID%20ASC&resultOffset=0&resultRecordCount=4000&cacheHint=true&quantizationParameters=%7B%22mode%22%3A%22edit%22%7D"
    curl -o covidlatest.json "$URLNewCasesJHU"
    cat covidlatest.json | jq -c " .features  | .[] | .attributes" > covidlatest-nl.json
-   node loadJsonFromGCS.js
+   node loadJsonFromGCS.js  my_dataset ESRI_imported_raw covidlatest-nl.json covidlatest.schema.json
    # Dont' do this, takes forever, and it's 200M data per run
    # node BigQuery.js -t my_dataset.Covid-cases-all > covid-all.json
    # download the last day, validated on bigtable side.
@@ -70,6 +85,7 @@ getLatestCovidData() {
    datasplit covid-all.json fips $target_dir/
 }
 
+mkdir -p tmp
 getLatestCovidData
 getCountySummary
 getCDCCountyTesting

@@ -1,0 +1,66 @@
+{
+  "creationTime": "1616734634604",
+  "etag": "jhzFour7WOlzJtxSydu9qQ==",
+  "id": "myrandomwatch-b4b41:official.us-testing",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616734634728",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "date",
+        "type": "DATE"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "totalTestResults",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "negativeIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positiveIncrease",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "negative",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positive",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inconclusive",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "inconclusiveIncrease",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/official/tables/us-testing",
+  "tableReference": {
+    "datasetId": "official",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "us-testing"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT\n    date,\n    sum(totalTestResults) as totalTestResults ,\n    sum(negativeIncrease) as negativeIncrease,\n    sum(positiveIncrease)as positiveIncrease,\n    sum(negative)as negative,\n    sum(positive)as positive,\n    sum(inconclusive)as inconclusive,\n    sum(inconclusiveIncrease) as inconclusiveIncrease\nFROM `myrandomwatch-b4b41.official.states-testing`\ngroup by date",
+    "useLegacySql": false
+  }
+}

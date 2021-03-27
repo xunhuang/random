@@ -1,0 +1,66 @@
+{
+  "creationTime": "1616288133791",
+  "etag": "3TCaU3eV4nfoRP/jVMhW3Q==",
+  "id": "myrandomwatch-b4b41:mydataset2.fips_code_county",
+  "kind": "bigquery#table",
+  "lastModifiedTime": "1616288133872",
+  "location": "US",
+  "numBytes": "0",
+  "numLongTermBytes": "0",
+  "numRows": "0",
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "summary_level",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "summary_level_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county_subdivision_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "place_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "consolidated_city_fips_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "area_name",
+        "type": "STRING"
+      }
+    ]
+  },
+  "selfLink": "https://bigquery.googleapis.com/bigquery/v2/projects/myrandomwatch-b4b41/datasets/mydataset2/tables/fips_code_county",
+  "tableReference": {
+    "datasetId": "mydataset2",
+    "projectId": "myrandomwatch-b4b41",
+    "tableId": "fips_code_county"
+  },
+  "type": "VIEW",
+  "view": {
+    "query": "SELECT distinct * FROM `mydataset2.fips_codes_all` where summary_level = '050'",
+    "useLegacySql": false
+  }
+}
