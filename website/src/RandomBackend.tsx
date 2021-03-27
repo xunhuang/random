@@ -57,4 +57,4 @@ class RandomBackendClass {
     }
 }
 
-export const RandomBackend = new RandomBackendClass(); 
+export const RandomBackend = new RandomBackendClass();
