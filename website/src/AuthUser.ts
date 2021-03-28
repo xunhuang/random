@@ -9,18 +9,19 @@ export class WatchSubscription {
     frequency: number;
 };
 
-@Collection()
+@Collection("Blahblah")
 export class AuthUser {
     id: string;
     displayName: string | null = null;
 
-    @SubCollection(WatchSubscription)
+    @SubCollection(WatchSubscription, "More path")
     subscriptions: ISubCollection<WatchSubscription>;
 
     static fromFirebaseUser(user: User) {
         let u = new AuthUser();
         u.displayName = user.displayName;
         u.id = user.uid;
+        // console.log("hello")
         return u;
     }
     uid() { return this.id; }
