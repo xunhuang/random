@@ -38,11 +38,15 @@ function SubscriptionForm(props) {
         }
     });
     let sub = props.sub;
-    return (_jsxs("div", { children: [sub ? _jsx("label", { children: "Update Subscription" }, void 0) :
-                _jsx("label", { children: "New Subscription" }, void 0),
-            _jsxs("form", Object.assign({ onSubmit: onSubmit }, { children: [_jsx("label", { children: "Name" }, void 0),
-                    _jsx("input", { name: "name", ref: register, defaultValue: sub && sub.name }, void 0), errors.name && "Name is required", _jsx("label", { children: "URL" }, void 0),
-                    _jsx("input", { name: "url", ref: register, defaultValue: sub && sub.url }, void 0), errors.url && "URL must be valid", _jsx("input", { type: "submit" }, void 0)] }), void 0)] }, void 0));
+    return (_jsxs("div", {
+        children: [sub ? _jsx("label", { children: "Update Subscription" }, void 0) :
+            _jsx("label", { children: "New Subscription" }, void 0),
+        _jsxs("form", Object.assign({ onSubmit: onSubmit }, {
+            children: [_jsx("label", { children: "Name" }, void 0),
+            _jsx("input", { name: "name", ref: register, defaultValue: sub && sub.name }, void 0), errors.name && "Name is required", _jsx("label", { children: "URL" }, void 0),
+            _jsx("input", { name: "url", ref: register, defaultValue: sub && sub.url }, void 0), errors.url && "URL must be valid", _jsx("input", { type: "submit" }, void 0)]
+        }), void 0)]
+    }, void 0));
 }
 const SubscripionList = (props) => {
     const columns = [
@@ -78,14 +82,20 @@ export const AuthenicatedHome = () => {
             setSubs(data);
         });
     }, [reload]);
-    return _jsxs("div", { children: [_jsxs("h1", { children: ["AuthenticatedHome - ", user.displayName, ", ", user.id] }, void 0),
-            _jsx(SubscriptionForm, { sub: selectedSub, callback: () => {
-                    console.log("hello");
-                    setSelectedSub(undefined);
-                    setReload(!reload);
-                } }, void 0),
-            _jsx(SubscripionList, { subs: subs, subClicked: sub => {
-                    console.log("upldated selected sub");
-                    setSelectedSub(sub);
-                } }, void 0)] }, void 0);
+    return _jsxs("div", {
+        children: [_jsxs("h1", { children: ["AuthenticatedHome - ", user.displayName, ", ", user.id] }, void 0),
+        _jsx(SubscriptionForm, {
+            sub: selectedSub, callback: () => {
+                console.log("hello");
+                setSelectedSub(undefined);
+                setReload(!reload);
+            }
+        }, void 0),
+        _jsx(SubscripionList, {
+            subs: subs, subClicked: sub => {
+                console.log("upldated selected sub");
+                setSelectedSub(sub);
+            }
+        }, void 0)]
+    }, void 0);
 };

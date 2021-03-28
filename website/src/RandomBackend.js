@@ -32,12 +32,17 @@ class RandomBackendClass {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 getRepository(AuthUser).findById(user.uid).then(firebaseUser => {
-                    this.currentUser = firebaseUser;
-                    if (!firebaseUser) {
-                        this.currentUser = AuthUser.fromFirebaseUser(user);
-                        getRepository(AuthUser).create(this.currentUser);
+                    if (firebaseUser) {
+                        this.currentUser = firebaseUser;
+                        f(this.currentUser);
                     }
-                    f(this.currentUser);
+                    else {
+                        let u = AuthUser.fromFirebaseUser(user);
+                        getRepository(AuthUser).create(u).then(newuser => {
+                            this.currentUser = newuser;
+                            f(this.currentUser);
+                        });
+                    }
                 });
             }
             else {
