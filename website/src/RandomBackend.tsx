@@ -2,7 +2,6 @@ import { User, UserCredential } from '@firebase/auth-types';
 import { AuthUser } from "./AuthUser";
 import { Collection, getRepository } from 'fireorm';
 import * as fireorm from 'fireorm';
-import { get } from 'https';
 require("@firebase/firestore");
 require("@firebase/auth");
 

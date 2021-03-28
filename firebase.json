@@ -4,5 +4,20 @@
   },
   "functions": {
     "predeploy": "npm --prefix functions run build"
+  },
+  "hosting": {
+    "site": "myrandomwatch-b4b41",
+    "public": "website/build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }
