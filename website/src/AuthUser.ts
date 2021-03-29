@@ -9,12 +9,12 @@ export class WatchSubscription {
     frequency: number;
 };
 
-@Collection("Blahblah")
+@Collection("AuthUsers")
 export class AuthUser {
     id: string;
     displayName: string | null = null;
 
-    @SubCollection(WatchSubscription, "More path")
+    @SubCollection(WatchSubscription, "WathSubscriptions")
     subscriptions: ISubCollection<WatchSubscription>;
 
     static fromFirebaseUser(user: User) {

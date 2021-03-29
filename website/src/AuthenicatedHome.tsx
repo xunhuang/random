@@ -116,7 +116,7 @@ export const AuthenicatedHome = () => {
 
     return <div>
         <h1>
-            x AuthenticatedHome - {user.displayName}, {user.id}
+            AuthenticatedHome - {user.displayName}, {user.id}
         </h1>
         <SubscriptionForm sub={selectedSub}
             callback={() => {
