@@ -77,10 +77,10 @@ getLatestCovidData() {
    # download the last day, validated on bigtable side.
    # in the future we  might replace the following 3 days with the direct download to
    # see if it works better.
-   # node BigQuery.js -q 'select county_fips_code as fips, FORMAT_DATE("%F", date) as date , county, state_name as state, confirmed_cases as cases, deaths from  `my_dataset.ESRI-Covid-Lastday`'  > last.json
-   # npx csvtojson covid-19-data/us-counties.csv |jq '[.[] |  .cases = (.cases |(if . == "" then 0 else (.|tonumber) end) ) |.deaths = (.deaths|(if . == "" then 0 else (.|tonumber) end) )]' > nytimes-us-counties.json
-   # jq -s add last.json nytimes-us-counties.json  > covid-all.json
-   node BigQuery.js -q 'select * from `official.county-cases-all`' > covid-all.json
+   node BigQuery.js -q 'select county_fips_code as fips, FORMAT_DATE("%F", date) as date , county, state_name as state, confirmed_cases as cases, deaths from  `my_dataset.ESRI-Covid-Lastday`'  > last.json
+   npx csvtojson covid-19-data/us-counties.csv |jq '[.[] |  .cases = (.cases |(if . == "" then 0 else (.|tonumber) end) ) |.deaths = (.deaths|(if . == "" then 0 else (.|tonumber) end) )]' > nytimes-us-counties.json
+   jq -s add last.json nytimes-us-counties.json  > covid-all.json
+   # node BigQuery.js -q 'select * from `official.county-cases-all`' > covid-all.json
    datasplit covid-all.json fips $target_dir/
 }
 

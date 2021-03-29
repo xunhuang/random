@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthUserContext } from './AuthUserContext';
 import { RandomBackend } from "./RandomBackend"
 import { AuthUser } from "./AuthUser";
-import { AuthenicatedHome } from './AuthenicatedHome';
+import { AuthenticatedHome } from './AuthenicatedHome';
 
 const Page404 = () => {
   return <h1> Oops! That page couldn&apos;t be found. </h1>;
@@ -75,7 +75,7 @@ const SafeRoutes = withRouter((props: RouteComponentProps) => {
 
   return (
     <Switch>
-      <Route exact path="/" component={AuthenicatedHome} />
+      <Route exact path="/" component={AuthenticatedHome} />
       <Route exact path="/sub" component={UserSubscriptions} />
       <Route exact path="*" component={Page404} />
     </Switch>
