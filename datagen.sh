@@ -84,9 +84,17 @@ getLatestCovidData() {
    datasplit covid-all.json fips $target_dir/
 }
 
+getCACountyVaccineData() {
+   target_dir='website/build/data/county'
+   mkdir -p $target_dir
+   node BigQuery.js -q 'select FORMAT_DATE("%F", date) as date, * except(date) from `official.CA-County-Vaccines-overtime`' > $target_dir/CA.json
+   datasplit $target_dir/CA.json fips $target_dir/
+}
+
 mkdir -p tmp
 getLatestCovidData
 getCountySummary
 getCDCCountyTesting
 getTestingData
 getHospitalization
+getCACountyVaccineData
