@@ -35,8 +35,8 @@ jobs:
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       run: cd website; echo "${FIREBASE_CONFIG}" > ./src/firebaseConfig.json;  cd ..
-    - run: git submodule init ;  git submodule update 
-    - run: pushd covid-19-data; git checkout master; git pull; popd
+    # - run: git submodule init ;  git submodule update 
+    # - run: pushd covid-19-data; git checkout master; git pull; popd
     - run: tail covid-19-data/us-counties.csv 
     - name: Google project credentials
       env:
