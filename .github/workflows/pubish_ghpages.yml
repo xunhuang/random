@@ -61,6 +61,7 @@ jobs:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/.googleCredentials.json
       run: sh -vxe datagen.sh
+    - run: cat website/build/data/county-details/06001.json  |jq
     - name: Deploy to Website
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
