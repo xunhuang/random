@@ -1,5 +1,17 @@
 [
   {
+    "date": "2021-03-30",
+    "fips": "06001",
+    "new_doses_administered_today": 12784,
+    "new_doses_administered_seven_day_average": 18826.8571428571,
+    "new_doses_administered": 12784,
+    "doses_administered_per_100k": 51984.7904118756,
+    "doses_administered": 854474,
+    "population": 1643700,
+    "new_doses_administered_yesterday": 81389,
+    "county": "Alameda"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06001",
     "new_doses_administered_today": 12784,
@@ -586,6 +598,18 @@
     "population": 1643700,
     "new_doses_administered_yesterday": 5604,
     "county": "Alameda"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06003",
+    "new_doses_administered_today": 0,
+    "new_doses_administered_seven_day_average": 14.4285714286,
+    "new_doses_administered": 0,
+    "doses_administered_per_100k": 86411.149825784,
+    "doses_administered": 992,
+    "population": 1148,
+    "new_doses_administered_yesterday": 58,
+    "county": "Alpine"
   },
   {
     "date": "2021-03-29",
@@ -1176,6 +1200,18 @@
     "county": "Alpine"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06005",
+    "new_doses_administered_today": 97,
+    "new_doses_administered_seven_day_average": 421.4285714286,
+    "new_doses_administered": 97,
+    "doses_administered_per_100k": 49520.209363187,
+    "doses_administered": 18733,
+    "population": 37829,
+    "new_doses_administered_yesterday": 1942,
+    "county": "Amador"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06005",
     "new_doses_administered_today": 97,
@@ -1762,6 +1798,18 @@
     "population": 37829,
     "new_doses_administered_yesterday": 65,
     "county": "Amador"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06007",
+    "new_doses_administered_today": 250,
+    "new_doses_administered_seven_day_average": 1275.2857142857,
+    "new_doses_administered": 250,
+    "doses_administered_per_100k": 40799.2953869867,
+    "doses_administered": 92645,
+    "population": 227075,
+    "new_doses_administered_yesterday": 5329,
+    "county": "Butte"
   },
   {
     "date": "2021-03-29",
@@ -2352,6 +2400,18 @@
     "county": "Butte"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06009",
+    "new_doses_administered_today": 182,
+    "new_doses_administered_seven_day_average": 348.4285714286,
+    "new_doses_administered": 182,
+    "doses_administered_per_100k": 44383.7736266166,
+    "doses_administered": 20077,
+    "population": 45235,
+    "new_doses_administered_yesterday": 1485,
+    "county": "Calaveras"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06009",
     "new_doses_administered_today": 182,
@@ -2938,6 +2998,18 @@
     "population": 45235,
     "new_doses_administered_yesterday": 13,
     "county": "Calaveras"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06011",
+    "new_doses_administered_today": 24,
+    "new_doses_administered_seven_day_average": 131.5714285714,
+    "new_doses_administered": 24,
+    "doses_administered_per_100k": 32691.9493104734,
+    "doses_administered": 7017,
+    "population": 21464,
+    "new_doses_administered_yesterday": 693,
+    "county": "Colusa"
   },
   {
     "date": "2021-03-29",
@@ -3528,6 +3600,18 @@
     "county": "Colusa"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06013",
+    "new_doses_administered_today": 4655,
+    "new_doses_administered_seven_day_average": 13764.1428571429,
+    "new_doses_administered": 4655,
+    "doses_administered_per_100k": 54652.1632089033,
+    "doses_administered": 619344,
+    "population": 1133247,
+    "new_doses_administered_yesterday": 62188,
+    "county": "Contra Costa"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06013",
     "new_doses_administered_today": 4655,
@@ -4114,6 +4198,18 @@
     "population": 1133247,
     "new_doses_administered_yesterday": 1335,
     "county": "Contra Costa"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06015",
+    "new_doses_administered_today": 106,
+    "new_doses_administered_seven_day_average": 216.7142857143,
+    "new_doses_administered": 106,
+    "doses_administered_per_100k": 31260.9393232205,
+    "doses_administered": 8573,
+    "population": 27424,
+    "new_doses_administered_yesterday": 1078,
+    "county": "Del Norte"
   },
   {
     "date": "2021-03-29",
@@ -4704,6 +4800,18 @@
     "county": "Del Norte"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06017",
+    "new_doses_administered_today": 688,
+    "new_doses_administered_seven_day_average": 1619.2857142857,
+    "new_doses_administered": 688,
+    "doses_administered_per_100k": 44022.5863999443,
+    "doses_administered": 82173,
+    "population": 186661,
+    "new_doses_administered_yesterday": 7469,
+    "county": "El Dorado"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06017",
     "new_doses_administered_today": 688,
@@ -5290,6 +5398,18 @@
     "population": 186661,
     "new_doses_administered_yesterday": 523,
     "county": "El Dorado"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06019",
+    "new_doses_administered_today": 5219,
+    "new_doses_administered_seven_day_average": 8772.5714285714,
+    "new_doses_administered": 5219,
+    "doses_administered_per_100k": 38775.9295799127,
+    "doses_administered": 379279,
+    "population": 978130,
+    "new_doses_administered_yesterday": 40974,
+    "county": "Fresno"
   },
   {
     "date": "2021-03-29",
@@ -5880,6 +6000,18 @@
     "county": "Fresno"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06021",
+    "new_doses_administered_today": 27,
+    "new_doses_administered_seven_day_average": 217.8571428571,
+    "new_doses_administered": 27,
+    "doses_administered_per_100k": 37695.8095852601,
+    "doses_administered": 10516,
+    "population": 27897,
+    "new_doses_administered_yesterday": 1039,
+    "county": "Glenn"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06021",
     "new_doses_administered_today": 27,
@@ -6466,6 +6598,18 @@
     "population": 27897,
     "new_doses_administered_yesterday": 37,
     "county": "Glenn"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06023",
+    "new_doses_administered_today": 941,
+    "new_doses_administered_seven_day_average": 1034.2857142857,
+    "new_doses_administered": 941,
+    "doses_administered_per_100k": 42431.9427258264,
+    "doses_administered": 57609,
+    "population": 135768,
+    "new_doses_administered_yesterday": 5231,
+    "county": "Humboldt"
   },
   {
     "date": "2021-03-29",
@@ -7056,6 +7200,18 @@
     "county": "Humboldt"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06025",
+    "new_doses_administered_today": 434,
+    "new_doses_administered_seven_day_average": 1222.8571428571,
+    "new_doses_administered": 434,
+    "doses_administered_per_100k": 32986.5272783771,
+    "doses_administered": 59447,
+    "population": 180216,
+    "new_doses_administered_yesterday": 6346,
+    "county": "Imperial"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06025",
     "new_doses_administered_today": 434,
@@ -7642,6 +7798,18 @@
     "population": 180216,
     "new_doses_administered_yesterday": 97,
     "county": "Imperial"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06027",
+    "new_doses_administered_today": 52,
+    "new_doses_administered_seven_day_average": 126.2857142857,
+    "new_doses_administered": 52,
+    "doses_administered_per_100k": 52496.5440973182,
+    "doses_administered": 9494,
+    "population": 18085,
+    "new_doses_administered_yesterday": 671,
+    "county": "Inyo"
   },
   {
     "date": "2021-03-29",
@@ -8232,6 +8400,18 @@
     "county": "Inyo"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06029",
+    "new_doses_administered_today": 5537,
+    "new_doses_administered_seven_day_average": 6325.7142857143,
+    "new_doses_administered": 5537,
+    "doses_administered_per_100k": 31078.9952584952,
+    "doses_administered": 274444,
+    "population": 883053,
+    "new_doses_administered_yesterday": 27929,
+    "county": "Kern"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06029",
     "new_doses_administered_today": 5537,
@@ -8818,6 +8998,18 @@
     "population": 883053,
     "new_doses_administered_yesterday": 505,
     "county": "Kern"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06031",
+    "new_doses_administered_today": 490,
+    "new_doses_administered_seven_day_average": 1024.8571428571,
+    "new_doses_administered": 490,
+    "doses_administered_per_100k": 24087.956021989,
+    "doses_administered": 36150,
+    "population": 150075,
+    "new_doses_administered_yesterday": 4117,
+    "county": "Kings"
   },
   {
     "date": "2021-03-29",
@@ -9408,6 +9600,18 @@
     "county": "Kings"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06033",
+    "new_doses_administered_today": 299,
+    "new_doses_administered_seven_day_average": 352,
+    "new_doses_administered": 299,
+    "doses_administered_per_100k": 41475.9618382491,
+    "doses_administered": 26606,
+    "population": 64148,
+    "new_doses_administered_yesterday": 1287,
+    "county": "Lake"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06033",
     "new_doses_administered_today": 299,
@@ -9994,6 +10198,18 @@
     "population": 64148,
     "new_doses_administered_yesterday": 239,
     "county": "Lake"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06035",
+    "new_doses_administered_today": 20,
+    "new_doses_administered_seven_day_average": 113,
+    "new_doses_administered": 20,
+    "doses_administered_per_100k": 22655.1226551227,
+    "doses_administered": 7065,
+    "population": 31185,
+    "new_doses_administered_yesterday": 439,
+    "county": "Lassen"
   },
   {
     "date": "2021-03-29",
@@ -10584,6 +10800,18 @@
     "county": "Lassen"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06037",
+    "new_doses_administered_today": 57765,
+    "new_doses_administered_seven_day_average": 95912,
+    "new_doses_administered": 57765,
+    "doses_administered_per_100k": 42258.8732955624,
+    "doses_administered": 4267323,
+    "population": 10098052,
+    "new_doses_administered_yesterday": 423016,
+    "county": "Los Angeles"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06037",
     "new_doses_administered_today": 57765,
@@ -11170,6 +11398,18 @@
     "population": 10098052,
     "new_doses_administered_yesterday": 19443,
     "county": "Los Angeles"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06039",
+    "new_doses_administered_today": 409,
+    "new_doses_administered_seven_day_average": 1130,
+    "new_doses_administered": 409,
+    "doses_administered_per_100k": 35487.9913297594,
+    "doses_administered": 55011,
+    "population": 155013,
+    "new_doses_administered_yesterday": 4987,
+    "county": "Madera"
   },
   {
     "date": "2021-03-29",
@@ -11760,6 +12000,18 @@
     "county": "Madera"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06041",
+    "new_doses_administered_today": 3573,
+    "new_doses_administered_seven_day_average": 4160.1428571429,
+    "new_doses_administered": 3573,
+    "doses_administered_per_100k": 70144.6435774794,
+    "doses_administered": 182583,
+    "population": 260295,
+    "new_doses_administered_yesterday": 17958,
+    "county": "Marin"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06041",
     "new_doses_administered_today": 3573,
@@ -12346,6 +12598,18 @@
     "population": 260295,
     "new_doses_administered_yesterday": 1110,
     "county": "Marin"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06043",
+    "new_doses_administered_today": 3,
+    "new_doses_administered_seven_day_average": 117,
+    "new_doses_administered": 3,
+    "doses_administered_per_100k": 31619.1562143672,
+    "doses_administered": 5546,
+    "population": 17540,
+    "new_doses_administered_yesterday": 761,
+    "county": "Mariposa"
   },
   {
     "date": "2021-03-29",
@@ -12936,6 +13200,18 @@
     "county": "Mariposa"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06045",
+    "new_doses_administered_today": 101,
+    "new_doses_administered_seven_day_average": 748.1428571429,
+    "new_doses_administered": 101,
+    "doses_administered_per_100k": 54669.3052092151,
+    "doses_administered": 47793,
+    "population": 87422,
+    "new_doses_administered_yesterday": 2763,
+    "county": "Mendocino"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06045",
     "new_doses_administered_today": 101,
@@ -13522,6 +13798,18 @@
     "population": 87422,
     "new_doses_administered_yesterday": 89,
     "county": "Mendocino"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06047",
+    "new_doses_administered_today": 914,
+    "new_doses_administered_seven_day_average": 1947.2857142857,
+    "new_doses_administered": 914,
+    "doses_administered_per_100k": 32852.1787605686,
+    "doses_administered": 88397,
+    "population": 269075,
+    "new_doses_administered_yesterday": 8841,
+    "county": "Merced"
   },
   {
     "date": "2021-03-29",
@@ -14112,6 +14400,18 @@
     "county": "Merced"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06049",
+    "new_doses_administered_today": 1,
+    "new_doses_administered_seven_day_average": 23.2857142857,
+    "new_doses_administered": 1,
+    "doses_administered_per_100k": 40836.8762586708,
+    "doses_administered": 3650,
+    "population": 8938,
+    "new_doses_administered_yesterday": 120,
+    "county": "Modoc"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06049",
     "new_doses_administered_today": 1,
@@ -14698,6 +14998,18 @@
     "population": 8938,
     "new_doses_administered_yesterday": 0,
     "county": "Modoc"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06051",
+    "new_doses_administered_today": 301,
+    "new_doses_administered_seven_day_average": 80.5714285714,
+    "new_doses_administered": 301,
+    "doses_administered_per_100k": 74093.4104698744,
+    "doses_administered": 10502,
+    "population": 14174,
+    "new_doses_administered_yesterday": 180,
+    "county": "Mono"
   },
   {
     "date": "2021-03-29",
@@ -15288,6 +15600,18 @@
     "county": "Mono"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06053",
+    "new_doses_administered_today": 2236,
+    "new_doses_administered_seven_day_average": 4014.4285714286,
+    "new_doses_administered": 2236,
+    "doses_administered_per_100k": 37824.6678300693,
+    "doses_administered": 163861,
+    "population": 433212,
+    "new_doses_administered_yesterday": 18474,
+    "county": "Monterey"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06053",
     "new_doses_administered_today": 2236,
@@ -15874,6 +16198,18 @@
     "population": 433212,
     "new_doses_administered_yesterday": 735,
     "county": "Monterey"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06055",
+    "new_doses_administered_today": 684,
+    "new_doses_administered_seven_day_average": 1467.7142857143,
+    "new_doses_administered": 684,
+    "doses_administered_per_100k": 60804.0987689461,
+    "doses_administered": 85448,
+    "population": 140530,
+    "new_doses_administered_yesterday": 6825,
+    "county": "Napa"
   },
   {
     "date": "2021-03-29",
@@ -16464,6 +16800,18 @@
     "county": "Napa"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06057",
+    "new_doses_administered_today": 194,
+    "new_doses_administered_seven_day_average": 815.2857142857,
+    "new_doses_administered": 194,
+    "doses_administered_per_100k": 44653.4533564768,
+    "doses_administered": 44248,
+    "population": 99092,
+    "new_doses_administered_yesterday": 3632,
+    "county": "Nevada"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06057",
     "new_doses_administered_today": 194,
@@ -17050,6 +17398,18 @@
     "population": 99092,
     "new_doses_administered_yesterday": 300,
     "county": "Nevada"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06059",
+    "new_doses_administered_today": 27356,
+    "new_doses_administered_seven_day_average": 29020.1428571429,
+    "new_doses_administered": 27356,
+    "doses_administered_per_100k": 44286.1693796375,
+    "doses_administered": 1401295,
+    "population": 3164182,
+    "new_doses_administered_yesterday": 125051,
+    "county": "Orange"
   },
   {
     "date": "2021-03-29",
@@ -17640,6 +18000,18 @@
     "county": "Orange"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06061",
+    "new_doses_administered_today": 1153,
+    "new_doses_administered_seven_day_average": 3117,
+    "new_doses_administered": 1153,
+    "doses_administered_per_100k": 51119.3784417368,
+    "doses_administered": 194293,
+    "population": 380077,
+    "new_doses_administered_yesterday": 13447,
+    "county": "Placer"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06061",
     "new_doses_administered_today": 1153,
@@ -18226,6 +18598,18 @@
     "population": 380077,
     "new_doses_administered_yesterday": 1222,
     "county": "Placer"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06063",
+    "new_doses_administered_today": 14,
+    "new_doses_administered_seven_day_average": 188.5714285714,
+    "new_doses_administered": 14,
+    "doses_administered_per_100k": 40339.0555644687,
+    "doses_administered": 7543,
+    "population": 18699,
+    "new_doses_administered_yesterday": 1118,
+    "county": "Plumas"
   },
   {
     "date": "2021-03-29",
@@ -18816,6 +19200,18 @@
     "county": "Plumas"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06065",
+    "new_doses_administered_today": 8515,
+    "new_doses_administered_seven_day_average": 17779,
+    "new_doses_administered": 8515,
+    "doses_administered_per_100k": 36707.8898629875,
+    "doses_administered": 874854,
+    "population": 2383286,
+    "new_doses_administered_yesterday": 79557,
+    "county": "Riverside"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06065",
     "new_doses_administered_today": 8515,
@@ -19402,6 +19798,18 @@
     "population": 2383286,
     "new_doses_administered_yesterday": 6078,
     "county": "Riverside"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06067",
+    "new_doses_administered_today": 6224,
+    "new_doses_administered_seven_day_average": 11623.8571428571,
+    "new_doses_administered": 6224,
+    "doses_administered_per_100k": 40254.684862416,
+    "doses_administered": 607855,
+    "population": 1510023,
+    "new_doses_administered_yesterday": 52271,
+    "county": "Sacramento"
   },
   {
     "date": "2021-03-29",
@@ -19992,6 +20400,18 @@
     "county": "Sacramento"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06069",
+    "new_doses_administered_today": 622,
+    "new_doses_administered_seven_day_average": 561.2857142857,
+    "new_doses_administered": 622,
+    "doses_administered_per_100k": 35431.5335936448,
+    "doses_administered": 21052,
+    "population": 59416,
+    "new_doses_administered_yesterday": 2389,
+    "county": "San Benito"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06069",
     "new_doses_administered_today": 622,
@@ -20578,6 +20998,18 @@
     "population": 59416,
     "new_doses_administered_yesterday": 26,
     "county": "San Benito"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06071",
+    "new_doses_administered_today": 5127,
+    "new_doses_administered_seven_day_average": 13818.1428571429,
+    "new_doses_administered": 5127,
+    "doses_administered_per_100k": 31918.7435873061,
+    "doses_administered": 681597,
+    "population": 2135413,
+    "new_doses_administered_yesterday": 61999,
+    "county": "San Bernardino"
   },
   {
     "date": "2021-03-29",
@@ -21168,6 +21600,18 @@
     "county": "San Bernardino"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06073",
+    "new_doses_administered_today": 19849,
+    "new_doses_administered_seven_day_average": 31687.2857142857,
+    "new_doses_administered": 19849,
+    "doses_administered_per_100k": 49886.7790166805,
+    "doses_administered": 1647677,
+    "population": 3302833,
+    "new_doses_administered_yesterday": 118873,
+    "county": "San Diego"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06073",
     "new_doses_administered_today": 19849,
@@ -21754,6 +22198,18 @@
     "population": 3302833,
     "new_doses_administered_yesterday": 9064,
     "county": "San Diego"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06075",
+    "new_doses_administered_today": 6846,
+    "new_doses_administered_seven_day_average": 10859.2857142857,
+    "new_doses_administered": 6846,
+    "doses_administered_per_100k": 57536.7452680554,
+    "doses_administered": 500595,
+    "population": 870044,
+    "new_doses_administered_yesterday": 46855,
+    "county": "San Francisco"
   },
   {
     "date": "2021-03-29",
@@ -22344,6 +22800,18 @@
     "county": "San Francisco"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06077",
+    "new_doses_administered_today": 3693,
+    "new_doses_administered_seven_day_average": 5771.7142857143,
+    "new_doses_administered": 3693,
+    "doses_administered_per_100k": 37220.6410165362,
+    "doses_administered": 272534,
+    "population": 732212,
+    "new_doses_administered_yesterday": 24541,
+    "county": "San Joaquin"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06077",
     "new_doses_administered_today": 3693,
@@ -22930,6 +23398,18 @@
     "population": 732212,
     "new_doses_administered_yesterday": 1508,
     "county": "San Joaquin"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06079",
+    "new_doses_administered_today": 923,
+    "new_doses_administered_seven_day_average": 2349.4285714286,
+    "new_doses_administered": 923,
+    "doses_administered_per_100k": 44643.3710539873,
+    "doses_administered": 125651,
+    "population": 281455,
+    "new_doses_administered_yesterday": 11302,
+    "county": "San Luis Obispo"
   },
   {
     "date": "2021-03-29",
@@ -23520,6 +24000,18 @@
     "county": "San Luis Obispo"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06081",
+    "new_doses_administered_today": 6334,
+    "new_doses_administered_seven_day_average": 9312,
+    "new_doses_administered": 6334,
+    "doses_administered_per_100k": 55976.0292975252,
+    "doses_administered": 428740,
+    "population": 765935,
+    "new_doses_administered_yesterday": 44531,
+    "county": "San Mateo"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06081",
     "new_doses_administered_today": 6334,
@@ -24106,6 +24598,18 @@
     "population": 765935,
     "new_doses_administered_yesterday": 2520,
     "county": "San Mateo"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06083",
+    "new_doses_administered_today": 3352,
+    "new_doses_administered_seven_day_average": 3999.5714285714,
+    "new_doses_administered": 3352,
+    "doses_administered_per_100k": 40343.4008356282,
+    "doses_administered": 179019,
+    "population": 443738,
+    "new_doses_administered_yesterday": 18105,
+    "county": "Santa Barbara"
   },
   {
     "date": "2021-03-29",
@@ -24696,6 +25200,18 @@
     "county": "Santa Barbara"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06085",
+    "new_doses_administered_today": 12507,
+    "new_doses_administered_seven_day_average": 19856,
+    "new_doses_administered": 12507,
+    "doses_administered_per_100k": 44475.2367079388,
+    "doses_administered": 854903,
+    "population": 1922200,
+    "new_doses_administered_yesterday": 82588,
+    "county": "Santa Clara"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06085",
     "new_doses_administered_today": 12507,
@@ -25282,6 +25798,18 @@
     "population": 1922200,
     "new_doses_administered_yesterday": 4689,
     "county": "Santa Clara"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06087",
+    "new_doses_administered_today": 2110,
+    "new_doses_administered_seven_day_average": 2561.8571428571,
+    "new_doses_administered": 2110,
+    "doses_administered_per_100k": 54478.8413420269,
+    "doses_administered": 149144,
+    "population": 273765,
+    "new_doses_administered_yesterday": 10859,
+    "county": "Santa Cruz"
   },
   {
     "date": "2021-03-29",
@@ -25872,6 +26400,18 @@
     "county": "Santa Cruz"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06089",
+    "new_doses_administered_today": 534,
+    "new_doses_administered_seven_day_average": 638.1428571429,
+    "new_doses_administered": 534,
+    "doses_administered_per_100k": 28248.0386408689,
+    "doses_administered": 50588,
+    "population": 179085,
+    "new_doses_administered_yesterday": 2842,
+    "county": "Shasta"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06089",
     "new_doses_administered_today": 534,
@@ -26458,6 +26998,18 @@
     "population": 179085,
     "new_doses_administered_yesterday": 188,
     "county": "Shasta"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06091",
+    "new_doses_administered_today": 1,
+    "new_doses_administered_seven_day_average": 15.4285714286,
+    "new_doses_administered": 1,
+    "doses_administered_per_100k": 66245.7337883959,
+    "doses_administered": 1941,
+    "population": 2930,
+    "new_doses_administered_yesterday": 105,
+    "county": "Sierra"
   },
   {
     "date": "2021-03-29",
@@ -27048,6 +27600,18 @@
     "county": "Sierra"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06093",
+    "new_doses_administered_today": 30,
+    "new_doses_administered_seven_day_average": 213.8571428571,
+    "new_doses_administered": 30,
+    "doses_administered_per_100k": 40406.5227377124,
+    "doses_administered": 17593,
+    "population": 43540,
+    "new_doses_administered_yesterday": 921,
+    "county": "Siskiyou"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06093",
     "new_doses_administered_today": 30,
@@ -27634,6 +28198,18 @@
     "population": 43540,
     "new_doses_administered_yesterday": 36,
     "county": "Siskiyou"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06095",
+    "new_doses_administered_today": 1461,
+    "new_doses_administered_seven_day_average": 3932.7142857143,
+    "new_doses_administered": 1461,
+    "doses_administered_per_100k": 42662.7596743666,
+    "doses_administered": 187089,
+    "population": 438530,
+    "new_doses_administered_yesterday": 18855,
+    "county": "Solano"
   },
   {
     "date": "2021-03-29",
@@ -28224,6 +28800,18 @@
     "county": "Solano"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06097",
+    "new_doses_administered_today": 3289,
+    "new_doses_administered_seven_day_average": 5722.7142857143,
+    "new_doses_administered": 3289,
+    "doses_administered_per_100k": 57232.0507782501,
+    "doses_administered": 286914,
+    "population": 501317,
+    "new_doses_administered_yesterday": 24386,
+    "county": "Sonoma"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06097",
     "new_doses_administered_today": 3289,
@@ -28810,6 +29398,18 @@
     "population": 501317,
     "new_doses_administered_yesterday": 2039,
     "county": "Sonoma"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06099",
+    "new_doses_administered_today": 1512,
+    "new_doses_administered_seven_day_average": 4264.5714285714,
+    "new_doses_administered": 1512,
+    "doses_administered_per_100k": 39104.8783517924,
+    "doses_administered": 210893,
+    "population": 539301,
+    "new_doses_administered_yesterday": 19389,
+    "county": "Stanislaus"
   },
   {
     "date": "2021-03-29",
@@ -29400,6 +30000,18 @@
     "county": "Stanislaus"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06101",
+    "new_doses_administered_today": 164,
+    "new_doses_administered_seven_day_average": 733.5714285714,
+    "new_doses_administered": 164,
+    "doses_administered_per_100k": 39741.5303738318,
+    "doses_administered": 38101,
+    "population": 95872,
+    "new_doses_administered_yesterday": 4171,
+    "county": "Sutter"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06101",
     "new_doses_administered_today": 164,
@@ -29986,6 +30598,18 @@
     "population": 95872,
     "new_doses_administered_yesterday": 569,
     "county": "Sutter"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06103",
+    "new_doses_administered_today": 76,
+    "new_doses_administered_seven_day_average": 242.5714285714,
+    "new_doses_administered": 76,
+    "doses_administered_per_100k": 25259.9687564105,
+    "doses_administered": 16008,
+    "population": 63373,
+    "new_doses_administered_yesterday": 1399,
+    "county": "Tehama"
   },
   {
     "date": "2021-03-29",
@@ -30576,6 +31200,18 @@
     "county": "Tehama"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06105",
+    "new_doses_administered_today": 14,
+    "new_doses_administered_seven_day_average": 36.1428571429,
+    "new_doses_administered": 14,
+    "doses_administered_per_100k": 32242.2640335873,
+    "doses_administered": 4147,
+    "population": 12862,
+    "new_doses_administered_yesterday": 182,
+    "county": "Trinity"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06105",
     "new_doses_administered_today": 14,
@@ -31162,6 +31798,18 @@
     "population": 12862,
     "new_doses_administered_yesterday": 0,
     "county": "Trinity"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06107",
+    "new_doses_administered_today": 1885,
+    "new_doses_administered_seven_day_average": 3291.4285714286,
+    "new_doses_administered": 1885,
+    "doses_administered_per_100k": 33685.9387113797,
+    "doses_administered": 155116,
+    "population": 460477,
+    "new_doses_administered_yesterday": 14773,
+    "county": "Tulare"
   },
   {
     "date": "2021-03-29",
@@ -31752,6 +32400,18 @@
     "county": "Tulare"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06109",
+    "new_doses_administered_today": 85,
+    "new_doses_administered_seven_day_average": 478.1428571429,
+    "new_doses_administered": 85,
+    "doses_administered_per_100k": 51924.64585033,
+    "doses_administered": 28004,
+    "population": 53932,
+    "new_doses_administered_yesterday": 2525,
+    "county": "Tuolumne"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06109",
     "new_doses_administered_today": 85,
@@ -32338,6 +32998,18 @@
     "population": 53932,
     "new_doses_administered_yesterday": 4,
     "county": "Tuolumne"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06111",
+    "new_doses_administered_today": 3532,
+    "new_doses_administered_seven_day_average": 8280.2857142857,
+    "new_doses_administered": 3532,
+    "doses_administered_per_100k": 45998.4058709227,
+    "doses_administered": 390118,
+    "population": 848112,
+    "new_doses_administered_yesterday": 36910,
+    "county": "Ventura"
   },
   {
     "date": "2021-03-29",
@@ -32928,6 +33600,18 @@
     "county": "Ventura"
   },
   {
+    "date": "2021-03-30",
+    "fips": "06113",
+    "new_doses_administered_today": 700,
+    "new_doses_administered_seven_day_average": 2168.4285714286,
+    "new_doses_administered": 700,
+    "doses_administered_per_100k": 49327.602487708,
+    "doses_administered": 106043,
+    "population": 214977,
+    "new_doses_administered_yesterday": 9421,
+    "county": "Yolo"
+  },
+  {
     "date": "2021-03-29",
     "fips": "06113",
     "new_doses_administered_today": 700,
@@ -33514,6 +34198,18 @@
     "population": 214977,
     "new_doses_administered_yesterday": 580,
     "county": "Yolo"
+  },
+  {
+    "date": "2021-03-30",
+    "fips": "06115",
+    "new_doses_administered_today": 139,
+    "new_doses_administered_seven_day_average": 382.5714285714,
+    "new_doses_administered": 139,
+    "doses_administered_per_100k": 25782.5228829163,
+    "doses_administered": 19464,
+    "population": 75493,
+    "new_doses_administered_yesterday": 2071,
+    "county": "Yuba"
   },
   {
     "date": "2021-03-29",
