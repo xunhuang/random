@@ -42,19 +42,19 @@ jobs:
       - run: cp -f .firebaseConfig.json ts-out/.firebaseConfig.json
       - run: npx tsc -p tsconfig.json
 
-      - run: node Mapper.js
+      - run: node ts-out/Mapper.js
         env:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
 
-      - run: node Reducer.js
+      - run: node ts-out/Reducer.js
         env:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
 
-      - run: node Transform.js
+      - run: node ts-out/Transform.js
         env:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
         
-      - run: node GCSToBigQuery.js
+      - run: node ts-out/GCSToBigQuery.js
         env:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/.googleCredentials.json
