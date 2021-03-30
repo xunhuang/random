@@ -27,6 +27,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       #  setup node dependencies
       - run: npm ci
+      - run: cd website; npm ci  ; cd ..
       - name: firebaseConfig
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
