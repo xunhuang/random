@@ -28,7 +28,7 @@ function doQuery(query: string) {
     performQuery();
 }
 
-function main() {
+function startmain() {
     if (argv["q"]) {
         doQuery(argv["q"]);
     } else if (argv["t"]) {
@@ -39,4 +39,4 @@ function main() {
     }
 }
 
-main();
+startmain();
