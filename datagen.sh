@@ -83,6 +83,13 @@ getCACountyVaccineData() {
    datasplit $target_dir/CA.json fips $target_dir/
 }
 
+getCDCStateLevelVaccine() {
+   target_dir="website/build/data/vaccine"
+   mkdir -p $target_dir
+   node ts-out/BigQuery.js -q 'select distinct FORMAT_DATE("%F", date) as date, Location as state, Doses_Administered, Doses_Distributed FROM `myrandomwatch-b4b41.my_dataset.CDC-Vaccine-Overtime-Table`' > $target_dir/states.json
+   datasplit $target_dir/states.json state $target_dir/
+}
+
 mkdir -p tmp
 getLatestCovidData
 getCountySummary
@@ -90,3 +97,4 @@ getCDCCountyTesting
 getTestingData
 getHospitalization
 getCACountyVaccineData
+getCDCStateLevelVaccine
