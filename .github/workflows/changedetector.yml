@@ -31,9 +31,10 @@ jobs:
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: echo "${FIREBASE_CONFIG}" > .firebaseConfig.json
-     
-      - run: npx tsc watcher.ts  --experimentalDecorators
+      - run: mkdir -p ts-out
+      - run: cp -f .firebaseConfig.json ts-out/.firebaseConfig.json
+      - run: npx tsc -p tsconfig.json
 
-      - run: node watcher.js
+      - run: node ts-out/watcher.js
         env:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}

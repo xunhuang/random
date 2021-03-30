@@ -23,27 +23,13 @@ function main(
             writeDisposition: 'WRITE_TRUNCATE',
             autodetect: true,
             location: 'US',
+            schema: null,
         };
 
         if (schemafile) {
             var schema = JSON.parse(fs.readFileSync(schemafile, 'utf8'));
             metadata.schema = schema;
         }
-        /*
-            schema: {
-                fields: [
-                    { name: 'FIPS', type: 'STRING' },
-                    { name: 'Last_Update', type: 'INTEGER' },
-                    { name: 'Confirmed', type: 'INTEGER' },
-                    { name: 'Deaths', type: 'INTEGER' },
-                    { name: 'Combined_Key', type: 'STRING' },
-                    { name: 'Province_State', type: 'STRING' },
-                    { name: 'Admin2', type: 'STRING' },
-                    { name: 'Country_Region', type: 'STRING' },
-                ],
-            },
-            */
-
 
         // Load data from a Google Cloud Storage file into the table
         const [job] = await bigquery

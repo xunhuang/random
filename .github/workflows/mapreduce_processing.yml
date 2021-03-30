@@ -37,7 +37,9 @@ jobs:
           GOOGLE_SVC_ACCOUNT_CREDENTIALS: ${{ secrets.GOOGLE_SVC_ACCOUNT_CREDENTIALS }}
         run: echo "${GOOGLE_SVC_ACCOUNT_CREDENTIALS}" > /tmp/.googleCredentials.json
      
-      - run: npx tsc Reducer.ts Mapper.ts --experimentalDecorators
+      - run: mkdir -p ts-out
+      - run: cp -f .firebaseConfig.json ts-out/.firebaseConfig.json
+      - run: npx tsc -p tsconfig.json
 
       - run: node Mapper.js
         env:

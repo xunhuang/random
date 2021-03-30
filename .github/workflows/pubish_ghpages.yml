@@ -50,10 +50,10 @@ jobs:
     - run: cd website; npm run build --if-present; cd ..
     - run: cd website; echo "gowatchit.net" > build/CNAME; cd ..
     - run: mkdir -p website/build/data/vaccine/counties website/build/data/testing
-    - run: node dataget.js -t "RandomDataTables/CDC-National-Vaccination-Trends/DataRecords" > website/build/data/vaccine/USA.CDC.json
+    - run: node ts-out/dataget.js -t "RandomDataTables/CDC-National-Vaccination-Trends/DataRecords" > website/build/data/vaccine/USA.CDC.json
     - run : cat website/build/data/vaccine/USA.CDC.json | jq  '[ .vaccination_trends_data | .[] |select (.Location=="US") | select (.date_type == "Admin")  ] |sort_by(.Date)' > website/build/data/vaccine/USA.json
-    - run: node dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
-    - run: node datasplit.js -t CDC-Vaccine-Overtime-Table -f Location -o website/build/data/vaccine
+    - run: node ts-out/dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
+    - run: node ts-out/datasplit.js -t CDC-Vaccine-Overtime-Table -f Location -o website/build/data/vaccine
     - name: fetch data
       env:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
