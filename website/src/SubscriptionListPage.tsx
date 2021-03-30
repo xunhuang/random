@@ -2,7 +2,6 @@ import React from 'react';
 import { RandomBackend } from "./RandomBackend";
 import { WatchSubscription } from "./AuthUser";
 import { SubscriptionListView } from './SubscriptionList';
-import { SubscriptionForm } from './SubscriptionFormProperty';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -19,9 +18,9 @@ export const SubscriptionListPage = () => {
     }, [reload]);
 
     if (!subs) return null;
+
     if (subs.length == 0) {
         return <Redirect to="/subnew" />
-
     }
 
     return <div>

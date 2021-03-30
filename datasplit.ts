@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-import * as CloudDB from './CloudDB';
+import * as CloudDB from './website/src/CloudDB';
 const fs = require('fs');
 const path = require('path');
 

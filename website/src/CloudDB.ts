@@ -1,6 +1,6 @@
 import * as StorageType from "@firebase/storage-types";
 import * as moment from 'moment';
-import * as fireorm from 'fireorm';
+import { db, firebaseConfig } from "./DBInit";
 
 global.XMLHttpRequest = require("xhr2"); // req'd for getting around firebase bug in nodejs.
 
@@ -8,15 +8,6 @@ require("@firebase/firestore");
 require("@firebase/storage");
 const firebase = require("firebase");
 const superagent = require('superagent');
-
-const firebaseConfig = require('./.firebaseConfig.json');
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-fireorm.initialize(db, {
-    validateModels: true
-});
 
 export function getStorageRef(): StorageType.Reference {
     return firebase.storage().ref();
@@ -54,9 +45,9 @@ export class DataRecord {
     }
 };
 
-function snapshotToArrayDataRecord(snapshot) {
-    var result = [];
-    snapshot.forEach(function (childSnapshot) {
+function snapshotToArrayDataRecord(snapshot: any) {
+    var result: DataRecord[] = [];
+    snapshot.forEach(function (childSnapshot: any) {
         let data = childSnapshot.data();
         result.push(DataRecord.factory(
             {
@@ -112,7 +103,7 @@ export async function saveInfoAtSystem(
 async function fetch(url: string): Promise<string> {
     return await superagent.get(url)
         .buffer(true) // this is due to google url returns application/oct stream.
-        .then(res => {
+        .then((res: any) => {
             return res.body.toString();
         });
 }
@@ -121,8 +112,8 @@ export async function getLastRecord(tablename: string): Promise<string | object 
     var docRef = db.collection(tablename).orderBy("timestamp", "desc").limit(1);
     var dataUrl = null;
     await docRef.get().then(
-        function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
+        function (querySnapshot: any) {
+            querySnapshot.forEach(function (doc: any) {
                 dataUrl = doc.data().dataUrl;
             });
         });
@@ -133,7 +124,7 @@ export async function getLastRecord(tablename: string): Promise<string | object 
 export async function getFullRecords(tablename: string): Promise<DataRecord[]> {
     var docRef = db.collection(tablename).orderBy("timestamp", "asc");
     return await docRef.get().then(
-        function (querySnapshot) {
+        function (querySnapshot: any) {
             return snapshotToArrayDataRecord(querySnapshot);
         });
 }

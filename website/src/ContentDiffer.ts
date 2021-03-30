@@ -19,10 +19,10 @@ var options = {
  * @param {Number} [options.charsAroundDiff=40]
  * @returns {String}
  */
-function getDiffText(diff, options) {
-    function inverseGreen(text) { return `<b>${text}</b>` }
-    function inverseRed(text) { return `<s>${text}</s>` }
-    function grey(text) { return `<i>${text}</i>` }
+function getDiffText(diff: any, options: any) {
+    function inverseGreen(text: string) { return `<b>${text}</b>` }
+    function inverseRed(text: string) { return `<s>${text}</s>` }
+    function grey(text: string) { return `<i>${text}</i>` }
     options = options || {
         charsAroundDiff: 40
     };
@@ -36,7 +36,7 @@ function getDiffText(diff, options) {
 
     if (diff.length === 1 && !diff[0].added && !diff[0].removed) return output;
 
-    diff.forEach(function (part) {
+    diff.forEach(function (part: any) {
         var index = diff.indexOf(part),
             partValue = part.value,
             diffColor;
@@ -63,7 +63,7 @@ function getDiffText(diff, options) {
     return output;
 }
 
-function html2text(html) {
+function html2text(html: string) {
     const stripped = cheerio.load(html).text()
         // .replace(/[ \t]+/g, ' ') // remove white spaces only, not line breaks
         // .replace(/(^[ \t]*\n)/gm, "") // remove empty lines

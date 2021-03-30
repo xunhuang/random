@@ -9,8 +9,8 @@ interface SubscriptionListProperty {
 }
 export const SubscriptionListView = (props: SubscriptionListProperty) => {
     const columns = [
-        { label: 'Name', name: 'name' },
-        { label: 'URL', name: 'url' },
+        // { label: 'Name', name: 'name' },
+        { label: 'Sites', name: 'url' },
     ];
 
     const options = {

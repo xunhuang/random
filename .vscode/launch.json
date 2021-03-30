@@ -5,8 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Monitor Subscription",
+            "program": "${workspaceFolder}/ts-out/monitorSubscription.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Reducer Launch Program",
-            "program": "${workspaceFolder}/Reducer.js",
+            "program": "${workspaceFolder}/ts-out/Reducer.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -15,7 +24,7 @@
         },
         {
             "name": "dataget Program",
-            "program": "${workspaceFolder}/dataget.js",
+            "program": "${workspaceFolder}/ts-out/dataget.js",
             "args": [
                 "-t",
                 "Calfiornia-Vaccine-Overtime-Table"
@@ -72,7 +81,7 @@
         },
         {
             "name": "Run GCSToBigQuery",
-            "program": "${workspaceFolder}/GCSToBigQuery.js",
+            "program": "${workspaceFolder}/ts-out/GCSToBigQuery.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -81,7 +90,7 @@
         },
         {
             "name": "Run Watcher",
-            "program": "${workspaceFolder}/watcher.js",
+            "program": "${workspaceFolder}/ts-out/watcher.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"

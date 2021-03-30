@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-import * as Email from './Email';
+import * as Email from './website/src/Email';
 import { RandomDataTable } from "./RandomDataTable";
 import * as MRUtils from './MapReduceUtils';
 

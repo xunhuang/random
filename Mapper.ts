@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
-import * as Email from './Email';
-import * as CloudDB from './CloudDB';
+import * as Email from './website/src/Email';
+import * as CloudDB from './website/src/CloudDB';
 import * as MRUtils from './MapReduceUtils';
 
 

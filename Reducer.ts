@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
-import * as Email from './Email';
+import * as Email from './website/src/Email';
 import * as MRUtils from './MapReduceUtils';
-import * as CloudDB from './CloudDB';
+import * as CloudDB from './website/src/CloudDB';
 import * as moment from "moment";
 
 type ReducerFunction = (content: string | null, preresult: string) => string;

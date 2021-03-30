@@ -1,4 +1,4 @@
-import * as CloudDB from './CloudDB';
+import * as CloudDB from './website/src/CloudDB';
 import { Collection, getRepository } from 'fireorm';
 import * as fireorm from 'fireorm';
 

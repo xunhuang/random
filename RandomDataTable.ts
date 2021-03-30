@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { Collection, getRepository, ISubCollection, SubCollection } from 'fireorm';
-import { DataRecord, storeStringAsBlob } from "./CloudDB";
+import { DataRecord, storeStringAsBlob } from "./website/src/CloudDB";
 
 export type RandomTableOptions = {
     displayName?: string;
