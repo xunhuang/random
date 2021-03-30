@@ -61,6 +61,7 @@ var RandomDataTable_1 = require("./RandomDataTable");
 var MRUtils = __importStar(require("./MapReduceUtils"));
 var BigQuery = require('@google-cloud/bigquery').BigQuery;
 var Storage = require('@google-cloud/storage').Storage;
+var moment = require("moment");
 var GCSToBigQueryJobs = /** @class */ (function () {
     function GCSToBigQueryJobs(name, srctablename, outputTable, options) {
         if (options === void 0) { options = null; }
@@ -68,6 +69,7 @@ var GCSToBigQueryJobs = /** @class */ (function () {
         this.options = null;
         this.datasetId = 'my_dataset';
         this.overwriteTable = false;
+        this.startTime = 0; // ignore eariler records
         this.name = name;
         this.srctablename = srctablename;
         this.outputTable = outputTable;
@@ -88,7 +90,7 @@ var GCSToBigQueryJobs = /** @class */ (function () {
                     case 0: return [4 /*yield*/, MRUtils.fetchJobsStatus(this.jobTableName)];
                     case 1:
                         jobStatusTable = _a.sent();
-                        return [4 /*yield*/, RandomDataTable_1.RandomDataTable.findTableRecords(this.srctablename)];
+                        return [4 /*yield*/, RandomDataTable_1.RandomDataTable.findTableRecords(this.srctablename, this.startTime)];
                     case 2:
                         allJobs = _a.sent();
                         records = jobStatusTable.computeUnfinishedJobs(allJobs);
@@ -99,7 +101,7 @@ var GCSToBigQueryJobs = /** @class */ (function () {
                         if (!(_i < records_1.length)) return [3 /*break*/, 7];
                         record = records_1[_i];
                         console.log("working on:", record.id);
-                        console.log(record);
+                        console.log(record.timestampReadable);
                         bigquery = new BigQuery();
                         storage = new Storage();
                         metadata = {
@@ -185,13 +187,15 @@ function executeMappers(jobs) {
     });
 }
 var BigQueryJobs = [
-    new GCSToBigQueryJobs("CDC Test County Data(XFER)", "CDC-County-Test-JSONL3", "CDC-County-Test-Time-Series-new"
+    new GCSToBigQueryJobs("CDC Test County Data(XFER)", "CDC-County-Test-JSONL3", "CDC-County-Test-Time-Series-new", 
     /* after getting stuck on 3/18/21, run the follow the change the schema
 bq --location=US query --replace \
 --destination_table myrandomwatch-b4b41:my_dataset.CDC-County-Test-Time-Series-new \
---use_legacy_sql=false '        SELECT DATE(report_date) as report_date, DATE(case_death_end_date) as case_death_end_date, DATE(testing_start_date) as testing_start_date, DATE(testing_end_date) as testing_end_date, DATE(case_death_start_date) as case_death_start_date, * except ( case_death_end_date, testing_start_date, testing_end_date, report_date, case_death_start_date )  FROM `myrandomwatch-b4b41.my_dataset.CDC-County-Test-Time-Series-new`'
+--use_legacy_sql=false 'SELECT DATE(report_date) as report_date, DATE(case_death_end_date) as case_death_end_date, DATE(testing_start_date) as testing_start_date, DATE(testing_end_date) as testing_end_date, DATE(case_death_start_date) as case_death_start_date, * except ( case_death_end_date, testing_start_date, testing_end_date, report_date, case_death_start_date )  FROM `myrandomwatch-b4b41.my_dataset.CDC-County-Test-Time-Series-new`'
 */
-    ),
+    {
+        startTime: 1616136506,
+    }),
     new GCSToBigQueryJobs("CA County Data (XFER to BQ)", "Calfiornia-Vaccine-Overtime-Table-NLJSON", "Calfiornia-Vaccine-Overtime"),
     new GCSToBigQueryJobs("CDC Vaccine County Data (XFER TO BQ)", "CDC-Vaccine-Overtime-Table-NLJSON", "CDC-Vaccine-Overtime-Table"),
     new GCSToBigQueryJobs("Upload ESRI (test)", "JHU-ESRI-Realtime2-NLJSON", "JHU-ESRI-Realtime-test", {

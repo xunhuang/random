@@ -138,7 +138,8 @@ var RandomDataTable = /** @class */ (function () {
             });
         });
     };
-    RandomDataTable.findTableRecords = function (storageTableName) {
+    RandomDataTable.findTableRecords = function (storageTableName, afterTime) {
+        if (afterTime === void 0) { afterTime = 0; }
         return __awaiter(this, void 0, void 0, function () {
             var storageTable;
             return __generator(this, function (_a) {
@@ -149,7 +150,7 @@ var RandomDataTable = /** @class */ (function () {
                         if (!storageTable) {
                             return [2 /*return*/, []];
                         }
-                        return [4 /*yield*/, storageTable.dataRecords.orderByAscending(function (item) { return item.timestamp; }).find()];
+                        return [4 /*yield*/, storageTable.dataRecords.whereGreaterThan("timestamp", afterTime).orderByAscending(function (item) { return item.timestamp; }).find()];
                     case 2: return [2 /*return*/, _a.sent()];
                 }
             });

@@ -56,11 +56,11 @@ export class RandomDataTable {
         return storageTable as RandomDataTable;
     }
 
-    static async findTableRecords(storageTableName: string): Promise<DataRecord[]> {
+    static async findTableRecords(storageTableName: string, afterTime: number = 0): Promise<DataRecord[]> {
         let storageTable = await getRepository(RandomDataTable).findById(storageTableName);
         if (!storageTable) {
             return [];
         }
-        return await storageTable.dataRecords.orderByAscending(item => item.timestamp).find();
+        return await storageTable.dataRecords.whereGreaterThan("timestamp", afterTime).orderByAscending(item => item.timestamp).find();
     }
 }

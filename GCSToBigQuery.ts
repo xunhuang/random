@@ -4,12 +4,14 @@ import { RandomDataTable } from "./RandomDataTable";
 import * as MRUtils from './MapReduceUtils';
 const { BigQuery } = require('@google-cloud/bigquery');
 const { Storage } = require('@google-cloud/storage');
+const moment = require("moment");
 
 type BigQueryJobsOption = {
     verbose?: false,
     jobTableName?: string;
     datasetId?: string;
     overwriteTable?: boolean;
+    startTime?: number; // ignore eariler records
 }
 
 class GCSToBigQueryJobs {
@@ -21,6 +23,9 @@ class GCSToBigQueryJobs {
     verbose: false;
     datasetId: string = 'my_dataset';
     overwriteTable: boolean = false;
+    startTime: number = 0; // ignore eariler records
+
+
 
     constructor(
         name: string,
@@ -43,13 +48,12 @@ class GCSToBigQueryJobs {
 
     async execute() {
         let jobStatusTable = await MRUtils.fetchJobsStatus(this.jobTableName);
-        let allJobs = await RandomDataTable.findTableRecords(this.srctablename);
+        let allJobs = await RandomDataTable.findTableRecords(this.srctablename, this.startTime);
         let records = jobStatusTable.computeUnfinishedJobs(allJobs);
-
         console.log(`${records.length} records to process`)
         for (const record of records) {
             console.log("working on:", record.id);
-            console.log(record);
+            console.log(record.timestampReadable);
             const bigquery = new BigQuery();
             const storage = new Storage();
             const metadata = {
@@ -111,12 +115,15 @@ const BigQueryJobs = [
     new GCSToBigQueryJobs(
         "CDC Test County Data(XFER)",
         "CDC-County-Test-JSONL3",
-        "CDC-County-Test-Time-Series-new"
+        "CDC-County-Test-Time-Series-new",
         /* after getting stuck on 3/18/21, run the follow the change the schema
  bq --location=US query --replace \
 --destination_table myrandomwatch-b4b41:my_dataset.CDC-County-Test-Time-Series-new \
---use_legacy_sql=false '        SELECT DATE(report_date) as report_date, DATE(case_death_end_date) as case_death_end_date, DATE(testing_start_date) as testing_start_date, DATE(testing_end_date) as testing_end_date, DATE(case_death_start_date) as case_death_start_date, * except ( case_death_end_date, testing_start_date, testing_end_date, report_date, case_death_start_date )  FROM `myrandomwatch-b4b41.my_dataset.CDC-County-Test-Time-Series-new`'
+--use_legacy_sql=false 'SELECT DATE(report_date) as report_date, DATE(case_death_end_date) as case_death_end_date, DATE(testing_start_date) as testing_start_date, DATE(testing_end_date) as testing_end_date, DATE(case_death_start_date) as case_death_start_date, * except ( case_death_end_date, testing_start_date, testing_end_date, report_date, case_death_start_date )  FROM `myrandomwatch-b4b41.my_dataset.CDC-County-Test-Time-Series-new`'
  */
+        {
+            startTime: 1616136506,
+        }
     ),
     new GCSToBigQueryJobs(
         "CA County Data (XFER to BQ)",
