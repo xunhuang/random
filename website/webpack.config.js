@@ -61,6 +61,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'build'),
     compress: true,
+    historyApiFallback: true, // so 404 errors from https://localhost/sub falls back to index.html
     port: 9000
   }
 
