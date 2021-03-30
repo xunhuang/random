@@ -23,7 +23,6 @@ export function SubscriptionForm(props: SubscriptionFormProperty) {
                 'Enter correct url!'
             )
             .required('Please enter website'),
-
     });
     const { register, handleSubmit, errors, reset } = useForm<FormData>({
         resolver: yupResolver(schema)

@@ -5,7 +5,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthUserContext } from './AuthUserContext';
 import { RandomBackend } from "./RandomBackend"
 import { AuthUser } from "./AuthUser";
-import { AuthenticatedHome } from './AuthenicatedHome';
+import { SubscriptionListPage } from './SubscriptionListPage';
+import { SubscriptionNew } from './SubscriptionNew';
+import { SubscriptionListView } from './SubscriptionList';
 
 const Page404 = () => {
   return <h1> Oops! That page couldn&apos;t be found. </h1>;
@@ -34,8 +36,6 @@ function AuthenticatedApp() {
     }}>
       Logout
         </p>
-
-
   </div>
 }
 
@@ -75,8 +75,9 @@ const SafeRoutes = withRouter((props: RouteComponentProps) => {
 
   return (
     <Switch>
-      <Route exact path="/" component={AuthenticatedHome} />
-      <Route exact path="/sub" component={UserSubscriptions} />
+      <Route exact path="/" component={SubscriptionListPage} />
+      <Route exact path="/sub" component={SubscriptionListPage} />
+      <Route exact path="/subnew" component={SubscriptionNew} />
       <Route exact path="*" component={Page404} />
     </Switch>
   );

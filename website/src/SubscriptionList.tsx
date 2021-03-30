@@ -7,7 +7,7 @@ interface SubscriptionListProperty {
     subs: WatchSubscription[];
     subClicked?: (sub: WatchSubscription) => void;
 }
-export const SubscriptionList = (props: SubscriptionListProperty) => {
+export const SubscriptionListView = (props: SubscriptionListProperty) => {
     const columns = [
         { label: 'Name', name: 'name' },
         { label: 'URL', name: 'url' },
@@ -36,7 +36,7 @@ export const SubscriptionList = (props: SubscriptionListProperty) => {
             <MUIDataTable
                 columns={columns}
                 data={props.subs}
-                title='Watch Subscriptions'
+                title='Watch Sites'
                 options={options} />
         </div>);
 };

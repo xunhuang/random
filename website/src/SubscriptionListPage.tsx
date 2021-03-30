@@ -1,10 +1,12 @@
 import React from 'react';
 import { RandomBackend } from "./RandomBackend";
 import { WatchSubscription } from "./AuthUser";
-import { SubscriptionList } from './SubscriptionList';
+import { SubscriptionListView } from './SubscriptionList';
 import { SubscriptionForm } from './SubscriptionFormProperty';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
-export const AuthenticatedHome = () => {
+export const SubscriptionListPage = () => {
     let user = RandomBackend.getCurrentUser();
 
     const [selectedSub, setSelectedSub] = React.useState<WatchSubscription | undefined>(undefined);
@@ -17,23 +19,20 @@ export const AuthenticatedHome = () => {
     }, [reload]);
 
     if (!subs) return null;
+    if (subs.length == 0) {
+        return <Redirect to="/subnew" />
 
-    console.log(subs);
+    }
 
     return <div>
-        <h1>
-            AuthenticatedHome - {user.displayName}, {user.id}
-        </h1>
-        {
-            (subs.length == 0) ? <SubscriptionForm sub={selectedSub}
-                callback={() => {
-                    setSelectedSub(undefined);
-                    setReload(!reload);
-                }} /> :
-                <SubscriptionList subs={subs} subClicked={sub => {
-                    console.log("upldated selected sub");
-                    setSelectedSub(sub);
-                }} />
-        }
+        <h3>
+            <Link to="/subnew">
+                New Watch Site
+            </Link>
+        </h3>
+        <SubscriptionListView subs={subs} subClicked={sub => {
+            console.log("upldated selected sub");
+            setSelectedSub(sub);
+        }} />
     </div >;
 };
