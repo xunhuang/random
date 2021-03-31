@@ -101,10 +101,14 @@ export async function saveInfoAtSystem(
 }
 
 async function fetch(url: string): Promise<string> {
+    console.log(url);
     return await superagent.get(url)
         .buffer(true) // this is due to google url returns application/oct stream.
         .then((res: any) => {
-            return res.body.toString();
+            if (res.body) {
+                return res.body.toString();
+            }
+            return res.text;
         });
 }
 

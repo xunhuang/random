@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 import * as Email from './website/src/Email';
-import { RandomDataTable } from "./RandomDataTable";
+import { RandomDataTable } from "./website/src/RandomDataTable";
 import * as MRUtils from './MapReduceUtils';
 const { BigQuery } = require('@google-cloud/bigquery');
 const { Storage } = require('@google-cloud/storage');

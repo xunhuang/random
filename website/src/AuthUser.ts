@@ -8,6 +8,10 @@ export class WatchSubscription {
     url: string;
     paused: boolean = false;
     skipNotification: boolean = false;
+
+    storageTableID(user: AuthUser): string {
+        return `${user.id}-WatchSubscription-${this.id}`;
+    }
 };
 
 @Collection("AuthUsers")

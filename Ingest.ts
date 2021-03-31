@@ -1,6 +1,6 @@
 import * as ContentDiffer from './website/src/ContentDiffer';
 import * as Email from './website/src/Email';
-import { RandomDataTable } from "./RandomDataTable";
+import { RandomDataTable } from "./website/src/RandomDataTable";
 import * as cheerio from "cheerio";
 var assert = require('assert');
 const jq = require('node-jq');

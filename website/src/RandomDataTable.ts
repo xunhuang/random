@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { Collection, getRepository, ISubCollection, SubCollection } from 'fireorm';
-import { DataRecord, storeStringAsBlob } from "./website/src/CloudDB";
+import { DataRecord, storeStringAsBlob } from "./CloudDB";
 
 export type RandomTableOptions = {
     displayName?: string;
@@ -40,7 +40,7 @@ export class RandomDataTable {
     setOptions(options: RandomTableOptions) {
         if (options) {
             for (const key in options) {
-                this[key] = options[key];
+                (this as any)[key] = (options as any)[key];
             }
         }
     }
@@ -50,7 +50,9 @@ export class RandomDataTable {
         if (!storageTable) {
             let newtable = new RandomDataTable();
             newtable.id = storageTableName;
-            newtable.setOptions(options);
+            if (options) {
+                newtable.setOptions(options);
+            }
             storageTable = await getRepository(RandomDataTable).create(newtable);
         }
         return storageTable as RandomDataTable;

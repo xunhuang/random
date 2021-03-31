@@ -8,6 +8,7 @@ if (typeof window === 'undefined') {
 }
 require("@firebase/firestore");
 require("@firebase/auth");
+require("@firebase/storage");
 
 export const firebaseConfig = require('../../.firebaseConfig.json');
 f.initializeApp(firebaseConfig);

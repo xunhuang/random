@@ -22,7 +22,7 @@ async function doit(): Promise<any> {
                     sub.url,
                     emails,
                     {
-                        storageTableName: `${user.id}-WatchSubscription-${sub.id}`,
+                        storageTableName: sub.storageTableID(user),
                     });
                 await processSubscription(s);
             } catch (err) {

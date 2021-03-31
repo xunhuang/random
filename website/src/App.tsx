@@ -7,7 +7,11 @@ import { RandomBackend } from "./RandomBackend"
 import { AuthUser } from "./AuthUser";
 import { SubscriptionListPage } from './SubscriptionListPage';
 import { SubscriptionNew } from './SubscriptionNew';
-import { SubscriptionListView } from './SubscriptionList';
+// import { include } from 'named-urls'
+// const namedurls = require("named-urls")
+
+import routes from "./Routes";
+import { SubscriptionViewPage } from './SubscriptionFormProperty';
 
 const Page404 = () => {
   return <h1> Oops! That page couldn&apos;t be found. </h1>;
@@ -68,17 +72,18 @@ function Home(props: any) {
 }
 
 const SafeRoutes = withRouter((props: RouteComponentProps) => {
-  /* this came from the 404 redirect */
+  /* this comes from the 404 redirect */
   if (props.location.search.startsWith("?/")) {
     return <Redirect to={props.location.search.slice(1)} />;
   }
 
   return (
     <Switch>
-      <Route exact path="/" component={SubscriptionListPage} />
-      <Route exact path="/sub" component={SubscriptionListPage} />
-      <Route exact path="/subnew" component={SubscriptionNew} />
-      <Route exact path="*" component={Page404} />
+      <Route exact path={routes.top} component={SubscriptionListPage} />
+      <Route exact path={routes.subscriptionlist} component={SubscriptionListPage} />
+      <Route exact path={routes.subscriptionNew} component={SubscriptionNew} />
+      <Route exact path={routes.subscriptionView} component={SubscriptionViewPage} />
+      <Route exact path={routes.others} component={Page404} />
     </Switch>
   );
 });

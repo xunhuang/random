@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 import * as Email from './website/src/Email';
-import { RandomDataTable } from "./RandomDataTable";
+import { RandomDataTable } from "./website/src/RandomDataTable";
 import * as MRUtils from './MapReduceUtils';
 
 export function serializeNdJson(data: unknown[]): string {

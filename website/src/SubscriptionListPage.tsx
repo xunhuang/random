@@ -2,10 +2,13 @@ import React from 'react';
 import { RandomBackend } from "./RandomBackend";
 import { WatchSubscription } from "./AuthUser";
 import { SubscriptionListView } from './SubscriptionList';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import Routes from './Routes';
+const namedurls = require("named-urls")
 
 export const SubscriptionListPage = () => {
+    let history = useHistory();
     let user = RandomBackend.getCurrentUser();
 
     const [selectedSub, setSelectedSub] = React.useState<WatchSubscription | undefined>(undefined);
@@ -31,6 +34,9 @@ export const SubscriptionListPage = () => {
         </h3>
         <SubscriptionListView subs={subs} subClicked={sub => {
             console.log("upldated selected sub");
+            history.push(namedurls.reverse(Routes.subscriptionView, {
+                subid: sub.id,
+            }))
             setSelectedSub(sub);
         }} />
     </div >;

@@ -4,12 +4,75 @@ import { WatchSubscription } from "./AuthUser";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import Routes from './Routes';
+import { Link } from 'react-router-dom';
+import { RandomDataTable } from "./RandomDataTable"
+import { DataRecord } from './CloudDB';
+import MUIDataTable from 'mui-datatables';
+import parse from 'html-react-parser';
 
 interface SubscriptionFormProperty {
     sub?: WatchSubscription;
     callback?: () => void;
 }
-export function SubscriptionForm(props: SubscriptionFormProperty) {
+
+export function SubscriptionViewPage(props: any) {
+    let user = RandomBackend.getCurrentUser();
+    let subid = props.match.params.subid;
+    const [sub, setSub] = React.useState<WatchSubscription | undefined>(undefined);
+    const [runRecords, setRunRecords] = React.useState<DataRecord[] | undefined>(undefined);
+
+    const [selectDataUrl, setSelectedDataUrl] = React.useState<string | undefined>(undefined);
+    console.log(subid);
+    React.useEffect(() => {
+        user.subscriptions.findById(subid).then(data => {
+            let mysub = data as WatchSubscription;
+            RandomDataTable.findTableRecords(
+                mysub.storageTableID(user)
+            ).then((records: DataRecord[]) => {
+                setSub(mysub);
+                setRunRecords(records);
+            });
+        });
+    }, [subid]);
+    if (!sub || !runRecords) return null;
+
+    console.log(runRecords);
+
+    const columns = [
+        { label: 'Time', name: 'timestampReadable' },
+        { label: 'Data URL', name: 'dataUrl' },
+    ];
+
+    const options = {
+        onRowClick: (rowData: string[], rowMeta: { dataIndex: number; rowIndex: number; }) => {
+            console.log("row clicked");
+            let record = runRecords[rowMeta.dataIndex];
+            record.fetchData().then(data => {
+                setSelectedDataUrl(data);
+            });
+        }
+    };
+
+    return <div>
+        <h4>
+            <Link to={Routes.subscriptionlist}> Back </Link>
+        </h4>
+        <h3>
+            {sub.url}
+        </h3>
+
+        <MUIDataTable
+            columns={columns}
+            data={runRecords}
+            title='Run Records'
+            options={options}
+        />
+        {selectDataUrl && parse(selectDataUrl as string)}
+
+    </div>
+}
+export function SubscriptionEditPage(props: SubscriptionFormProperty) {
     let user = RandomBackend.getCurrentUser();
     type FormData = {
         name: string;

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
+import Routes from './Routes';
 
 interface SubscriptionFormProperty {
     sub?: WatchSubscription;
@@ -47,7 +48,7 @@ export function SubscriptionNew(props: SubscriptionFormProperty) {
             if (props.callback) {
                 props.callback();
             } else {
-                history.push('/sub')
+                history.push(Routes.subscriptionlist);
             }
         });
     });
@@ -62,7 +63,7 @@ export function SubscriptionNew(props: SubscriptionFormProperty) {
                     {errors.url && "Please enter valid URL"}
                 </div>
             </form>
-            { dataSubmitted &&
+            {dataSubmitted &&
                 // this didnt work, cross site stuff. need cloud function to fetch
                 <div>
                     <h4> {url}</h4>
