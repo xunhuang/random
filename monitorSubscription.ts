@@ -9,13 +9,18 @@ async function doit(): Promise<any> {
         console.log(user);
         let subs = await user.subscriptions.find();
         for (const sub of subs) {
+            console.log(sub);
+            if (sub.paused) {
+                console.log("skipping because subscription is paused");
+                continue;
+            }
             try {
-                console.log(sub);
+                let emails = sub.skipNotification ? [] : [user.email];
 
                 const s = new Subscription(
                     sub.id,
                     sub.url,
-                    [user.displayName],
+                    emails,
                     {
                         storageTableName: `${user.id}-WatchSubscription-${sub.id}`,
                     });

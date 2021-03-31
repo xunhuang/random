@@ -6,13 +6,15 @@ export class WatchSubscription {
     id: string;
     name: string;
     url: string;
-    frequency: number;
+    paused: boolean = false;
+    skipNotification: boolean = false;
 };
 
 @Collection("AuthUsers")
 export class AuthUser {
     id: string;
     displayName: string | null = null;
+    email: string | null = null;
 
     @SubCollection(WatchSubscription, "WathSubscriptions")
     subscriptions: ISubCollection<WatchSubscription>;
@@ -21,6 +23,7 @@ export class AuthUser {
         let u = new AuthUser();
         u.displayName = user.displayName;
         u.id = user.uid;
+        u.email = user.email;
         // console.log("hello")
         return u;
     }

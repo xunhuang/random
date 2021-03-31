@@ -3,6 +3,11 @@ export async function send(emails: string[], subject: string, html: string) {
         var API_KEY = process.env.MAILGUN_TOKEN;
         var DOMAIN = 'yumyum.today';
 
+        if (emails.length == 0) {
+            console.log("Empty to: fields. No email sent");
+            return;
+        }
+
         var mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 
         const data = {
@@ -12,11 +17,7 @@ export async function send(emails: string[], subject: string, html: string) {
             html: html
         };
 
-        if (emails.length == 0) {
-            console.log("Empty to: fields. No email sent");
-        }
-
-        mailgun.messages().send(data, (error, body) => {
+        mailgun.messages().send(data, (error: any, body: any) => {
             if (error) {
                 console.log("error is " + error);
                 console.log(emails);
