@@ -10,6 +10,7 @@ import { RandomDataTable } from "./RandomDataTable"
 import { DataRecord } from './CloudDB';
 import MUIDataTable from 'mui-datatables';
 import parse from 'html-react-parser';
+import DiscreteTimeSlider from './DiscreteTimeSlider';
 
 interface SubscriptionFormProperty {
     sub?: WatchSubscription;
@@ -32,27 +33,18 @@ export function SubscriptionViewPage(props: any) {
             ).then((records: DataRecord[]) => {
                 setSub(mysub);
                 setRunRecords(records);
+                if (records.length > 0) {
+                    records.slice(-1)[0].fetchData().then(data => {
+                        setSelectedDataUrl(data);
+                    });
+
+                }
             });
         });
     }, [subid]);
     if (!sub || !runRecords) return null;
 
-    console.log(runRecords);
-
-    const columns = [
-        { label: 'Time', name: 'timestampReadable' },
-        { label: 'Data URL', name: 'dataUrl' },
-    ];
-
-    const options = {
-        onRowClick: (rowData: string[], rowMeta: { dataIndex: number; rowIndex: number; }) => {
-            console.log("row clicked");
-            let record = runRecords[rowMeta.dataIndex];
-            record.fetchData().then(data => {
-                setSelectedDataUrl(data);
-            });
-        }
-    };
+    // console.log(runRecords);
 
     return <div>
         <h4>
@@ -61,13 +53,30 @@ export function SubscriptionViewPage(props: any) {
         <h3>
             {sub.url}
         </h3>
+        <DiscreteTimeSlider
+            items={runRecords.map(r => {
+                return {
+                    timestamp: r.timestamp * 1000, // to get to unix timestamp
+                    item: r
+                };
+            })}
+            callback={
+                (item): void => {
+                    console.log(item);
+                    let record = item.item as DataRecord;
+                    record.fetchData().then(data => {
+                        setSelectedDataUrl(data);
+                    });
+                }
+            }
+        />
 
-        <MUIDataTable
+        {/* <MUIDataTable
             columns={columns}
             data={runRecords}
             title='Run Records'
             options={options}
-        />
+        /> */}
         {selectDataUrl && parse(selectDataUrl as string)}
 
     </div>
@@ -82,7 +91,7 @@ export function SubscriptionEditPage(props: SubscriptionFormProperty) {
         name: yup.string().required(),
         url: yup.string()
             .matches(
-                /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1, 3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
                 'Enter correct url!'
             )
             .required('Please enter website'),
