@@ -1,24 +1,11 @@
 import { User, UserCredential } from '@firebase/auth-types';
 import { AuthUser } from "./AuthUser";
 import { Collection, getRepository } from 'fireorm';
-import * as fireorm from 'fireorm';
-require("@firebase/firestore");
-require("@firebase/auth");
-
-const firebase = require('firebase/app').default;
-const firebaseConfig = require('./firebaseConfig.json');
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig)
-}
-fireorm.initialize(firebase.firestore(), {
-    validateModels: true
-});
+import { firebase } from './DBInit';
 
 class RandomBackendClass {
-    currentUser: AuthUser | null = null;;
-    constructor() {
-
-    }
+    currentUser: AuthUser | null = null;
+    constructor() { }
     login() {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function (result: UserCredential) {

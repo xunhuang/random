@@ -1,8 +1,19 @@
 import * as fireorm from 'fireorm';
-const firebase = require("firebase");
+
+var f;
+if (typeof window === 'undefined') {
+    f = require("firebase");
+} else {
+    f = require('firebase/app').default;
+}
+require("@firebase/firestore");
+require("@firebase/auth");
+
 export const firebaseConfig = require('../../.firebaseConfig.json');
-firebase.initializeApp(firebaseConfig);
-export const db = firebase.firestore();
+f.initializeApp(firebaseConfig);
+export const db = f.firestore();
 fireorm.initialize(db, {
     validateModels: true
 });
+
+export const firebase = f;
