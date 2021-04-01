@@ -111,9 +111,9 @@ export function isContentTheSame(c1: string | object, c2: string | object): bool
             return true;
         }
         var htmlDiffer = new HtmlDiffer(options);
-        if (htmlDiffer.isEqual(c1, c2)) {
-            return true;
-        }
+        // if (htmlDiffer.isEqual(c1, c2)) {
+        //     return true;
+        // }
         var t1 = html2text(c1);
         var t2 = html2text(c2);
         return htmlDiffer.isEqual(t1, t2);
