@@ -91,10 +91,15 @@ getCDCStateLevelVaccine() {
 }
 
 mkdir -p tmp
-getLatestCovidData
-getCountySummary
-getCDCCountyTesting
-getTestingData
-getHospitalization
-getCACountyVaccineData
-getCDCStateLevelVaccine
+
+mkdir -p website/build/data/vaccine
+node ts-out/dataget.js -t "RandomDataTables/CDC-National-Vaccination-Trends/DataRecords" > website/build/data/vaccine/USA.CDC.json
+cat website/build/data/vaccine/USA.CDC.json | jq  '[ .vaccination_trends_data | .[] |select (.Location=="US") | select (.date_type == "Admin")  ] |sort_by(.Date)' > website/build/data/vaccine/USA.json
+
+# getLatestCovidData
+# getCountySummary
+# getCDCCountyTesting
+# getTestingData
+# getHospitalization
+# getCACountyVaccineData
+# getCDCStateLevelVaccine
