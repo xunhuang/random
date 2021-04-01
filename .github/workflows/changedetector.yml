@@ -39,3 +39,7 @@ jobs:
       - run: node ts-out/watcher.js
         env:
           MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
+
+      - run: node ts-out/monitorSubscription.js
+        env:
+          MAILGUN_TOKEN: ${{ secrets.MAILGUN_TOKEN }}
