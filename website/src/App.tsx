@@ -7,11 +7,10 @@ import { RandomBackend } from "./RandomBackend"
 import { AuthUser } from "./AuthUser";
 import { SubscriptionListPage } from './SubscriptionListPage';
 import { SubscriptionNew } from './SubscriptionNew';
-// import { include } from 'named-urls'
-// const namedurls = require("named-urls")
 
 import routes from "./Routes";
-import { SubscriptionViewPage } from './SubscriptionFormProperty';
+import { SubscriptionViewPage } from './SubscriptionViewPage';
+import { SubscriptionEditPage } from './SubscriptionEditPage';
 
 const Page404 = () => {
   return <h1> Oops! That page couldn&apos;t be found. </h1>;
@@ -83,6 +82,7 @@ const SafeRoutes = withRouter((props: RouteComponentProps) => {
       <Route exact path={routes.subscriptionlist} component={SubscriptionListPage} />
       <Route exact path={routes.subscriptionNew} component={SubscriptionNew} />
       <Route exact path={routes.subscriptionView} component={SubscriptionViewPage} />
+      <Route exact path={routes.subscriptionEdit} component={SubscriptionEditPage} />
       <Route exact path={routes.others} component={Page404} />
     </Switch>
   );

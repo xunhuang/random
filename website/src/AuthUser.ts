@@ -36,4 +36,7 @@ export class AuthUser {
     subscriptionAdd(sub: WatchSubscription) {
         this.subscriptions.create(sub);
     }
+    async findSubscription(id: string): Promise<WatchSubscription | null> {
+        return this.subscriptions.findById(id);
+    }
 }

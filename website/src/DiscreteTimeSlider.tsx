@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
-import { callbackify } from "util";
 const moment = require("moment");
 
 const useStyles = makeStyles({
@@ -23,6 +22,9 @@ export default function DiscreteTimeSlider(props: {
     const classes = useStyles();
     var marks: any[] = [];
     const length = props.items.length;
+
+    if (length < 2) return null
+
     for (let i = 0; i < length; i++) {
         marks.push({
             value: i * 100 / (length - 1),
