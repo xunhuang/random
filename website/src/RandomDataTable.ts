@@ -9,7 +9,7 @@ export type RandomTableOptions = {
     note?: string;
 }
 
-@Collection()
+@Collection("RandomDataTables")
 export class RandomDataTable {
     id: string;
 
@@ -18,7 +18,7 @@ export class RandomDataTable {
     sourceTableName: string | null = null;
     note: string | null = null;
 
-    @SubCollection(DataRecord)
+    @SubCollection(DataRecord, "DataRecords")
     dataRecords: ISubCollection<DataRecord>;
 
     async dataRecordAdd(content: string, timestamp: number | null = null) {
