@@ -57,6 +57,7 @@ jobs:
     - run: node ts-out/dataget.js -t "RandomDataTables/CDC-National-Vaccination-Trends/DataRecords" > website/build/data/vaccine/USA.CDC.json
     - run : wc -l website/build/data/vaccine/USA.CDC.json 
     - run : head website/build/data/vaccine/USA.CDC.json 
+    - run : tail website/build/data/vaccine/USA.CDC.json 
     - run : cat website/build/data/vaccine/USA.CDC.json | jq 
     - run : cat website/build/data/vaccine/USA.CDC.json | jq  '[ .vaccination_trends_data | .[] |select (.Location=="US") | select (.date_type == "Admin")  ] |sort_by(.Date)' > website/build/data/vaccine/USA.json
     #- run: node ts-out/dataget.js -t CDC-Vaccine-Overtime-Table  > website/build/data/vaccine/states.json
