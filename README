@@ -2,3 +2,36 @@
 npm install
 
 node setupFirebaseConfig.js > .firebaseConfig.json
+
+GoWatchIt Project Roadmap
+
+1) Better Scraping
+• Support different methods of scraping, Curl vs. Puppteers 
+• Screenshot support
+• Add cookies and different options
+• run directly from user given command lines
+
+2) Scalability
+• Dispatch tasks to for Watcher to run on different places. Cloud Function, GH workflows. 
+• Gather duplicated subscriptions and use that to notify a range of subscribed users. 
+
+3) Performance 
+• Run Tasks in array of awaitables.
+
+4) Data Processing
+• UI for adding a range of actions to fetch results such as "css selector", "JQ actions", so user can distill down to the right content they care about
+• User for even selecting the exact thing and help suggest the right css selector
+
+5) GUI
+• frontpage
+• header/footer
+• UI navigation chrome
+• Form for editing needs work
+• Maybe even an App? with better URL sharing and notifications. 
+
+6) Alternative notification method (SMS/pubsub)
+7) Help user add URL to monitor - share from websites, chrome plugins
+8) Specialize on Things to watch on
+• prices? 
+• Availability? calendar, booking.
+9) Suggest what users should be watching.

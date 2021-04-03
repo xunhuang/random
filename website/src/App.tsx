@@ -11,6 +11,8 @@ import { SubscriptionNew } from './SubscriptionNew';
 import routes from "./Routes";
 import { SubscriptionViewPage } from './SubscriptionViewPage';
 import { SubscriptionEditPage } from './SubscriptionEditPage';
+import { UnauthenticatedApp } from './UnauthenticatedApp';
+import { Header } from './Header';
 
 const Page404 = () => {
   return <h1> Oops! That page couldn&apos;t be found. </h1>;
@@ -33,24 +35,9 @@ const App = (props: any) => {
 
 function AuthenticatedApp() {
   return <div>
+    <Header />
     <SafeRoutes />
-    <p onClick={(event) => {
-      RandomBackend.logout();
-    }}>
-      Logout
-        </p>
   </div>
-}
-
-function UnauthenticatedApp() {
-  return <h1> Un-AuthenticatedApp xxx
-        <p onClick={(event) => {
-      console.log("clicked");
-      RandomBackend.login();
-    }}>
-      Sign in here
-        </p>
-  </h1>;
 }
 
 function Home(props: any) {

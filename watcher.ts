@@ -106,4 +106,7 @@ async function doit() {
     }
 }
 
-doit().then(() => process.exit());
+doit().then(() => {
+    console.log("all done with watcher")
+    process.exit();
+});
