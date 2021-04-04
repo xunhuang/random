@@ -1,9 +1,13 @@
 import React from 'react';
 import { RandomBackend } from "./RandomBackend";
 import { WatchSubscription } from "./AuthUser";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { Input, TextField, FormControl } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
+import Routes from './Routes';
+const namedurls = require("named-urls")
 
 export function SubscriptionEditPage(props: any) {
     let user = RandomBackend.getCurrentUser();
@@ -19,16 +23,18 @@ export function SubscriptionEditPage(props: any) {
 }
 
 function SubscriptionEditView(props: { sub: WatchSubscription }) {
+    const history = useHistory();
     const sub = props.sub;
     type FormData = {
         url: string;
         paused: boolean;
         skipNotification: boolean;
+        input: string;
     };
     const schema = yup.object().shape({
         url: yup.string().url().required('Please enter website'),
     });
-    const { register, handleSubmit, errors, reset } = useForm<FormData>({
+    const { register, handleSubmit, errors, control } = useForm<FormData>({
         resolver: yupResolver(schema)
     });
 
@@ -40,8 +46,9 @@ function SubscriptionEditView(props: { sub: WatchSubscription }) {
         newsub.skipNotification = skipNotification;
         console.log(newsub);
         user.subscriptions.update(newsub).then(function () {
-            //     // console.log("done updating subscriptions");
-            //     // if (props.callback) { props.callback(); }
+            history.push(namedurls.reverse(Routes.subscriptionView, {
+                subid: sub.id,
+            }));
         });
     });
 
@@ -49,13 +56,20 @@ function SubscriptionEditView(props: { sub: WatchSubscription }) {
     return (
         <div>
             <h1>Edit Subscription</h1>
-
             <form onSubmit={onSubmit}>
-                <div>
-                    <label>URL</label>
-                    <input name="url" ref={register} defaultValue={sub.url} />
-                    {errors.url && "URL must be valid"}
-                </div>
+                <Controller
+                    name="url"
+                    as={
+                        <TextField
+                            fullWidth
+                            label="URL"
+                            variant="outlined"
+                            helperText={errors.url ? errors.url.message : null}
+                        />
+                    }
+                    control={control}
+                    defaultValue={sub.url}
+                />
                 <div>
                     <label>Pause</label>
                     <input type="checkbox" name="paused" ref={register} defaultChecked={sub.paused} />
@@ -65,7 +79,9 @@ function SubscriptionEditView(props: { sub: WatchSubscription }) {
                     <input type="checkbox" name="skipNotification" ref={register} defaultChecked={sub.skipNotification} />
                 </div>
                 <div>
-                    <input type="submit" />
+                    <button type="submit" >
+                        Save
+                        </button>
                 </div>
             </form>
         </div>
