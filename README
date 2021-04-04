@@ -10,6 +10,11 @@ GoWatchIt Project Roadmap
 • Screenshot support
 • Add cookies and different options
 • run directly from user given command lines
+   - User login type of scraping as a lot of information are behind login walls 
+     like vaccine Availability, calendar
+   - getting blocked from single IP address -> need socks type support.
+   - multiple steps scraping?
+   - how to beat Captcha. 
 
 2) Scalability
 • Dispatch tasks to for Watcher to run on different places. Cloud Function, GH workflows. 
@@ -30,8 +35,21 @@ GoWatchIt Project Roadmap
 • Maybe even an App? with better URL sharing and notifications. 
 
 6) Alternative notification method (SMS/pubsub)
+
 7) Help user add URL to monitor - share from websites, chrome plugins
+
 8) Specialize on Things to watch on
 • prices? 
 • Availability? calendar, booking.
+
 9) Suggest what users should be watching.
+
+10) Single Page View
+- Tabs for "Rendered", "HTML", "PNG"
+- Tab for editing the processing
+- Configure output table? 
+- Back Processing?
+
+11) Intelligence in figuring out where the data came from:
+- https to a site. Eventually endup displaying something. But which 
+API call actually fetched that piece of data? 
