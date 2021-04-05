@@ -12,7 +12,16 @@ import routes from "./Routes";
 import { SubscriptionViewPage } from './SubscriptionViewPage';
 import { SubscriptionEditPage } from './SubscriptionEditPage';
 import { UnauthenticatedApp } from './UnauthenticatedApp';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Header } from './Header';
+
+const appTheme = createMuiTheme({
+  palette: {
+    // background: { default: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' },
+    // background: { default: 'black' },
+  }
+});
+
 
 const Page404 = () => {
   return <h1> Oops! That page couldn&apos;t be found. </h1>;
@@ -25,11 +34,13 @@ const UserSubscriptions = () => {
 
 const App = (props: any) => {
   return <BrowserRouter>
-    <header>
-      <div className="App">
-        <Home {...props} />
-      </div>
-    </header>
+    <ThemeProvider theme={appTheme}>
+      <header>
+        <div className="App">
+          <Home {...props} />
+        </div>
+      </header>
+    </ThemeProvider>
   </BrowserRouter >;
 };
 

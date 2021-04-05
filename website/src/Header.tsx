@@ -1,6 +1,6 @@
 import React from 'react';
 import { RandomBackend } from "./RandomBackend";
-import { Typography } from '@material-ui/core';
+import { Typography, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
     topContainer: {
@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 }));
 export function Header() {
     const classes = useStyles();
+    const theme = useTheme();
     return (
         <div className={classes.topContainer}>
             <span className={classes.title}>

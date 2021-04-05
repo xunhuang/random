@@ -4,9 +4,11 @@ import { WatchSubscription } from "./AuthUser";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Input, TextField, FormControl } from '@material-ui/core';
+import { Input, TextField, FormControl, Box, FormControlLabel, Checkbox } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import Routes from './Routes';
+import PropTypes from 'prop-types'
+
 const namedurls = require("named-urls")
 
 export function SubscriptionEditPage(props: any) {
@@ -22,6 +24,7 @@ export function SubscriptionEditPage(props: any) {
     return <SubscriptionEditView sub={sub} />
 }
 
+
 function SubscriptionEditView(props: { sub: WatchSubscription }) {
     const history = useHistory();
     const sub = props.sub;
@@ -35,7 +38,12 @@ function SubscriptionEditView(props: { sub: WatchSubscription }) {
         url: yup.string().url().required('Please enter website'),
     });
     const { register, handleSubmit, errors, control } = useForm<FormData>({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        defaultValues: {
+            paused: false,
+            skipNotification: false,
+        }
+
     });
 
     const onSubmit = handleSubmit(({ url, paused, skipNotification }) => {
@@ -44,46 +52,62 @@ function SubscriptionEditView(props: { sub: WatchSubscription }) {
         newsub.url = url;
         newsub.paused = paused;
         newsub.skipNotification = skipNotification;
+        console.log(paused);
         console.log(newsub);
         user.subscriptions.update(newsub).then(function () {
-            history.push(namedurls.reverse(Routes.subscriptionView, {
-                subid: sub.id,
-            }));
+            // history.push(namedurls.reverse(Routes.subscriptionView, {
+            //     subid: sub.id,
+            // }));
         });
     });
 
-    console.log(errors);
     return (
         <div>
             <h1>Edit Subscription</h1>
             <form onSubmit={onSubmit}>
-                <Controller
-                    name="url"
-                    as={
-                        <TextField
-                            fullWidth
-                            label="URL"
-                            variant="outlined"
-                            helperText={errors.url ? errors.url.message : null}
-                        />
-                    }
-                    control={control}
-                    defaultValue={sub.url}
-                />
-                <div>
-                    <label>Pause</label>
-                    <input type="checkbox" name="paused" ref={register} defaultChecked={sub.paused} />
-                </div>
-                <div>
-                    <label>Skip Notifications</label>
-                    <input type="checkbox" name="skipNotification" ref={register} defaultChecked={sub.skipNotification} />
-                </div>
-                <div>
+                <Box component="span" display="block" p={2} m={1} bgcolor="background.paper">
+                    <Controller
+                        name="url"
+                        as={
+                            <TextField
+                                fullWidth
+                                label="URL"
+                                variant="outlined"
+                                helperText={errors.url ? errors.url.message : null}
+                            />
+                        }
+                        control={control}
+                        defaultValue={sub.url}
+                    />
+                </Box>
+                <Box component="span" display="block" p={1} m={1} bgcolor="background.paper">
+                    <FormControlLabel
+                        control={
+                            <Checkbox defaultChecked={sub.paused}
+                                name="paused"
+                                inputRef={register}
+                            />
+                        }
+                        label={"Paused"}
+                    />
+                </Box>
+                <Box component="span" display="block" p={1} m={1} bgcolor="background.paper">
+                    <FormControlLabel
+                        control={
+                            <Checkbox defaultChecked={sub.skipNotification}
+                                name="skipNotification"
+                                inputRef={register}
+                            />
+                        }
+                        label={"Skip Notifications"}
+                    />
+                </Box>
+                <Box component="span" display="block" p={1} m={1} bgcolor="background.paper">
                     <button type="submit" >
                         Save
                         </button>
-                </div>
+                </Box>
             </form>
-        </div>
+        </div >
     );
 }
