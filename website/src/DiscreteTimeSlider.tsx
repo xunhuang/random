@@ -28,13 +28,13 @@ export default function DiscreteTimeSlider(props: {
     for (let i = 0; i < length; i++) {
         marks.push({
             value: i * 100 / (length - 1),
-            label: moment(props.items[i].timestamp).format("M/D"),
+            // label: moment(props.items[i].timestamp).format("M/D"),
             time: moment(props.items[i].timestamp),
         })
     }
     function valueLabelFormat(value: number) {
         let index = marks.findIndex((mark) => mark.value === value);
-        return marks[index].time.format("HH:MM");
+        return marks[index].time.format("M/D");
     }
 
     return (
@@ -44,7 +44,7 @@ export default function DiscreteTimeSlider(props: {
                 valueLabelFormat={valueLabelFormat}
                 aria-labelledby="discrete-slider-restrict"
                 step={null}
-                valueLabelDisplay="auto"
+                valueLabelDisplay="on"
                 marks={marks}
                 onChangeCommitted={
                     (event, value) => {

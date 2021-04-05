@@ -55,9 +55,9 @@ function SubscriptionEditView(props: { sub: WatchSubscription }) {
         console.log(paused);
         console.log(newsub);
         user.subscriptions.update(newsub).then(function () {
-            // history.push(namedurls.reverse(Routes.subscriptionView, {
-            //     subid: sub.id,
-            // }));
+            history.push(namedurls.reverse(Routes.subscriptionView, {
+                subid: sub.id,
+            }));
         });
     });
 

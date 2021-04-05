@@ -7,6 +7,7 @@ import { RandomDataTable } from "./RandomDataTable"
 import { DataRecord } from './CloudDB';
 import parse from 'html-react-parser';
 import DiscreteTimeSlider from './DiscreteTimeSlider';
+import { Typography } from '@material-ui/core';
 const namedurls = require("named-urls")
 
 const sanitizeHtml = require('sanitize-html');
@@ -63,13 +64,13 @@ export function SubscriptionViewPage(props: any) {
                 }
             }
         />
+        {runRecords && runRecords.length === 0 &&
+            <Typography variant="body1">
+                We haven't had one successful run yet.
+        </Typography>
+        }
 
-        {/* <MUIDataTable
-            columns={columns}
-            data={runRecords}
-            title='Run Records'
-            options={options}
-        /> */}
+
         {selectDataUrl && parse(
             sanitizeHtml(
                 selectDataUrl as string,
