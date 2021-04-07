@@ -2,6 +2,7 @@ import * as ContentDiffer from './website/src/ContentDiffer';
 import * as Email from './website/src/Email';
 import { RandomDataTable } from "./website/src/RandomDataTable";
 import * as cheerio from "cheerio";
+const { exec } = require("child_process");
 var assert = require('assert');
 const jq = require('node-jq');
 const superagent = require('superagent');
@@ -123,6 +124,7 @@ type SubscriptionOptions = {
     cssSelect?: string;
     jqQuery?: string;
     ignoreErrors?: false;
+    curlCmd?: string;
 };
 
 export class Subscription {
@@ -136,6 +138,7 @@ export class Subscription {
     cssSelect: string | null = null;
     jqQuery: string | null = null;
     ignoreErrors: boolean = false;
+    curlCmd: string | null = null;
 
     constructor(
         name: string,
@@ -161,7 +164,12 @@ export class Subscription {
 
 
     async fetchContent(): Promise<WebPageContent> {
-        let content = await scrape(this.watchURL, this.customHeaders);
+        let content = null;
+        if (this.curlCmd) {
+            content = await this.exec(this.curlCmd);
+        } else {
+            content = await scrape(this.watchURL, this.customHeaders);
+        }
         if (content === null) {
             throw ("Scraped content is null");
         }
@@ -175,6 +183,20 @@ export class Subscription {
         return contentWeb;
     }
 
+    async exec(cmd): Promise<string> {
+        return new Promise((resolve, reject) => {
+            exec(cmd, (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                }
+                console.log(`stdout: ${stdout}`);
+                resolve(stdout)
+            });
+        });
+    }
 
     async getStorageTable(): Promise<RandomDataTable> {
         return await RandomDataTable.findOrCreate(this.storageTableName, {
