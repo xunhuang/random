@@ -19,6 +19,7 @@ getTestingData() {
    f=`curl -L -S https://healthdata.gov/resource/w3ft-93it.json |jq -r ' .[-1] |.archive_link | .url'`
    curl -s $f | npx csvtojson > $target_dir/states-original.json
    cat $target_dir/states-original.json | jq -f website/state.jq > $target_dir/states.json
+   rm -rf $target_dir/states-original.json 
    datasplit $target_dir/states.json state $target_dir/
    cat $target_dir/states.json  | jq -f website/testingUSSummarize.jq  > $target_dir/USA.json
    cat $target_dir/states.json  | jq -f website/testingStateTable.jq  > $target_dir/states-last.json
