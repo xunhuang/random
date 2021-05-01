@@ -43,6 +43,7 @@ getHospitalization() {
    jq -f website/hospitalization.jq  $target_dir/states-original.json > $target_dir/states.json
    datasplit $target_dir/states.json state $target_dir/
    cat $target_dir/states.json  | jq -f website/hospitalizationUSSummarize.jq  > $target_dir/USA.json
+   rm -rf $target_dir/states-original.json 
 
    jq -c '.[]' $target_dir/states.json > tmp/states-hospitalization.json
    jq -c '.[]' $target_dir/USA.json > tmp/us-hospitalization.json
