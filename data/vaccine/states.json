@@ -1,395 +1,5 @@
 [
   {
-    "date": "2021-05-29",
-    "state": "LTC",
-    "Doses_Administered": 7845160,
-    "Doses_Distributed": null
-  },
-  {
-    "date": "2021-05-29",
-    "state": "BP2",
-    "Doses_Administered": 182278,
-    "Doses_Distributed": 190340
-  },
-  {
-    "date": "2021-05-29",
-    "state": "DD2",
-    "Doses_Administered": 3632866,
-    "Doses_Distributed": 4318470
-  },
-  {
-    "date": "2021-05-29",
-    "state": "IH2",
-    "Doses_Administered": 1368015,
-    "Doses_Distributed": 1733425
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MP",
-    "Doses_Administered": 48115,
-    "Doses_Distributed": 72330
-  },
-  {
-    "date": "2021-05-29",
-    "state": "FM",
-    "Doses_Administered": 43004,
-    "Doses_Distributed": 77800
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MH",
-    "Doses_Administered": 29929,
-    "Doses_Distributed": 51300
-  },
-  {
-    "date": "2021-05-29",
-    "state": "GU",
-    "Doses_Administered": 159175,
-    "Doses_Distributed": 207370
-  },
-  {
-    "date": "2021-05-29",
-    "state": "RP",
-    "Doses_Administered": 23549,
-    "Doses_Distributed": 24600
-  },
-  {
-    "date": "2021-05-29",
-    "state": "AS",
-    "Doses_Administered": 42511,
-    "Doses_Distributed": 54030
-  },
-  {
-    "date": "2021-05-29",
-    "state": "VA2",
-    "Doses_Administered": 5249763,
-    "Doses_Distributed": 6239605
-  },
-  {
-    "date": "2021-05-29",
-    "state": "UT",
-    "Doses_Administered": 2562531,
-    "Doses_Distributed": 3100720
-  },
-  {
-    "date": "2021-05-29",
-    "state": "VI",
-    "Doses_Administered": 71094,
-    "Doses_Distributed": 72730
-  },
-  {
-    "date": "2021-05-29",
-    "state": "ND",
-    "Doses_Administered": 612414,
-    "Doses_Distributed": 688750
-  },
-  {
-    "date": "2021-05-29",
-    "state": "NV",
-    "Doses_Administered": 2490170,
-    "Doses_Distributed": 2898670
-  },
-  {
-    "date": "2021-05-29",
-    "state": "RI",
-    "Doses_Administered": 1154089,
-    "Doses_Distributed": 1459925
-  },
-  {
-    "date": "2021-05-29",
-    "state": "LA",
-    "Doses_Administered": 3069547,
-    "Doses_Distributed": 3902740
-  },
-  {
-    "date": "2021-05-29",
-    "state": "SD",
-    "Doses_Administered": 774765,
-    "Doses_Distributed": 936015
-  },
-  {
-    "date": "2021-05-29",
-    "state": "PR",
-    "Doses_Administered": 2673941,
-    "Doses_Distributed": 3858830
-  },
-  {
-    "date": "2021-05-29",
-    "state": "NH",
-    "Doses_Administered": 1384917,
-    "Doses_Distributed": 1737915
-  },
-  {
-    "date": "2021-05-29",
-    "state": "OK",
-    "Doses_Administered": 2947088,
-    "Doses_Distributed": 3932805
-  },
-  {
-    "date": "2021-05-29",
-    "state": "AK",
-    "Doses_Administered": 610038,
-    "Doses_Distributed": 806335
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MS",
-    "Doses_Administered": 1769429,
-    "Doses_Distributed": 2596955
-  },
-  {
-    "date": "2021-05-29",
-    "state": "NJ",
-    "Doses_Administered": 9045800,
-    "Doses_Distributed": 10967205
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MA",
-    "Doses_Administered": 7965407,
-    "Doses_Distributed": 9309200
-  },
-  {
-    "date": "2021-05-29",
-    "state": "NC",
-    "Doses_Administered": 8121565,
-    "Doses_Distributed": 11347990
-  },
-  {
-    "date": "2021-05-29",
-    "state": "TN",
-    "Doses_Administered": 4824878,
-    "Doses_Distributed": 6086730
-  },
-  {
-    "date": "2021-05-29",
-    "state": "WY",
-    "Doses_Administered": 395527,
-    "Doses_Distributed": 505565
-  },
-  {
-    "date": "2021-05-29",
-    "state": "NY",
-    "Doses_Administered": 19479050,
-    "Doses_Distributed": 22653175
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MO",
-    "Doses_Administered": 4657459,
-    "Doses_Distributed": 5910925
-  },
-  {
-    "date": "2021-05-29",
-    "state": "ME",
-    "Doses_Administered": 1480132,
-    "Doses_Distributed": 1790020
-  },
-  {
-    "date": "2021-05-29",
-    "state": "IA",
-    "Doses_Administered": 2830985,
-    "Doses_Distributed": 3326855
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MT",
-    "Doses_Administered": 864820,
-    "Doses_Distributed": 1085415
-  },
-  {
-    "date": "2021-05-29",
-    "state": "AL",
-    "Doses_Administered": 3020540,
-    "Doses_Distributed": 4578590
-  },
-  {
-    "date": "2021-05-29",
-    "state": "NM",
-    "Doses_Administered": 2141188,
-    "Doses_Distributed": 2275605
-  },
-  {
-    "date": "2021-05-29",
-    "state": "CT",
-    "Doses_Administered": 4009308,
-    "Doses_Distributed": 4551515
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MI",
-    "Doses_Administered": 8652493,
-    "Doses_Distributed": 11229100
-  },
-  {
-    "date": "2021-05-29",
-    "state": "GA",
-    "Doses_Administered": 7413625,
-    "Doses_Distributed": 10750095
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MN",
-    "Doses_Administered": 5387405,
-    "Doses_Distributed": 6290840
-  },
-  {
-    "date": "2021-05-29",
-    "state": "OH",
-    "Doses_Administered": 9847364,
-    "Doses_Distributed": 11962165
-  },
-  {
-    "date": "2021-05-29",
-    "state": "MD",
-    "Doses_Administered": 6111631,
-    "Doses_Distributed": 7936880
-  },
-  {
-    "date": "2021-05-29",
-    "state": "FL",
-    "Doses_Administered": 18620153,
-    "Doses_Distributed": 23702095
-  },
-  {
-    "date": "2021-05-29",
-    "state": "NE",
-    "Doses_Administered": 1694284,
-    "Doses_Distributed": 2007060
-  },
-  {
-    "date": "2021-05-29",
-    "state": "WV",
-    "Doses_Administered": 1311765,
-    "Doses_Distributed": 1836245
-  },
-  {
-    "date": "2021-05-29",
-    "state": "CA",
-    "Doses_Administered": 38066786,
-    "Doses_Distributed": 47404720
-  },
-  {
-    "date": "2021-05-29",
-    "state": "AR",
-    "Doses_Administered": 2069135,
-    "Doses_Distributed": 2770540
-  },
-  {
-    "date": "2021-05-29",
-    "state": "TX",
-    "Doses_Administered": 22847875,
-    "Doses_Distributed": 30384105
-  },
-  {
-    "date": "2021-05-29",
-    "state": "HI",
-    "Doses_Administered": 1583711,
-    "Doses_Distributed": 1838740
-  },
-  {
-    "date": "2021-05-29",
-    "state": "DE",
-    "Doses_Administered": 934414,
-    "Doses_Distributed": 1225135
-  },
-  {
-    "date": "2021-05-29",
-    "state": "KY",
-    "Doses_Administered": 3631035,
-    "Doses_Distributed": 4318535
-  },
-  {
-    "date": "2021-05-29",
-    "state": "DC",
-    "Doses_Administered": 785239,
-    "Doses_Distributed": 1029935
-  },
-  {
-    "date": "2021-05-29",
-    "state": "OR",
-    "Doses_Administered": 4023817,
-    "Doses_Distributed": 5339055
-  },
-  {
-    "date": "2021-05-29",
-    "state": "VA",
-    "Doses_Administered": 8303622,
-    "Doses_Distributed": 9792225
-  },
-  {
-    "date": "2021-05-29",
-    "state": "US",
-    "Doses_Administered": 293705050,
-    "Doses_Distributed": 366314625
-  },
-  {
-    "date": "2021-05-29",
-    "state": "AZ",
-    "Doses_Administered": 5929316,
-    "Doses_Distributed": 7807315
-  },
-  {
-    "date": "2021-05-29",
-    "state": "VT",
-    "Doses_Administered": 763002,
-    "Doses_Distributed": 897370
-  },
-  {
-    "date": "2021-05-29",
-    "state": "CO",
-    "Doses_Administered": 5579010,
-    "Doses_Distributed": 6773740
-  },
-  {
-    "date": "2021-05-29",
-    "state": "SC",
-    "Doses_Administered": 3752709,
-    "Doses_Distributed": 5082625
-  },
-  {
-    "date": "2021-05-29",
-    "state": "ID",
-    "Doses_Administered": 1232835,
-    "Doses_Distributed": 1610265
-  },
-  {
-    "date": "2021-05-29",
-    "state": "IN",
-    "Doses_Administered": 5080847,
-    "Doses_Distributed": 6437880
-  },
-  {
-    "date": "2021-05-29",
-    "state": "KS",
-    "Doses_Administered": 2317319,
-    "Doses_Distributed": 2982945
-  },
-  {
-    "date": "2021-05-29",
-    "state": "WA",
-    "Doses_Administered": 7565664,
-    "Doses_Distributed": 8898290
-  },
-  {
-    "date": "2021-05-29",
-    "state": "WI",
-    "Doses_Administered": 5453018,
-    "Doses_Distributed": 5934385
-  },
-  {
-    "date": "2021-05-29",
-    "state": "IL",
-    "Doses_Administered": 11583657,
-    "Doses_Distributed": 14140165
-  },
-  {
-    "date": "2021-05-29",
-    "state": "PA",
-    "Doses_Administered": 12521140,
-    "Doses_Distributed": 15063565
-  },
-  {
     "date": "2021-04-01",
     "state": "GU",
     "Doses_Administered": 88590,
@@ -24964,5 +24574,785 @@
     "state": "VA2",
     "Doses_Administered": 5074735,
     "Doses_Distributed": 6238805
+  },
+  {
+    "date": "2021-05-29",
+    "state": "LTC",
+    "Doses_Administered": 7845160,
+    "Doses_Distributed": null
+  },
+  {
+    "date": "2021-05-29",
+    "state": "BP2",
+    "Doses_Administered": 182278,
+    "Doses_Distributed": 190340
+  },
+  {
+    "date": "2021-05-29",
+    "state": "DD2",
+    "Doses_Administered": 3632866,
+    "Doses_Distributed": 4318470
+  },
+  {
+    "date": "2021-05-29",
+    "state": "IH2",
+    "Doses_Administered": 1368015,
+    "Doses_Distributed": 1733425
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MP",
+    "Doses_Administered": 48115,
+    "Doses_Distributed": 72330
+  },
+  {
+    "date": "2021-05-29",
+    "state": "FM",
+    "Doses_Administered": 43004,
+    "Doses_Distributed": 77800
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MH",
+    "Doses_Administered": 29929,
+    "Doses_Distributed": 51300
+  },
+  {
+    "date": "2021-05-29",
+    "state": "GU",
+    "Doses_Administered": 159175,
+    "Doses_Distributed": 207370
+  },
+  {
+    "date": "2021-05-29",
+    "state": "RP",
+    "Doses_Administered": 23549,
+    "Doses_Distributed": 24600
+  },
+  {
+    "date": "2021-05-29",
+    "state": "AS",
+    "Doses_Administered": 42511,
+    "Doses_Distributed": 54030
+  },
+  {
+    "date": "2021-05-29",
+    "state": "VA2",
+    "Doses_Administered": 5249763,
+    "Doses_Distributed": 6239605
+  },
+  {
+    "date": "2021-05-29",
+    "state": "UT",
+    "Doses_Administered": 2562531,
+    "Doses_Distributed": 3100720
+  },
+  {
+    "date": "2021-05-29",
+    "state": "VI",
+    "Doses_Administered": 71094,
+    "Doses_Distributed": 72730
+  },
+  {
+    "date": "2021-05-29",
+    "state": "ND",
+    "Doses_Administered": 612414,
+    "Doses_Distributed": 688750
+  },
+  {
+    "date": "2021-05-29",
+    "state": "NV",
+    "Doses_Administered": 2490170,
+    "Doses_Distributed": 2898670
+  },
+  {
+    "date": "2021-05-29",
+    "state": "RI",
+    "Doses_Administered": 1154089,
+    "Doses_Distributed": 1459925
+  },
+  {
+    "date": "2021-05-29",
+    "state": "LA",
+    "Doses_Administered": 3069547,
+    "Doses_Distributed": 3902740
+  },
+  {
+    "date": "2021-05-29",
+    "state": "SD",
+    "Doses_Administered": 774765,
+    "Doses_Distributed": 936015
+  },
+  {
+    "date": "2021-05-29",
+    "state": "PR",
+    "Doses_Administered": 2673941,
+    "Doses_Distributed": 3858830
+  },
+  {
+    "date": "2021-05-29",
+    "state": "NH",
+    "Doses_Administered": 1384917,
+    "Doses_Distributed": 1737915
+  },
+  {
+    "date": "2021-05-29",
+    "state": "OK",
+    "Doses_Administered": 2947088,
+    "Doses_Distributed": 3932805
+  },
+  {
+    "date": "2021-05-29",
+    "state": "AK",
+    "Doses_Administered": 610038,
+    "Doses_Distributed": 806335
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MS",
+    "Doses_Administered": 1769429,
+    "Doses_Distributed": 2596955
+  },
+  {
+    "date": "2021-05-29",
+    "state": "NJ",
+    "Doses_Administered": 9045800,
+    "Doses_Distributed": 10967205
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MA",
+    "Doses_Administered": 7965407,
+    "Doses_Distributed": 9309200
+  },
+  {
+    "date": "2021-05-29",
+    "state": "NC",
+    "Doses_Administered": 8121565,
+    "Doses_Distributed": 11347990
+  },
+  {
+    "date": "2021-05-29",
+    "state": "TN",
+    "Doses_Administered": 4824878,
+    "Doses_Distributed": 6086730
+  },
+  {
+    "date": "2021-05-29",
+    "state": "WY",
+    "Doses_Administered": 395527,
+    "Doses_Distributed": 505565
+  },
+  {
+    "date": "2021-05-29",
+    "state": "NY",
+    "Doses_Administered": 19479050,
+    "Doses_Distributed": 22653175
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MO",
+    "Doses_Administered": 4657459,
+    "Doses_Distributed": 5910925
+  },
+  {
+    "date": "2021-05-29",
+    "state": "ME",
+    "Doses_Administered": 1480132,
+    "Doses_Distributed": 1790020
+  },
+  {
+    "date": "2021-05-29",
+    "state": "IA",
+    "Doses_Administered": 2830985,
+    "Doses_Distributed": 3326855
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MT",
+    "Doses_Administered": 864820,
+    "Doses_Distributed": 1085415
+  },
+  {
+    "date": "2021-05-29",
+    "state": "AL",
+    "Doses_Administered": 3020540,
+    "Doses_Distributed": 4578590
+  },
+  {
+    "date": "2021-05-29",
+    "state": "NM",
+    "Doses_Administered": 2141188,
+    "Doses_Distributed": 2275605
+  },
+  {
+    "date": "2021-05-29",
+    "state": "CT",
+    "Doses_Administered": 4009308,
+    "Doses_Distributed": 4551515
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MI",
+    "Doses_Administered": 8652493,
+    "Doses_Distributed": 11229100
+  },
+  {
+    "date": "2021-05-29",
+    "state": "GA",
+    "Doses_Administered": 7413625,
+    "Doses_Distributed": 10750095
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MN",
+    "Doses_Administered": 5387405,
+    "Doses_Distributed": 6290840
+  },
+  {
+    "date": "2021-05-29",
+    "state": "OH",
+    "Doses_Administered": 9847364,
+    "Doses_Distributed": 11962165
+  },
+  {
+    "date": "2021-05-29",
+    "state": "MD",
+    "Doses_Administered": 6111631,
+    "Doses_Distributed": 7936880
+  },
+  {
+    "date": "2021-05-29",
+    "state": "FL",
+    "Doses_Administered": 18620153,
+    "Doses_Distributed": 23702095
+  },
+  {
+    "date": "2021-05-29",
+    "state": "NE",
+    "Doses_Administered": 1694284,
+    "Doses_Distributed": 2007060
+  },
+  {
+    "date": "2021-05-29",
+    "state": "WV",
+    "Doses_Administered": 1311765,
+    "Doses_Distributed": 1836245
+  },
+  {
+    "date": "2021-05-29",
+    "state": "CA",
+    "Doses_Administered": 38066786,
+    "Doses_Distributed": 47404720
+  },
+  {
+    "date": "2021-05-29",
+    "state": "AR",
+    "Doses_Administered": 2069135,
+    "Doses_Distributed": 2770540
+  },
+  {
+    "date": "2021-05-29",
+    "state": "TX",
+    "Doses_Administered": 22847875,
+    "Doses_Distributed": 30384105
+  },
+  {
+    "date": "2021-05-29",
+    "state": "HI",
+    "Doses_Administered": 1583711,
+    "Doses_Distributed": 1838740
+  },
+  {
+    "date": "2021-05-29",
+    "state": "DE",
+    "Doses_Administered": 934414,
+    "Doses_Distributed": 1225135
+  },
+  {
+    "date": "2021-05-29",
+    "state": "KY",
+    "Doses_Administered": 3631035,
+    "Doses_Distributed": 4318535
+  },
+  {
+    "date": "2021-05-29",
+    "state": "DC",
+    "Doses_Administered": 785239,
+    "Doses_Distributed": 1029935
+  },
+  {
+    "date": "2021-05-29",
+    "state": "OR",
+    "Doses_Administered": 4023817,
+    "Doses_Distributed": 5339055
+  },
+  {
+    "date": "2021-05-29",
+    "state": "VA",
+    "Doses_Administered": 8303622,
+    "Doses_Distributed": 9792225
+  },
+  {
+    "date": "2021-05-29",
+    "state": "US",
+    "Doses_Administered": 293705050,
+    "Doses_Distributed": 366314625
+  },
+  {
+    "date": "2021-05-29",
+    "state": "AZ",
+    "Doses_Administered": 5929316,
+    "Doses_Distributed": 7807315
+  },
+  {
+    "date": "2021-05-29",
+    "state": "VT",
+    "Doses_Administered": 763002,
+    "Doses_Distributed": 897370
+  },
+  {
+    "date": "2021-05-29",
+    "state": "CO",
+    "Doses_Administered": 5579010,
+    "Doses_Distributed": 6773740
+  },
+  {
+    "date": "2021-05-29",
+    "state": "SC",
+    "Doses_Administered": 3752709,
+    "Doses_Distributed": 5082625
+  },
+  {
+    "date": "2021-05-29",
+    "state": "ID",
+    "Doses_Administered": 1232835,
+    "Doses_Distributed": 1610265
+  },
+  {
+    "date": "2021-05-29",
+    "state": "IN",
+    "Doses_Administered": 5080847,
+    "Doses_Distributed": 6437880
+  },
+  {
+    "date": "2021-05-29",
+    "state": "KS",
+    "Doses_Administered": 2317319,
+    "Doses_Distributed": 2982945
+  },
+  {
+    "date": "2021-05-29",
+    "state": "WA",
+    "Doses_Administered": 7565664,
+    "Doses_Distributed": 8898290
+  },
+  {
+    "date": "2021-05-29",
+    "state": "WI",
+    "Doses_Administered": 5453018,
+    "Doses_Distributed": 5934385
+  },
+  {
+    "date": "2021-05-29",
+    "state": "IL",
+    "Doses_Administered": 11583657,
+    "Doses_Distributed": 14140165
+  },
+  {
+    "date": "2021-05-29",
+    "state": "PA",
+    "Doses_Administered": 12521140,
+    "Doses_Distributed": 15063565
+  },
+  {
+    "date": "2021-05-30",
+    "state": "LTC",
+    "Doses_Administered": 7847064,
+    "Doses_Distributed": null
+  },
+  {
+    "date": "2021-05-30",
+    "state": "AS",
+    "Doses_Administered": 42511,
+    "Doses_Distributed": 54030
+  },
+  {
+    "date": "2021-05-30",
+    "state": "BP2",
+    "Doses_Administered": 182278,
+    "Doses_Distributed": 190340
+  },
+  {
+    "date": "2021-05-30",
+    "state": "DD2",
+    "Doses_Administered": 3645047,
+    "Doses_Distributed": 4318470
+  },
+  {
+    "date": "2021-05-30",
+    "state": "FM",
+    "Doses_Administered": 43004,
+    "Doses_Distributed": 77800
+  },
+  {
+    "date": "2021-05-30",
+    "state": "GU",
+    "Doses_Administered": 159178,
+    "Doses_Distributed": 207370
+  },
+  {
+    "date": "2021-05-30",
+    "state": "IH2",
+    "Doses_Administered": 1370468,
+    "Doses_Distributed": 1733425
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MH",
+    "Doses_Administered": 30257,
+    "Doses_Distributed": 51300
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MP",
+    "Doses_Administered": 48584,
+    "Doses_Distributed": 72330
+  },
+  {
+    "date": "2021-05-30",
+    "state": "RP",
+    "Doses_Administered": 24225,
+    "Doses_Distributed": 24600
+  },
+  {
+    "date": "2021-05-30",
+    "state": "ND",
+    "Doses_Administered": 614245,
+    "Doses_Distributed": 688750
+  },
+  {
+    "date": "2021-05-30",
+    "state": "UT",
+    "Doses_Administered": 2562678,
+    "Doses_Distributed": 3100720
+  },
+  {
+    "date": "2021-05-30",
+    "state": "VA2",
+    "Doses_Administered": 5256603,
+    "Doses_Distributed": 6239605
+  },
+  {
+    "date": "2021-05-30",
+    "state": "VI",
+    "Doses_Administered": 71122,
+    "Doses_Distributed": 72730
+  },
+  {
+    "date": "2021-05-30",
+    "state": "NV",
+    "Doses_Administered": 2501619,
+    "Doses_Distributed": 2898670
+  },
+  {
+    "date": "2021-05-30",
+    "state": "RI",
+    "Doses_Administered": 1159456,
+    "Doses_Distributed": 1459925
+  },
+  {
+    "date": "2021-05-30",
+    "state": "LA",
+    "Doses_Administered": 3082438,
+    "Doses_Distributed": 3902740
+  },
+  {
+    "date": "2021-05-30",
+    "state": "FL",
+    "Doses_Administered": 18703929,
+    "Doses_Distributed": 23702095
+  },
+  {
+    "date": "2021-05-30",
+    "state": "SD",
+    "Doses_Administered": 775974,
+    "Doses_Distributed": 936015
+  },
+  {
+    "date": "2021-05-30",
+    "state": "IN",
+    "Doses_Administered": 5103220,
+    "Doses_Distributed": 6437880
+  },
+  {
+    "date": "2021-05-30",
+    "state": "PR",
+    "Doses_Administered": 2700673,
+    "Doses_Distributed": 3858830
+  },
+  {
+    "date": "2021-05-30",
+    "state": "NH",
+    "Doses_Administered": 1384922,
+    "Doses_Distributed": 1737915
+  },
+  {
+    "date": "2021-05-30",
+    "state": "OK",
+    "Doses_Administered": 2954480,
+    "Doses_Distributed": 3932805
+  },
+  {
+    "date": "2021-05-30",
+    "state": "AK",
+    "Doses_Administered": 611608,
+    "Doses_Distributed": 806335
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MS",
+    "Doses_Administered": 1769522,
+    "Doses_Distributed": 2596955
+  },
+  {
+    "date": "2021-05-30",
+    "state": "NJ",
+    "Doses_Administered": 9083396,
+    "Doses_Distributed": 10967005
+  },
+  {
+    "date": "2021-05-30",
+    "state": "NC",
+    "Doses_Administered": 8144065,
+    "Doses_Distributed": 11347990
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MA",
+    "Doses_Administered": 8014898,
+    "Doses_Distributed": 9309200
+  },
+  {
+    "date": "2021-05-30",
+    "state": "WY",
+    "Doses_Administered": 395615,
+    "Doses_Distributed": 505565
+  },
+  {
+    "date": "2021-05-30",
+    "state": "NY",
+    "Doses_Administered": 19605540,
+    "Doses_Distributed": 22653075
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MO",
+    "Doses_Administered": 4671951,
+    "Doses_Distributed": 5910925
+  },
+  {
+    "date": "2021-05-30",
+    "state": "IL",
+    "Doses_Administered": 11639422,
+    "Doses_Distributed": 14140165
+  },
+  {
+    "date": "2021-05-30",
+    "state": "TN",
+    "Doses_Administered": 4843465,
+    "Doses_Distributed": 6086730
+  },
+  {
+    "date": "2021-05-30",
+    "state": "ME",
+    "Doses_Administered": 1480596,
+    "Doses_Distributed": 1790020
+  },
+  {
+    "date": "2021-05-30",
+    "state": "IA",
+    "Doses_Administered": 2841489,
+    "Doses_Distributed": 3326855
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MT",
+    "Doses_Administered": 867122,
+    "Doses_Distributed": 1085415
+  },
+  {
+    "date": "2021-05-30",
+    "state": "AL",
+    "Doses_Administered": 3021454,
+    "Doses_Distributed": 4578590
+  },
+  {
+    "date": "2021-05-30",
+    "state": "CT",
+    "Doses_Administered": 4024797,
+    "Doses_Distributed": 4551515
+  },
+  {
+    "date": "2021-05-30",
+    "state": "US",
+    "Doses_Administered": 294928850,
+    "Doses_Distributed": 366316945
+  },
+  {
+    "date": "2021-05-30",
+    "state": "NM",
+    "Doses_Administered": 2149277,
+    "Doses_Distributed": 2275605
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MI",
+    "Doses_Administered": 8687279,
+    "Doses_Distributed": 11229100
+  },
+  {
+    "date": "2021-05-30",
+    "state": "GA",
+    "Doses_Administered": 7414465,
+    "Doses_Distributed": 10750095
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MN",
+    "Doses_Administered": 5410215,
+    "Doses_Distributed": 6290840
+  },
+  {
+    "date": "2021-05-30",
+    "state": "MD",
+    "Doses_Administered": 6112091,
+    "Doses_Distributed": 7936880
+  },
+  {
+    "date": "2021-05-30",
+    "state": "NE",
+    "Doses_Administered": 1694342,
+    "Doses_Distributed": 2007060
+  },
+  {
+    "date": "2021-05-30",
+    "state": "WV",
+    "Doses_Administered": 1314091,
+    "Doses_Distributed": 1836245
+  },
+  {
+    "date": "2021-05-30",
+    "state": "AR",
+    "Doses_Administered": 2077244,
+    "Doses_Distributed": 2770540
+  },
+  {
+    "date": "2021-05-30",
+    "state": "OH",
+    "Doses_Administered": 9888227,
+    "Doses_Distributed": 11962165
+  },
+  {
+    "date": "2021-05-30",
+    "state": "TX",
+    "Doses_Administered": 22942135,
+    "Doses_Distributed": 30386725
+  },
+  {
+    "date": "2021-05-30",
+    "state": "HI",
+    "Doses_Administered": 1584219,
+    "Doses_Distributed": 1838740
+  },
+  {
+    "date": "2021-05-30",
+    "state": "CA",
+    "Doses_Administered": 38261502,
+    "Doses_Distributed": 47404720
+  },
+  {
+    "date": "2021-05-30",
+    "state": "DE",
+    "Doses_Administered": 939050,
+    "Doses_Distributed": 1225135
+  },
+  {
+    "date": "2021-05-30",
+    "state": "DC",
+    "Doses_Administered": 788012,
+    "Doses_Distributed": 1029935
+  },
+  {
+    "date": "2021-05-30",
+    "state": "KY",
+    "Doses_Administered": 3644416,
+    "Doses_Distributed": 4318535
+  },
+  {
+    "date": "2021-05-30",
+    "state": "OR",
+    "Doses_Administered": 4055225,
+    "Doses_Distributed": 5339055
+  },
+  {
+    "date": "2021-05-30",
+    "state": "VA",
+    "Doses_Administered": 8335508,
+    "Doses_Distributed": 9792225
+  },
+  {
+    "date": "2021-05-30",
+    "state": "AZ",
+    "Doses_Administered": 5952458,
+    "Doses_Distributed": 7807315
+  },
+  {
+    "date": "2021-05-30",
+    "state": "VT",
+    "Doses_Administered": 768866,
+    "Doses_Distributed": 897370
+  },
+  {
+    "date": "2021-05-30",
+    "state": "CO",
+    "Doses_Administered": 5601799,
+    "Doses_Distributed": 6773740
+  },
+  {
+    "date": "2021-05-30",
+    "state": "SC",
+    "Doses_Administered": 3766415,
+    "Doses_Distributed": 5082625
+  },
+  {
+    "date": "2021-05-30",
+    "state": "ID",
+    "Doses_Administered": 1236617,
+    "Doses_Distributed": 1610265
+  },
+  {
+    "date": "2021-05-30",
+    "state": "KS",
+    "Doses_Administered": 2324546,
+    "Doses_Distributed": 2982945
+  },
+  {
+    "date": "2021-05-30",
+    "state": "WI",
+    "Doses_Administered": 5472821,
+    "Doses_Distributed": 5934385
+  },
+  {
+    "date": "2021-05-30",
+    "state": "WA",
+    "Doses_Administered": 7615957,
+    "Doses_Distributed": 8898290
+  },
+  {
+    "date": "2021-05-30",
+    "state": "PA",
+    "Doses_Administered": 12571563,
+    "Doses_Distributed": 15063565
   }
 ]
