@@ -732,13 +732,13 @@
     "state": "WA",
     "state_name": "Washington",
     "fips": "53",
-    "positive": 337167,
-    "negative": 6511202,
+    "positive": 337166,
+    "negative": 6511161,
     "inconclusive": 3168,
     "positiveIncrease": 49,
     "negativeIncrease": 807,
     "inconclusiveIncrease": 0,
-    "totalTestResults": 6851537,
+    "totalTestResults": 6851495,
     "totalTestResultsIncrease": 856
   },
   {
