@@ -23,57 +23,57 @@
   },
   {
     "date": 20200303,
-    "positive": 184,
+    "positive": 185,
     "negative": 1287,
     "inconclusive": 7,
-    "positiveIncrease": 36,
+    "positiveIncrease": 37,
     "negativeIncrease": 578,
     "inconclusiveIncrease": 7,
-    "totalTestResults": 1478,
-    "totalTestResultsIncrease": 617
+    "totalTestResults": 1479,
+    "totalTestResultsIncrease": 618
   },
   {
     "date": 20200304,
-    "positive": 302,
+    "positive": 304,
     "negative": 2058,
     "inconclusive": 8,
-    "positiveIncrease": 118,
+    "positiveIncrease": 119,
     "negativeIncrease": 771,
     "inconclusiveIncrease": 8,
-    "totalTestResults": 2368,
-    "totalTestResultsIncrease": 890
+    "totalTestResults": 2370,
+    "totalTestResultsIncrease": 891
   },
   {
     "date": 20200305,
-    "positive": 418,
+    "positive": 420,
     "negative": 3156,
     "inconclusive": 11,
     "positiveIncrease": 116,
     "negativeIncrease": 1098,
     "inconclusiveIncrease": 11,
-    "totalTestResults": 3585,
+    "totalTestResults": 3587,
     "totalTestResultsIncrease": 1217
   },
   {
     "date": 20200306,
-    "positive": 590,
+    "positive": 591,
     "negative": 4513,
     "inconclusive": 24,
-    "positiveIncrease": 172,
+    "positiveIncrease": 171,
     "negativeIncrease": 1357,
     "inconclusiveIncrease": 24,
-    "totalTestResults": 5127,
-    "totalTestResultsIncrease": 1542
+    "totalTestResults": 5128,
+    "totalTestResultsIncrease": 1541
   },
   {
     "date": 20200307,
-    "positive": 739,
+    "positive": 740,
     "negative": 6160,
     "inconclusive": 27,
     "positiveIncrease": 149,
     "negativeIncrease": 1647,
     "inconclusiveIncrease": 27,
-    "totalTestResults": 6926,
+    "totalTestResults": 6927,
     "totalTestResultsIncrease": 1799
   },
   {
@@ -81,143 +81,143 @@
     "positive": 976,
     "negative": 7556,
     "inconclusive": 33,
-    "positiveIncrease": 237,
+    "positiveIncrease": 236,
     "negativeIncrease": 1396,
     "inconclusiveIncrease": 33,
     "totalTestResults": 8565,
-    "totalTestResultsIncrease": 1639
+    "totalTestResultsIncrease": 1638
   },
   {
     "date": 20200309,
-    "positive": 1249,
+    "positive": 1250,
     "negative": 9707,
     "inconclusive": 48,
-    "positiveIncrease": 273,
+    "positiveIncrease": 274,
     "negativeIncrease": 2151,
     "inconclusiveIncrease": 48,
-    "totalTestResults": 11004,
-    "totalTestResultsIncrease": 2439
+    "totalTestResults": 11005,
+    "totalTestResultsIncrease": 2440
   },
   {
     "date": 20200310,
-    "positive": 1646,
+    "positive": 1647,
     "negative": 12770,
     "inconclusive": 65,
     "positiveIncrease": 397,
     "negativeIncrease": 3063,
     "inconclusiveIncrease": 65,
-    "totalTestResults": 14481,
+    "totalTestResults": 14482,
     "totalTestResultsIncrease": 3477
   },
   {
     "date": 20200311,
-    "positive": 2170,
+    "positive": 2172,
     "negative": 17079,
     "inconclusive": 83,
-    "positiveIncrease": 524,
+    "positiveIncrease": 525,
     "negativeIncrease": 4309,
     "inconclusiveIncrease": 83,
-    "totalTestResults": 19332,
-    "totalTestResultsIncrease": 4851
+    "totalTestResults": 19334,
+    "totalTestResultsIncrease": 4852
   },
   {
     "date": 20200312,
-    "positive": 2971,
+    "positive": 2975,
     "negative": 25218,
     "inconclusive": 104,
-    "positiveIncrease": 801,
+    "positiveIncrease": 803,
     "negativeIncrease": 8139,
     "inconclusiveIncrease": 104,
-    "totalTestResults": 28293,
-    "totalTestResultsIncrease": 8961
+    "totalTestResults": 28297,
+    "totalTestResultsIncrease": 8963
   },
   {
     "date": 20200313,
-    "positive": 4049,
+    "positive": 4052,
     "negative": 35986,
-    "inconclusive": 127,
-    "positiveIncrease": 1078,
+    "inconclusive": 129,
+    "positiveIncrease": 1077,
     "negativeIncrease": 10768,
-    "inconclusiveIncrease": 127,
-    "totalTestResults": 40162,
-    "totalTestResultsIncrease": 11869
+    "inconclusiveIncrease": 129,
+    "totalTestResults": 40167,
+    "totalTestResultsIncrease": 11870
   },
   {
     "date": 20200314,
-    "positive": 5256,
+    "positive": 5257,
     "negative": 47743,
     "inconclusive": 161,
-    "positiveIncrease": 1207,
+    "positiveIncrease": 1205,
     "negativeIncrease": 11757,
     "inconclusiveIncrease": 161,
-    "totalTestResults": 53160,
-    "totalTestResultsIncrease": 12998
+    "totalTestResults": 53161,
+    "totalTestResultsIncrease": 12994
   },
   {
     "date": 20200315,
-    "positive": 6635,
+    "positive": 6636,
     "negative": 60769,
     "inconclusive": 184,
     "positiveIncrease": 1379,
     "negativeIncrease": 13026,
     "inconclusiveIncrease": 184,
-    "totalTestResults": 67588,
+    "totalTestResults": 67589,
     "totalTestResultsIncrease": 14428
   },
   {
     "date": 20200316,
-    "positive": 9346,
+    "positive": 9347,
     "negative": 85567,
     "inconclusive": 219,
     "positiveIncrease": 2711,
     "negativeIncrease": 24798,
     "inconclusiveIncrease": 219,
-    "totalTestResults": 95132,
+    "totalTestResults": 95133,
     "totalTestResultsIncrease": 27544
   },
   {
     "date": 20200317,
-    "positive": 14107,
+    "positive": 14108,
     "negative": 120961,
     "inconclusive": 260,
     "positiveIncrease": 4761,
     "negativeIncrease": 35394,
     "inconclusiveIncrease": 260,
-    "totalTestResults": 135328,
+    "totalTestResults": 135329,
     "totalTestResultsIncrease": 40196
   },
   {
     "date": 20200318,
-    "positive": 20482,
+    "positive": 20484,
     "negative": 165406,
     "inconclusive": 301,
-    "positiveIncrease": 6375,
+    "positiveIncrease": 6376,
     "negativeIncrease": 44445,
     "inconclusiveIncrease": 301,
-    "totalTestResults": 186189,
-    "totalTestResultsIncrease": 50861
+    "totalTestResults": 186191,
+    "totalTestResultsIncrease": 50862
   },
   {
     "date": 20200319,
-    "positive": 27797,
+    "positive": 27796,
     "negative": 218786,
     "inconclusive": 356,
-    "positiveIncrease": 7315,
+    "positiveIncrease": 7312,
     "negativeIncrease": 53380,
     "inconclusiveIncrease": 356,
-    "totalTestResults": 246939,
-    "totalTestResultsIncrease": 60750
+    "totalTestResults": 246938,
+    "totalTestResultsIncrease": 60747
   },
   {
     "date": 20200320,
     "positive": 38145,
     "negative": 284759,
     "inconclusive": 428,
-    "positiveIncrease": 10348,
+    "positiveIncrease": 10349,
     "negativeIncrease": 65973,
     "inconclusiveIncrease": 428,
     "totalTestResults": 323332,
-    "totalTestResultsIncrease": 76393
+    "totalTestResultsIncrease": 76394
   },
   {
     "date": 20200321,
@@ -265,25 +265,25 @@
   },
   {
     "date": 20200325,
-    "positive": 114379,
-    "negative": 659395,
+    "positive": 114378,
+    "negative": 659378,
     "inconclusive": 836,
-    "positiveIncrease": 19806,
-    "negativeIncrease": 95151,
+    "positiveIncrease": 19805,
+    "negativeIncrease": 95134,
     "inconclusiveIncrease": 836,
-    "totalTestResults": 774610,
-    "totalTestResultsIncrease": 115048
+    "totalTestResults": 774592,
+    "totalTestResultsIncrease": 115030
   },
   {
     "date": 20200326,
     "positive": 137791,
     "negative": 765406,
     "inconclusive": 957,
-    "positiveIncrease": 23412,
-    "negativeIncrease": 106011,
+    "positiveIncrease": 23413,
+    "negativeIncrease": 106028,
     "inconclusiveIncrease": 957,
     "totalTestResults": 904154,
-    "totalTestResultsIncrease": 129544
+    "totalTestResultsIncrease": 129562
   },
   {
     "date": 20200327,
@@ -310,13 +310,13 @@
   {
     "date": 20200329,
     "positive": 208418,
-    "negative": 1062881,
+    "negative": 1062882,
     "inconclusive": 1319,
     "positiveIncrease": 22147,
-    "negativeIncrease": 87931,
+    "negativeIncrease": 87932,
     "inconclusiveIncrease": 1319,
-    "totalTestResults": 1272618,
-    "totalTestResultsIncrease": 110187
+    "totalTestResults": 1272619,
+    "totalTestResultsIncrease": 110188
   },
   {
     "date": 20200330,
@@ -324,10 +324,10 @@
     "negative": 1161202,
     "inconclusive": 1454,
     "positiveIncrease": 25176,
-    "negativeIncrease": 98321,
+    "negativeIncrease": 98320,
     "inconclusiveIncrease": 1454,
     "totalTestResults": 1396250,
-    "totalTestResultsIncrease": 123632
+    "totalTestResultsIncrease": 123631
   },
   {
     "date": 20200331,
@@ -398,13 +398,13 @@
   {
     "date": 20200406,
     "positive": 456462,
-    "negative": 1997089,
+    "negative": 1997088,
     "inconclusive": 3379,
     "positiveIncrease": 30753,
-    "negativeIncrease": 112917,
+    "negativeIncrease": 112916,
     "inconclusiveIncrease": 3379,
-    "totalTestResults": 2456930,
-    "totalTestResultsIncrease": 144039
+    "totalTestResults": 2456929,
+    "totalTestResultsIncrease": 144038
   },
   {
     "date": 20200407,
@@ -412,10 +412,10 @@
     "negative": 2142803,
     "inconclusive": 3723,
     "positiveIncrease": 34419,
-    "negativeIncrease": 145714,
+    "negativeIncrease": 145715,
     "inconclusiveIncrease": 3723,
     "totalTestResults": 2637407,
-    "totalTestResultsIncrease": 180477
+    "totalTestResultsIncrease": 180478
   },
   {
     "date": 20200408,
