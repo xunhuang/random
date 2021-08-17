@@ -2014,8 +2014,8 @@
     "dateOriginal": "2020/07/20",
     "hospitalizedCurrently": 71364,
     "inIcuCurrently": 12520,
-    "inpatient_beds_capacity": 453341,
-    "inpatient_beds_used": 304968,
+    "inpatient_beds_capacity": 453340,
+    "inpatient_beds_used": 304967,
     "adult_icu_beds_capacity": 33671,
     "adult_icu_bed_used": 21285
   },
@@ -2072,7 +2072,7 @@
   {
     "date": 20200726,
     "dateOriginal": "2020/07/26",
-    "hospitalizedCurrently": 62302,
+    "hospitalizedCurrently": 62350,
     "inIcuCurrently": 14531,
     "inpatient_beds_capacity": 623669,
     "inpatient_beds_used": 424385,
@@ -2443,9 +2443,9 @@
     "date": 20200901,
     "dateOriginal": "2020/09/01",
     "hospitalizedCurrently": 43740,
-    "inIcuCurrently": 11345,
+    "inIcuCurrently": 11346,
     "inpatient_beds_capacity": 749414,
-    "inpatient_beds_used": 507832,
+    "inpatient_beds_used": 507834,
     "adult_icu_beds_capacity": 78646,
     "adult_icu_bed_used": 53833
   },
@@ -2453,21 +2453,21 @@
     "date": 20200902,
     "dateOriginal": "2020/09/02",
     "hospitalizedCurrently": 43317,
-    "inIcuCurrently": 11264,
+    "inIcuCurrently": 11263,
     "inpatient_beds_capacity": 758482,
-    "inpatient_beds_used": 519932,
+    "inpatient_beds_used": 519927,
     "adult_icu_beds_capacity": 79717,
-    "adult_icu_bed_used": 54490
+    "adult_icu_bed_used": 54489
   },
   {
     "date": 20200903,
     "dateOriginal": "2020/09/03",
     "hospitalizedCurrently": 42303,
-    "inIcuCurrently": 11058,
-    "inpatient_beds_capacity": 759441,
-    "inpatient_beds_used": 522102,
-    "adult_icu_beds_capacity": 80123,
-    "adult_icu_bed_used": 55780
+    "inIcuCurrently": 11054,
+    "inpatient_beds_capacity": 759482,
+    "inpatient_beds_used": 522121,
+    "adult_icu_beds_capacity": 80104,
+    "adult_icu_bed_used": 55788
   },
   {
     "date": 20200904,
@@ -2513,11 +2513,11 @@
     "date": 20200908,
     "dateOriginal": "2020/09/08",
     "hospitalizedCurrently": 40336,
-    "inIcuCurrently": 10823,
+    "inIcuCurrently": 10822,
     "inpatient_beds_capacity": 755400,
-    "inpatient_beds_used": 498253,
+    "inpatient_beds_used": 498245,
     "adult_icu_beds_capacity": 80134,
-    "adult_icu_bed_used": 52082
+    "adult_icu_bed_used": 52083
   },
   {
     "date": 20200909,
@@ -2525,7 +2525,7 @@
     "hospitalizedCurrently": 41090,
     "inIcuCurrently": 10688,
     "inpatient_beds_capacity": 762111,
-    "inpatient_beds_used": 528734,
+    "inpatient_beds_used": 528735,
     "adult_icu_beds_capacity": 80440,
     "adult_icu_bed_used": 54740
   },
@@ -2535,7 +2535,7 @@
     "hospitalizedCurrently": 40089,
     "inIcuCurrently": 10429,
     "inpatient_beds_capacity": 763302,
-    "inpatient_beds_used": 538730,
+    "inpatient_beds_used": 538691,
     "adult_icu_beds_capacity": 80693,
     "adult_icu_bed_used": 55443
   },
@@ -2545,7 +2545,7 @@
     "hospitalizedCurrently": 39199,
     "inIcuCurrently": 10273,
     "inpatient_beds_capacity": 763226,
-    "inpatient_beds_used": 539826,
+    "inpatient_beds_used": 539832,
     "adult_icu_beds_capacity": 80771,
     "adult_icu_bed_used": 55702
   },
@@ -2555,7 +2555,7 @@
     "hospitalizedCurrently": 38280,
     "inIcuCurrently": 9974,
     "inpatient_beds_capacity": 764646,
-    "inpatient_beds_used": 521588,
+    "inpatient_beds_used": 521593,
     "adult_icu_beds_capacity": 80563,
     "adult_icu_bed_used": 54213
   },
@@ -2584,8 +2584,8 @@
     "dateOriginal": "2020/09/15",
     "hospitalizedCurrently": 38746,
     "inIcuCurrently": 9948,
-    "inpatient_beds_capacity": 764305,
-    "inpatient_beds_used": 536027,
+    "inpatient_beds_capacity": 764282,
+    "inpatient_beds_used": 536029,
     "adult_icu_beds_capacity": 81048,
     "adult_icu_bed_used": 54964
   },
@@ -2594,8 +2594,8 @@
     "dateOriginal": "2020/09/16",
     "hospitalizedCurrently": 38153,
     "inIcuCurrently": 9740,
-    "inpatient_beds_capacity": 762034,
-    "inpatient_beds_used": 541878,
+    "inpatient_beds_capacity": 762011,
+    "inpatient_beds_used": 541883,
     "adult_icu_beds_capacity": 80982,
     "adult_icu_bed_used": 55737
   },
@@ -2604,8 +2604,8 @@
     "dateOriginal": "2020/09/17",
     "hospitalizedCurrently": 36679,
     "inIcuCurrently": 9605,
-    "inpatient_beds_capacity": 768540,
-    "inpatient_beds_used": 545227,
+    "inpatient_beds_capacity": 768550,
+    "inpatient_beds_used": 545229,
     "adult_icu_beds_capacity": 81267,
     "adult_icu_bed_used": 55723
   },
@@ -2614,8 +2614,8 @@
     "dateOriginal": "2020/09/18",
     "hospitalizedCurrently": 36351,
     "inIcuCurrently": 9526,
-    "inpatient_beds_capacity": 767623,
-    "inpatient_beds_used": 540445,
+    "inpatient_beds_capacity": 767600,
+    "inpatient_beds_used": 540447,
     "adult_icu_beds_capacity": 80957,
     "adult_icu_bed_used": 55147
   },
@@ -2634,8 +2634,8 @@
     "dateOriginal": "2020/09/20",
     "hospitalizedCurrently": 35272,
     "inIcuCurrently": 9394,
-    "inpatient_beds_capacity": 766990,
-    "inpatient_beds_used": 508059,
+    "inpatient_beds_capacity": 766967,
+    "inpatient_beds_used": 508060,
     "adult_icu_beds_capacity": 80805,
     "adult_icu_bed_used": 52457
   },
@@ -2644,7 +2644,7 @@
     "dateOriginal": "2020/09/21",
     "hospitalizedCurrently": 36114,
     "inIcuCurrently": 9475,
-    "inpatient_beds_capacity": 766191,
+    "inpatient_beds_capacity": 766168,
     "inpatient_beds_used": 512229,
     "adult_icu_beds_capacity": 80989,
     "adult_icu_bed_used": 52853
@@ -2664,8 +2664,8 @@
     "dateOriginal": "2020/09/23",
     "hospitalizedCurrently": 37010,
     "inIcuCurrently": 9531,
-    "inpatient_beds_capacity": 768626,
-    "inpatient_beds_used": 546863,
+    "inpatient_beds_capacity": 768603,
+    "inpatient_beds_used": 546855,
     "adult_icu_beds_capacity": 80970,
     "adult_icu_bed_used": 55910
   },
@@ -2684,9 +2684,9 @@
     "dateOriginal": "2020/09/25",
     "hospitalizedCurrently": 36480,
     "inIcuCurrently": 9440,
-    "inpatient_beds_capacity": 772687,
-    "inpatient_beds_used": 548257,
-    "adult_icu_beds_capacity": 81887,
+    "inpatient_beds_capacity": 772753,
+    "inpatient_beds_used": 548276,
+    "adult_icu_beds_capacity": 81907,
     "adult_icu_bed_used": 56580
   },
   {
@@ -2694,8 +2694,8 @@
     "dateOriginal": "2020/09/26",
     "hospitalizedCurrently": 35943,
     "inIcuCurrently": 9400,
-    "inpatient_beds_capacity": 769911,
-    "inpatient_beds_used": 529525,
+    "inpatient_beds_capacity": 769934,
+    "inpatient_beds_used": 529527,
     "adult_icu_beds_capacity": 81378,
     "adult_icu_bed_used": 55183
   },
@@ -2704,8 +2704,8 @@
     "dateOriginal": "2020/09/27",
     "hospitalizedCurrently": 35445,
     "inIcuCurrently": 9396,
-    "inpatient_beds_capacity": 765876,
-    "inpatient_beds_used": 515921,
+    "inpatient_beds_capacity": 765853,
+    "inpatient_beds_used": 515925,
     "adult_icu_beds_capacity": 81509,
     "adult_icu_bed_used": 54135
   },
@@ -2714,10 +2714,10 @@
     "dateOriginal": "2020/09/28",
     "hospitalizedCurrently": 36949,
     "inIcuCurrently": 9620,
-    "inpatient_beds_capacity": 768518,
-    "inpatient_beds_used": 520207,
-    "adult_icu_beds_capacity": 81676,
-    "adult_icu_bed_used": 54143
+    "inpatient_beds_capacity": 768476,
+    "inpatient_beds_used": 520204,
+    "adult_icu_beds_capacity": 81656,
+    "adult_icu_bed_used": 54150
   },
   {
     "date": 20200929,
@@ -2744,20 +2744,20 @@
     "dateOriginal": "2020/10/01",
     "hospitalizedCurrently": 37577,
     "inIcuCurrently": 9578,
-    "inpatient_beds_capacity": 773584,
-    "inpatient_beds_used": 554407,
-    "adult_icu_beds_capacity": 81551,
-    "adult_icu_bed_used": 57059
+    "inpatient_beds_capacity": 773626,
+    "inpatient_beds_used": 554433,
+    "adult_icu_beds_capacity": 81571,
+    "adult_icu_bed_used": 57064
   },
   {
     "date": 20201002,
     "dateOriginal": "2020/10/02",
     "hospitalizedCurrently": 37521,
     "inIcuCurrently": 9603,
-    "inpatient_beds_capacity": 780990,
-    "inpatient_beds_used": 549274,
-    "adult_icu_beds_capacity": 82432,
-    "adult_icu_bed_used": 56900
+    "inpatient_beds_capacity": 780948,
+    "inpatient_beds_used": 549241,
+    "adult_icu_beds_capacity": 82412,
+    "adult_icu_bed_used": 56901
   },
   {
     "date": 20201003,
@@ -2774,10 +2774,10 @@
     "dateOriginal": "2020/10/04",
     "hospitalizedCurrently": 37785,
     "inIcuCurrently": 9786,
-    "inpatient_beds_capacity": 773654,
-    "inpatient_beds_used": 514318,
-    "adult_icu_beds_capacity": 81564,
-    "adult_icu_bed_used": 53909
+    "inpatient_beds_capacity": 773612,
+    "inpatient_beds_used": 514316,
+    "adult_icu_beds_capacity": 81544,
+    "adult_icu_bed_used": 53915
   },
   {
     "date": 20201005,
@@ -2822,7 +2822,7 @@
   {
     "date": 20201009,
     "dateOriginal": "2020/10/09",
-    "hospitalizedCurrently": 41650,
+    "hospitalizedCurrently": 41648,
     "inIcuCurrently": 10382,
     "inpatient_beds_capacity": 790014,
     "inpatient_beds_used": 564173,
@@ -2865,7 +2865,7 @@
     "hospitalizedCurrently": 43823,
     "inIcuCurrently": 10489,
     "inpatient_beds_capacity": 785902,
-    "inpatient_beds_used": 557323,
+    "inpatient_beds_used": 557300,
     "adult_icu_beds_capacity": 84231,
     "adult_icu_bed_used": 58894
   },
@@ -2895,7 +2895,7 @@
     "hospitalizedCurrently": 44170,
     "inIcuCurrently": 10584,
     "inpatient_beds_capacity": 797522,
-    "inpatient_beds_used": 568580,
+    "inpatient_beds_used": 568577,
     "adult_icu_beds_capacity": 85679,
     "adult_icu_bed_used": 60597
   },
@@ -2904,7 +2904,7 @@
     "dateOriginal": "2020/10/17",
     "hospitalizedCurrently": 45246,
     "inIcuCurrently": 10874,
-    "inpatient_beds_capacity": 793873,
+    "inpatient_beds_capacity": 793982,
     "inpatient_beds_used": 548527,
     "adult_icu_beds_capacity": 87064,
     "adult_icu_bed_used": 61164
@@ -2922,61 +2922,61 @@
   {
     "date": 20201019,
     "dateOriginal": "2020/10/19",
-    "hospitalizedCurrently": 45075,
+    "hospitalizedCurrently": 45086,
     "inIcuCurrently": 11326,
-    "inpatient_beds_capacity": 791439,
-    "inpatient_beds_used": 530956,
+    "inpatient_beds_capacity": 791533,
+    "inpatient_beds_used": 530955,
     "adult_icu_beds_capacity": 85775,
     "adult_icu_bed_used": 58114
   },
   {
     "date": 20201020,
     "dateOriginal": "2020/10/20",
-    "hospitalizedCurrently": 46428,
+    "hospitalizedCurrently": 46411,
     "inIcuCurrently": 11375,
-    "inpatient_beds_capacity": 805806,
-    "inpatient_beds_used": 554673,
+    "inpatient_beds_capacity": 805906,
+    "inpatient_beds_used": 554614,
     "adult_icu_beds_capacity": 86006,
     "adult_icu_bed_used": 60635
   },
   {
     "date": 20201021,
     "dateOriginal": "2020/10/21",
-    "hospitalizedCurrently": 47388,
-    "inIcuCurrently": 11720,
-    "inpatient_beds_capacity": 817966,
-    "inpatient_beds_used": 575560,
-    "adult_icu_beds_capacity": 86258,
-    "adult_icu_bed_used": 61206
+    "hospitalizedCurrently": 47327,
+    "inIcuCurrently": 11703,
+    "inpatient_beds_capacity": 817486,
+    "inpatient_beds_used": 575059,
+    "adult_icu_beds_capacity": 86196,
+    "adult_icu_bed_used": 61131
   },
   {
     "date": 20201022,
     "dateOriginal": "2020/10/22",
-    "hospitalizedCurrently": 47302,
+    "hospitalizedCurrently": 47291,
     "inIcuCurrently": 11733,
-    "inpatient_beds_capacity": 822286,
-    "inpatient_beds_used": 577614,
-    "adult_icu_beds_capacity": 86507,
+    "inpatient_beds_capacity": 822290,
+    "inpatient_beds_used": 577633,
+    "adult_icu_beds_capacity": 86520,
     "adult_icu_bed_used": 61166
   },
   {
     "date": 20201023,
     "dateOriginal": "2020/10/23",
-    "hospitalizedCurrently": 47520,
-    "inIcuCurrently": 11771,
-    "inpatient_beds_capacity": 822166,
-    "inpatient_beds_used": 574513,
-    "adult_icu_beds_capacity": 86976,
-    "adult_icu_bed_used": 61730
+    "hospitalizedCurrently": 47511,
+    "inIcuCurrently": 11770,
+    "inpatient_beds_capacity": 822043,
+    "inpatient_beds_used": 574397,
+    "adult_icu_beds_capacity": 86969,
+    "adult_icu_bed_used": 61716
   },
   {
     "date": 20201024,
     "dateOriginal": "2020/10/24",
-    "hospitalizedCurrently": 47723,
+    "hospitalizedCurrently": 47722,
     "inIcuCurrently": 11887,
-    "inpatient_beds_capacity": 821347,
+    "inpatient_beds_capacity": 821443,
     "inpatient_beds_used": 554748,
-    "adult_icu_beds_capacity": 86436,
+    "adult_icu_beds_capacity": 86423,
     "adult_icu_bed_used": 59968
   },
   {
@@ -2984,9 +2984,9 @@
     "dateOriginal": "2020/10/25",
     "hospitalizedCurrently": 48043,
     "inIcuCurrently": 11953,
-    "inpatient_beds_capacity": 818654,
+    "inpatient_beds_capacity": 818652,
     "inpatient_beds_used": 538031,
-    "adult_icu_beds_capacity": 86226,
+    "adult_icu_beds_capacity": 86213,
     "adult_icu_bed_used": 58348
   },
   {
@@ -2994,7 +2994,7 @@
     "dateOriginal": "2020/10/26",
     "hospitalizedCurrently": 49475,
     "inIcuCurrently": 12302,
-    "inpatient_beds_capacity": 795495,
+    "inpatient_beds_capacity": 795489,
     "inpatient_beds_used": 520403,
     "adult_icu_beds_capacity": 86422,
     "adult_icu_bed_used": 58390
@@ -3012,32 +3012,32 @@
   {
     "date": 20201028,
     "dateOriginal": "2020/10/28",
-    "hospitalizedCurrently": 53002,
-    "inIcuCurrently": 12833,
-    "inpatient_beds_capacity": 859166,
-    "inpatient_beds_used": 580386,
-    "adult_icu_beds_capacity": 87921,
-    "adult_icu_bed_used": 62465
+    "hospitalizedCurrently": 52935,
+    "inIcuCurrently": 12815,
+    "inpatient_beds_capacity": 858683,
+    "inpatient_beds_used": 579948,
+    "adult_icu_beds_capacity": 87841,
+    "adult_icu_bed_used": 62396
   },
   {
     "date": 20201029,
     "dateOriginal": "2020/10/29",
-    "hospitalizedCurrently": 52981,
-    "inIcuCurrently": 12923,
-    "inpatient_beds_capacity": 813946,
-    "inpatient_beds_used": 578932,
-    "adult_icu_beds_capacity": 87843,
-    "adult_icu_bed_used": 62617
+    "hospitalizedCurrently": 52980,
+    "inIcuCurrently": 12927,
+    "inpatient_beds_capacity": 813975,
+    "inpatient_beds_used": 578970,
+    "adult_icu_beds_capacity": 87853,
+    "adult_icu_bed_used": 62609
   },
   {
     "date": 20201030,
     "dateOriginal": "2020/10/30",
     "hospitalizedCurrently": 53990,
     "inIcuCurrently": 13012,
-    "inpatient_beds_capacity": 800670,
-    "inpatient_beds_used": 573632,
+    "inpatient_beds_capacity": 800725,
+    "inpatient_beds_used": 573636,
     "adult_icu_beds_capacity": 87371,
-    "adult_icu_bed_used": 62279
+    "adult_icu_bed_used": 62259
   },
   {
     "date": 20201031,
@@ -3047,7 +3047,7 @@
     "inpatient_beds_capacity": 787957,
     "inpatient_beds_used": 544257,
     "adult_icu_beds_capacity": 86997,
-    "adult_icu_bed_used": 60788
+    "adult_icu_bed_used": 60783
   },
   {
     "date": 20201101,
@@ -3057,7 +3057,7 @@
     "inpatient_beds_capacity": 791245,
     "inpatient_beds_used": 535579,
     "adult_icu_beds_capacity": 86885,
-    "adult_icu_bed_used": 59415
+    "adult_icu_bed_used": 59410
   },
   {
     "date": 20201102,
@@ -3067,7 +3067,7 @@
     "inpatient_beds_capacity": 763907,
     "inpatient_beds_used": 518413,
     "adult_icu_beds_capacity": 86909,
-    "adult_icu_bed_used": 59401
+    "adult_icu_bed_used": 59396
   },
   {
     "date": 20201103,
@@ -3077,7 +3077,7 @@
     "inpatient_beds_capacity": 762867,
     "inpatient_beds_used": 537864,
     "adult_icu_beds_capacity": 87204,
-    "adult_icu_bed_used": 61858
+    "adult_icu_bed_used": 61853
   },
   {
     "date": 20201104,
@@ -3094,8 +3094,8 @@
     "dateOriginal": "2020/11/05",
     "hospitalizedCurrently": 61812,
     "inIcuCurrently": 14346,
-    "inpatient_beds_capacity": 803933,
-    "inpatient_beds_used": 579231,
+    "inpatient_beds_capacity": 803871,
+    "inpatient_beds_used": 579217,
     "adult_icu_beds_capacity": 87451,
     "adult_icu_bed_used": 62991
   },
@@ -3132,12 +3132,12 @@
   {
     "date": 20201109,
     "dateOriginal": "2020/11/09",
-    "hospitalizedCurrently": 68082,
+    "hospitalizedCurrently": 68070,
     "inIcuCurrently": 15548,
-    "inpatient_beds_capacity": 765041,
-    "inpatient_beds_used": 530537,
-    "adult_icu_beds_capacity": 87147,
-    "adult_icu_bed_used": 61605
+    "inpatient_beds_capacity": 764923,
+    "inpatient_beds_used": 530417,
+    "adult_icu_beds_capacity": 87127,
+    "adult_icu_bed_used": 61595
   },
   {
     "date": 20201110,
@@ -3172,12 +3172,12 @@
   {
     "date": 20201113,
     "dateOriginal": "2020/11/13",
-    "hospitalizedCurrently": 77008,
+    "hospitalizedCurrently": 77023,
     "inIcuCurrently": 17007,
-    "inpatient_beds_capacity": 815637,
+    "inpatient_beds_capacity": 815619,
     "inpatient_beds_used": 598354,
-    "adult_icu_beds_capacity": 88010,
-    "adult_icu_bed_used": 64859
+    "adult_icu_beds_capacity": 88021,
+    "adult_icu_bed_used": 64854
   },
   {
     "date": 20201114,
@@ -3185,7 +3185,7 @@
     "hospitalizedCurrently": 77794,
     "inIcuCurrently": 17436,
     "inpatient_beds_capacity": 811951,
-    "inpatient_beds_used": 574852,
+    "inpatient_beds_used": 574849,
     "adult_icu_beds_capacity": 87459,
     "adult_icu_bed_used": 63603
   },
@@ -3195,7 +3195,7 @@
     "hospitalizedCurrently": 79885,
     "inIcuCurrently": 17942,
     "inpatient_beds_capacity": 806585,
-    "inpatient_beds_used": 559273,
+    "inpatient_beds_used": 559270,
     "adult_icu_beds_capacity": 86974,
     "adult_icu_bed_used": 62272
   },
@@ -3205,7 +3205,7 @@
     "hospitalizedCurrently": 83416,
     "inIcuCurrently": 18772,
     "inpatient_beds_capacity": 774047,
-    "inpatient_beds_used": 538264,
+    "inpatient_beds_used": 538261,
     "adult_icu_beds_capacity": 87494,
     "adult_icu_bed_used": 62697
   },
@@ -3215,7 +3215,7 @@
     "hospitalizedCurrently": 85870,
     "inIcuCurrently": 19362,
     "inpatient_beds_capacity": 774010,
-    "inpatient_beds_used": 558608,
+    "inpatient_beds_used": 558605,
     "adult_icu_beds_capacity": 88117,
     "adult_icu_bed_used": 65341
   },
@@ -3992,12 +3992,12 @@
   {
     "date": 20210203,
     "dateOriginal": "2021/02/03",
-    "hospitalizedCurrently": 95836,
-    "inIcuCurrently": 22194,
+    "hospitalizedCurrently": 95840,
+    "inIcuCurrently": 22193,
     "inpatient_beds_capacity": 810624,
-    "inpatient_beds_used": 599221,
+    "inpatient_beds_used": 599225,
     "adult_icu_beds_capacity": 89988,
-    "adult_icu_bed_used": 68228
+    "adult_icu_bed_used": 68227
   },
   {
     "date": 20210204,
@@ -5784,159 +5784,169 @@
     "dateOriginal": "2021/08/01",
     "hospitalizedCurrently": 53507,
     "inIcuCurrently": 13172,
-    "inpatient_beds_capacity": 789834,
-    "inpatient_beds_used": 571579,
-    "adult_icu_beds_capacity": 85222,
-    "adult_icu_bed_used": 60485
+    "inpatient_beds_capacity": 789810,
+    "inpatient_beds_used": 571546,
+    "adult_icu_beds_capacity": 85216,
+    "adult_icu_bed_used": 60479
   },
   {
     "date": 20210802,
     "dateOriginal": "2021/08/02",
     "hospitalizedCurrently": 57029,
     "inIcuCurrently": 14021,
-    "inpatient_beds_capacity": 737114,
-    "inpatient_beds_used": 539855,
-    "adult_icu_beds_capacity": 85018,
-    "adult_icu_bed_used": 60872
+    "inpatient_beds_capacity": 737090,
+    "inpatient_beds_used": 539823,
+    "adult_icu_beds_capacity": 85012,
+    "adult_icu_bed_used": 60866
   },
   {
     "date": 20210803,
     "dateOriginal": "2021/08/03",
     "hospitalizedCurrently": 59882,
     "inIcuCurrently": 14468,
-    "inpatient_beds_capacity": 744437,
-    "inpatient_beds_used": 561043,
-    "adult_icu_beds_capacity": 85503,
-    "adult_icu_bed_used": 63078
+    "inpatient_beds_capacity": 744413,
+    "inpatient_beds_used": 561004,
+    "adult_icu_beds_capacity": 85497,
+    "adult_icu_bed_used": 63072
   },
   {
     "date": 20210804,
     "dateOriginal": "2021/08/04",
     "hospitalizedCurrently": 62253,
     "inIcuCurrently": 15071,
-    "inpatient_beds_capacity": 797187,
-    "inpatient_beds_used": 608201,
-    "adult_icu_beds_capacity": 85888,
-    "adult_icu_bed_used": 63735
+    "inpatient_beds_capacity": 797163,
+    "inpatient_beds_used": 608164,
+    "adult_icu_beds_capacity": 85882,
+    "adult_icu_bed_used": 63729
   },
   {
     "date": 20210805,
     "dateOriginal": "2021/08/05",
     "hospitalizedCurrently": 64903,
     "inIcuCurrently": 15561,
-    "inpatient_beds_capacity": 796430,
-    "inpatient_beds_used": 608358,
-    "adult_icu_beds_capacity": 85536,
-    "adult_icu_bed_used": 63472
+    "inpatient_beds_capacity": 796406,
+    "inpatient_beds_used": 608318,
+    "adult_icu_beds_capacity": 85530,
+    "adult_icu_bed_used": 63466
   },
   {
     "date": 20210806,
     "dateOriginal": "2021/08/06",
-    "hospitalizedCurrently": 67311,
-    "inIcuCurrently": 16133,
-    "inpatient_beds_capacity": 795736,
-    "inpatient_beds_used": 604118,
-    "adult_icu_beds_capacity": 85655,
-    "adult_icu_bed_used": 63732
+    "hospitalizedCurrently": 67307,
+    "inIcuCurrently": 16130,
+    "inpatient_beds_capacity": 795644,
+    "inpatient_beds_used": 604023,
+    "adult_icu_beds_capacity": 85633,
+    "adult_icu_bed_used": 63711
   },
   {
     "date": 20210807,
     "dateOriginal": "2021/08/07",
-    "hospitalizedCurrently": 68829,
-    "inIcuCurrently": 16568,
-    "inpatient_beds_capacity": 790481,
-    "inpatient_beds_used": 588161,
-    "adult_icu_beds_capacity": 85526,
-    "adult_icu_bed_used": 63027
+    "hospitalizedCurrently": 68798,
+    "inIcuCurrently": 16559,
+    "inpatient_beds_capacity": 790082,
+    "inpatient_beds_used": 587833,
+    "adult_icu_beds_capacity": 85460,
+    "adult_icu_bed_used": 62974
   },
   {
     "date": 20210808,
     "dateOriginal": "2021/08/08",
-    "hospitalizedCurrently": 71659,
-    "inIcuCurrently": 17219,
-    "inpatient_beds_capacity": 789019,
-    "inpatient_beds_used": 578943,
-    "adult_icu_beds_capacity": 85368,
-    "adult_icu_bed_used": 61976
+    "hospitalizedCurrently": 71627,
+    "inIcuCurrently": 17210,
+    "inpatient_beds_capacity": 788649,
+    "inpatient_beds_used": 578631,
+    "adult_icu_beds_capacity": 85301,
+    "adult_icu_bed_used": 61921
   },
   {
     "date": 20210809,
     "dateOriginal": "2021/08/09",
-    "hospitalizedCurrently": 75343,
-    "inIcuCurrently": 18149,
-    "inpatient_beds_capacity": 740165,
-    "inpatient_beds_used": 548739,
-    "adult_icu_beds_capacity": 85066,
-    "adult_icu_bed_used": 62644
+    "hospitalizedCurrently": 75319,
+    "inIcuCurrently": 18144,
+    "inpatient_beds_capacity": 739832,
+    "inpatient_beds_used": 548463,
+    "adult_icu_beds_capacity": 85016,
+    "adult_icu_bed_used": 62609
   },
   {
     "date": 20210810,
     "dateOriginal": "2021/08/10",
-    "hospitalizedCurrently": 78027,
-    "inIcuCurrently": 18684,
-    "inpatient_beds_capacity": 744277,
-    "inpatient_beds_used": 569093,
-    "adult_icu_beds_capacity": 85554,
-    "adult_icu_bed_used": 64934
+    "hospitalizedCurrently": 77991,
+    "inIcuCurrently": 18678,
+    "inpatient_beds_capacity": 743900,
+    "inpatient_beds_used": 568774,
+    "adult_icu_beds_capacity": 85485,
+    "adult_icu_bed_used": 64886
   },
   {
     "date": 20210811,
     "dateOriginal": "2021/08/11",
-    "hospitalizedCurrently": 80413,
-    "inIcuCurrently": 19352,
-    "inpatient_beds_capacity": 794181,
-    "inpatient_beds_used": 615150,
-    "adult_icu_beds_capacity": 85833,
-    "adult_icu_bed_used": 65874
+    "hospitalizedCurrently": 80449,
+    "inIcuCurrently": 19371,
+    "inpatient_beds_capacity": 795308,
+    "inpatient_beds_used": 615996,
+    "adult_icu_beds_capacity": 85981,
+    "adult_icu_bed_used": 65913
   },
   {
     "date": 20210812,
     "dateOriginal": "2021/08/12",
-    "hospitalizedCurrently": 82428,
-    "inIcuCurrently": 19862,
-    "inpatient_beds_capacity": 793588,
-    "inpatient_beds_used": 615880,
-    "adult_icu_beds_capacity": 85984,
-    "adult_icu_bed_used": 66244
+    "hospitalizedCurrently": 82501,
+    "inIcuCurrently": 19892,
+    "inpatient_beds_capacity": 794832,
+    "inpatient_beds_used": 616514,
+    "adult_icu_beds_capacity": 86125,
+    "adult_icu_bed_used": 66292
   },
   {
     "date": 20210813,
     "dateOriginal": "2021/08/13",
-    "hospitalizedCurrently": 83909,
-    "inIcuCurrently": 20275,
-    "inpatient_beds_capacity": 793958,
-    "inpatient_beds_used": 610716,
-    "adult_icu_beds_capacity": 86181,
-    "adult_icu_bed_used": 65931
+    "hospitalizedCurrently": 84029,
+    "inIcuCurrently": 20353,
+    "inpatient_beds_capacity": 795142,
+    "inpatient_beds_used": 611422,
+    "adult_icu_beds_capacity": 86144,
+    "adult_icu_bed_used": 66161
   },
   {
     "date": 20210814,
     "dateOriginal": "2021/08/14",
-    "hospitalizedCurrently": 83730,
-    "inIcuCurrently": 20175,
-    "inpatient_beds_capacity": 789630,
-    "inpatient_beds_used": 598284,
-    "adult_icu_beds_capacity": 85760,
-    "adult_icu_bed_used": 64984
+    "hospitalizedCurrently": 84823,
+    "inIcuCurrently": 20630,
+    "inpatient_beds_capacity": 790726,
+    "inpatient_beds_used": 594192,
+    "adult_icu_beds_capacity": 85749,
+    "adult_icu_bed_used": 65020
   },
   {
     "date": 20210815,
     "dateOriginal": "2021/08/15",
-    "hospitalizedCurrently": 84853,
-    "inIcuCurrently": 20552,
-    "inpatient_beds_capacity": 787995,
-    "inpatient_beds_used": 592185,
-    "adult_icu_beds_capacity": 85657,
-    "adult_icu_bed_used": 64428
+    "hospitalizedCurrently": 86856,
+    "inIcuCurrently": 21258,
+    "inpatient_beds_capacity": 788465,
+    "inpatient_beds_used": 585366,
+    "adult_icu_beds_capacity": 85607,
+    "adult_icu_bed_used": 64313
   },
   {
     "date": 20210816,
     "dateOriginal": "2021/08/16",
-    "hospitalizedCurrently": 84097,
-    "inIcuCurrently": 20400,
-    "inpatient_beds_capacity": 729572,
-    "inpatient_beds_used": 548158,
-    "adult_icu_beds_capacity": 84555,
-    "adult_icu_bed_used": 63682
+    "hospitalizedCurrently": 88630,
+    "inIcuCurrently": 21686,
+    "inpatient_beds_capacity": 736498,
+    "inpatient_beds_used": 549822,
+    "adult_icu_beds_capacity": 85936,
+    "adult_icu_bed_used": 64764
+  },
+  {
+    "date": 20210817,
+    "dateOriginal": "2021/08/17",
+    "hospitalizedCurrently": 88537,
+    "inIcuCurrently": 21662,
+    "inpatient_beds_capacity": 735100,
+    "inpatient_beds_used": 548939,
+    "adult_icu_beds_capacity": 85823,
+    "adult_icu_bed_used": 64688
   }
 ]
