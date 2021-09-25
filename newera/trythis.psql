@@ -1,47 +1,230 @@
-DROP TABLE yotable2;
-
-DROP TABLE t;
-
-DROP TABLE us_counties;
-
-CREATE TABLE yotable2 (
-    "Province_State" text,
-    "FIPS" text
-);
-
-CREATE TABLE t (
-    j jsonb
-);
-
-\copy t from '/Users/xhuang/projects/random/covidlatest-nl.json'
-INSERT INTO yotable2
-SELECT
-    p.*
-FROM
-    t l
-    CROSS JOIN LATERAL jsonb_populate_record(NULL::yotable2, j) AS p;
-
-CREATE TABLE us_counties (
-    date text,
-    county text,
-    state text,
-    fips text,
-    cases integer,
-    deaths integer
-);
-
-COPY us_counties (date, county, state, fips, cases, deaths)
-FROM '/Users/xhuang/projects/random/newera/us-counties.csv' DELIMITER ',' CSV HEADER;
-
-DROP table state_cases_all;
-CREATE Table state_cases_all (
+DROP TABLE state_cases_all;
+CREATE TABLE state_cases_all (
     "date" text,
     "state_name" text,
     "state_fips_code" text,
     "confirmed_cases" integer,
     "deaths" integer
 );
+COPY state_cases_all ("date", "state_name", "state_fips_code", "confirmed_cases", "deaths")
+FROM
+    '/Users/xhuang/projects/random/newera/official.state-cases-all.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE county_cases_all;
+CREATE TABLE county_cases_all (
+    "date" text,
+    "county" text,
+    "state_name" text,
+    "state_fips_code" text,
+    "county_fips_code" text,
+    "confirmed_cases" integer,
+    "deaths" integer
+);
+COPY county_cases_all ("date", "county", "state_name", "state_fips_code", "county_fips_code", "confirmed_cases", "deaths")
+FROM
+    '/Users/xhuang/projects/random/newera/official.county-cases-all.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE us_cases_all;
+CREATE TABLE us_cases_all (
+    "date" text,
+    "confirmed_cases" integer,
+    "deaths" integer
+);
+COPY us_cases_all ("date", "confirmed_cases", "deaths")
+FROM
+    '/Users/xhuang/projects/random/newera/official.us-cases-all.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE msa_cases_all;
+CREATE TABLE msa_cases_all (
+    "msd_id" text,
+    "date" text,
+    "confirmed_cases" integer,
+    "deaths" integer
+);
+COPY msa_cases_all ("msd_id", "date", "confirmed_cases", "deaths")
+FROM
+    '/Users/xhuang/projects/random/newera/official.msa-cases-all.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE states_hospitalization;
+CREATE TABLE states_hospitalization (
+    "date" text,
+    "adult_icu_bed_used" integer,
+    "inIcuCurrently" integer,
+    "hospitalizedCurrently" integer,
+    "adult_icu_beds_capacity" integer,
+    "inpatient_beds_used" integer,
+    "inpatient_beds_capacity" integer,
+    "state" text,
+    "state_postal_abbreviation" text,
+    "state_name" text,
+    "state_gnisid" text,
+    "state_fips_code" text
+);
+COPY states_hospitalization ("date", "adult_icu_bed_used", "inIcuCurrently", "hospitalizedCurrently", "adult_icu_beds_capacity", "inpatient_beds_used", "inpatient_beds_capacity", "state", "state_postal_abbreviation", "state_name", "state_gnisid", "state_fips_code")
+FROM
+    '/Users/xhuang/projects/random/newera/official.states-hospitalization.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE us_hospitalization;
+CREATE TABLE us_hospitalization (
+    "date" text,
+    "adult_icu_bed_used" integer,
+    "inIcuCurrently" integer,
+    "hospitalizedCurrently" integer,
+    "adult_icu_beds_capacity" integer,
+    "inpatient_beds_used" integer,
+    "inpatient_beds_capacity" integer
+);
+COPY us_hospitalization (
+    "date","adult_icu_bed_used","inIcuCurrently","hospitalizedCurrently","adult_icu_beds_capacity","inpatient_beds_used","inpatient_beds_capacity")
+FROM
+    '/Users/xhuang/projects/random/newera/official.us-hospitalization.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE states_testing ;
+CREATE TABLE states_testing (
+    "date" text,
+    "totalTestResults" integer,
+    "negativeIncrease" integer,
+    "positiveIncrease" integer,
+    "state_name" text,
+    "negative" integer,
+    "totalTestResultsIncrease" integer,
+    "positive" integer,
+    "inconclusive" integer,
+    "inconclusiveIncrease" integer,
+    "state" text,
+    "state_fips_code" text
+);
+COPY states_testing (
+"date","totalTestResults","negativeIncrease","positiveIncrease","state_name","negative","totalTestResultsIncrease","positive","inconclusive","inconclusiveIncrease","state","state_fips_code")
+FROM
+    '/Users/xhuang/projects/random/newera/official.states-testing.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE us_testing ;
+CREATE TABLE us_testing (
+    "date" text,
+    "totalTestResults" integer,
+    "negativeIncrease" integer,
+    "positiveIncrease" integer,
+    "state_name" text,
+    "negative" integer,
+    "totalTestResultsIncrease" integer,
+    "positive" integer,
+    "inconclusive" integer,
+    "inconclusiveIncrease" integer
+);
+COPY us_testing (
+"date","totalTestResults","negativeIncrease","positiveIncrease","negative","positive","inconclusive","inconclusiveIncrease")
+FROM
+    '/Users/xhuang/projects/random/newera/official.us-testing.csv' DELIMITER ',' CSV HEADER;
+DROP TABLE states_summary;
 
-COPY state_cases_all ("date","state_name","state_fips_code","confirmed_cases","deaths")
-FROM '/Users/xhuang/projects/random/newera/state-cases-all.csv' DELIMITER ',' CSV HEADER;
+CREATE TABLE states_summary (
+    "state_name" text,
+    "state_fips_code" text,
+    "confirmed_cases" integer,
+    "confirmed_increase" integer,
+    "confirmed_increase_14days" integer,
+    "totalTestResults" integer,
+    "totalTestResultsIncrease" integer,
+    "positive" integer,
+    "positiveIncrease" integer,
+    "inIcuCurrently" integer,
+    "hospitalizedCurrently" integer,
+    "adult_icu_beds_capacity" integer,
+    "inpatient_beds_used" integer,
+    "inpatient_beds_capacity" integer
+);
+
+COPY states_summary ("state_name", "state_fips_code", "confirmed_cases", "confirmed_increase", "confirmed_increase_14days", "totalTestResults", "totalTestResultsIncrease", "positive", "positiveIncrease", "inIcuCurrently", "hospitalizedCurrently", "adult_icu_beds_capacity", "inpatient_beds_used", "inpatient_beds_capacity")
+FROM
+    '/Users/xhuang/projects/random/newera/official.states-summary.csv' DELIMITER ',' CSV HEADER;
+
+DROP TABLE us_summary;
+
+CREATE TABLE us_summary (
+    "totalTestResults" integer,
+    "negativeIncrease" integer,
+    "positiveIncrease" integer,
+    "negative" integer,
+    "positive" integer,
+    "inconclusive" integer,
+    "inconclusiveIncrease" integer,
+    "adult_icu_bed_used" integer,
+    "inIcuCurrently" integer,
+    "hospitalizedCurrently" integer,
+    "adult_icu_beds_capacity" integer,
+    "inpatient_beds_used" integer,
+    "inpatient_beds_capacity" integer,
+    "confirmed_cases" integer,
+    "confirmed_increase" integer,
+    "confirmed_increase_14days" integer
+);
+
+COPY us_summary ("totalTestResults", "negativeIncrease", "positiveIncrease", "negative", "positive", "inconclusive", "inconclusiveIncrease", "adult_icu_bed_used", "inIcuCurrently", "hospitalizedCurrently", "adult_icu_beds_capacity", "inpatient_beds_used", "inpatient_beds_capacity", "confirmed_cases", "confirmed_increase", "confirmed_increase_14days")
+FROM
+    '/Users/xhuang/projects/random/newera/official.us-summary.csv' DELIMITER ',' CSV HEADER;
+
+DROP TABLE counties_summary;
+
+CREATE TABLE counties_summary (
+    "state_fips_code" text,
+    "county_fips_code" text,
+    "state" text,
+    "county" text,
+    "confirmed_cases" integer,
+    "deaths" integer,
+    "test_7day_total" integer,
+    "positivity_7day_avg" float,
+    "community" text,
+    "school" text,
+    "report_date" text,
+    "healthwebsites" text
+);
+
+COPY counties_summary ("state_fips_code", "county_fips_code", "state", "county", "confirmed_cases", "deaths", "test_7day_total", "positivity_7day_avg", "community", "school", "report_date", "healthwebsites")
+FROM
+    '/Users/xhuang/projects/random/newera/my_dataset.covid-19-county-official-view.csv' DELIMITER ',' CSV HEADER;
+
+DROP TABLE msa_definition;
+
+CREATE TABLE msa_definition (
+    "ID" text,
+    "UrlName" text,
+    "Friendly" text,
+    "state_fips_code" text,
+    "county_fips_code" text,
+    "state" text,
+    "state_name" text,
+    "Name" text,
+    "county_name" text,
+    "CenterState" text,
+    "center_state_fips_code" text
+);
+
+COPY msa_definition ("ID", "UrlName", "Friendly", "state_fips_code", "county_fips_code", "state", "state_name", "Name", "county_name", "CenterState", "center_state_fips_code")
+FROM
+    '/Users/xhuang/projects/random/newera/mydataset2.msa_definition_clean.csv' DELIMITER ',' CSV HEADER;
+
+DROP TABLE fips_code_state;
+
+CREATE TABLE fips_code_state (
+    "state_fips_code" text,
+    "state_postal_abbreviation" text,
+    "state_name" text,
+    "state_gnisid" text
+);
+
+COPY fips_code_state ("state_fips_code", "state_postal_abbreviation", "state_name", "state_gnisid")
+FROM
+    '/Users/xhuang/projects/random/newera/mydataset2.fip_codes_states.csv' DELIMITER ',' CSV HEADER;
+
+DROP TABLE fips_code_county;
+
+CREATE TABLE fips_code_county (
+    "summary_level" text,
+    "summary_level_name" text,
+    "state_fips_code" text,
+    "county_fips_code" text,
+    "county_subdivision_fips_code" text,
+    "place_fips_code" text,
+    "consolidated_city_fips_code" text,
+    "area_name" text
+);
+
+COPY fips_code_county ("summary_level", "summary_level_name", "state_fips_code", "county_fips_code", "county_subdivision_fips_code", "place_fips_code", "consolidated_city_fips_code", "area_name")
+FROM
+    '/Users/xhuang/projects/random/newera/mydataset2.fips_code_county.csv' DELIMITER ',' CSV HEADER;
 
