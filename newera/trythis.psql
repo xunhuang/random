@@ -1,0 +1,47 @@
+DROP TABLE yotable2;
+
+DROP TABLE t;
+
+DROP TABLE us_counties;
+
+CREATE TABLE yotable2 (
+    "Province_State" text,
+    "FIPS" text
+);
+
+CREATE TABLE t (
+    j jsonb
+);
+
+\copy t from '/Users/xhuang/projects/random/covidlatest-nl.json'
+INSERT INTO yotable2
+SELECT
+    p.*
+FROM
+    t l
+    CROSS JOIN LATERAL jsonb_populate_record(NULL::yotable2, j) AS p;
+
+CREATE TABLE us_counties (
+    date text,
+    county text,
+    state text,
+    fips text,
+    cases integer,
+    deaths integer
+);
+
+COPY us_counties (date, county, state, fips, cases, deaths)
+FROM '/Users/xhuang/projects/random/newera/us-counties.csv' DELIMITER ',' CSV HEADER;
+
+DROP table state_cases_all;
+CREATE Table state_cases_all (
+    "date" text,
+    "state_name" text,
+    "state_fips_code" text,
+    "confirmed_cases" integer,
+    "deaths" integer
+);
+
+COPY state_cases_all ("date","state_name","state_fips_code","confirmed_cases","deaths")
+FROM '/Users/xhuang/projects/random/newera/state-cases-all.csv' DELIMITER ',' CSV HEADER;
+
