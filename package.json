@@ -46,7 +46,7 @@
     "html-differ": "^1.4.0",
     "json-diff": "^0.5.4",
     "mailgun-js": "^0.22.0",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "moment": "^2.29.1",
     "mustache": "^4.2.0",
     "named-urls": "^2.0.0",
